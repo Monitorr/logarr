@@ -11,19 +11,16 @@ $logs = array(
     "Radarr" => 'C:\ProgramData\Radarr\logs\radarr.txt',
     "MP4 Converter" => 'C:\sickbeard_mp4_automator\info.log',
     "Headphones" => 'C:\headphones\logs\headphones.log',
+
 );
 ?>
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>PAGE TITLE</title>
+		<title>Your LOGs</title>
 		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
 		<style type="text/css">
-		.auto-style1 {
-			color: #3F51B5;
-			font-family: "Segoe UI";
-		}
-			
+					
 			body::-webkit-scrollbar {
 				width: 10px;
 				background-color: white;
@@ -40,27 +37,28 @@ $logs = array(
 				-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
 				background-color: #8E8B8B;
 			}
-			
-		    #slide {
+		
+		#slide {
 			border: 1px solid black;
 		}
-		#slide-body{
-			height: 0px;    
-			overflow: hidden;
-			transition:     height 500ms ease;
-				-moz-transition:    height 500ms ease;
-				-ms-transition:     height 500ms ease;
-				-o-transition:      height 500ms ease;
-				-webkit-transition: height 500ms ease;
+		#slide-body{    
+			height: 200px;
+			overflow: auto;
+			font-size: small;
+			transition:     height 300ms ease;
+				-moz-transition:    height 300ms ease;
+				-ms-transition:     height 300ms ease;
+				-o-transition:      height 300ms ease;
+				-webkit-transition: height 300ms ease;
 		}
 		.expanded {
-			height: 800px !important;
+			height: 500px !important;
 		}
 		#more {    
 			cursor: pointer;
 			text-align: right;
 		}
-		
+
 		</style>
 		
 		<script type='text/javascript'>//<![CDATA[
@@ -87,7 +85,7 @@ $logs = array(
 		</div>
 		
 		<div id="slide">
-			<div id="slide-body" style="background-color:#404040; word-wrap: break-word; width:auto; height:200px; overflow-y: scroll;">
+			<div id="slide-body" style="background-color: #404040; word-wrap: break-word; width: auto; overflow-y: scroll;">
 			<p><?php readExternalLog($v); ?></p>
 			</div>
 			<div id="more">more...</div>
