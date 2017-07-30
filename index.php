@@ -10,7 +10,7 @@ function readExternalLog($filename){
 $logs = array(
     "Sonarr" => '/home/USER/.config/NzbDrone/logs/sonarr.txt',
     "Radarr" => '/home/USER/.config/Radarr/logs/radarr.txt',
-    "Headphones" => "/home/plex/logs/headphones/headphones.log",
+    "Headphones" => "/home/USER/logs/headphones/headphones.log",
     "NZBGet" => "/home/USER/logs/nzbget/nzbget.log",
     "MP4 Converter" => "/home/USER/bin/sickbeard_mp4_automator/info.log",
     "NZBHydra" => "/home/USER/logs/nzbhydra/nzbhydra.log",
