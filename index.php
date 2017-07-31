@@ -10,17 +10,16 @@ function readExternalLog($filename){
 $logs = array(
     "Radarr" => 'C:\ProgramData\Radarr\logs\radarr.txt',
     "MP4 Converter" => 'C:\sickbeard_mp4_automator\info.log',
-    "Headphones" => 'C:\headphones\logs\headphones.log',
-
+    "Headphones" => 'C:\logs\headphones\headphones.log',
 );
 ?>
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Your LOGs</title>
+		<title>YOUR LOGs</title>
 		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
 		<style type="text/css">
-					
+			
 			body::-webkit-scrollbar {
 				width: 10px;
 				background-color: white;
@@ -39,20 +38,19 @@ $logs = array(
 			}
 		
 		#slide {
-			border: 1px solid black;
+			border: 2px solid black;
 		}
-		#slide-body{    
-			height: 200px;
+  
+		#slide-body{  
 			overflow: auto;
-			font-size: small;
-			transition:     height 300ms ease;
-				-moz-transition:    height 300ms ease;
-				-ms-transition:     height 300ms ease;
-				-o-transition:      height 300ms ease;
-				-webkit-transition: height 300ms ease;
+			transition:     height 500ms ease;
+				-moz-transition:    height 500ms ease;
+				-ms-transition:     height 500ms ease;
+				-o-transition:      height 500ms ease;
+				-webkit-transition: height 500ms ease;
 		}
 		.expanded {
-			height: 500px !important;
+			height: 600px !important;
 		}
 		#more {    
 			cursor: pointer;
@@ -78,14 +76,14 @@ $logs = array(
 
 	</head>
 	
-	<body style="color: #FFFFFF; background-color: #252525">
+	<body style="border: 10px solid #252525; color: #FFFFFF; background-color: #252525;">
 		<?php foreach($logs as $k => $v){ ?>
 		<div class="w3-container w3-center">
 			<h3><span class="w3-text-indigo"><strong><?php echo $k; ?>:</strong></span></h3>
 		</div>
 		
 		<div id="slide">
-			<div id="slide-body" style="background-color: #404040; word-wrap: break-word; width: auto; overflow-y: scroll;">
+			<div id="slide-body" style="background-color: #404040; word-wrap: break-word; width: auto; height: 200px; overflow-y: scroll;">
 			<p><?php readExternalLog($v); ?></p>
 			</div>
 			<div id="more">more...</div>
