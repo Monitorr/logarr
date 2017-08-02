@@ -211,7 +211,7 @@ function readExternalLog($filename)
         </style>
         
         
-        <script language='javascript' src="serverDate.js"></script>
+        <script language='javascript' src="serverdate.js"></script>
         
         <script type="text/javascript" src="hilitor.js"></script>
         <script type="text/javascript">
