@@ -23,9 +23,10 @@ Self-hosted, single-page, log consolidation tool written in PHP.
 
 
 ## Configuration:
-## EDITS INCOMING
-1) Clone repository to your /var/www/html/logarr.
+
+1) Clone repository to your webserver.
 2) Edit index.php -> insert PATH to your LOG files where indicated in index.php. 
-3) 
-4) navigate to your /var/www/html/logarrindex.php 
-5) Chill
+3) Edit permissions for LOG files.
+4) Navigate to your webserver\index.php 
+5) Chill.
+
