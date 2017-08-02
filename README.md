@@ -6,10 +6,11 @@ Self-hosted, single-page, log consolidation tool written in PHP.
 ## Features:
 
  - Fully self-hosted, no applications to install.
- - VERY easy to configure.
- Reverse display of logs so most recent log entries are at the top
- -
+ - Ridiculously easy to configure.
+ - Reverse display of logs so most recent log entries are at the top.
+ - Error term Auto-highlight for quick reference.
  - Collapsable tables (Develop)
+ - Consolidated search function (Develop)
  
  
 ## Screenshot:
