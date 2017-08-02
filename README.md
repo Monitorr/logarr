@@ -15,7 +15,7 @@ Self-hosted, single-page, log consolidation tool written in PHP.
  
 ## Screenshot:
 
-![preview thumb](http://i.imgur.com/OuxyQVS.png)
+![preview thumb](http://i.imgur.com/nW5oD2G.png)
 
 
 
