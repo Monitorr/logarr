@@ -1,3 +1,4 @@
+
 # Logarr
 
 Self-hosted, single-page, log consolidation tool written in PHP.
@@ -9,7 +10,7 @@ Self-hosted, single-page, log consolidation tool written in PHP.
  - Ridiculously easy to configure.
  - Reverse display of logs so most recent log entries are at the top.
  - Error term Auto-highlight for quick reference.
- - Collapsable tables (Develop)
+ - Collapsible tables (Develop)
  - Consolidated search function (Develop)
  
  
@@ -23,6 +24,6 @@ Self-hosted, single-page, log consolidation tool written in PHP.
 
 1) Clone repository to your webserver.
 2) Edit index.php -> insert PATH to your LOG files where indicated in index.php. 
-3) Edit permissioms for LOG files
-4) navigate to your webserver\index.php 
-5) Chill
+3) Edit permissions for LOG files.
+4) Navigate to your webserver\index.php 
+5) Chill.
