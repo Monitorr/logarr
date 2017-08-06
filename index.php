@@ -61,11 +61,12 @@ $logs = array(
                 height: 125px;
                 table-layout: fixed;
                 border-spacing: 1px;
+				padding: 10px 5px;
             }
 
             .Column {
                 display: table-cell;
-                padding: 10px;
+                padding: 20px;
             }
 
             #time {
