@@ -1,3 +1,4 @@
+
 var xmlHttp;
 function srvTime(){
     try {
@@ -39,3 +40,4 @@ SimpleDateFormat = new SimpleDateFormat("HH:mm:ss a");
     if (seconds < 10) {
 	 seconds = "0" + seconds;
     }
+
