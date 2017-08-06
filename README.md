@@ -23,6 +23,7 @@ Self-hosted, single-page, log consolidation tool written in PHP.
 
 ## Configuration:
 
+
 1) Clone repository to your webserver. (Suggested a Sub DIR)
 2) Edit index.php -> insert PATH to your LOG files where indicated in index.php. 
 3) Edit permissions for LOG files.
