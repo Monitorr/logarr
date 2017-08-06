@@ -10,8 +10,8 @@ function readExternalLog($filename)
 // ** Add Logs BELOW this paragraph, under the term "array" **
 //Ensure correct permissions are set on the target log file
 //If this page is exposed ot your WAN, check the logging applications' settings for senstive data within logs. 
-
-	$logs = array(
+//I have all-most of my logs symlinked to my main user dir ~/logs/appname/ - jonfinley
+$logs = array(
     "Sonarr" => '/home/plex/.config/NzbDrone/logs/sonarr.txt',
     "Radarr" => '/home/plex/.config/Radarr/logs/radarr.txt',
     "Headphones" => "/home/plex/logs/headphones/headphones.log",
@@ -29,7 +29,7 @@ function readExternalLog($filename)
     <head>
         <meta charset="utf-8" />
         
-        <title>MY Logs</title>
+        <title>YourLogs</title>
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	    <meta name="description" content="Demo of Real-Time Search in JavaScript" />
@@ -247,14 +247,51 @@ function readExternalLog($filename)
         
             <div id="time" class="Column">
                 <p>
-                    <strong>Local Server DTG:</strong>
-                </p>
+                    Server Local Date:
+                    <strong>
+                    <script language="JavaScript">
+                      var current_date = new Date ( );
 
-                <p>
-                    <script language="javascript">
-                    var localTime = srvTime();
-                    document.write(localTime );
+                      var month_names = new Array ( );
+                      month_names[month_names.length] = "January";
+                      month_names[month_names.length] = "February";
+                      month_names[month_names.length] = "March";
+                      month_names[month_names.length] = "April";
+                      month_names[month_names.length] = "May";
+                      month_names[month_names.length] = "June";
+                      month_names[month_names.length] = "July";
+                      month_names[month_names.length] = "August";
+                      month_names[month_names.length] = "September";
+                      month_names[month_names.length] = "October";
+                      month_names[month_names.length] = "November";
+                      month_names[month_names.length] = "December";
+
+                      var day_names = new Array ( );
+                      day_names[day_names.length] = "Sunday";
+                      day_names[day_names.length] = "Monday";
+                      day_names[day_names.length] = "Tuesday";
+                      day_names[day_names.length] = "Wednesday";
+                      day_names[day_names.length] = "Thursday";
+                      day_names[day_names.length] = "Friday";
+                      day_names[day_names.length] = "Saturday";
+
+                      document.write ( day_names[current_date.getDay()] );
+                      document.write ( ", " );
+                      document.write ( month_names[current_date.getMonth()] );
+                      document.write ( " " + current_date.getDate() );
+                      document.write ( " " );
+                      document.write ( " " + current_date.getFullYear() );
                     </script>
+                    </strong>
+                </p>
+                <p>
+                    Server Local Time:
+                    <strong>
+                    <script language="javascript">
+                    var localTime = new Date();
+                    document.write(localTime.getHours() + ":" + localTime.getMinutes() + ":" + localTime.getSeconds());
+					</script>
+                    </strong>
                 </p>
             </div>
 
@@ -270,7 +307,7 @@ function readExternalLog($filename)
 						<li id="faq-1">
 								
 							<p>
-							test search data
+							Search Function is NOT working.
 							</p>
 								
 						</li>
@@ -286,20 +323,15 @@ function readExternalLog($filename)
 
 
     	<?php foreach ($logs as $k => $v) { ?>
-
-			<li id="faq-2">
-				<div class="w3-container w3-center">
+			<div class="w3-container w3-center">
 				<h3><span class="w3-text-indigo"><strong><?php echo $k; ?>:</strong></span></h3>
-				</div>
-
+			</div>
 					<div id="slide">
 						<div id="slide-body" style="background-color: #404040; word-wrap: break-word; width: auto; height: 200px; overflow-y: scroll;">
 						<p><?php readExternalLog($v); ?></p>
 						</div>
 						<div id="more">more...</div>
 					</div>
-			</li>
-		
 		<?php } ?>
 
 
