@@ -7,21 +7,7 @@ function readExternalLog($filename)
         echo $line.'<br/>';
     }
 }
-// ** Add Logs BELOW this paragraph, under the term "array" **
-//Ensure correct permissions are set on the target log file
-//If this page is exposed ot your WAN, check the logging applications' settings for senstive data within logs. 
-//I have all-most of my logs symlinked to my main user dir ~/logs/appname/ - jonfinley
-$logs = array(
-    "Sonarr" => '/home/plex/.config/NzbDrone/logs/sonarr.txt',
-    "Radarr" => '/home/plex/.config/Radarr/logs/radarr.txt',
-    "Headphones" => "/home/plex/logs/headphones/headphones.log",
-    /*"NZBGet" => "/home/plex/logs/nzbget/nzbget.log",*/
-    "MP4 Converter" => "/home/plex/bin/sickbeard_mp4_automator/info.log",
-    "NZBHydra" => "/home/plex/logs/nzbhydra/nzbhydra.log",
-
-	// ** Add Logs ABOVE this line **
-
-);
+include "config.php";
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +15,7 @@ $logs = array(
     <head>
         <meta charset="utf-8" />
         
-        <title>FinFlix Logs</title>
+        <title>Logarr</title>
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	    <meta name="description" content="Demo of Real-Time Search in JavaScript" />
