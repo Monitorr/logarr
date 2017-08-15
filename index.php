@@ -7,19 +7,7 @@ function readExternalLog($filename)
         echo $line.'<br/>';
     }
 }
-// ** Add Logs BELOW this paragraph, under the term "array" **
-//Ensure correct permissions are set on the target log file
-//If this page is exposed ot your WAN, check the logging applications' settings for senstive data within logs. 
-
-	$logs = array(
-		"NZBtoMedia" => 'C:\logs\nzbtomedia\logs\nzbtomedia.log',
-		"MP4 Converter" => 'C:\sickbeard_mp4_automator\info.log',
-		"Radarr" => 'C:\ProgramData\Radarr\logs\radarr.txt',
-
-
-	// ** Add Logs ABOVE this line **
-
-);
+include "config.php";
 ?>
 
 <!DOCTYPE html>
@@ -27,14 +15,14 @@ function readExternalLog($filename)
     <head>
         <meta charset="utf-8" />
         
-        <title>YourLogs</title>
+        <title>Logarr</title>
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	    <meta name="description" content="Demo of Real-Time Search in JavaScript" />
 	    <meta name="robots" content="all">
 	    <meta name="viewport" content="width=device-width,initial-scale=1" />
 	    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400" />
-        <style type="text/css">
+		<style type="text/css">
                     
             body::-webkit-scrollbar {
                 width: 10px;
@@ -59,11 +47,12 @@ function readExternalLog($filename)
                 height: 125px;
                 table-layout: fixed;
                 border-spacing: 1px;
+				padding: 10px 5px;
             }
 
             .Column {
                 display: table-cell;
-                padding: 10px;
+                padding: 20px;
             }
 
             #time {
@@ -208,7 +197,8 @@ function readExternalLog($filename)
 
         </style>
         
-        <script language='javascript' src="serverDate.js"></script>
+        
+        <script language='javascript' src="serverdate.js"></script>
         
         <script type="text/javascript" src="hilitor.js"></script>
         <script type="text/javascript">
@@ -324,7 +314,7 @@ function readExternalLog($filename)
 				<h3><span class="w3-text-indigo"><strong><?php echo $k; ?>:</strong></span></h3>
 			</div>
 					<div id="slide">
-						<div id="slide-body" style="background-color: #404040; word-wrap: break-word; width: auto; height: 200px; overflow-y: scroll;">
+						<div class="<?php echo $k; ?>" id="slide-body" style="background-color: #404040; word-wrap: break-word; width: auto; height: 200px; overflow-y: scroll;">
 						<p><?php readExternalLog($v); ?></p>
 						</div>
 						<div id="more">more...</div>

@@ -3,8 +3,11 @@
 
 Self-hosted, single-page, log consolidation tool written in PHP.
 
-
 ## Features:
+
+ - Reverse display of logs so most recent log entries are at the top
+ - (Dev Only) Collapsable tables
+## Screenshots
 
  - Fully self-hosted, no applications to install.
  - Ridiculously easy to configure.
@@ -22,10 +25,10 @@ Self-hosted, single-page, log consolidation tool written in PHP.
 
 
 ## Configuration:
-
-
+# EDITS INCOMING
 1) Clone repository to your webserver. (Suggested a Sub DIR)
 2) Edit index.php -> insert PATH to your LOG files where indicated in index.php. 
 3) Edit permissions for LOG files.
 4) Navigate to your webserver\Logarr\index.php (example)
 5) Chill.
+
