@@ -95,7 +95,7 @@ function Hilitor(id, tag)
         after.nodeValue = after.nodeValue.substring(regs[0].length);
         node.parentNode.insertBefore(match, after);
       }
-    };
+    }
   };
 
   // remove highlighting
@@ -118,4 +118,3 @@ function Hilitor(id, tag)
       this.hiliteWords(targetNode);
     }
   };
-
