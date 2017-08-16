@@ -1,10 +1,6 @@
 <?php
-    // if on Linux, the following script will automatically select your timezone
-    // else, set yourself on the following line 
-    // I.E. ($timezone = 'America/Los_Angeles';)
-$timezone = include('config.php'); // set in config.php
-    
-	// DO NOT EDIT BELOW THIS LINE //    
+include_once 'config/config.php';
+$timezone = $config['timezone']; // set in config.php
     if (is_link('/etc/localtime')) {
         // Mac OS X (and older Linuxes)    
         // /etc/localtime is a symlink to the 
@@ -26,6 +22,8 @@ $timezone = include('config.php'); // set in config.php
             $timezone = $data['ZONE'];
         }
     }
-
-date_default_timezone_set($timezone);
+	date_default_timezone_set($timezone);
+	$timestamp = time();
+	$server_date = date("l, d F Y");
+	$server_time = date("H:i:s", $timestamp);
 ?>
