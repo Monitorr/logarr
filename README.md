@@ -13,7 +13,7 @@ Self-hosted, single-page, log consolidation tool written in PHP.
  - Ridiculously easy to configure.
  - Reverse display of logs so most recent log entries are at the top.
  - Error term Auto-highlight for quick reference.
- - Localized DTG display
+ - Localized DTG display (updated! loads faster)
  - Collapsible tables (Develop)
  - Consolidated search function (Develop)
  
