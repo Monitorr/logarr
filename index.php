@@ -7,15 +7,36 @@ function readExternalLog($filename)
         echo $line.'<br/>';
     }
 }
-include "config.php";
+include "config/logs.php";
+include'config/config.php';
 ?>
 
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8" />
-        
-        <title>Logarr</title>
+        <title><?=$title?></title>
+        <link rel="apple-touch-icon-precomposed" sizes="57x57" href="images/favicon/apple-touch-icon-57x57.png" />
+		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/favicon/apple-touch-icon-114x114.png" />
+		<link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/favicon/apple-touch-icon-72x72.png" />
+		<link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/favicon/apple-touch-icon-144x144.png" />
+		<link rel="apple-touch-icon-precomposed" sizes="60x60" href="images/favicon/apple-touch-icon-60x60.png" />
+		<link rel="apple-touch-icon-precomposed" sizes="120x120" href="images/favicon/apple-touch-icon-120x120.png" />
+		<link rel="apple-touch-icon-precomposed" sizes="76x76" href="images/favicon/apple-touch-icon-76x76.png" />
+		<link rel="apple-touch-icon-precomposed" sizes="152x152" href="images/favicon/apple-touch-icon-152x152.png" />
+		<link rel="icon" type="image/png" href="images/favicon/favicon-196x196.png" sizes="196x196" />
+		<link rel="icon" type="image/png" href="images/favicon/favicon-96x96.png" sizes="96x96" />
+		<link rel="icon" type="image/png" href="images/favicon/favicon-32x32.png" sizes="32x32" />
+		<link rel="icon" type="image/png" href="images/favicon/favicon-16x16.png" sizes="16x16" />
+		<link rel="icon" type="image/png" href="images/favicon/favicon-128.png" sizes="128x128" />
+		<meta name="application-name" content="&nbsp;"/>
+		<meta name="msapplication-TileColor" content="#FFFFFF" />
+		<meta name="msapplication-TileImage" content="images/favicon/mstile-144x144.png" />
+		<meta name="msapplication-square70x70logo" content="images/favicon/mstile-70x70.png" />
+		<meta name="msapplication-square150x150logo" content="images/favicon/mstile-150x150.png" />
+		<meta name="msapplication-wide310x150logo" content="images/favicon/mstile-310x150.png" />
+		<meta name="msapplication-square310x310logo" content="images/favicon/mstile-310x310.png" />
+
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	    <meta name="description" content="Demo of Real-Time Search in JavaScript" />
@@ -233,57 +254,22 @@ include "config.php";
         <div class="Row">
         
             <div id="time" class="Column">
-                <p>
-                    Server Local Date:
-                    <strong>
-                    <script language="JavaScript">
-                      var current_date = new Date ( );
 
-                      var month_names = new Array ( );
-                      month_names[month_names.length] = "January";
-                      month_names[month_names.length] = "February";
-                      month_names[month_names.length] = "March";
-                      month_names[month_names.length] = "April";
-                      month_names[month_names.length] = "May";
-                      month_names[month_names.length] = "June";
-                      month_names[month_names.length] = "July";
-                      month_names[month_names.length] = "August";
-                      month_names[month_names.length] = "September";
-                      month_names[month_names.length] = "October";
-                      month_names[month_names.length] = "November";
-                      month_names[month_names.length] = "December";
-
-                      var day_names = new Array ( );
-                      day_names[day_names.length] = "Sunday";
-                      day_names[day_names.length] = "Monday";
-                      day_names[day_names.length] = "Tuesday";
-                      day_names[day_names.length] = "Wednesday";
-                      day_names[day_names.length] = "Thursday";
-                      day_names[day_names.length] = "Friday";
-                      day_names[day_names.length] = "Saturday";
-
-                      document.write ( day_names[current_date.getDay()] );
-                      document.write ( ", " );
-                      document.write ( month_names[current_date.getMonth()] );
-                      document.write ( " " + current_date.getDate() );
-                      document.write ( " " );
-                      document.write ( " " + current_date.getFullYear() );
-                    </script>
-                    </strong>
-                </p>
-                <p>
-                    Server Local Time:
-                    <strong>
-                    <script language="javascript">
-                    var localTime = new Date();
-                    document.write(localTime.getHours() + ":" + localTime.getMinutes() + ":" + localTime.getSeconds());
-					</script>
-                    </strong>
+                <p>Server Date and Time:</p>
+                	
+                <strong>
+				<?php
+				include "config/timezone.php";                    	
+				$timestamp = time();
+				$date_time = date("D, m-d-Y, H:i:s", $timestamp);
+				echo "$date_time";
+				?>
+                </strong>
                 </p>
             </div>
 
             <div id="logo" class="Column">
-                <img src="log-icon.png" height="125px" />
+                <img src="images/log-icon.png" height="125px" />
             </div>
             			
 			<div class="faq">
