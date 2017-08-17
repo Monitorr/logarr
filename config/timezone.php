@@ -24,6 +24,6 @@ $timezone = $config['timezone']; // set in config.php
     }
 	date_default_timezone_set($timezone);
 	$timestamp = time();
-	$server_date = date("l, d F Y");
+	$server_date = date("D, d F Y");
 	$server_time = date("H:i:s", $timestamp);
 ?>
