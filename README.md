@@ -20,11 +20,12 @@
 
 
 ## Configuration:
-1) Clone repository to your webserver (Suggested a Sub DIR)
-2) Edit the file \config\config.php -> insert PATH to your LOG files where indicated. If on Windows, edit the TIMEZONE tag for proper DTG display. (Linux should auto-populate)
-3) Edit permissions for LOG files
-4) Navigate to your webserver\Logarr\index.php (example)
-5) Chill.
+1) Clone/download repository to your webserver (Suggested a Sub DIR)
+2) Configure log paths:  Edit the file \config\config.php -> insert PATH to your LOG files where indicated.  **NOTE:  Path locations are CASE SENSITIVE in a Windows enviroment**
+3) Configure Time Display: : edit the  the file \config\config.php ->TIMEZONE tag for proper localized DTG display (only needed on WIN, LINUX auto-populates)
+4) Edit permissions for LOG files
+5) Navigate to your webserver\Logarr\index.php (example)
+6) Chill
 
 ## About Us:
 - Maintained by [seanvree](https://github.com/seanvree) (Windows Wizard) &  [jonfinley](https://github.com/jonfinley) (Linux Dude) 
