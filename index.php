@@ -114,7 +114,7 @@ include 'config/config.php';
 				<h3><span class="w3-text-indigo"><strong><?php echo $k; ?>:</strong></span></h3>
 			</div>
 					<div id="slide">
-						<div class="<?php echo $k; ?>" id="slide-body" style="background-color: #404040; word-wrap: break-word; width: auto; height: 200px; overflow-y: scroll;">
+						<div class="<?php echo $k; ?>" id="slide-body" >
 						<p><?php readExternalLog($v); ?></p>
 						</div>
 						<div id="more">more...</div>
