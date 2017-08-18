@@ -115,6 +115,35 @@
 }
 
 
+/* SEARCH */
+
+.highlight {
+    background-color: #680233;
+    -moz-border-radius: 5px;
+    /* FF1+ */
+    -webkit-border-radius: 5px;
+    /* Saf3-4 */
+    border-radius: 5px;
+    /* Opera 10.5, IE 9, Saf5, Chrome */
+    -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+    /* FF3.5+ */
+    -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+    /* Saf3.0+, Chrome */
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+    /* Opera 10.5+, IE 9.0 */
+}
+
+.highlight {
+    padding: 1px 4px;
+    margin: 0 -4px;
+}
+
+#slide span {
+    background-color: #680233;
+    color: #FFFFFF;
+}
+
+
 /* SCROLL BARS */
 
 body::-webkit-scrollbar {
@@ -178,88 +207,6 @@ body::-webkit-scrollbar-thumb {
 
 .container p {
     line-height: 1.6;
-}
-
-.faq {
-    display: table-cell;
-    padding: 10px;
-    vertical-align: middle;
-}
-
-.faq input {
-    width: 100%;
-    height: 50px;
-    font-size: 12px;
-    color: white;
-    background-color: #404040;
-    box-shadow: 0px 2px 4px rgba( 52, 67, 75, .2);
-    display: block;
-    padding: 0 10px;
-    margin-bottom: 10px;
-    -webkit-transition: box-shadow .1s linear;
-    transition: box-shadow .1s linear;
-}
-
-.faq input::-webkit-input-placeholder {
-    color: #a1bdcb !important;
-}
-
-.faq input::-moz-placeholder {
-    color: #a1bdcb !important;
-}
-
-.faq input:-ms-input-placeholder {
-    color: #a1bdcb !important;
-}
-
-.faq input:focus {
-    box-shadow: 0px 4px 8px rgba( 52, 67, 75, .4);
-}
-
-.faq .highlight {
-    background-color: #fffd77;
-}
-
-.faq>ul>li:not( :first-child) {
-    border-top: 1px solid #dcebed;
-    margin-top: 20px;
-    padding-top: 20px;
-}
-
-.faq>ul>li.is-hidden {
-    display: none;
-}
-
-.faq>ul>li h2 {
-    font-size: 24px;
-    font-weight: 700;
-}
-
-.faq>ul>li h2:hover,
-.faq>ul>li h2:focus,
-.faq>ul>li.is-active h2,
-.faq>ul>li:target h2 {
-    color: #a664b7;
-}
-
-.faq>ul>li>div {
-    display: none;
-}
-
-.faq>ul>li.is-active>div,
-.faq>ul>li:target>div {
-    display: block;
-    margin-top: 10px;
-}
-
-.faq__notfound {
-    font-size: 14px;
-    font-style: italic;
-    display: none;
-}
-
-.faq__notfound.is-visible {
-    display: block;
 }
 
 #slide {
