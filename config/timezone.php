@@ -1,5 +1,6 @@
 <?php // adapted from this website: https://bojanz.wordpress.com/2014/03/11/detecting-the-system-timezone-php/
 include_once 'config/config.php';
+
 $timezone = $config['timezone']; // set in config.php
     if (is_link('/etc/localtime')) {
         // Mac OS X (and older Linuxes)    
@@ -24,6 +25,6 @@ $timezone = $config['timezone']; // set in config.php
     }
 	date_default_timezone_set($timezone);
 	$timestamp = time();
-	$server_date = date("l, d F Y");
-	$server_time = date("H:i:s", $timestamp);
+	$server_date = date("D, d M Y");
+	$server_time = date("H:i:s T", $timestamp);
 ?>
