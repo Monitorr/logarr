@@ -44,7 +44,11 @@ include 'config/config.php';
         <meta name="robots" content="NOINDEX, NOFOLLOW">
         <meta name="viewport" content="width=device-width,initial-scale=1" />
 
+        <script src="jquery.min.js"></script>
+              
         <script src="pace.js"></script>
+
+        <script src="jquery_search.js"></script>
 
         <script type="text/javascript" src="hilitor.js"></script>
         <script type="text/javascript">
@@ -74,8 +78,8 @@ include 'config/config.php';
 
     </head>
     
-    <body style="border: 10px solid #252525; color: #FFFFFF; background-color: #252525;">
-        
+    <body id="body" body style="border: 10px solid #252525; color: #FFFFFF; background-color: #252525;">
+    
         <div class="Row">
         
             <div id="time" class="Column">
@@ -229,40 +233,25 @@ include 'config/config.php';
 		</script>
 =======
                         
-            <div class="faq">
-                    
-                <input type="search" value="" placeholder="search" />
-                    
-                <ul>
-                        <li id="faq-1">
-                                
-                            <p>
-                            Search Function is NOT working.
-                            </p>
-                                
-                        </li>
-                </ul>  
-                    
-                    <div class="faq__notfound">
-                    <p><strong>No matches were found.</strong></p>
-                    </div>
-                    
+            <div id="search"  class="Column">
+                <input name="text-search" id="text-search" type="text" size="20" maxlength="30" placeholder="search & highlight">
+                <input name="searchit" type="button" value="Search" onClick="highlight()">
             </div>
         
         </div>
-
 
         <?php foreach ($logs as $k => $v) { ?>
             <div class="w3-container w3-center">
                 <h3><span class="w3-text-indigo"><strong><?php echo $k; ?>:</strong></span></h3>
             </div>
                     <div id="slide">
-                        <div class="<?php echo $k; ?>" id="slide-body" style="background-color: #404040; word-wrap: break-word; width: auto; height: 200px; overflow-y: scroll;">
+                        <div class="<?php echo $k; ?>" id="slide-body">
                         <p><?php readExternalLog($v); ?></p>
                         </div>
                         <div id="more">more...</div>
                     </div>
         <?php } ?>
+<<<<<<< HEAD
 
 
         <script>
@@ -369,6 +358,9 @@ include 'config/config.php';
         </script>
 >>>>>>> d94937f7d03c3e92eef01332f90c317331d51b5a
 
+=======
+   
+>>>>>>> master
     </body>
     
 </html>

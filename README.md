@@ -7,16 +7,17 @@
 
  - Fully self-hosted, no applications to install
  - Reverse display of logs so most recent log entries are at the top
+ - Consolidated search & highlight function
  - Ridiculously easy to configure
  - Error term Auto-highlighting for quick reference
  - Localized DTG display (updated! loads faster)
  - Collapsible tables (Develop)
- - Consolidated search function (Develop)
+ 
  
  
 ## Screenshot:
 
-![preview thumb](https://i.imgur.com/6AImFIR.png)
+![preview thumb](http://i.imgur.com/TnDg11Y.png[/img)
 
 
 ## Configuration:
