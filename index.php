@@ -8,6 +8,48 @@ function readExternalLog($filename)
     }
 }
 include 'config/config.php';
+/**
+* Converts bytes into human readable file size.
+*
+* @param string $bytes
+* @return string human readable file size (2,87 Мб)
+* @author Mogilev Arseny
+*/
+function FileSizeConvert($bytes)
+{
+    $bytes = floatval($bytes);
+        $arBytes = array(
+            0 => array(
+                "UNIT" => "TB",
+                "VALUE" => pow(1024, 4)
+            ),
+            1 => array(
+                "UNIT" => "GB",
+                "VALUE" => pow(1024, 3)
+            ),
+            2 => array(
+                "UNIT" => "MB",
+                "VALUE" => pow(1024, 2)
+            ),
+            3 => array(
+                "UNIT" => "KB",
+                "VALUE" => 1024
+            ),
+            4 => array(
+                "UNIT" => "B",
+                "VALUE" => 1
+            ),
+        );
+
+    foreach ($arBytes as $arItem) {
+        if ($bytes >= $arItem["VALUE"]) {
+            $result = $bytes / $arItem["VALUE"];
+            $result = str_replace(".", ",", strval(round($result, 2)))." ".$arItem["UNIT"];
+            break;
+        }
+    }
+    return $result;
+}
 ?>
 
 <!DOCTYPE html>
@@ -38,17 +80,37 @@ include 'config/config.php';
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
         <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400" />
         <link rel="stylesheet" href="logarr.css" />
-        
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="description" content="Demo of Real-Time Search in JavaScript" />
         <meta name="robots" content="NOINDEX, NOFOLLOW">
         <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-        <script src="jquery.min.js"></script>
-              
+                   
         <script src="pace.js"></script>
 
+        <script type= "text/javascript" src="jquery.min.js"> </script>
+        <script type= "text/javascript">
+            $(document).ready(function() {
+
+                function update() {
+                $.ajax({
+                type: 'POST',
+                url: 'config/timestamp.php',
+                timeout: 1000,
+                success: function(data) {
+                    $("#timer").html(data); 
+                    window.setTimeout(update, 1000);
+                }
+                });
+                }
+                update();
+
+            });
+
+        </script>
+
         <script src="jquery_search.js"></script>
+
 
         <script type="text/javascript" src="hilitor.js"></script>
         <script type="text/javascript">
@@ -82,11 +144,7 @@ include 'config/config.php';
     
         <div class="Row">
         
-            <div id="time" class="Column">
-                <?php include "config/timezone.php" ?>
-                <p>Server Local Date: <strong><?php echo "$server_date"?></strong></p>
-                <p>Server Local Time: <strong><?php echo "$server_time"?></strong></p>
-            </div>
+            <div id="timer" class="Column"></div>
 
             <div id="logo" class="Column">
                 <img src="images/log-icon.png" height="125px" />
@@ -101,16 +159,20 @@ include 'config/config.php';
 
         <?php foreach ($logs as $k => $v) { ?>
             <div class="w3-container w3-center">
-                <h3><span class="w3-text-indigo"><strong><?php echo $k; ?>:</strong></span></h3>
+                <h3><span class="header"><strong><?php echo $k; ?>:</strong></span></h3>
             </div>
                     <div id="slide">
                         <div class="<?php echo $k; ?>" id="slide-body">
                         <p><?php readExternalLog($v); ?></p>
                         </div>
-                        <div id="more">more...</div>
+                        <div>
+                            <div id="filesize" class="left"><strong><?php echo $v . ': ' . filesize($v) . ' bytes'; ?></strong></div>
+                            <div id="more"     class="right">more...</div>
+                        </div>
                     </div>
+
         <?php } ?>
-   
+
     </body>
     
 </html>
