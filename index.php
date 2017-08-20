@@ -93,10 +93,10 @@ include 'config/config.php';
             </div>
                         
             <div id="search"  class="Column">
-                <input name="text-search" id="text-search" type="text" size="20" maxlength="30" placeholder="search & highlight">
-                <input name="searchit" type="button" value="Search" onClick="highlight()">
+                <input name="text-search" id="text-search"  type="text"                  size="20" maxlength="30" placeholder="search & highlight">
+                <input name="searchit"    id="searchButton" type="button" value="Search" onClick="highlight()">
             </div>
-        
+    
         </div>
 
         <?php foreach ($logs as $k => $v) { ?>
