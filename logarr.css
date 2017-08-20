@@ -1,6 +1,70 @@
 /* LOGARR SYLESHEET */
 
 
+/* Top Margin */
+
+.Row {
+    display: table;
+    width: 100%;
+    height: 125px;
+    table-layout: fixed;
+    border-spacing: 1px;
+}
+
+.Column {
+    display: table-cell;
+    padding: 10px;
+}
+
+#timestamp {
+    text-align: left;
+    vertical-align: middle;
+}
+
+#time {
+    text-align: left;
+    vertical-align: middle;
+}
+
+#logo {
+    text-align: center;
+    vertical-align: middle;
+}
+
+#search {
+    text-align: right;
+    vertical-align: middle;
+}
+
+.container h1 {
+    font-size: 42px;
+    font-weight: 300;
+    color: #5594b3;
+    margin-bottom: 40px;
+}
+
+.container h1 a:hover,
+.container h1 a:focus {
+    color: #a664b7;
+}
+
+.container p {
+    line-height: 1.6;
+}
+
+
+/* Body */
+
+.header {
+    text-align: center;
+    vertical-align: middle;
+    font-size: 32px;
+    font-weight: 300;
+    color: #EEEBEC;
+    text-shadow: 0 0 20px #FF0104;
+}
+
+
 /* Progress Bar */
 
 .pace {
@@ -165,49 +229,8 @@ body::-webkit-scrollbar-thumb {
     background-color: #8E8B8B;
 }
 
-.Row {
-    display: table;
-    width: 100%;
-    height: 125px;
-    table-layout: fixed;
-    border-spacing: 1px;
-}
 
-.Column {
-    display: table-cell;
-    padding: 10px;
-}
-
-#time {
-    text-align: left;
-    vertical-align: middle;
-}
-
-#logo {
-    text-align: center;
-    vertical-align: middle;
-}
-
-#search {
-    text-align: right;
-    vertical-align: middle;
-}
-
-.container h1 {
-    font-size: 42px;
-    font-weight: 300;
-    color: #5594b3;
-    margin-bottom: 40px;
-}
-
-.container h1 a:hover,
-.container h1 a:focus {
-    color: #a664b7;
-}
-
-.container p {
-    line-height: 1.6;
-}
+/* SLIDING DIVs */
 
 #slide {
     border: 1px solid black;
@@ -219,9 +242,9 @@ body::-webkit-scrollbar-thumb {
     background-color: #404040;
     word-wrap: break-word;
     width: auto;
-    height: 200px;
+    height: 280px;
     overflow-y: scroll;
-    padding: 5px 3px;
+    padding: 10px;
     transition: height 500ms ease;
     -moz-transition: height 500ms ease;
     -ms-transition: height 500ms ease;
@@ -229,13 +252,21 @@ body::-webkit-scrollbar-thumb {
     -webkit-transition: height 500ms ease;
 }
 
-.expanded {
-    height: 600px !important;
-}
-
 #more {
     cursor: pointer;
     text-align: right;
+    margin: 0px 0px;
+}
+
+.left {
+    text-align: left;
+    font-size: 14px;
+    color: #8C8C8C;
+    margin: 10px 0px;
+}
+
+.expanded {
+    height: 600px !important;
 }
 
 .auto-style1 {
