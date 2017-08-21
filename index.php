@@ -157,19 +157,32 @@ function FileSizeConvert($bytes)
     
         </div>
 
+
         <?php foreach ($logs as $k => $v) { ?>
-            <div class="w3-container w3-center">
-                <h3><span class="header"><strong><?php echo $k; ?>:</strong></span></h3>
+            <div class="row2">
+            
+                <div id="filepath" class="left">
+                    <strong><?php echo $v; ?></strong>
+                </div>
+
+                <div id="header" class="w3-container w3-center">
+                    <h3><span class="header"><strong><?php echo $k; ?>:</strong></span></h3>
+                </div>
+                            
+                <div id="filesize"  class="right">
+                     Log File Size: <strong> <?php echo filesize($v) . ' bytes'; ?></strong>
+                </div>
+        
             </div>
-                    <div id="slide">
-                        <div class="<?php echo $k; ?>" id="slide-body">
-                        <p><?php readExternalLog($v); ?></p>
-                        </div>
-                        <div>
-                            <div id="filesize" class="left"><strong><?php echo $v . ': ' . filesize($v) . ' bytes'; ?></strong></div>
-                            <div id="more"     class="right">more...</div>
-                        </div>
-                    </div>
+                        
+            <div id="slide">
+                <div class="<?php echo $k; ?>" id="slide-body">
+                    <p><?php readExternalLog($v); ?></p>
+                </div>
+
+                <div id="more" class="more"><strong>more...</strong></div>
+
+            </div>
 
         <?php } ?>
 
