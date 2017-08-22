@@ -213,10 +213,11 @@
 	color: #FFFFFF;
 }
 /* SCROLL BARS */
+/**** BODY ****/
 
 body::-webkit-scrollbar {
 	width: 10px;
-	background-color: white;
+	background-color: #252525;
 }
 
 body::-webkit-scrollbar-track {
@@ -227,6 +228,27 @@ body::-webkit-scrollbar-track {
 }
 
 body::-webkit-scrollbar-thumb {
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+	box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+	background-color: #8E8B8B;
+}
+/**** LOGS ****/
+/* SCROLL BARS */
+
+.expand::-webkit-scrollbar {
+	width: 10px;
+	background-color: #252525;
+}
+
+.expand::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+	box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+	border-radius: 10px;
+	background-color: #252525;
+}
+
+.expand::-webkit-scrollbar-thumb {
 	border-radius: 10px;
 	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
 	box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
@@ -291,6 +313,8 @@ label {
 	-moz-border-radius: 15px;
 	border-radius: 15px;
 	width: auto;
+	cursor: pointer;
+	cursor: hand;
 }
 
 label:hover {

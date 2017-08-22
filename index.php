@@ -8,47 +8,11 @@ function readExternalLog($filename)
     }
 }
 include 'config/config.php';
-/**
-* Converts bytes into human readable file size.
-*
-* @param string $bytes
-* @return string human readable file size (2,87 Мб)
-* @author Mogilev Arseny
-*/
-function FileSizeConvert($bytes)
-{
-    $bytes = floatval($bytes);
-        $arBytes = array(
-            0 => array(
-                "UNIT" => "TB",
-                "VALUE" => pow(1024, 4)
-            ),
-            1 => array(
-                "UNIT" => "GB",
-                "VALUE" => pow(1024, 3)
-            ),
-            2 => array(
-                "UNIT" => "MB",
-                "VALUE" => pow(1024, 2)
-            ),
-            3 => array(
-                "UNIT" => "KB",
-                "VALUE" => 1024
-            ),
-            4 => array(
-                "UNIT" => "B",
-                "VALUE" => 1
-            ),
-        );
-
-    foreach ($arBytes as $arItem) {
-        if ($bytes >= $arItem["VALUE"]) {
-            $result = $bytes / $arItem["VALUE"];
-            $result = str_replace(".", ",", strval(round($result, 2)))." ".$arItem["UNIT"];
-            break;
-        }
-    }
-    return $result;
+/*http://jeffreysambells.com/2012/10/25/human-readable-filesize-php*/
+function human_filesize($bytes, $decimals = 2) {
+    $size = array('B','kB','MB','GB','TB','PB','EB','ZB','YB');
+    $factor = floor((strlen($bytes) - 1) / 3);
+    return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$size[$factor];
 }
 ?>
 
@@ -156,7 +120,7 @@ function FileSizeConvert($bytes)
                 </div>
                             
                 <div id="filesize"  class="right">
-                     Log File Size: <strong> <?php echo filesize($v) . ' bytes'; ?></strong>
+                     Log File Size: <strong> <?php echo human_filesize(filesize($v)); ?></strong>
                 </div>
         
             </div>
