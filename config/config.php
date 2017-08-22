@@ -10,10 +10,7 @@ $logs = array(
 // ** Add Logs BELOW paragraph **
 // EXAMPLE
 // "NameOfLog" =>'C:/link/to/log/file'
-<<<<<<< HEAD
-    
-=======
->>>>>>> Linux-dev
+
 "Sonarr" => '/home/plex/.config/NzbDrone/logs/sonarr.txt',
 "Radarr" => '/home/plex/.config/Radarr/logs/radarr.txt',
 "Headphones" => "/home/plex/logs/headphones/headphones.log",
