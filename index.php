@@ -123,21 +123,6 @@ function FileSizeConvert($bytes)
 
         </script>
 
-        <script type='text/javascript'>//<![CDATA[
-            window.onload=function(){
-            document.getElementById( 'slide' ).addEventListener( 'click', function() {
-                var body = document.getElementById( 'slide-body' );
-                if( body.className == 'expanded' ) {
-                    body.className = '';
-                    document.getElementById( 'more' ).textContent = 'more...';
-                } else {
-                    body.className = 'expanded';
-                    document.getElementById( 'more' ).textContent = 'less...';
-                };
-            } );
-            }//]]> 
-        </script>
-
     </head>
     
     <body id="body" body style="border: 10px solid #252525; color: #FFFFFF; background-color: #252525;">
@@ -167,6 +152,7 @@ function FileSizeConvert($bytes)
 
                 <div id="header" class="w3-container w3-center">
                     <h3><span class="header"><strong><?php echo $k; ?>:</strong></span></h3>
+                	
                 </div>
                             
                 <div id="filesize"  class="right">
@@ -175,13 +161,15 @@ function FileSizeConvert($bytes)
         
             </div>
                         
-            <div id="slide">
-                <div class="<?php echo $k; ?>" id="slide-body">
-                    <p><?php readExternalLog($v); ?></p>
+
+			<div class="slide">
+				<div>
+				<input class="toggle" type="checkbox" id="<?php echo $k; ?>" checked>
+				<label for="<?php echo $k; ?>"></label>
+				<div class="expand">
+					<p><?php readExternalLog($v); ?></p>
                 </div>
-
-                <div id="more" class="more"><strong>more...</strong></div>
-
+				</div>
             </div>
 
         <?php } ?>
