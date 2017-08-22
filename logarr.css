@@ -1,4 +1,6 @@
 /* LOGARR SYLESHEET */
+
+
 /* Top Margin */
 
 .Row {
@@ -50,6 +52,8 @@
 .container p {
 	line-height: 1.6;
 }
+
+
 /* Body */
 
 .header {
@@ -64,10 +68,13 @@
 .row2 {
 	display: table;
 	width: 100%;
-	height: 50px;
+	height: 5px;
 	table-layout: fixed;
-	border-spacing: 1px;
+	border-spacing: 0px;
+	padding-top: 5px;
 }
+
+
 /* Progress Bar */
 
 .pace {
@@ -180,39 +187,35 @@
 		transform: rotate(360deg);
 	}
 }
+
+
 /* SEARCH */
 
 .highlight {
-	background-color: #680233;
+	background-color: #B22067;
 	-moz-border-radius: 5px;
 	/* FF1+ */
-	
 	-webkit-border-radius: 5px;
 	/* Saf3-4 */
-	
 	border-radius: 5px;
 	/* Opera 10.5, IE 9, Saf5, Chrome */
-	
 	-moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
 	/* FF3.5+ */
-	
 	-webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
 	/* Saf3.0+, Chrome */
-	
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
 	/* Opera 10.5+, IE 9.0 */
-}
-
-.highlight {
-	padding: 1px 4px;
-	margin: 0 -4px;
 }
 
 .slide span {
 	background-color: #680233;
 	color: #FFFFFF;
 }
+
+
 /* SCROLL BARS */
+
+
 /**** BODY ****/
 
 body::-webkit-scrollbar {
@@ -233,7 +236,11 @@ body::-webkit-scrollbar-thumb {
 	box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
 	background-color: #8E8B8B;
 }
+
+
 /**** LOGS ****/
+
+
 /* SCROLL BARS */
 
 .expand::-webkit-scrollbar {
@@ -254,12 +261,15 @@ body::-webkit-scrollbar-thumb {
 	box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
 	background-color: #8E8B8B;
 }
+
+
 /* SLIDING DIVs */
 
 .slide {
 	border: 1px solid black;
 	margin: 0px 10px;
 	position: relative;
+	margin-bottom: 20px;
 }
 
 .left {
@@ -287,6 +297,8 @@ body::-webkit-scrollbar-thumb {
 .auto-style1 {
 	font-size: x-small;
 }
+
+
 /* new css */
 
 p {
@@ -340,10 +352,10 @@ label::before {
 	padding: 0 10px 0 10px;
 }
 
-.toggle:checked ~ .expand {
+.toggle:checked~.expand {
 	height: 250px;
 }
 
-.toggle:checked ~ label::before {
+.toggle:checked~label::before {
 	content: "show more";
 }
