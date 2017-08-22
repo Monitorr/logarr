@@ -64,7 +64,7 @@ function human_filesize($bytes, $decimals = 2)
                 timeout: 1000,
                 success: function(data) {
                     $("#timer").html(data); 
-                    window.setTimeout(update, 1000);
+                    window.setTimeout(update, 5000);
                 }
                 });
                 }
