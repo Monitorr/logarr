@@ -107,7 +107,7 @@ function human_filesize($bytes, $decimals = 2)
                     <span id="search-loading"></span>
                         <div class="modal" style="display: none">
                             <div class="center">
-                                <img alt="" src="preloader.gif" />
+                                <img alt="" src="images/preloader.gif" />
                             </div>
                         </div>
                 </form>
