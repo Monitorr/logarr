@@ -61,7 +61,7 @@ function human_filesize($bytes, $decimals = 2)
                 $.ajax({
                 type: 'POST',
                 url: 'config/timestamp.php',
-                timeout: 1000,
+                timeout: 5000,
                 success: function(data) {
                     $("#timer").html(data); 
                     window.setTimeout(update, 5000);
