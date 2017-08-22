@@ -11,8 +11,9 @@ $logs = array(
 // EXAMPLE
 // "NameOfLog" =>'C:/link/to/log/file'
     
-"MP4 Converter" => "/home/plex/bin/sickbeard_mp4_automator/info.log",
-"NZBHydra" => "/home/plex/logs/nzbhydra/nzbhydra.log",
+"NZBtoMedia" => 'C:\logs\nzbtomedia\logs\nzbtomedia.log',
+"MP4 Converter" => 'C:\sickbeard_mp4_automator\info.log',
+"Radarr" => 'C:\ProgramData\Radarr\logs\radarr.txt',
 
 // ** Add Logs ABOVE this line **
 );
