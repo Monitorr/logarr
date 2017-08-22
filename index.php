@@ -8,6 +8,12 @@ function readExternalLog($filename)
     }
 }
 include 'config/config.php';
+/*http://jeffreysambells.com/2012/10/25/human-readable-filesize-php*/
+function human_filesize($bytes, $decimals = 2) {
+    $size = array('B','kB','MB','GB','TB','PB','EB','ZB','YB');
+    $factor = floor((strlen($bytes) - 1) / 3);
+    return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$size[$factor];
+}
 ?>
 
 <!DOCTYPE html>
@@ -38,17 +44,37 @@ include 'config/config.php';
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
         <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400" />
         <link rel="stylesheet" href="logarr.css" />
-        
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="description" content="Demo of Real-Time Search in JavaScript" />
         <meta name="robots" content="NOINDEX, NOFOLLOW">
         <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-        <script src="jquery.min.js"></script>
-              
+                   
         <script src="pace.js"></script>
 
+        <script type= "text/javascript" src="jquery.min.js"> </script>
+        <script type= "text/javascript">
+            $(document).ready(function() {
+
+                function update() {
+                $.ajax({
+                type: 'POST',
+                url: 'config/timestamp.php',
+                timeout: 1000,
+                success: function(data) {
+                    $("#timer").html(data); 
+                    window.setTimeout(update, 1000);
+                }
+                });
+                }
+                update();
+
+            });
+
+        </script>
+
         <script src="jquery_search.js"></script>
+
 
         <script type="text/javascript" src="hilitor.js"></script>
         <script type="text/javascript">
@@ -61,56 +87,57 @@ include 'config/config.php';
 
         </script>
 
-        <script type='text/javascript'>//<![CDATA[
-            window.onload=function(){
-            document.getElementById( 'slide' ).addEventListener( 'click', function() {
-                var body = document.getElementById( 'slide-body' );
-                if( body.className == 'expanded' ) {
-                    body.className = '';
-                    document.getElementById( 'more' ).textContent = 'more...';
-                } else {
-                    body.className = 'expanded';
-                    document.getElementById( 'more' ).textContent = 'less...';
-                };
-            } );
-            }//]]> 
-        </script>
-
     </head>
     
     <body id="body" body style="border: 10px solid #252525; color: #FFFFFF; background-color: #252525;">
     
         <div class="Row">
         
-            <div id="time" class="Column">
-                <?php include "config/timezone.php" ?>
-                <p>Server Local Date: <strong><?php echo "$server_date"?></strong></p>
-                <p>Server Local Time: <strong><?php echo "$server_time"?></strong></p>
-            </div>
+            <div id="timer" class="Column"></div>
 
             <div id="logo" class="Column">
                 <img src="images/log-icon.png" height="125px" />
             </div>
                         
             <div id="search"  class="Column">
-                <input name="text-search" id="text-search" type="text" size="20" maxlength="30" placeholder="search & highlight">
-                <input name="searchit" type="button" value="Search" onClick="highlight()">
+                <input name="text-search" id="text-search"  type="text"                  size="20" maxlength="30" placeholder="search & highlight">
+                <input name="searchit"    id="searchButton" type="button" value="Search" onClick="highlight()">
             </div>
-        
+    
         </div>
 
+
         <?php foreach ($logs as $k => $v) { ?>
-            <div class="w3-container w3-center">
-                <h3><span class="w3-text-indigo"><strong><?php echo $k; ?>:</strong></span></h3>
+            <div class="row2">
+            
+                <div id="filepath" class="left">
+                    <strong><?php echo $v; ?></strong>
+                </div>
+
+                <div id="header" class="w3-container w3-center">
+                    <h3><span class="header"><strong><?php echo $k; ?>:</strong></span></h3>
+                	
+                </div>
+                            
+                <div id="filesize"  class="right">
+                     Log File Size: <strong> <?php echo human_filesize(filesize($v)); ?></strong>
+                </div>
+        
             </div>
-                    <div id="slide">
-                        <div class="<?php echo $k; ?>" id="slide-body">
-                        <p><?php readExternalLog($v); ?></p>
-                        </div>
-                        <div id="more">more...</div>
-                    </div>
+                        
+
+			<div class="slide">
+				<div>
+				<input class="toggle" type="checkbox" id="<?php echo $k; ?>" checked>
+				<label for="<?php echo $k; ?>"></label>
+				<div class="expand">
+					<p><?php readExternalLog($v); ?></p>
+                </div>
+				</div>
+            </div>
+
         <?php } ?>
-   
+
     </body>
     
 </html>
