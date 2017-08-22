@@ -1,10 +1,11 @@
-$('document').ready(function () {
-    $('#searchButton').click(function () {
+$('document').ready(function() {
+    $('#button').click(function() {
         var search = $('#text-search').val();
-    })
-    $('#text-search').keypress(function (e) {
-        if (e.which == 13) { //Enter key pressed
-            $('#searchButton').click(); //Trigger search button click event
+    });
+    $('#text-search').keypress(function(event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == 13) { //Enter key pressed
+            $('#button').on(); //Trigger search button click event
         }
     });
 });
@@ -18,3 +19,24 @@ function highlight() {
     var newe = enew.replace(query, "<span>$1</span>");
     document.getElementById("body").innerHTML = newe;
 }
+
+
+$(function() {
+    $("#button").click(function() {
+        $.ajaxSetup({
+            global: false,
+            beforeSend: function() {
+                $(".modal").show();
+            },
+            complete: function() {
+                $(".modal").hide();
+            }
+        });
+        $.ajax({
+            data: "{}",
+            success: function(r) {
+                $("#search-loading");
+            }
+        });
+    });
+});
