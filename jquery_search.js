@@ -1,12 +1,7 @@
 $('document').ready(function() {
     $('#button').click(function() {
-        var search = $('#text-search').val();
-    });
-    $('#text-search').keypress(function(event) {
-        var keycode = (event.keyCode ? event.keyCode : event.which);
-        if (keycode == 13) { //Enter key pressed
-            $('#button').on(); //Trigger search button click event
-        }
+        var searchbox = document.querySelector('#text-search');
+        var searchForm = document.querySelector('#search');
     });
 });
 
