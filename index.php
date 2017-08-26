@@ -101,22 +101,17 @@ function human_filesize($bytes, $decimals = 2)
             </div>
                         
             <div id="search"  class="Column">
-                <form id="searchForm" onsubmit="highlight();return false;">
-                    <input name="text-search" id="text-search"  type="text"                  size="20" maxlength="30" placeholder="search & highlight">
-                    <input name="searchit"    id="button"       type="button" value="Search" onClick="highlight()">
-                    <span id="search-loading"></span>
-                        <div class="modal" style="display: none">
-                            <div class="center">
-                                <img alt="" src="images/preloader.gif" />
-                            </div>
-                        </div>
+            <form id="searchForm" onsubmit="highlight();return false;">
+                    <input name="text-search" id="text-search"                   type="text"                  size="20" maxlength="30" placeholder="search & highlight">
+                    <input                    id="submit"        class="button" type="submit" value="search" />
                 </form>
+                    <br>
+                        search results: <div id="count"> 00 </div>
             </div>
         </div>
 
         <?php foreach ($logs as $k => $v) { ?>
             <div class="row2">
-            
                 <div id="filepath" class="left">
                     <strong><?php echo $v; ?></strong>
                 </div>
@@ -141,6 +136,19 @@ function human_filesize($bytes, $decimals = 2)
             </div>
 
         <?php } ?>
+
+        
+        <script type="text/javascript">
+
+            $('#submit').click(function(){
+                $(this).addClass('button_loader').attr("value","");
+                window.setTimeout(function(){
+                $('#submit').removeClass('button_loader').attr("value","Submit");
+                $('#submit').prop('disabled', false);
+                }, 3000);
+            });
+        </script>
+
 
     </body>
     
