@@ -101,12 +101,10 @@ function human_filesize($bytes, $decimals = 2)
             </div>
                         
             <div id="search"  class="Column">
-            <form id="searchForm" onsubmit="highlight();return false;">
-                    <input name="text-search" id="text-search"                   type="text"                  size="20" maxlength="30" placeholder="search & highlight">
-                    <input                    id="submit"        class="button" type="submit" value="search" />
+                <form id="searchForm" onsubmit="highlight();return false;">
+                    <input name="text-search" id="text-search" type="text" size="20" maxlength="30" placeholder="search & highlight">
+                    <input id="submit" class="button" type="submit" value="search" />
                 </form>
-                    <br>
-                        search results: <div id="count"> 00 </div>
             </div>
         </div>
 
