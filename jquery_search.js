@@ -3,6 +3,20 @@ $('document').ready(function() {
         var searchbox = document.querySelector('#text-search');
         var searchForm = document.querySelector('#search');
     });
+
+    $("text-search").on("keyup", function() {
+        var g = $(this).val().replace(/[Ａ-Ｚａ-ｚ０-９]/g, function(s) {
+            return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
+        }).toLowerCase();
+        $(".row").each(function() {
+            //s is the value within tr
+            var s = $(this).text().toLowerCase();
+            $(this).closest('.row')[s.indexOf(g) !== -1 ? 'show' : 'hide']();
+            //testing: count number of results
+            var rowCount = $('#slide >tbody >tr:visible').length;
+            document.getElementById('count').innerHTML = rowCount;
+        });
+    });
 });
 
 function highlight() {
@@ -14,24 +28,3 @@ function highlight() {
     var newe = enew.replace(query, "<span>$1</span>");
     document.getElementById("body").innerHTML = newe;
 }
-
-
-$(function() {
-    $("#button").click(function() {
-        $.ajaxSetup({
-            global: false,
-            beforeSend: function() {
-                $(".modal").show();
-            },
-            complete: function() {
-                $(".modal").hide();
-            }
-        });
-        $.ajax({
-            data: "{}",
-            success: function(r) {
-                $("#search-loading");
-            }
-        });
-    });
-});
