@@ -1,11 +1,21 @@
-$('document').ready(function () {
-    $('#searchButton').click(function () {
-        var search = $('#text-search').val();
-    })
-    $('#text-search').keypress(function (e) {
-        if (e.which == 13) { //Enter key pressed
-            $('#searchButton').click(); //Trigger search button click event
-        }
+$('document').ready(function() {
+    $('#button').click(function() {
+        var searchbox = document.querySelector('#text-search');
+        var searchForm = document.querySelector('#search');
+    });
+
+    $("text-search").on("keyup", function() {
+        var g = $(this).val().replace(/[Ａ-Ｚａ-ｚ０-９]/g, function(s) {
+            return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
+        }).toLowerCase();
+        $(".row").each(function() {
+            //s is the value within tr
+            var s = $(this).text().toLowerCase();
+            $(this).closest('.row')[s.indexOf(g) !== -1 ? 'show' : 'hide']();
+            //testing: count number of results
+            var rowCount = $('#slide >tbody >tr:visible').length;
+            document.getElementById('count').innerHTML = rowCount;
+        });
     });
 });
 

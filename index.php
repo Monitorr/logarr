@@ -9,7 +9,8 @@ function readExternalLog($filename)
 }
 include 'config/config.php';
 /*http://jeffreysambells.com/2012/10/25/human-readable-filesize-php*/
-function human_filesize($bytes, $decimals = 2) {
+function human_filesize($bytes, $decimals = 2)
+{
     $size = array('B','kB','MB','GB','TB','PB','EB','ZB','YB');
     $factor = floor((strlen($bytes) - 1) / 3);
     return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$size[$factor];
@@ -60,10 +61,10 @@ function human_filesize($bytes, $decimals = 2) {
                 $.ajax({
                 type: 'POST',
                 url: 'config/timestamp.php',
-                timeout: 1000,
+                timeout: 5000,
                 success: function(data) {
                     $("#timer").html(data); 
-                    window.setTimeout(update, 1000);
+                    window.setTimeout(update, 5000);
                 }
                 });
                 }
@@ -100,43 +101,52 @@ function human_filesize($bytes, $decimals = 2) {
             </div>
                         
             <div id="search"  class="Column">
-                <input name="text-search" id="text-search"  type="text"                  size="20" maxlength="30" placeholder="search & highlight">
-                <input name="searchit"    id="searchButton" type="button" value="Search" onClick="highlight()">
+                <form id="searchForm" onsubmit="highlight();return false;">
+                    <input name="text-search" id="text-search" type="text" size="20" maxlength="30" placeholder="search & highlight">
+                    <input id="submit" class="button" type="submit" value="submit" />
+                </form>
             </div>
-    
         </div>
-
 
         <?php foreach ($logs as $k => $v) { ?>
             <div class="row2">
-            
                 <div id="filepath" class="left">
                     <strong><?php echo $v; ?></strong>
                 </div>
 
                 <div id="header" class="w3-container w3-center">
                     <h3><span class="header"><strong><?php echo $k; ?>:</strong></span></h3>
-                	
                 </div>
                             
                 <div id="filesize"  class="right">
                      Log File Size: <strong> <?php echo human_filesize(filesize($v)); ?></strong>
                 </div>
-        
             </div>
                         
-
-			<div class="slide">
-				<div>
-				<input class="toggle" type="checkbox" id="<?php echo $k; ?>" checked>
-				<label for="<?php echo $k; ?>"></label>
-				<div class="expand">
-					<p><?php readExternalLog($v); ?></p>
+            <div class="slide">
+                <div>
+                    <input class="toggle" type="checkbox" id="<?php echo $k; ?>" checked>
+                    <label for="<?php echo $k; ?>"></label>
+                <div class="expand">
+                    <p><?php readExternalLog($v); ?></p>
                 </div>
-				</div>
+            </div>
             </div>
 
         <?php } ?>
+
+        
+        <script type="text/javascript">
+
+            $('#submit').click(function(){
+                $(this).addClass('button_loader').attr("value","");
+                window.setTimeout(function(){
+                $('#submit').removeClass('button_loader').attr("value","Submit");
+                $('#submit').prop('disabled', false);
+                }, 3000);
+            });
+        </script>
+
 
     </body>
     
