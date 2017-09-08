@@ -54,6 +54,7 @@ function human_filesize($bytes, $decimals = 2)
         <script src="pace.js"></script>
 
         <script type= "text/javascript" src="jquery.min.js"> </script>
+        <script src="jquery.blockUI.js"></script>
         <script type= "text/javascript">
             $(document).ready(function() {
 
@@ -139,11 +140,7 @@ function human_filesize($bytes, $decimals = 2)
         <script type="text/javascript">
 
             $('#submit').click(function(){
-                $(this).addClass('button_loader').attr("value","");
-                window.setTimeout(function(){
-                $('#submit').removeClass('button_loader').attr("value","Submit");
-                $('#submit').prop('disabled', false);
-                }, 3000);
+                alert("search commencing");
             });
         </script>
 
