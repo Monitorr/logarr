@@ -1,7 +1,7 @@
 <?php // config style adapted from @causeFX and this website: https://www.abeautifulsite.net/a-better-way-to-write-config-files-in-php 
 $logs = array(
 
-// ** Log paths are CASE SESITIVE in a windows enviroment **
+// ** Log paths are CASE SENSITIVE in a windows enviroment **
 // Ensure correct permissions are set on the target log file
 // Ensure the logging applications' settings are set to "roll over/refresh" the log files at regular intervals
 // Depening on your enviroment, large log files could cause your webserver to crash.
@@ -10,12 +10,10 @@ $logs = array(
 // ** Add Logs BELOW paragraph **
 // EXAMPLE
 // "NameOfLog" =>'C:/link/to/log/file'
-"Sonarr" => '/home/plex/.config/NzbDrone/logs/sonarr.txt',
-"Radarr" => '/home/plex/.config/Radarr/logs/radarr.txt',
-"Headphones" => "/home/plex/logs/headphones/headphones.log",
-/*"NZBGet" => "/home/plex/logs/nzbget/nzbget.log",*/
-"MP4 Converter" => "/home/plex/bin/sickbeard_mp4_automator/info.log",
-"NZBHydra" => "/home/plex/logs/nzbhydra/nzbhydra.log",
+"NZBHydra" => "/home/plex/logs/nzbhydra/nzbhydra.log",    
+"NZBtoMedia" => 'C:\logs\nzbtomedia\logs\nzbtomedia.log',
+"MP4 Converter" => 'C:\sickbeard_mp4_automator\info.log',
+"Radarr" => 'C:\ProgramData\Radarr\logs\radarr.txt',
 
 // ** Add Logs ABOVE this line **
 );
