@@ -19,12 +19,12 @@ function human_filesize($bytes, $decimals = 2) {
 <!DOCTYPE html>
 <html>
     <head>
-    	<!--
-    	 ____ ____ ____ ____ ____ ____ 
+		<!--
+		____ ____ ____ ____ ____ ____ 
 		||L |||o |||g |||a |||r |||r ||
 		||__|||__|||__|||__|||__|||__||
 		|/__\|/__\|/__\|/__\|/__\|/__\|
-    	-->
+		-->
         <meta charset="utf-8" />
         <title><?php echo $config['title']; ?></title>
         <link rel="apple-touch-icon-precomposed" sizes="57x57" href="images/favicon/apple-touch-icon-57x57.png" />
