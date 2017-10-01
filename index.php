@@ -97,9 +97,10 @@ function human_filesize($bytes, $decimals = 2)
             <div id="timer" class="Column"></div>
 
             <div id="logo" class="Column">
-                <img src="images/log-icon.png" height="125px" />
-            </div>
-                        
+                <A HREF="javascript:history.go(0)">
+				<img src="images/log-icon.png" height="125px" />
+				</A>
+            </div>                        
             <div id="search"  class="Column">
                 <form id="searchForm" onsubmit="highlight();return false;">
                     <input name="text-search" id="text-search" type="text" size="20" maxlength="30" placeholder="search & highlight">
