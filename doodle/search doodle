@@ -1,0 +1,8 @@
+        
+// alert box        
+        <script type="text/javascript">
+
+            $('#submit').click(function(){
+                alert("search commencing");
+            });
+        </script>
