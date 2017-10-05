@@ -34,3 +34,5 @@
 ## About Us:
 - Maintained by [seanvree](https://github.com/seanvree) (Windows Wizard) &  [jonfinley](https://github.com/jonfinley) (Linux Dude) 
 - We usually hang out here:   [![Gitter](https://img.shields.io/badge/Gitter-Organizr-ed1965.svg?style=flat-square)](https://gitter.im/Organizrr/Lobby)
+
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/Seanvree)
