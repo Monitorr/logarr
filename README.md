@@ -1,7 +1,8 @@
 
-<p align="center"><img src="https://i.imgur.com/ckVKs0n.png"></p>
-<br>
-<p align="center"><b> Self-hosted, single-page, log consolidation tool written in PHP </b></p>
+<p align="center"><img src="https://i.imgur.com/ckVKs0n.png">
+ 
+ ## <p align="center"> Self-hosted, single-page, log consolidation tool written in PHP 
+</p>
 
 <b> Version:</b> v1.5d
 
