@@ -22,9 +22,9 @@
 
     <!--
 
-    Created by:
-
-    https://github.com/seanvree
+    LOGARR
+by @seanvree, @wjbeckett, and @jonfinley 
+  https://github.com/Monitorr
 
     -->
 
@@ -156,7 +156,7 @@
 
         <div class="footer">
       
-            <a href="https://github.com/seanvree/logarr" target="_blank"> Repo: Logarr // Version: <?php echo file_get_contents( "assets/js/version/version.txt" );?> </a>
+            <a href="https://github.com/monitorr/logarr" target="_blank"> Repo: Logarr // Version: <?php echo file_get_contents( "assets/js/version/version.txt" );?> </a>
 
         </div>
 
