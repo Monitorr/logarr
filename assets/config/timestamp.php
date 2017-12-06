@@ -29,7 +29,6 @@ if (is_link('/etc/localtime')) {
     $server_date = date("D, d M Y");
 ?>
 
-<br>
 <p>Server Local Date: <strong><?php echo "$server_date"?></strong></p>
 
 <p>Server Local Time: <strong>
