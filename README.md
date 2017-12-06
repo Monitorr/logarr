@@ -53,3 +53,5 @@ Check out our sister app Monitorr:  https://github.com/Monitorr/Monitorr
 - [seanvree](https://github.com/seanvree) (Windows Wizard)
 - [jonfinley](https://github.com/jonfinley) (Linux Dude)
 - [wjbeckett](https://github.com/wjbeckett)
+
+Discord Test Push
