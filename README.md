@@ -4,7 +4,7 @@
  ## <p align="center"> Self-hosted, single-page, log consolidation tool written in PHP 
 </p>
 
-<b> Version:</b> v1.5d
+<b> Version:</b> v1.6d
 
 <b> Latest major change: </b>  Search indicator function
 
@@ -17,11 +17,12 @@
  - Collapsible tables
  - Log file size and path display
  - Ridiculously easy to configure
- - Error term Auto-highlighting for quick reference
+ - Error term auto-highlighting for quick reference
  - Localized DTG display
 
  <b> Features in development: </b>
-- Return number of search hits
+- Return number of search hits.
+- Application update via GUI.
 - Log categories.
  
  
@@ -45,6 +46,8 @@ Need live help?  Join here :   [![Discord](https://img.shields.io/discord/102860
 E-mail: monitorrapp@gmail.com
 <br>
 Buy us a beer! Donate:        [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/monitorrapp)
+<br>
+Check out our sister app Monitorr:  https://github.com/Monitorr/Monitorr
 
 ## About Us:
 - [seanvree](https://github.com/seanvree) (Windows Wizard)
