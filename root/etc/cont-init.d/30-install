@@ -1,8 +1,8 @@
 #!/usr/bin/with-contenv bash
 
 # Clone Logarr repo
-[[ ! -d /config/www/Dashboard/.git ]] && \
-git clone https://github.com/Monitorr/logarr.git /config/www/Logarr
+[[ ! -d /config/www/logarr/.git ]] && \
+git clone https://github.com/Monitorr/logarr.git /config/www/logarr
 
 # Set permissions
 chown -R abc:abc \
