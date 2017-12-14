@@ -133,8 +133,9 @@ by @seanvree, @wjbeckett, and @jonfinley
                     <input name="text-search" id="text-search" type="text" value="" class="input" placeholder="search & highlight">
                     <input id="submit" type="submit" value="Submit" class="button" />
                 </form>
-                    <div id="count" class="count"> </div>
+                <div id="count" class="count"> </div>
             </div>
+            
         </div>
         
            <?php foreach ($logs as $k => $v) { ?>
