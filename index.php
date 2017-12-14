@@ -70,8 +70,6 @@ by @seanvree, @wjbeckett, and @jonfinley
         <script src="assets/js/pace.js" async></script>
 
         <script src="assets/js/jquery.min.js"> </script>
-
-        <!-- <script src="assets/js/jquery.highlight.js"> </script> -->
         
         <script type= "text/javascript">
             $(document).ready(function() {
@@ -131,7 +129,7 @@ by @seanvree, @wjbeckett, and @jonfinley
             </div>
 
             <div id="search" class="Column">                
-                <form id="searchForm" method="post" action="" onsubmit="count(); blockUI(); return false;">
+                <form id="searchForm" method="post" action="" onsubmit="blockUI(); return false;">
                     <input name="text-search" id="text-search" type="text" value="" class="input" placeholder="search & highlight">
                     <input id="submit" type="submit" value="Submit" class="button" />
                 </form>
