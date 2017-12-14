@@ -4,7 +4,7 @@
  ## <p align="center"> Self-hosted, single-page, log consolidation tool written in PHP 
 </p>
 
-<b> Version:</b> v1.6d
+<b> Version:</b> v1.6e
 
 <b> Latest major change: </b>  Search indicator function
 
@@ -13,7 +13,7 @@
  - Fully self-hosted, no applications to install
  - Mobile ready (NEW)
  - Reverse display of logs so most recent log entries are at the top
- - Consolidated search & highlight function
+ - Consolidated search & highlight function (Update)
  - Collapsible tables
  - Log file size and path display
  - Ridiculously easy to configure
@@ -21,7 +21,6 @@
  - Localized DTG display
 
  <b> Features in development: </b>
-- Return number of search hits.
 - Application update via GUI.
 - Log categories.
  
