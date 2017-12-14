@@ -2,14 +2,15 @@
 function blockUI() {
     $.blockUI({
         css: {
-            'border': 'none',
+            'border': '5px solid #FFFFFF',
             'padding': '15px',
             'backgroundColor': '#000000',
+            'opacity': '0.9',
+            'color': '#FFFFFF',
+            'font-size': '40px',
             '-webkit-border-radius': '10px',
             '-moz-border-radius': '10px',
-            'opacity': '0.8',
-            'color': '#EEEBEC',
-            'font-size': '32px',
+
         },
         message: 'Searching...',
     });
