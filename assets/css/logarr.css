@@ -258,9 +258,11 @@ h6,
 .count {
     text-align: right;
     margin-right:100px;
-    font-size: 15px;
 } 
 
+#count {
+    font-size: 15px;
+}
 
 /* SCROLL BARS */
 
