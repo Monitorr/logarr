@@ -4,7 +4,7 @@
  ## <p align="center"> Self-hosted, single-page, log consolidation tool written in PHP 
 </p>
 
-<b> Version:</b> v1.6e
+<b> Version:</b> v1.7d
 
 <b> Latest major change: </b>  Search indicator function
 
