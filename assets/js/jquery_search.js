@@ -10,7 +10,6 @@ function blockUI() {
             'font-size': '40px',
             '-webkit-border-radius': '10px',
             '-moz-border-radius': '10px',
-
         },
         message: 'Searching...',
     });
@@ -36,6 +35,6 @@ function count() {
     var count =
         $("#body span").length;
     $(".count").text(count);
-    $('#count').append(" occurance(s) of searched term");
+    $('.count').append(" occurance(s) of searched term");
 };
 
