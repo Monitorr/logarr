@@ -4,7 +4,7 @@
  ## <p align="center"> Self-hosted, single-page, log consolidation tool written in PHP 
 </p>
 
-<b> Version:</b> v2.1d
+<b> Version:</b> v2.1m
 <br>
 
 [![Docker build](https://img.shields.io/docker/build/monitorr/logarr.svg?maxAge=2592000)](https://hub.docker.com/r/monitorr/logarr/)
