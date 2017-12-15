@@ -100,6 +100,20 @@ by @seanvree, @wjbeckett, and @jonfinley
 
         </script>
 
+
+        <!-- REFRESH DIV ONLY - NOT WORKING -->
+
+            <!-- 
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    function refreshDiv() {
+                        document.getElementById("filesize").innerHTML = document.getElementById("filesize").innerHTML;
+                        window.setTimeout(refreshDiv, 3000);
+                    }
+                });
+            </script>
+            -->
+
     </head>
     
     <body id="body" body style="border: 10px solid #252525; color: #FFFFFF; background-color: #252525;">
@@ -114,41 +128,40 @@ by @seanvree, @wjbeckett, and @jonfinley
 				</A>
             </div>
 
-            <div id="search"  class="Column">
-                <form id="searchForm" method="post" action="" onsubmit="blockUI(); highlight(); return false;">
-                        <input name="text-search" id="text-search" type="text"   value=""       class="input"  placeholder="search & highlight">
-                        <input                    id="submit"      type="submit" value="Submit" class="button"  />
+            <div id="search" class="Column">                
+                <form id="searchForm" method="post" action="" onsubmit="blockUI(); return false;">
+                    <input name="text-search" id="text-search" type="text" value="" class="input" placeholder="search & highlight">
+                    <input id="submit" type="submit" value="Submit" class="button" />
                 </form>
+                <div id="count" class="count"> </div>
             </div>
             
         </div>
+        
+           <?php foreach ($logs as $k => $v) { ?>
+                <div class="row2">
+                    <div id="filepath" class="left">
+                        <strong><?php echo $v; ?></strong>
+                    </div>
 
-        <?php foreach ($logs as $k => $v) { ?>
-            <div class="row2">
-                <div id="filepath" class="left">
-                    <strong><?php echo $v; ?></strong>
-                </div>
-
-                <div id="header" class="w3-container w3-center">
-                    <h3><span class="header"><strong><?php echo $k; ?>:</strong></span></h3>
-                </div>
-                            
-                <div id="filesize"  class="right">
-                     Log File Size: <strong> <?php echo human_filesize(filesize($v)); ?></strong>
-                </div>
-            </div>
-                        
-            <div class="slide">
-                <div>
-                    <input class="toggle" type="checkbox" id="<?php echo $k; ?>" checked>
-                    <label for="<?php echo $k; ?>"></label>
-                    <div class="expand">
-                        <p><?php readExternalLog($v); ?></p>
+                    <div id="header" class="w3-container w3-center">
+                        <h3><span class="header"><strong><?php echo $k; ?>:</strong></span></h3>
+                    </div>
+                                
+                    <div id="filesize"  class="right">
+                        Log File Size: <strong> <?php echo human_filesize(filesize($v)); ?></strong>
                     </div>
                 </div>
-            </div>
+                            
+                <div class="slide">
+                        <input class="toggle" type="checkbox" id="<?php echo $k; ?>" checked>
+                        <label for="<?php echo $k; ?>"></label>
+                        <div id="expand" class="expand">
+                                <p><?php readExternalLog($v); ?></p>
+                        </div>
+                </div>
 
-        <?php } ?>
+            <?php } ?>
 
         <script src="assets/js/jquery.blockUI.js"></script>
 
