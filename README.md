@@ -4,7 +4,11 @@
  ## <p align="center"> Self-hosted, single-page, log consolidation tool written in PHP 
 </p>
 
-<b> Version:</b> v2.0d
+<b> Version:</b> v2.1d
+<br>
+
+[![Docker build](https://img.shields.io/docker/build/monitorr/logarr.svg?maxAge=2592000)](https://hub.docker.com/r/monitorr/logarr/)
+
 
 <b> Latest major change: </b>  Search indicator function
 
@@ -33,7 +37,7 @@
 
 ## Configuration:
 1) Clone/download repository to your webserver (Suggested a Sub DIR)
-2) Configure log paths:  Edit the file \assets\config\config.php -> insert PATH to your LOG files where indicated.  **NOTE:  Path locations are CASE SENSITIVE in a Windows enviroment**
+2) Configure log paths: Edit the file \assets\config\config.php -> insert PATH to your LOG files where indicated.  **NOTE:  Path locations are CASE SENSITIVE in a Windows environment**
 3) Configure Time Display: Edit the file \assets\config\config.php -> TIMEZONE tag for proper localized DTG display (only needed on WIN, LINUX auto-populates)
 4) Edit permissions for LOG files so your webserver can display the data
 5) Navigate to your webserver\Logarr\index.php (example)
