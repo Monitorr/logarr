@@ -100,20 +100,25 @@ by @seanvree, @wjbeckett, and @jonfinley
 
         </script>
 
+        <script type="text/javascript">
 
-        <!-- REFRESH DIV ONLY - NOT WORKING -->
+            var nIntervId;
+            var onload;
 
-            <!-- 
-            <script type="text/javascript">
-                $(document).ready(function() {
-                    function refreshDiv() {
-                        document.getElementById("filesize").innerHTML = document.getElementById("filesize").innerHTML;
-                        window.setTimeout(refreshDiv, 3000);
+            $(document).ready(function () {
+                $(":checkbox").change(function () {
+                    if ($(this).is(':checked')) {
+                        nIntervId = setInterval(refreshblockUI, 8000);
+                    } else {
+                        clearInterval(nIntervId);
                     }
                 });
-            </script>
-            -->
+                $('#buttonStart :checkbox').attr('checked', 'checked').change();
+            }); 
 
+        </script>
+
+    
     </head>
     
     <body id="body" body style="border: 10px solid #252525; color: #FFFFFF; background-color: #252525;">
@@ -128,48 +133,84 @@ by @seanvree, @wjbeckett, and @jonfinley
 				</A>
             </div>
 
-            <div id="search" class="Column">                
-                <form id="searchForm" method="post" action="" onsubmit="blockUI(); return false;">
-                    <input name="text-search" id="text-search" type="text" value="" class="input" placeholder="search & highlight">
-                    <input id="submit" type="submit" value="Submit" class="button" />
-                </form>
-                <div id="count" class="count"> </div>
+            <div id="right" class="Column"> 
+
+                <div id="righttop" class="righttop">
+
+                    <table id="slidertable">
+                        <tr>
+                            <th id="textslider">
+                            Auto Refresh:
+                            </th>
+                            <th id="slider">
+                                <label class="switch" id="buttonStart">
+                                    <input type="checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                            </th>
+                        </tr>
+                    </table>
+
+                </div>
+                
+                <div id="rightmiddle" class="rightmiddle">
+                    <form id="searchForm" method="post" action="" onsubmit="blockUI(); return false;">
+                        <input name="text-search" id="text-search" type="text" value="" class="input" placeholder="search & highlight">
+                        <input id="submit" type="submit" value="Submit" class="button" />
+                    </form>
+                </div>
+                
+                <div id="rightbottom" class="rightbottom">
+                    <div id="count" class="count"> </div>
+                </div>
+
             </div>
             
         </div>
-        
-           <?php foreach ($logs as $k => $v) { ?>
-                <div class="row2">
-                    <div id="filepath" class="left">
-                        <strong><?php echo $v; ?></strong>
+
+        <div id="logwrapper">
+
+            <?php foreach ($logs as $k => $v) { ?>
+
+                <div id="logs">
+
+                    <div class="row2">
+
+                        <div id="filepath" class="left">
+                            <strong><?php echo $v; ?></strong>
+                        </div>
+
+                        <div id="header" class="w3-container w3-center">
+                            <h3><span class="header"><strong><?php echo $k; ?>:</strong></span></h3>
+                        </div>
+
+                        <div id="filesize"  class="right">
+                            Log File Size: <strong> <?php echo human_filesize(filesize($v)); ?></strong>
+                        </div>
+
                     </div>
 
-                    <div id="header" class="w3-container w3-center">
-                        <h3><span class="header"><strong><?php echo $k; ?>:</strong></span></h3>
-                    </div>
-                                
-                    <div id="filesize"  class="right">
-                        Log File Size: <strong> <?php echo human_filesize(filesize($v)); ?></strong>
-                    </div>
-                </div>
-                            
-                <div class="slide">
+                    <div class="slide">
                         <input class="toggle" type="checkbox" id="<?php echo $k; ?>" checked>
                         <label for="<?php echo $k; ?>"></label>
-                        <div id="expand" class="expand">
+                            <div id="expand" class="expand">
                                 <p><?php readExternalLog($v); ?></p>
-                        </div>
+                            </div>
+                    </div>
+
                 </div>
 
             <?php } ?>
 
+        </div>
+
         <script src="assets/js/jquery.blockUI.js"></script>
 
-        <script src="assets/js/jquery_search.js"></script>
+        <script src="assets/js/logarr.main.js"></script>
 
         <div class="footer">
       
-            <a href="https://github.com/monitorr/logarr" target="_blank"> Repo: Logarr // Version: <?php echo file_get_contents( "assets/js/version/version.txt" );?> </a>
+            <a class="footer a" href="https://github.com/monitorr/logarr" target="_blank"> Repo: Logarr // Version: <?php echo file_get_contents( "assets/js/version/version.txt" );?> </a>
 
         </div>
 
