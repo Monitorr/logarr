@@ -155,21 +155,24 @@
             cursorReset: 'default',
 
             // styles applied when using $.growlUI
-            growlCSS: {
-                width: '350px',
-                top: '10px',
-                left: '',
-                right: '10px',
-                border: 'none',
-                padding: '5px',
-                opacity: 0.6,
-                cursor: 'default',
+                growlCSS: {
+                width: '20m',
+                top: '0',
+                left: '0',
+                top: '1em',
+                left: '1em',
+                padding: '20px',
+                opacity: '0.9',
+                cursor: 'no-drop',
                 color: '#fff',
-                backgroundColor: '#000',
+                backgroundColor: 'black',
                 '-webkit-border-radius': '10px',
                 '-moz-border-radius': '10px',
-                'border-radius': '10px'
-            },
+                // 'border-radius': '10px'
+            }, 
+
+             // border: '2px solid #FFFFFF',
+
 
             // IE issues: 'about:blank' fails on HTTPS and javascript:false is s-l-o-w
             // (hat tip to Jorge H. N. de Vasconcelos)
