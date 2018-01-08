@@ -79,7 +79,7 @@ by @seanvree, @wjbeckett, and @jonfinley
                         url: 'assets/config/timestamp.php',
                         success: function(data) {
                             $("#timer").html(data); 
-                            window.setTimeout(update, 10000);
+                            window.setTimeout(update, 5000);
                             }
                     });
                 }
@@ -108,7 +108,7 @@ by @seanvree, @wjbeckett, and @jonfinley
             $(document).ready(function () {
                 $(":checkbox").change(function () {
                     if ($(this).is(':checked')) {
-                        nIntervId = setInterval(refreshblockUI, 8000);
+                        nIntervId = setInterval(refreshblockUI, 15000);
                     } else {
                         clearInterval(nIntervId);
                     }
