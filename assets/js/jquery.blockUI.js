@@ -46,8 +46,8 @@
 
                 $.blockUI({
                     message: $m,
-                    fadeIn: typeof opts.fadeIn !== 'undefined' ? opts.fadeIn : 700,
-                    fadeOut: typeof opts.fadeOut !== 'undefined' ? opts.fadeOut : 1000,
+                    fadeIn: typeof opts.fadeIn !== 'undefined' ? opts.fadeIn : 200,
+                    fadeOut: typeof opts.fadeOut !== 'undefined' ? opts.fadeOut : 500,
                     timeout: typeof opts.timeout !== 'undefined' ? opts.timeout : timeout,
                     centerY: false,
                     showOverlay: false,
@@ -156,15 +156,16 @@
 
             // styles applied when using $.growlUI
                 growlCSS: {
-                width: '20m',
+                width: '20em',
                 top: '0',
                 left: '0',
                 top: '1em',
-                left: '1em',
-                padding: '20px',
+                left: '20%',
+                padding: '1em',
                 opacity: '0.9',
-                cursor: 'no-drop',
-                color: '#fff',
+                cursor: 'wait',
+                color: 'white',
+                // fontSize: '1em',
                 backgroundColor: 'black',
                 '-webkit-border-radius': '10px',
                 '-moz-border-radius': '10px',
