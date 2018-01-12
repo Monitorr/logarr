@@ -4,18 +4,19 @@
  ## <p align="center"> Self-hosted, single-page, log consolidation tool written in PHP 
 </p>
 
-<b> Version:</b> v2.1d
+**Version:** v2.5d
 <br>
 
 [![Docker build](https://img.shields.io/docker/build/monitorr/logarr.svg?maxAge=2592000)](https://hub.docker.com/r/monitorr/logarr/)
 
 
-<b> Latest major change: </b>  Search indicator function
+<b> Latest major change: </b>  Auto log update!!!
 
 ## Features:
 
  - Fully self-hosted, no applications to install
- - Mobile ready (NEW)
+ - Live display of any .log, .txt, etc. file on the hosting webserver
+ - Mobile ready
  - Reverse display of logs so most recent log entries are at the top
  - Consolidated search & highlight function (Update)
  - Collapsible tables
@@ -24,7 +25,7 @@
  - Error term auto-highlighting for quick reference
  - Localized DTG display
 
- <b> Features in development: </b>
+ **Features in development:**
 - Application update via GUI.
 - Log categories.
  
@@ -45,11 +46,11 @@
 
 ## Connect:
 Need live help?  Join here :   [![Discord](https://img.shields.io/discord/102860784329052160.svg)](https://discord.gg/YKbRXtt)
-<br>
+
 E-mail: monitorrapp@gmail.com
-<br>
+
 Buy us a beer! Donate:        [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/monitorrapp)
-<br>
+
 Check out our sister app Monitorr:  https://github.com/Monitorr/Monitorr
 
 ## About Us:
