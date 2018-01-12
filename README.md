@@ -56,3 +56,12 @@ Check out our sister app Monitorr:  https://github.com/Monitorr/Monitorr
 - [seanvree](https://github.com/seanvree) (Windows Wizard)
 - [jonfinley](https://github.com/jonfinley) (Linux Dude)
 - [wjbeckett](https://github.com/wjbeckett)
+
+
+<p>
+    <a href="https://jigsaw.w3.org/css-validator/check/referer">
+        <img style="border:0;width:88px;height:31px"
+            src="https://jigsaw.w3.org/css-validator/images/vcss"
+            alt="Valid CSS!" />
+    </a>
+</p>
