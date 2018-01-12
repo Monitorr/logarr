@@ -6,8 +6,8 @@ $config = array(
     // I.E. ($timezone = 'America/Los_Angeles',)
 
         'timezone' => 'UTC',
-        'title' => 'logarr', // Site Title
-        'rftime' => '10000', // Log auto-update interval (in milliseonds) when enabled via toggle switch in UI.
+        'title' => 'Logarr', // Site Title
+        'rftime' => '30000', // Log auto-update interval (in milliseonds) when enabled via toggle switch in UI.
             // rftime note 1: Set this value with the size of your logs as a deciding factor. If set too low (below ~10000ms), your browse will crash.
             // rftime note 2: During log update, the browser will have NO response. 
 
