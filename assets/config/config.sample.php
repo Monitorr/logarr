@@ -1,5 +1,4 @@
-<?php // config style adapted from @causeFX and this website: https://www.abeautifulsite.net/a-better-way-to-write-config-files-in-php 
-
+<?php 
 
 $config = array(
     // if on Linux, the timezone script will automatically select your timezone
@@ -8,9 +7,11 @@ $config = array(
 
         'timezone' => 'UTC',
         'title' => 'logarr', // Site Title
+        'rftime' => '10000', // Log auto-update interval (in milliseonds) when enabled via toggle switch in UI.
+            // rftime note 1: Set this value with the size of your logs as a deciding factor. If set too low (below ~10000ms), your browse will crash.
+            // rftime note 2: During log update, the browser will have NO response. 
 
-    );
-
+        );
 
 $logs = array(
 
@@ -25,16 +26,14 @@ $logs = array(
 // "NameOfLog" =>'C:/link/to/log/file'
 // "NZBtoMedia" => 'C:\logs\nzbtomedia\logs\nzbtomedia.log',
 
-
-"Sonarr" => 'C:\ProgramData\nzbdrone\logs\sonarr.txt',
-"Radarr" => 'C:\ProgramData\Radarr\logs\radarr.txt',
-"PHP" => 'C:\php\7.1\logs\php.log',
+    "Sonarr" => 'C:\ProgramData\nzbdrone\logs\sonarr.txt',
+    "Radarr" => 'C:\ProgramData\Radarr\logs\radarr.txt',
+    "PHP" => 'C:\php\7.1\logs\php.log',
 
 // ** Add Logs ABOVE this line **
 
 );
 
+    // config style adapted from @causeFX and this website: https://www.abeautifulsite.net/a-better-way-to-write-config-files-in-php 
+
 ?>
-
-
-    
