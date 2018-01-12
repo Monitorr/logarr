@@ -24,19 +24,18 @@ function blockUI() {
 function highlight() {
     var text = document.getElementById("text-search").value;
     var query = new RegExp("(\\b" + text + "\\b)", "gim");
-    var e = document.getElementById("body").innerHTML;
+    var e = document.getElementById("logcontainer").innerHTML;
     var enew = e.replace(/(<span>|<\/span>)/igm, "");
     var newe = enew.replace(query, "<span>$1</span>");
-    document.getElementById("body").innerHTML = newe;
+    document.getElementById("logcontainer").innerHTML = newe;
     color = "#f6f";
 };
 
 
 function count() {
     var count =
-        $("#body span").length;
-    $(".count").text(count);
-    $('.count').append(" occurance(s) of searched term");
+    $("#logcontainer span").length;
+    $(".count").text(count).append(" occurance(s) of searched term");
 };
 
 
