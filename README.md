@@ -10,12 +10,13 @@
 [![Docker build](https://img.shields.io/docker/build/monitorr/logarr.svg?maxAge=2592000)](https://hub.docker.com/r/monitorr/logarr/)
 
 
-<b> Latest major change: </b>  Auto log update!!!
+<b> Latest major change: </b>  Log Auto-update!!!
 
 ## Features:
 
  - Fully self-hosted, no applications to install
  - Live display of any .log, .txt, etc. file on the hosting webserver
+ - Log auto-upate enable/disable switch
  - Mobile ready
  - Reverse display of logs so most recent log entries are at the top
  - Consolidated search & highlight function (Update)
