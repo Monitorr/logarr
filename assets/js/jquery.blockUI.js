@@ -157,15 +157,16 @@
             // styles applied when using $.growlUI
                 growlCSS: {
                 width: '20em',
+                height: '10em',
                 top: '0',
                 left: '0',
                 top: '1em',
                 left: '20%',
-                padding: '1em',
+                padding: '1px',
                 opacity: '0.9',
                 cursor: 'wait',
                 color: 'white',
-                // fontSize: '1em',
+                fontSize: '1em',
                 backgroundColor: 'black',
                 '-webkit-border-radius': '10px',
                 '-moz-border-radius': '10px',
