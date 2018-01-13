@@ -50,7 +50,7 @@ docker create \
   -v <host path for logs>:/var/log \
   -e TZ=<timezone> \
   -p 80:80 \
-  tronyx/docker-logarr
+  monitorr/logarr
 ```
 
 #### Parameters
