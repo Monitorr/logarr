@@ -1,25 +1,18 @@
+// Logarr main JS script
+// https://github.com/Monitorr
 
-function blockUI() {
+// Set sytles for BlockUI overlays in /assets/js/jqueryUI.js
+
+function searchblockUI() {
     $.blockUI({
-        css: {
-            'border': '5px solid #FFFFFF',
-            'padding': '15px',
-            'backgroundColor': '#000000',
-            'opacity': '0.9',
-            'color': '#FFFFFF',
-            'font-size': '40px',
-            '-webkit-border-radius': '10px',
-            '-moz-border-radius': '10px',
-        },
-        message: 'Searching...',
+        message: 'Searching...'
     });
     setTimeout(function () {
         highlight();
         count()
         $.unblockUI()
-    }, 200);
-}; 
-
+    }, 300);
+};
 
 function highlight() {
     var text = document.getElementById("text-search").value;
@@ -34,21 +27,20 @@ function highlight() {
 
 function count() {
     var count =
-    $("#logcontainer span").length;
+        $("#logcontainer span").length;
     $(".count").text(count).append(" occurance(s) of searched term");
 };
 
 
 function refreshblockUI() {
-    $.growlUI('Updating Logs...');
+    $.growlUI ('Updating Logs...');
     setTimeout(function () {
         refresh()
     }, 300);
-}; 
+};
 
 
 function refresh() {
     var url = 'index.php';
     $('#logwrapper').load(url + ' #logs');
-}; 
-
+};
