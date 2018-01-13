@@ -1,16 +1,14 @@
 
-<p align="center"><img src="https://i.imgur.com/ckVKs0n.png">
- 
- ## <p align="center"> Self-hosted, single-page, log consolidation tool written in PHP 
-</p>
+![logarr](https://i.imgur.com/BxmpBtA.png)
+
+## - *Logarr* is a Self-hosted, single-page, log consolidation tool written in PHP 
 
 **Version:** v2.5d
-<br>
 
 [![Docker build](https://img.shields.io/docker/build/monitorr/logarr.svg?maxAge=2592000)](https://hub.docker.com/r/monitorr/logarr/)
 
 
-<b> Latest major change: </b>  Log Auto-update!!!
+**Latest major change:**  Log Auto-update!!!
 
 ## Features:
 
@@ -33,8 +31,7 @@
  
 ## Screenshot:
 
-![preview thumb] <img src="https://i.imgur.com/WzcyO1m.png">
-
+![logarr](https://i.imgur.com/WzcyO1m.png)
 
 
 ## Configuration:
@@ -60,10 +57,4 @@ Check out our sister app Monitorr:  https://github.com/Monitorr/Monitorr
 - [wjbeckett](https://github.com/wjbeckett)
 
 
-<p>
-    <a href="https://jigsaw.w3.org/css-validator/check/referer">
-        <img style="border:0;width:88px;height:31px"
-            src="https://jigsaw.w3.org/css-validator/images/vcss"
-            alt="Valid CSS!" />
-    </a>
-</p>
+[![CSS](https://jigsaw.w3.org/css-validator/images/vcss)](https://jigsaw.w3.org/css-validator/check/refererr/)
