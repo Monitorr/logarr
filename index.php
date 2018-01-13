@@ -103,6 +103,8 @@
 
         </script>
 
+        <script src="assets/js/logarr.main.js"></script>
+        
     </head>
     
     <body id="body" body style="border: 10px solid #252525; color: #FFFFFF;">
@@ -124,7 +126,7 @@
                 $factor = floor((strlen($bytes) - 1) / 3);
                 return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$size[$factor];
             }
-        ?>
+        ?> 
 
         <div class="Row">
         
@@ -159,7 +161,7 @@
                 </div>
                 
                 <div id="rightmiddle" class="rightmiddle">
-                    <form id="searchForm" method="post" action="" onsubmit="blockUI(); return false;">
+                    <form id="searchForm" method="post" action="" onsubmit="searchblockUI(); return false;">
                         <input name="text-search" id="text-search" type="text" value="" class="input" placeholder="search & highlight...">
                         <input id="submit" type="submit" value="Submit" class="button" />
                     </form>
@@ -168,6 +170,7 @@
             </div>
             
         </div>
+
 
         <div id="logcontainer">
 
@@ -206,9 +209,9 @@
                 <?php } ?>
 
             </div>
-
+                
         </div>
-
+        
         <div class="footer">
 
             <a href="https://github.com/monitorr/logarr" target="_blank">Repo: Logarr</a>
@@ -217,7 +220,9 @@
 
         </div>
 
-        <script src="assets/js/logarr.main.js" async></script>
+        <script src="assets/js/popper.min.js" ></script>
+
+        <script src="assets/js/bootstrap.min.js" ></script>
 
         <script src="assets/js/jquery.blockUI.js"></script>
 
