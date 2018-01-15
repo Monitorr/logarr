@@ -63,7 +63,7 @@
                         url: 'assets/config/timestamp.php',
                         success: function(data) {
                             $("#timer").html(data); 
-                            window.setTimeout(update, 5000);
+                            window.setTimeout(update, <?php echo $config['rftime']; ?>);
                             }
                     });
                 }
@@ -92,7 +92,7 @@
              $(document).ready(function () {
                 $('#buttonStart :checkbox').change(function () {
                     if ($(this).is(':checked')) {
-                        nIntervId = setInterval(refreshblockUI, <?php echo $config['rftime']; ?>);
+                        nIntervId = setInterval(refreshblockUI, <?php echo $config['rflog']; ?>);
                     } else {
                         clearInterval(nIntervId);
                     }
@@ -104,7 +104,7 @@
         </script>
 
         <script src="assets/js/logarr.main.js"></script>
-        
+
     </head>
     
     <body id="body" body style="border: 10px solid #252525; color: #FFFFFF;">
@@ -126,28 +126,25 @@
                 $factor = floor((strlen($bytes) - 1) / 3);
                 return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$size[$factor];
             }
+
         ?> 
 
-        <div class="Row">
+        <div class="header">
         
-            <div id="timer" class="Column"></div>
+            <div id="left" class="Column"> 
 
-            <div id="logo" class="Column">
-                <a href="javascript:history.go(0)"> 
-                    <img src="assets/images/log-icon.png" alt="Logarr" style="height:8em;border:0;">
-                </a>
-            </div>
-
-            <div id="right" class="Column"> 
-
-                <div id="righttop" class="righttop">
+                <div id="lefttop" class="lefttop">
                     
-                    <div id="count" class="count"> </div>
+                    <div id="timer" class="Column"></div>
+
+                </div>
+                
+                <div id="leftbottom" class="leftbottom">
                     
                     <table id="slidertable">
                         <tr>
                             <th id="textslider">
-                            Auto Refresh:
+                            Auto Update:
                             </th>
                             <th id="slider">
                                 <label class="switch" id="buttonStart">
@@ -157,12 +154,32 @@
                             </th>
                         </tr>
                     </table>
+                        
+                    <input id="Update" class="button2" type="button" value="Update" onclick="refreshblockUI();  return false" />
+
+                </div>
+
+            </div>
+
+            <div id="logo" class="Column">
+
+                <a href="javascript:history.go(0)"> 
+                    <img src="assets/images/log-icon.png" alt="Logarr" style="height:8em;border:0;">
+                </a>
+
+            </div>
+
+            <div id="right" class="Column"> 
+
+                <div id="righttop" class="righttop">
+                    
+                    <div id="count" class="count"> </div>
 
                 </div>
                 
                 <div id="rightmiddle" class="rightmiddle">
                     <form id="searchForm" method="post" action="" onsubmit="searchblockUI(); return false;">
-                        <input name="text-search" id="text-search" type="text" value="" class="input" placeholder="search & highlight...">
+                        <input name="text-search" id="text-search" type="search" value="" class="input" placeholder="search & highlight...">
                         <input id="submit" type="submit" value="Submit" class="button" />
                     </form>
                 </div>
@@ -171,24 +188,21 @@
             
         </div>
 
-
         <div id="logcontainer">
 
-            <div id="logwrapper">
+            <div id="logwrapper" class="flex">
 
                 <?php foreach ($logs as $k => $v) { ?>
 
-                    <div id="logs">
+                    <div id="logs" class="flex-child">
 
                         <div class="row2">
-
+                    
                             <div id="filepath" class="left">
-                                <strong><?php echo $v; ?></strong>
+                                <?php echo $v; ?>
                             </div>
 
-                            <div id="header" class="w3-container w3-center">
-                                <h3><span class="header"><strong><?php echo $k; ?>:</strong></span></h3>
-                            </div>
+                            <h3><span class="logheader"><strong><?php echo $k; ?>:</strong></span></h3>
 
                             <div id="filesize"  class="right">
                                 Log File Size: <strong> <?php echo human_filesize(filesize($v)); ?></strong>
@@ -204,8 +218,8 @@
                                 </div>
                         </div>
 
-                    </div>
-
+                        </div>
+                        
                 <?php } ?>
 
             </div>
