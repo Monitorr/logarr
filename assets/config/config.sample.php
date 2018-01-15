@@ -1,15 +1,19 @@
 <?php 
 
+// Logarr config file
+// https://github.com/Monitorr
+
+
 $config = array(
     // if on Linux, the timezone script will automatically select your timezone
     // For Windows, set the timezone. Default is UTC Time. Reference Here: http://php.net/manual/en/timezones.php
     // I.E. ($timezone = 'America/Los_Angeles',)
-
-        'timezone' => 'UTC',
         'title' => 'Logarr', // Site Title
-        'rftime' => '30000', // Log auto-update interval (in milliseonds) when enabled via toggle switch in UI.
-            // rftime note 1: Set this value with the size of your logs as a deciding factor. If set too low (below ~10000ms), your browse will crash.
-            // rftime note 2: During log update, the browser will have NO response. 
+        'timezone' => 'UTC',
+        'rftime' => '5000', // Time display update interval (in milliseonds)
+        'rflog' => '30000', // Log auto-update interval (in milliseonds) when enabled via toggle switch in UI.
+            // rflog note 1: Set this value with the size of your logs as a deciding factor. If set too low (below ~10000ms), your browse will crash.
+            // rflog note 2: During log update, the browser will have NO response. 
 
         );
 
