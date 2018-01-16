@@ -240,7 +240,7 @@ h6,
     display: flex;
     width: 100%;
     table-layout: fixed;
-    margin-top: 1em;
+    margin-top: 1vw;
 }
 
 .Column {
@@ -424,7 +424,6 @@ input:checked+.slider:before {
     font-weight: 500;
     text-align: center;
     white-space: nowrap;
-    
     -ms-touch-action: manipulation;
     touch-action: manipulation;
     cursor: pointer;
@@ -433,6 +432,12 @@ input:checked+.slider:before {
     color: rgb(255, 255, 255);
     background-color: #3d3d3d;
     border-color: #000000;
+    outline: none;
+    transition: all ease 0.3s;
+}
+
+.button2:active {
+    box-shadow: 0 3px 0 black;
 }
 
 
@@ -513,6 +518,10 @@ input[type=search]::-webkit-search-cancel-button {
     color: rgb(255, 255, 255);
     background-color: #8E8B8B;
     border-color: #000000;
+}
+
+.button:active {
+    box-shadow: 0 3px 0 black;
 }
 
 
