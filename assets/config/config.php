@@ -1,7 +1,7 @@
 <?php 
 
 // Logarr config file
-// https://github.com/Monitorr
+// https://github.com/Monitorr/logarr
 
 
 $config = array(
@@ -10,9 +10,9 @@ $config = array(
     // I.E. ($timezone = 'America/Los_Angeles',)
         'title' => 'Logarr', // Site Title
         'timezone' => 'UTC',
-        'rftime' => '5000', // Time display update interval (in milliseonds)
-        'rflog' => '30000', // Log auto-update interval (in milliseonds) when enabled via toggle switch in UI.
-            // rflog note 1: Set this value with the size of your logs as a deciding factor. If set too low (below ~10000ms), your browse will crash.
+        'rftime' => '5000', // Time display update interval (in milliseconds)
+        'rflog' => '30000', // Log auto-update interval (in milliseconds) when enabled via toggle switch in UI.
+            // rflog note 1: Set this value with the size of your logs as a deciding factor. If set too low (below ~10000ms), your browser will crash.
             // rflog note 2: During log update, the browser will have NO response. 
 
         );
@@ -28,11 +28,11 @@ $logs = array(
 // ** Add Logs BELOW paragraph **
 // EXAMPLE:
 // "NameOfLog" =>'C:/link/to/log/file'
-// "NZBtoMedia" => 'C:\logs\nzbtomedia\logs\nzbtomedia.log',
 
     "Sonarr" => 'C:\ProgramData\nzbdrone\logs\sonarr.txt',
     "Radarr" => 'C:\ProgramData\Radarr\logs\radarr.txt',
-    "PHP" => 'C:\php\7.1\logs\php.log',
+    "PHP" => 'C:\php\7.1\logs\php.log', 
+
 
 // ** Add Logs ABOVE this line **
 
