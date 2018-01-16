@@ -32,6 +32,7 @@ $logs = array(
     "Sonarr" => 'C:\ProgramData\nzbdrone\logs\sonarr.txt',
     "Radarr" => 'C:\ProgramData\Radarr\logs\radarr.txt',
     "PHP" => 'C:\php\7.1\logs\php.log', 
+    "test1" => 'C:\php\7.1\logs\test1.log', 
 
 
 // ** Add Logs ABOVE this line **
