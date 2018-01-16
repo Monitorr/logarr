@@ -110,13 +110,13 @@
     <body id="body" body style="border: 10px solid #252525; color: #FFFFFF;">
 
         <?php
-        
+
             function readExternalLog($filename)
             {
                 $log = file($filename);
                 $log = array_reverse($log);
                 foreach ($log as $line) {
-                    echo $line.'<br/>';
+                    echo htmlentities ($line, ENT_COMPAT).'<br/>';
                 }
             }
 
