@@ -36,7 +36,7 @@
 ![logarr](https://i.imgur.com/br6T0Y4.png)
 
 
-## Configuration:
+## Quick Start:
 - See full configuration instructions in the WiKi: https://github.com/Monitorr/logarr/wiki
 1) Clone/download repository to your webserver
 2) Configure log paths: Edit the file \assets\config\config.php 
