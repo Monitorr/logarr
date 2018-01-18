@@ -1,43 +1,24 @@
-<?php
-    function readExternalLog($filename)
-    {
-        $log = file($filename);
-        $log = array_reverse($log);
-        foreach ($log as $line) {
-            echo $line.'<br/>';
-        }
-    }
-    include 'assets/config/config.php';
-    /*http://jeffreysambells.com/2012/10/25/human-readable-filesize-php*/
-    function human_filesize($bytes, $decimals = 2)
-    {
-        $size = array('B','kB','MB','GB','TB','PB','EB','ZB','YB');
-        $factor = floor((strlen($bytes) - 1) / 3);
-        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$size[$factor];
-    }
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
     <!--
 
-    LOGARR
-by @seanvree, @wjbeckett, and @jonfinley 
-  https://github.com/Monitorr
+                    LOGARR
+        by @seanvree, @wjbeckett, and @jonfinley 
+            https://github.com/Monitorr
 
     -->
 
     <head>
+
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <meta name="Logarr" content="Logarr: Self-hosted, single-page, log consolidation tool." />
 
-        <title><?php echo $config['title']; ?></title>
-        <meta name="Lodarr" content="Logarr: Self-hosted, single-page, log consolidation tool." />
-
-
-        <link rel="stylesheet" href="assets/css/bootstrap.css" />
+        <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+        <link href='//fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="assets/css/logarr.css" />
 
         <link rel="apple-touch-icon-precomposed" sizes="57x57" href="assets/images/favicon/apple-touch-icon-57x57.png" />
@@ -62,16 +43,19 @@ by @seanvree, @wjbeckett, and @jonfinley
         <meta name="msapplication-square310x310logo" content="assets/images/favicon/mstile-310x310.png" />
         <meta name="theme-color" content="#252525"/>
         
-        <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/> -->
-        <!-- <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400" /> -->
-       
+      
         <meta name="robots" content="NOINDEX, NOFOLLOW">
-    
+
+        <?php include ('assets/config/config.php'); ?>
+
+        <title><?php echo $config['title']; ?></title>
+
         <script src="assets/js/pace.js" async></script>
 
         <script src="assets/js/jquery.min.js"> </script>
         
         <script type= "text/javascript">
+
             $(document).ready(function() {
                 function update() {
                     $.ajax({
@@ -79,7 +63,7 @@ by @seanvree, @wjbeckett, and @jonfinley
                         url: 'assets/config/timestamp.php',
                         success: function(data) {
                             $("#timer").html(data); 
-                            window.setTimeout(update, 10000);
+                            window.setTimeout(update, <?php echo $config['rftime']; ?>);
                             }
                     });
                 }
@@ -100,65 +84,162 @@ by @seanvree, @wjbeckett, and @jonfinley
 
         </script>
 
+        <script type="text/javascript">
+
+            var nIntervId;
+            var onload;
+
+             $(document).ready(function () {
+                $('#buttonStart :checkbox').change(function () {
+                    if ($(this).is(':checked')) {
+                        nIntervId = setInterval(refreshblockUI, <?php echo $config['rflog']; ?>);
+                    } else {
+                        clearInterval(nIntervId);
+                    }
+                });
+                // Uncomment line below to set auto-refresh to ENABLE on page load
+                // $('#buttonStart :checkbox').attr('checked', 'checked').change();
+            });  
+
+        </script>
+
+        <script src="assets/js/logarr.main.js"></script>
+
     </head>
     
-    <body id="body" body style="border: 10px solid #252525; color: #FFFFFF; background-color: #252525;">
-    
-        <div class="Row">
-        
-            <div id="timer" class="Column"></div>
+    <body id="body" body style="border: 10px solid #252525; color: #FFFFFF;">
 
-            <div id="logo" class="Column">
-                <A HREF="javascript:history.go(0)">
-				<img src="assets/images/log-icon.png" height="125px" />
-				</A>
+        <?php
+
+            function readExternalLog($filename)
+            {
+                $log = file($filename);
+                $log = array_reverse($log);
+                foreach ($log as $line) {
+                    echo htmlentities ($line, ENT_COMPAT).'<br/>';
+                }
+            }
+
+            function human_filesize($bytes, $decimals = 2)
+            {
+                $size = array('B','kB','MB','GB','TB','PB','EB','ZB','YB');
+                $factor = floor((strlen($bytes) - 1) / 3);
+                return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$size[$factor];
+            }
+
+        ?> 
+
+
+        <div class="header">
+        
+            <div id="left" class="Column"> 
+
+                <div id="lefttop" class="lefttop">
+                    
+                    <div id="timer" class="Column"></div>
+
+                </div>
+                
+                <div id="leftbottom" class="leftbottom">
+                    
+                    <table id="slidertable">
+                        <tr>
+                            <th id="textslider">
+                            Auto Update:
+                            </th>
+                            <th id="slider">
+                                <label class="switch" id="buttonStart">
+                                    <input type="checkbox">
+                                    <div class="slider round"></div>
+                                </label>
+                            </th>
+                        </tr>
+                    </table>
+                        
+                    <input id="Update" class="button2" type="button" value="Update" onclick="refreshblockUI();  return false" />
+
+                </div>
+
             </div>
 
-            <div id="search"  class="Column">
-                <form id="searchForm" method="post" action="" onsubmit="blockUI(); highlight(); return false;">
-                        <input name="text-search" id="text-search" type="text"   value=""       class="input"  placeholder="search & highlight">
-                        <input                    id="submit"      type="submit" value="Submit" class="button"  />
-                </form>
+            <div id="logo" class="Column">
+
+                <a href="javascript:history.go(0)"> 
+                    <img src="assets/images/log-icon.png" alt="Logarr" style="height:8em;border:0;">
+                </a>
+
+            </div>
+
+            <div id="right" class="Column"> 
+
+                <div id="righttop" class="righttop">
+                    
+                    <div id="count" class="count"> </div>
+
+                </div>
+                
+                <div id="rightmiddle" class="rightmiddle">
+                    <form id="searchForm" method="post" action="" onsubmit="searchblockUI(); return false;">
+                        <input name="text-search" id="text-search" type="search" value="" class="input" placeholder="search & highlight...">
+                        <input id="submit" type="submit" value="Submit" class="button" />
+                    </form>
+                </div>
+
             </div>
             
         </div>
 
-        <?php foreach ($logs as $k => $v) { ?>
-            <div class="row2">
-                <div id="filepath" class="left">
-                    <strong><?php echo $v; ?></strong>
-                </div>
+        <div id="logcontainer">
 
-                <div id="header" class="w3-container w3-center">
-                    <h3><span class="header"><strong><?php echo $k; ?>:</strong></span></h3>
-                </div>
-                            
-                <div id="filesize"  class="right">
-                     Log File Size: <strong> <?php echo human_filesize(filesize($v)); ?></strong>
-                </div>
-            </div>
+            <div id="logwrapper" class="flex">
+
+                <?php foreach ($logs as $k => $v) { ?>
+
+                    <div id="logs" class="flex-child">
+
+                        <div class="row2">
+                    
+                            <div id="filepath" class="left">
+                                <?php echo $v; ?>
+                            </div>
+
+                            <h3><span class="logheader"><strong><?php echo $k; ?>:</strong></span></h3>
+
+                            <div id="filesize"  class="right">
+                                Log File Size: <strong> <?php echo human_filesize(filesize($v)); ?></strong>
+                            </div>
+
+                        </div>
+
+                        <div class="slide">
+                            <input class="toggle" type="checkbox" id="<?php echo $k; ?>" checked>
+                            <label for="<?php echo $k; ?>"></label>
+                                <div id="expand" class="expand">
+                                    <p><?php readExternalLog($v); ?></p>
+                                </div>
+                        </div>
+
+                        </div>
                         
-            <div class="slide">
-                <div>
-                    <input class="toggle" type="checkbox" id="<?php echo $k; ?>" checked>
-                    <label for="<?php echo $k; ?>"></label>
-                    <div class="expand">
-                        <p><?php readExternalLog($v); ?></p>
-                    </div>
-                </div>
+                <?php } ?>
+
             </div>
-
-        <?php } ?>
-
-        <script src="assets/js/jquery.blockUI.js"></script>
-
-        <script src="assets/js/jquery_search.js"></script>
-
+                
+        </div>
+        
         <div class="footer">
-      
-            <a href="https://github.com/monitorr/logarr" target="_blank"> Repo: Logarr // Version: <?php echo file_get_contents( "assets/js/version/version.txt" );?> </a>
+
+            <a href="https://github.com/monitorr/logarr" target="_blank">Repo: Logarr</a>
+            <br>
+            <a href="https://github.com/monitorr/logarr" target="_blank">Version: <?php echo file_get_contents( "assets/js/version/version.txt" );?></a>
 
         </div>
+
+        <script src="assets/js/popper.min.js" ></script>
+
+        <script src="assets/js/bootstrap.min.js" ></script>
+
+        <script src="assets/js/jquery.blockUI.js"></script>
 
     </body>
     
