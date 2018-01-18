@@ -34,7 +34,7 @@
         $.unblockUI = function(opts) { remove(window, opts); };
 
         // convenience method for quick growl-like notifications  (http://www.google.com/search?q=growl)
-        $.growlUI = function(title, message, timeout, onClose) {
+        $.growlUI = function (title, message, timeout, onClose, opts) {
             var $m = $('<div class="growlUI"></div>');
             if (title) $m.append('<h1>' + title + '</h1>');
             if (message) $m.append('<h2>' + message + '</h2>');
@@ -46,8 +46,8 @@
 
                 $.blockUI({
                     message: $m,
-                    fadeIn: typeof opts.fadeIn !== 'undefined' ? opts.fadeIn : 700,
-                    fadeOut: typeof opts.fadeOut !== 'undefined' ? opts.fadeOut : 1000,
+                    fadeIn: typeof opts.fadeIn !== 'undefined' ? opts.fadeIn : 200,
+                    fadeOut: typeof opts.fadeOut !== 'undefined' ? opts.fadeOut : 500,
                     timeout: typeof opts.timeout !== 'undefined' ? opts.timeout : timeout,
                     centerY: false,
                     showOverlay: false,
@@ -113,7 +113,7 @@
         // override these in your code to change the default behavior and style
         $.blockUI.defaults = {
             // message displayed when blocking (use null for no message)
-            message: '<h1>  Searching... </h1>',
+            // message: '<h1>  Searching... </h1>',
 
             title: null, // title string; only used when theme == true
             draggable: true, // only used when theme == true (requires jquery-ui.js to be loaded)
@@ -123,32 +123,38 @@
             // styles for the message when blocking; if you wish to disable
             // these and use an external stylesheet then do this in your code:
             // $.blockUI.defaults.css = {};
-            css: {
-                padding: 0,
+              css: {
                 margin: 0,
+                padding: '.5em',
                 width: '30%',
                 top: '40%',
                 left: '35%',
                 textAlign: 'center',
-                color: '#FFFFFF',
-                border: '3px solid #aaa',
-                backgroundColor: '#000000 ',
-                cursor: 'wait'
-            },
+                'font-size': '3em',
+                color: '#fff',
+                border: '3px solid #680233',
+                backgroundColor: '#000',
+                cursor: 'wait',
+                fadeIn: 100,
+                fadeOut: 500,
+            }, 
 
             // minimal style set used when themes are used
-            themedCSS: {
-                width: '30%',
-                top: '40%',
-                left: '35%'
-            },
+                /*              
+                    themedCSS: {
+                        width: '30%',
+                        top: '40%',
+                        left: '35%'
+                    },  
+                */
 
             // styles for the overlay
             overlayCSS: {
                 backgroundColor: '#000',
-                opacity: 0.9,
+                opacity: 0.8,
                 cursor: 'wait'
-            },
+            }, 
+
 
             // style to replace wait cursor before unblocking to correct issue
             // of lingering wait cursor
@@ -156,20 +162,22 @@
 
             // styles applied when using $.growlUI
             growlCSS: {
-                width: '350px',
-                top: '10px',
-                left: '',
-                right: '10px',
-                border: 'none',
-                padding: '5px',
-                opacity: 0.6,
-                cursor: 'default',
+                top: '',
+                left: "1em",
+                bottom: "1em",
+                //position: "absolute",
+                width: "8em",
+                padding: '.5em',
+                opacity: .8,
                 color: '#fff',
+                // 'font-size': '8em',
                 backgroundColor: '#000',
-                '-webkit-border-radius': '10px',
-                '-moz-border-radius': '10px',
-                'border-radius': '10px'
-            },
+                border: '3px solid #680233',
+                fadeIn: 200,
+                fadeOut: 500,
+                cursor: 'wait',
+             }, 
+
 
             // IE issues: 'about:blank' fails on HTTPS and javascript:false is s-l-o-w
             // (hat tip to Jorge H. N. de Vasconcelos)
