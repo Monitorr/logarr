@@ -19,19 +19,19 @@ $config = array(
 
 $logs = array(
 
-// ** Log paths are CASE SENSITIVE in a MS Windows enviroment **
+// ** Log paths are CASE SENSITIVE in a MS Windows environment **
 // Ensure correct permissions are set on the target log file
 // Ensure the logging applications' settings are set to "roll over/refresh" the log files at regular intervals
-// Depening on your enviroment, large log files could cause your webserver to crash.
-// Recomended individual log files be NO MORE than ~2MB in size  
-// If this page is exposed to your WAN, check the logging applications' settings for senstive data within logs
+// Depending on your environment, large log files could cause your webserver to crash.
+// Recommended individual log files be NO MORE than ~2MB in size  
+// If this page is exposed to your WAN, check the logging applications' settings for sensitive data within logs
 // ** Add Logs BELOW paragraph **
 // EXAMPLE:
 // "NameOfLog" =>'C:/link/to/log/file'
 
     "Sonarr" => 'C:\ProgramData\nzbdrone\logs\sonarr.txt',
     "Radarr" => 'C:\ProgramData\Radarr\logs\radarr.txt',
-    "PHP" => 'C:\php\7.1\logs\php.log', 
+    "PHP" => 'C:\php\7.1\logs\php.log',
 
 
 // ** Add Logs ABOVE this line **
