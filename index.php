@@ -199,33 +199,43 @@
 
                         <div class="row2">
                     
-                            <div id="filepath" class="left">
-                                <?php echo $v; ?>
+                            <div id="filedate" class="left">
+                                <br>
+                                <?php echo "Last modified: " . date ("d M H:i:s", filemtime($v)); $v; ?>L
                             </div>
 
-                            <h3><span class="logheader"><strong><?php echo $k; ?>:</strong></span></h3>
+                            <div class="logheader">
+                                <strong><?php echo $k; ?>:</strong>
+                            </div>
 
-                            <div id="filesize"  class="right">
-                                Log File Size: <strong> <?php echo human_filesize(filesize($v)); ?></strong>
+                            <div id="filepath"  class="right">
+                                <div class="filesize">
+                                    Log File Size: <?php echo human_filesize(filesize($v)); ?>
+                                </div>
+                                <div class="path">
+                                    <?php echo $v; ?>
+                                </div>
                             </div>
 
                         </div>
 
                         <div class="slide">
-                            <input class="toggle" type="checkbox" id="<?php echo $k; ?>" checked>
+                            <input class="toggle" type="checkbox" name="slidebox" id="<?php echo $k; ?>" checked>
                             <label for="<?php echo $k; ?>"></label>
                                 <div id="expand" class="expand">
                                     <p><?php readExternalLog($v); ?></p>
                                 </div>
                         </div>
 
-                        </div>
+                    </div>
                         
                 <?php } ?>
 
             </div>
                 
         </div>
+        
+        <button onclick="topFunction(), checkAll1()" id="myBtn" title="Go to top"></button>
         
         <div class="footer">
 
@@ -240,6 +250,48 @@
         <script src="assets/js/bootstrap.min.js" ></script>
 
         <script src="assets/js/jquery.blockUI.js"></script>
+
+        <!-- scroll to top   -->
+
+        <script>
+                 
+                // When the user scrolls down 20px from the top of the document, show the button
+                window.onscroll = function() {scrollFunction()};
+
+                function scrollFunction() {
+                    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                        document.getElementById("myBtn").style.display = "block";
+                    } else {
+                        document.getElementById("myBtn").style.display = "none";
+                    }
+                }
+
+                // When the user clicks on the button, scroll to the top of the document
+                function topFunction() {
+                    document.body.scrollTop = 0;
+                    document.documentElement.scrollTop = 0;
+                }
+
+        </script>
+
+        <script>
+
+            function checkedAll(isChecked) {
+                var c = document.getElementsByName('slidebox');
+
+                for (var i = 0; i < c.length; i++) {
+                    if (c[i].type == 'checkbox') {
+                        c[i].checked = isChecked;
+                    }
+                }
+            }
+
+           function checkAll1() {
+                checkedAll(true);
+            };
+            
+        </script>
+
 
     </body>
     
