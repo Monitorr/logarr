@@ -3,14 +3,14 @@
 
 ## - *Logarr* is a Self-hosted, single-page, log consolidation tool written in PHP 
 
-**Version:** v3.3d
+**Version:** v3.5d
 
 [![Docker build](https://img.shields.io/docker/build/monitorr/logarr.svg?maxAge=2592000)](https://hub.docker.com/r/monitorr/logarr/)
 
 **ALERT**: If you are upgrading to v3.0 from ANY previous version, you will need to re-create your config.php file in /assets/config/. You can do this by renaming your old config file, coping the config.php.sample to config.php, and then edit the newly created config.php file with your values. 
 
 
-**Latest major change:** Scroll to top feature/auto collapse log display
+**Latest major change:** Scroll to top feature/auto collapse log display, line numbering
 
 ## Features:
 
@@ -27,13 +27,13 @@
  - Localized DTG display
 
  **Features in development:**
+- Log rolling option.
 - Application update via GUI.
-- Log categories.
  
  
 ## Screenshot:
 
-![logarr](https://i.imgur.com/a9t8ro9.png)
+![logarr](https://i.imgur.com/bc5jDg5.png)
 
 
 ## Quick Start:
