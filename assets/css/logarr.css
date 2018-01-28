@@ -689,7 +689,7 @@ input[type="checkbox"] {
     position: absolute;
     text-align: center;
     margin: 0;
-    right: 1em;
+    right: 1.5em;
     bottom: .5em;
     padding-top: .5em;
     background-color: rgba(96, 96, 96, 0.750);
