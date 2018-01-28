@@ -113,11 +113,15 @@
 
             function readExternalLog($filename)
             {
+                ini_set("auto_detect_line_endings", true);
                 $log = file($filename);
                 $log = array_reverse($log);
-                foreach ($log as $line) {
-                    echo htmlentities ($line, ENT_COMPAT).'<br/>';
+                $lines = $log;
+
+                foreach ($lines as $line_num => $line) {
+                    echo "<b>Line {$line_num}</b> : " . htmlspecialchars($line) . "<br />\n";
                 }
+                
             }
 
             function human_filesize($bytes, $decimals = 2)
@@ -128,7 +132,6 @@
             }
 
         ?> 
-
 
         <div class="header">
         
@@ -201,7 +204,7 @@
                     
                             <div id="filedate" class="left">
                                 <br>
-                                <?php echo "Last modified: " . date ("d M H:i:s", filemtime($v)); $v; ?>L
+                                <?php echo "Last modified: " . date (" H:i", filemtime($v))."L," . date ( " D d M", filemtime($v)); $v; ?>
                             </div>
 
                             <div class="logheader">
@@ -220,8 +223,8 @@
                         </div>
 
                         <div class="slide">
-                            <input class="toggle" type="checkbox" name="slidebox" id="<?php echo $k; ?>" checked>
-                            <label for="<?php echo $k; ?>"></label>
+                            <input class="expandtoggle" type="checkbox" name="slidebox" id="<?php echo $k; ?>" checked>
+                            <label for="<?php echo $k; ?>" class="expandtoggle"></label>
                                 <div id="expand" class="expand">
                                     <p><?php readExternalLog($v); ?></p>
                                 </div>
