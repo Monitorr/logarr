@@ -202,7 +202,8 @@ body::-webkit-scrollbar-thumb {
     z-index: 99;
     border: none;
     outline: none;
-    background: url(up-arrow.png) no-repeat center center;
+    background: url(../images/up-arrow.png) no-repeat center center;
+    background-color: rgba(37, 37, 37, 0.250);
     background-size: 4em;
     cursor: pointer;
     padding: 15px;
@@ -683,62 +684,69 @@ input[type="checkbox"] {
     visibility: hidden;
 }
 
-label {
+.expandtoggle {
     display: block;
-    margin-top: -.8em;
     position: absolute;
     text-align: center;
-    color: rgb(150, 150, 150); 
-    font-size: 15px;
-    text-shadow: 0 0 15px #FF0104;
-    right: 20px;
-    bottom: 10px;
-    padding: 0 10px 0 5px;
-    -moz-border-radius: 15px;
-    border-radius: 15px;
-    width: auto;
+    margin: 0;
+    right: 1em;
+    bottom: .5em;
+    padding-top: .5em;
+    background-color: rgba(96, 96, 96, 0.750);
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    width: 3em;
+    height: 3em;
     cursor: pointer;
+        -webkit-transition: .5s;
+            -moz-transition: .5s;
+            transition: .5s;
+        }
 
-}
-
-label:hover {
-    color: black;
+.expandtoggle:hover {
+    background-color: rgba(104, 2, 51, 0.400);
+    background-size: 3em;
         -webkit-transition: .3s;
         -moz-transition: .3s;
         transition: .3s;
 }
 
-label::before {
-    font-weight: bold;
-    font-size: 15px;
-    content: "show less";
+.expandtoggle::before {
+    background: url(../images/decrease.png) no-repeat;
+    background-size: 2em;
+    content : "";
+    /* content: "show less"; */
     display: inline-block;
-    width: auto;
-    height: 20px;
-            -webkit-transition: .5s;
+    width: 2em;
+    height: 2em;
+        -webkit-transition: .5s;
             -moz-transition: .5s;
-            transition: .5s;
+            transition: .5s; 
 }
+
 
 .expand {
     height: 600px;
     overflow: auto;
     transition: height 0.5s;
-    background-color: #777777;
+    background-color: #606060;
     word-wrap: break-word;
     width: auto;
     padding: 0 10px 0 10px;
 }
 
-.toggle:checked~.expand {
+.expandtoggle:checked~.expand {
     height: 250px;
 }
 
-.toggle:checked~label::before {
-    content: "show more";
+.expandtoggle:checked~.expandtoggle::before {
+    content: "";
+    background: url(../images/increase.png) no-repeat;
+        background-size: 2em;
+        display: inline-block;
+        width: 2em;
+        height: 2em;
 }
-
-
 
 /* Footer */
 
