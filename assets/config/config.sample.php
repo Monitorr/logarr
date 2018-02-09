@@ -3,6 +3,9 @@
 // Logarr config file
 // https://github.com/Monitorr/logarr
 
+                            // Last updated: 09 FEB 2018 //
+                                    // v 4.0.0  //
+
 
 $config = array(
     // if on Linux, the timezone script will automatically select your timezone
@@ -14,6 +17,7 @@ $config = array(
         'rflog' => '30000', // Log auto-update interval (in milliseconds) when enabled via toggle switch in UI.
             // rflog note 1: Set this value with the size of your logs as a deciding factor. If set too low (below ~10000ms), your browser will crash.
             // rflog note 2: During log update, the browser will have NO response. 
+        'updateBranch' => 'develop', // update branch you wish to use // "master" or "develop"
 
         );
 

@@ -14,6 +14,7 @@
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="manifest" href="webmanifest.json">
         
         <meta name="Logarr" content="Logarr: Self-hosted, single-page, log consolidation tool." />
 
@@ -42,6 +43,7 @@
         <meta name="msapplication-wide310x150logo" content="assets/images/favicon/mstile-310x150.png" />
         <meta name="msapplication-square310x310logo" content="assets/images/favicon/mstile-310x310.png" />
         <meta name="theme-color" content="#252525"/>
+        <meta name="theme_color" content="#252525"/>
         
       
         <meta name="robots" content="NOINDEX, NOFOLLOW">
@@ -50,9 +52,9 @@
 
         <title><?php echo $config['title']; ?></title>
 
-        <script src="assets/js/pace.js" async></script>
-
         <script src="assets/js/jquery.min.js"> </script>
+
+        <script src="assets/js/pace.js" async></script>
         
         <script type= "text/javascript">
 
@@ -107,7 +109,7 @@
 
     </head>
     
-    <body id="body" body style="border: 10px solid #252525; color: #FFFFFF;">
+    <body id="body" style="border: 10px solid #252525; color: #FFFFFF;">
 
         <?php
 
@@ -182,7 +184,7 @@
                 </div>
                 
                 <div id="rightmiddle" class="rightmiddle">
-                    <form id="searchForm" method="post" action="" onsubmit="searchblockUI(); return false;">
+                    <form id="searchForm" method="post" action="index.php" onsubmit="searchblockUI(); return false;">
                         <input name="text-search" id="text-search" type="search" value="" class="input" placeholder="search & highlight...">
                         <input id="submit" type="submit" value="Submit" class="button" />
                     </form>
@@ -204,7 +206,7 @@
                     
                             <div id="filedate" class="left">
                                 <br>
-                                <?php echo "Last modified: " . date (" H:i", filemtime($v))."L," . date ( " D d M", filemtime($v)); $v; ?>
+                                <?php echo "Last modified: " . date (" H:i", filemtime($v))."L |" . date ( " D, d M", filemtime($v)); $v; ?>
                             </div>
 
                             <div class="logheader">
@@ -242,15 +244,19 @@
         
         <div class="footer">
 
-            <a href="https://github.com/monitorr/logarr" target="_blank">Repo: Logarr</a>
-            <br>
-            <a href="https://github.com/monitorr/logarr" target="_blank">Version: <?php echo file_get_contents( "assets/js/version/version.txt" );?></a>
+            <script src="assets/js/update_auto.js" async></script>
+            
+            <script src="assets/js/update.js" async></script>
+
+            <a href="https://github.com/monitorr/logarr" target="_blank">Repo: Logarr </a> |
+            <a href="https://github.com/Monitorr/logarr/releases" target="_blank"> Version: <?php echo file_get_contents( "assets/js/version/version.txt" );?></a>
+                 <br>
+            <a class="footer" id="version_check" style="cursor: pointer">Check for Update</a>
+                <br>
+
+            <div id="version_check_auto"></div>
 
         </div>
-
-        <script src="assets/js/popper.min.js" ></script>
-
-        <script src="assets/js/bootstrap.min.js" ></script>
 
         <script src="assets/js/jquery.blockUI.js"></script>
 
