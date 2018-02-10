@@ -39,7 +39,7 @@ $logs = array(
 // Depending on your environment, large log files could cause your webserver to crash.
 // Recommended individual log files be NO MORE than ~2MB in size  
 // If this page is exposed to your WAN, check the logging applications' settings for sensitive data within logs
-// ** Add Logs BELOW paragraph **
+// ** Add Logs BELOW this line **
 // EXAMPLE:
 // "NameOfLog" =>'C:/link/to/log/file'
 
