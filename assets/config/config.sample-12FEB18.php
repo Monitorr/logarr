@@ -12,9 +12,9 @@
 
 // The required config.php file will be automatically generated from the config.sample-DATE.php file upon first browser hit to index.php
 // If for some reason, that file is NOT automatically generated, copy the config.sample-DATE-.php file to config.php
-// If there are code changes (which are rare) that require changes to your local config.php, changes will be published on the remote Github/Dockerhub repo and published as a NEW config.sample-DATE.php file.
+// If there are code changes (which are rare) that require changes to your local config.php, changes will be published on the remote Github/Dockerhub repo as a NEW config.sample-DATE.php file.
 // This file will then be copied to your local repo when updating via GIT and/or the Logarr UI.
-// After the updated sample.config.php file has been copied to your local repo, rename your old config file to config.old.php, copy the new config.sample-date.php file to config.php and insert your personalized values from your config.old.php into the newly created config.php file. Again, this is only needed IF there are changes to the config.php file. For normal base code changes, simply use the UI and/or GIT to update. 
+// After the updated sample.config-DATE.php file has been copied to your local repo, rename your old config file to config.old.php, copy the new config.sample-date.php file to config.php and insert your personalized values from your config.old.php into the newly created config.php file. Again, this is only needed IF there are changes to the config.php file. For normal base code changes, simply use the UI and/or GIT to update. 
 
 
 $config = array(
