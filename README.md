@@ -3,32 +3,35 @@
 
 ## - *Logarr* is a Self-hosted, single-page, log consolidation tool written in PHP 
 
-**Version:** v3.6d
+[![version](https://img.shields.io/github/release/monitorr/monitorr.svg?style=flat)](https://github.com/monitorr/logarr/releases) [MASTER]
 
-[![Docker build](https://img.shields.io/docker/build/monitorr/logarr.svg?maxAge=2592000)](https://hub.docker.com/r/monitorr/logarr/)
+[![Docker build](https://img.shields.io/docker/build/monitorr/logarr.svg?maxAge=2592000)](https://hub.docker.com/r/monitorr/logarr/) [DOCKER]
 
-**ALERT**: If you are upgrading to v3.0 from ANY previous version, you will need to re-create your config.php file in /assets/config/. You can do this by renaming your old config file, coping the config.php.sample to config.php, and then edit the newly created config.php file with your values. 
+**Version:** v3.6d [DEVELOP]
 
 
-**Latest major change:** Scroll to top feature/auto collapse log display, line numbering
+**NOTICE (20 FEB 18)**: If updating to from ANY version prior to **4.0**, you will need to re-create your config.php file in /assets/config/. You can do this by renaming your old config file, coping the config.php.sample to config.php, and then edit the newly created config.php file with your values.
+
 
 ## Features:
 
+**Latest major change:** Application update via GUI
+
  - Fully self-hosted, no applications to install
- - Live display of any .log, .txt, etc. file on the hosting webserver (NEW)
- - Log auto-update enable/disable switch (NEW)
+ - Live display of any .log, .txt, etc. file on the hosting webserver
+ - Log auto-update enable/disable switch
  - Mobile ready (ish)
- - Reverse display of logs so most recent log entries are at the top
+ - Reverse display of logs / lind numbering - most recent log entries are at the top (updated)
  - Consolidated search & highlight function (Update)
- - Collapsible tables
+ - Collapsible log tiles with scroll to top feature/auto collapse log display (Updated)
  - Log file size and path display
- - Ridiculously easy to configure
  - Error term auto-highlighting for quick reference (update)
- - Localized DTG display
+ - Localized server DTG display
+ - Ridiculously easy to configure
 
  **Features in development:**
-- Log rolling option.
-- Application update via GUI.
+- Log rolling option
+- Settings page
  
  
 ## Screenshot:
@@ -39,10 +42,11 @@
 ## Quick Start:
 - See full configuration instructions in the WiKi: https://github.com/Monitorr/logarr/wiki
 1) Clone/download repository to your webserver
-2) Configure log paths: Edit the file \assets\config\config.php 
-3) Edit permissions for LOG files so your webserver can display the data
-4) Navigate to your webserver\Logarr\index.php
-5) Chill
+2) Browse to <localhost\domain>/logarr/index.php (config.php will be auto populated in /assets/config/config.php)
+3) Configure log paths: Edit the file \assets\config\config.php 
+4) Edit permissions for LOG files so your webserver can display the data
+5) Navigate to your  <localhost\domain>/logarr/index.php 
+6) Chill
 
 ## Connect:
 - Need live help?  Join here :   [![Discord](https://img.shields.io/discord/102860784329052160.svg)](https://discord.gg/YKbRXtt)
