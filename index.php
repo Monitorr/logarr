@@ -48,6 +48,13 @@
       
         <meta name="robots" content="NOINDEX, NOFOLLOW">
 
+        <?php $file = 'assets/config/config.php';
+            //Use the function is_file to check if the config file already exists or not.
+            if(!is_file($file)){
+                copy('assets/config/config.sample-12JAN18.php', $file);
+            } 
+        ?>
+
         <?php include ('assets/config/config.php'); ?>
 
         <title><?php echo $config['title']; ?></title>
