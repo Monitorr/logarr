@@ -49,7 +49,7 @@
 6) Chill
 
 ## Connect:
-- Need live help?  Join here :   [![Discord](https://img.shields.io/discord/102860784329052160.svg)](https://discord.gg/YKbRXtt)
+- Need live help?  Join us on Discord here :   [![Discord](https://img.shields.io/discord/102860784329052160.svg)](https://discord.gg/YKbRXtt)
 
 - E-mail: monitorrapp@gmail.com
 
