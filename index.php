@@ -63,7 +63,7 @@
 
         <script src="assets/js/pace.js" async></script>
         
-        <script type= "text/javascript">
+        <script>
 
             $(document).ready(function() {
                 function update() {
@@ -83,7 +83,7 @@
         
         <script src="assets/js/hilitor.js" async></script>
 
-        <script type="text/javascript">
+        <script>
 
             var myHilitor; // global variable
             document.addEventListener("DOMContentLoaded", function(e) {
@@ -93,7 +93,7 @@
 
         </script>
 
-        <script type="text/javascript">
+        <script>
 
             var nIntervId;
             var onload;
@@ -162,7 +162,7 @@
                             <th id="slider">
                                 <label class="switch" id="buttonStart">
                                     <input type="checkbox">
-                                    <div class="slider round"></div>
+                                    <span class="slider round"></span>
                                 </label>
                             </th>
                         </tr>
