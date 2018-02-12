@@ -7,10 +7,10 @@
 
 [![Docker build](https://img.shields.io/docker/build/monitorr/logarr.svg?maxAge=2592000)](https://hub.docker.com/r/monitorr/logarr/) [DOCKER]
 
-**Version:** v3.6d [DEVELOP]
+**Version:** v4.0d [DEVELOP]
 
 
-**NOTICE (20 FEB 18)**: If updating to from ANY version prior to **4.0**, you will need to re-create your config.php file in /assets/config/. You can do this by renaming your old config file, coping the config.php.sample to config.php, and then edit the newly created config.php file with your values.
+**NOTICE (20 FEB 18)**: If updating to from ANY version prior to **4.0**, you will need to re-create your config.php file in /assets/config/. You can do this by renaming your old config file, coping the config.sample-12feb18.php to config.php, and then edit the newly created config.php file with your values.
 
 
 ## Features:
