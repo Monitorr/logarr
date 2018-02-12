@@ -144,6 +144,10 @@ body {
     color: #FFFFFF;
 }
 
+:root {
+    font-size: 14px;
+}
+
 .flex {
     display: -webkit-flex;
     display: flex;
@@ -220,7 +224,6 @@ body::-webkit-scrollbar-thumb {
         transition: .5s;
 }
  
-
 
 table,
 th,
@@ -333,7 +336,7 @@ h6,
     text-align: right;
     vertical-align: middle;
     width: 40%;
-    margin-top: auto;
+    margin-top: 1rem;
     margin-bottom: auto;
     margin-right: 1em;
 }
@@ -602,7 +605,6 @@ input[type=search]::-webkit-search-cancel-button {
 /* SLIDING DIVs */
 
 
-
 .row2 {
     display: flex;
     border-spacing: 0px;
@@ -750,35 +752,48 @@ input[type="checkbox"] {
 
 /* Footer */
 
+
+#version_check {
+    cursor: default;
+    font-size: 1em;
+}
+
+#version_check_auto {
+    cursor: default;
+}
+
+#version_check:hover {
+    text-decoration: none;
+    color: #ffffff;
+}
+
 .footer {
     width: 100%;
     text-align: center;
     color: #555555;
     font-size: 1.2em;
-    padding-top: 20px;
-    padding-bottom: 20px;
-}
-
-.footer a {
-    text-decoration: none;
-    color: #555555;
-    font-size: 12px;
-}
-
-.footer:hover {
-    text-decoration: none;
-    color: #ffffff;
-}
+    text-decoration: none;}
 
 a {
     font-size: 1em;
     text-shadow: none;
     font-weight: 300;
+    text-decoration: none;
+    color: #555555;
 }
 
 a:hover {
     text-decoration: none;
     color: #ffffff;
+}
+
+.notification {
+        width: 100%;
+        text-align: center;
+        color: #555555;
+        font-size: .75rem;
+        Margin-bottom: 2rem;
+        cursor: default;
 }
 
 
