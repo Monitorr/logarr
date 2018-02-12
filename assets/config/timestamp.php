@@ -26,7 +26,7 @@ if (is_link('/etc/localtime')) {
 }
     date_default_timezone_set($timezone);
     $timestamp = time();
-    $server_date = date("D, d M Y");
+    $server_date = date("D | d M | Y");
 ?>
 
 <p>Server Local Date: <strong><?php echo "$server_date"?></strong></p>
