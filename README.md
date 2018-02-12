@@ -10,7 +10,7 @@
 **Version:** v4.0d [DEVELOP]
 
 
-**NOTICE (20 FEB 18)**: If updating to from ANY version prior to **4.0**, you will need to re-create your config.php file in /assets/config/. You can do this by renaming your old config file, coping the config.sample-12feb18.php to config.php, and then edit the newly created config.php file with your values.
+**NOTICE (12 FEB 18)**: If updating to from ANY version prior to **4.0**, you will need to re-create your config.php file in /assets/config/. You can do this by renaming your old config file, coping the config.sample-12feb18.php to config.php, and then edit the newly created config.php file with your values.
 
 
 ## Features:
