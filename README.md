@@ -3,7 +3,7 @@
 
 ## - *Logarr* is a Self-hosted, single-page, log consolidation tool written in PHP 
 
-[![version](https://img.shields.io/github/release/monitorr/monitorr.svg?style=flat)](https://github.com/monitorr/logarr/releases) [MASTER]
+[![version](https://img.shields.io/github/release/monitorr/logarr.svg?style=flat)](https://github.com/monitorr/logarr/releases) [MASTER]
 
 [![Docker build](https://img.shields.io/docker/build/monitorr/logarr.svg?maxAge=2592000)](https://hub.docker.com/r/monitorr/logarr/) [DOCKER]
 
