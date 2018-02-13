@@ -38,7 +38,8 @@ $(document).ready(function(){
 									$.blockUI(
 										{
 											css: {
-												width: '70rem',
+												width: '35%',
+												left: '32.5%',
 											},
 											message: 'Update Successful! <br> Reloading Logarr in 5 seconds...'
 										}
@@ -74,7 +75,8 @@ $(document).ready(function(){
 					$.blockUI(
 						{
 						css: { 
-							width: '70rem',
+							width: '35%',
+							left: '32.5%',
 						},
 							message: 'You have the latest version. <br> Reloading Logarr in 5 seconds...'
 						}
