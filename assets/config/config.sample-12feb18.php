@@ -34,7 +34,7 @@ $config = array(
         // rflog note 1: Set this value with the size of your logs as a deciding factor. If set too low (below ~10000ms), your browser will crash.
         // rflog note 2: During log update, the browser will have NO response. 
 
-    'updateBranch' => 'develop', // update branch you wish to use when updating via the Logarr GUI // "master" or "develop"
+    'updateBranch' => 'master', // update branch you wish to use when updating via the Logarr GUI // "master" or "develop"
 
     'max-lines' => 150, // Default line limit for all logs
 
