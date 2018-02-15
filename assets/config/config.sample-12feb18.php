@@ -32,7 +32,7 @@ $config = array(
         // rflog note 1: Set this value with the size of your logs as a deciding factor. If set too low (below ~10000ms), your browser will crash.
         // rflog note 2: During log update, the browser will have NO response. 
 
-    'updateBranch' => 'docker-develop', // update branch you wish to use when updating via the Logarr GUI // "master" or "develop"
+    'updateBranch' => 'docker', // update branch you wish to use when updating via the Logarr GUI // "master" or "develop"
 
 // ** Change Logarr site settings ABOVE this line **
 
