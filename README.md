@@ -22,7 +22,7 @@
  - Live display of any .log, .txt, etc. file on the hosting webserver
  - Log auto-update enable/disable switch
  - Mobile ready (ish)
- - Reverse display of logs / lind numbering - most recent log entries are at the top (updated)
+ - Reverse display of logs / line numbering - most recent log entries are at the top (updated)
  - Consolidated search & highlight function (Update)
  - Collapsible log tiles with scroll to top feature/auto collapse log display (Updated)
  - Log file size and path display
