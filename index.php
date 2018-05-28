@@ -62,25 +62,35 @@
         <script src="assets/js/jquery.min.js"> </script>
 
         <script src="assets/js/pace.js" async></script>
-        
+
         <script>
-
+            <?php
+            $timezone = $config['timezone'];
+            $dt = new DateTime("now", new DateTimeZone("$timezone"));
+            $timeStandard = (int) ($config['timestandard']);
+            ?>
+            var servertime = "<?php echo $dt->format("D M d Y H:i:s"); ?>";
+            var timeStandard = <?php echo $timeStandard; ?>;
+            var servertimezone = "<?php echo $timezone; ?>";
+            function updateTime() {
+                var timeString = date.toLocaleString('en-US', {hour12: timeStandard, weekday: 'short', year: 'numeric', month: 'long', day: 'numeric', hour:'2-digit', minute:'2-digit', second:'2-digit'}).toString();
+                var res = timeString.split(",");
+                var time = res[3];
+                var dateString = res[0]+' | '+res[1]+','+res[2];
+                var data = '<div class="dtg">' + time + '</div>';
+                data+= '<div id="line">__________</div>';
+                data+= '<div class="date">' + dateString + '</div>';
+                $("#timer").html(data);
+                window.setTimeout(updateTime, 1000);
+            }
             $(document).ready(function() {
-                function update() {
-                    $.ajax({
-                        type: 'POST',
-                        url: 'assets/config/timestamp.php',
-                        success: function(data) {
-                            $("#timer").html(data); 
-                            window.setTimeout(update, <?php echo $config['rftime']; ?>);
-                            }
-                    });
-                }
-                update();
-            });
 
+                updateTime();
+            });
         </script>
-        
+
+        <script src="assets/js/clock.js" async></script>
+
         <script src="assets/js/hilitor.js" async></script>
 
         <script>
@@ -120,7 +130,7 @@
 
         <?php
 
-            function readExternalLog($filename)
+            function readExternalLog($filename, $maxLines)
             {
                 ini_set("auto_detect_line_endings", true);
                 $log = file($filename);
@@ -129,6 +139,7 @@
 
                 foreach ($lines as $line_num => $line) {
                     echo "<b>Line {$line_num}</b> : " . htmlspecialchars($line) . "<br />\n";
+                    if($line_num == $maxLines) break;
                 }
                 
             }
@@ -140,16 +151,20 @@
                 return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$size[$factor];
             }
 
-        ?> 
+        ?>
+
+        <div id="ajaxtimestamp" title="Analog clock timeout. Refresh page."></div>
+        <div id="ajaxmarquee" title="Offline marquee timeout. Refresh page."></div>
 
         <div class="header">
         
-            <div id="left" class="Column"> 
+            <div id="left" class="Column">
 
-                <div id="lefttop" class="lefttop">
-                    
-                    <div id="timer" class="Column"></div>
-
+                <div id="left" class="Column">
+                    <div id="clock">
+                        <canvas id="canvas" width="120" height="120"></canvas>
+                        <div class="dtg" id="timer"></div>
+                    </div>
                 </div>
                 
                 <div id="leftbottom" class="leftbottom">
@@ -235,7 +250,7 @@
                             <input class="expandtoggle" type="checkbox" name="slidebox" id="<?php echo $k; ?>" checked>
                             <label for="<?php echo $k; ?>" class="expandtoggle"></label>
                                 <div id="expand" class="expand">
-                                    <p><?php readExternalLog($v); ?></p>
+                                    <p><?php readExternalLog($v, $config['max-lines']); ?></p>
                                 </div>
                         </div>
 
