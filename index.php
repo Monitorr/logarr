@@ -125,24 +125,21 @@
         <script src="assets/js/logarr.main.js"></script>
 
         <script>
-            $(document).ready(function(){
+            $(document).ready(function () {
+                $(".forms").submit(function(event){
 
-                    //$(<?php echo  "#". json_encode($k); ?>).submit(function(event){
-                    // $('<?php echo  "#". $k; ?>').submit(function(event){
-                        
-                $("#form").submit(function(event){
-                //$('<?php echo  "#". $k; ?>').submit(function(event){
+                    event.preventDefault(); // using this page stop being refreshing
 
-                    event.preventDefault(); // using this page stop being refreshing 
+                    var logName = $(this).attr('id');;
 
                     $.ajax({
                         type: 'POST',
-                        url: 'assets/php/./unlink.php',
+                        url: 'assets/php/unlink.php',
                         processData: false,
                         data: $(this).serialize(),
                         success: function (data) {
                             $('#response').html(data);
-                            alert('Logarr unlink '+ data);
+                            $('#'+logName+'-log').html(''); //empty the log on screen
                             console.log('Logarr unlink '+ data);
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
@@ -282,13 +279,13 @@
                             <label for="<?php echo $k; ?>" class="expandtoggle"></label>
 
                                 <div id="expand" class="expand">
-                                    <p><?php readExternalLog($v, $config['max-lines']); ?></p>
+                                    <p id="<?php echo $k; ?>-log"><?php readExternalLog($v, $config['max-lines']); ?></p>
                                 </div>
 
                         </div>
 
                         <!-- <form id="<?php echo $k; ?>"> -->
-                        <form id="form">
+                        <form id="<?php echo $k; ?>" class="forms">
                             <!-- <input name="file" value=" unlink file " required> -->
                             <input name="file" type="text" value="<?php echo $v; ?>" required readonly />
                             <!-- <input name="file" type="text" value=" unlink " required> WORKS -->
