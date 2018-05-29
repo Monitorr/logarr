@@ -317,15 +317,6 @@ h6,
     vertical-align: middle;
 }
 
-#timer {
-    text-align: left;
-    vertical-align: middle;
-    width: 40%;
-    padding-bottom: 0;
-    font-size: 1.2em;
-    cursor: default;
-}
-
 #logo {
     text-align: center;
     vertical-align: middle;
@@ -797,3 +788,74 @@ a:hover {
 }
 
 
+/* CLOCK */
+
+#clock {
+    display: flex;
+    flex-direction: row;
+    float: right;
+    height: 9rem;
+    width: 17rem;
+    margin: 0;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-size: 1rem;
+    justify-content: center;
+    background-color: #3d3d3d;
+    border-radius: 1rem;
+    box-shadow: 5px 5px 5px black;
+    text-shadow: 1px 1px black;
+}
+
+#canvas {
+    margin: 0 auto;
+    margin-bottom: .5rem;
+    margin-right: .5rem;
+    width: 8rem;
+    height: 8rem;
+    font-size: 30px;
+}
+
+#time {
+    display: flex;
+    flex-direction: row;
+    float: left;
+    margin: auto;
+    margin-left: 3vw;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    justify-content: center;
+    background-color: #3d3d3d;
+    border-radius: 8px;
+    box-shadow: 3px 3px 3px black;
+    font-size: .750rem;
+}
+
+.dtg {
+    color: #C8C8C8;
+    font-size: .9rem;
+    font-weight: 600;
+    margin: auto;
+    text-align: center;
+    cursor: default;
+}
+
+.date {
+    color: #C8C8C8;
+    font-size: 1rem;
+    font-weight: 400;
+    margin: auto;
+    text-align: center;
+    cursor: default;
+}
+
+
+#line {
+    cursor: default;
+    font-size: .75em;
+    padding-bottom: .5em;
+}
