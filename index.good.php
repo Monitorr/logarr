@@ -114,36 +114,11 @@
 
         <script src="assets/js/logarr.main.js"></script>
 
-        <script>
-            $(document).ready(function(){
 
-                    //$(<?php echo  "#". json_encode($k); ?>).submit(function(event){
-                    // $('<?php echo  "#". $k; ?>').submit(function(event){
-                        
-                $("#form").submit(function(event){
-                //$('<?php echo  "#". $k; ?>').submit(function(event){
 
-                    event.preventDefault(); // using this page stop being refreshing 
 
-                    $.ajax({
-                        type: 'POST',
-                        url: 'assets/php/./unlink.php',
-                        processData: false,
-                        data: $(this).serialize(),
-                        success: function (data) {
-                            $('#response').html(data);
-                            alert('Logarr unlink '+ data);
-                            console.log('Logarr unlink '+ data);
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                            alert( "Posting failed (ajax)" );
-                            console.log("Posting failed (ajax)");
-                        }
-                    });
-                    return false;
-                });
-            });
-        </script>
+
+
 
     </head>
     
@@ -172,6 +147,33 @@
             }
 
         ?> 
+
+
+                                <script>
+                                    $(document).ready(function(){
+                                        $('<?php echo $k; ?>').bind('submit<?php echo $k; ?>', function (event) {
+
+                                            event.preventDefault();// using this page stop being refreshing 
+
+                                            $.ajax({
+                                                type: 'POST',
+                                                url: 'assets/php/./unlink.php',
+                                                data: $('<?php echo $k; ?>').serialize(),
+                                                success: function (data) {
+                                                    //$('#response').html(data);
+                                                    alert('Logarr unlink '+ data);
+                                                    console.log('Logarr unlink '+ data);
+                                                }
+                                            });
+                                            
+                                            return false;
+
+                                        });
+                                    });
+                                </script>
+
+
+
 
         <div class="header">
         
@@ -265,18 +267,19 @@
                         <div class="slide">
                             <input class="expandtoggle" type="checkbox" name="slidebox" id="<?php echo $k; ?>" checked>
                             <label for="<?php echo $k; ?>" class="expandtoggle"></label>
-                            <div id="expand" class="expand">
-                                <p><?php readExternalLog($v); ?></p>
-                            </div>
+                                <div id="expand" class="expand">
+                                    <p><?php readExternalLog($v); ?></p>
+                                </div>
                         </div>
 
-                        <!-- <form id="<?php echo $k; ?>"> -->
-                        <form id="form">
+
+
+
+                        <form id="<?php echo $k; ?>">
                             <!-- <input name="file" value=" unlink file " required> -->
-                            <input name="file" type="text" value="<?php echo $v; ?>" required readonly />
-                            <!-- <input name="file" type="text" value=" unlink " required> WORKS -->
+                            <input name="file" value="<?php echo $v; ?>" required readonly>
                                 <br>
-                            <input name="submit" type="submit" class="btn btn-primary" value="Unlink" />
+                            <input name="submit<?php echo $k; ?>" class="btn btn-primary" type="submit" value="Unlink">
                         </form>
 
                     </div>
@@ -286,11 +289,13 @@
             </div>
                 
         </div>
-
-        <div id='response'></div>
-
         
         <button onclick="topFunction(), checkAll1()" id="myBtn" title="Go to top"></button>
+
+
+        <div id='response'><div>
+
+
         
         <div class="footer">
 
@@ -350,6 +355,7 @@
             };
             
         </script>
+
 
     </body>
     
