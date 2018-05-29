@@ -26,7 +26,7 @@ $config = array(
     'timezone' => 'UTC',   // Timezone used for UI clock. IF on Linux, this is automatically generated. If on Windows, set this to a preferred value, or the default timezone of UTC will be used. 
         // timezone note 1: timezone format: ($timezone = 'America/Los_Angeles',) Timezones are listed here: https://php.net/manual/en/timezones.php
 
-    'timestandard' => 1, // 12-hour format
+    'timestandard' => 0, // 12-hour format
 
     'rftime' => '5000', // Time display update interval (in milliseconds)
 
@@ -36,7 +36,7 @@ $config = array(
 
     'updateBranch' => 'master', // update branch you wish to use when updating via the Logarr GUI // "master" or "develop"
 
-    'max-lines' => 150, // Default line limit for all logs
+    'max-lines' => 1000, // Default line limit for all logs
 
 // ** Change Logarr site settings ABOVE this line **
 
