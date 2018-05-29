@@ -124,6 +124,37 @@
 
         <script src="assets/js/logarr.main.js"></script>
 
+        <script>
+            $(document).ready(function(){
+
+                    //$(<?php echo  "#". json_encode($k); ?>).submit(function(event){
+                    // $('<?php echo  "#". $k; ?>').submit(function(event){
+                        
+                $("#form").submit(function(event){
+                //$('<?php echo  "#". $k; ?>').submit(function(event){
+
+                    event.preventDefault(); // using this page stop being refreshing 
+
+                    $.ajax({
+                        type: 'POST',
+                        url: 'assets/php/./unlink.php',
+                        processData: false,
+                        data: $(this).serialize(),
+                        success: function (data) {
+                            $('#response').html(data);
+                            alert('Logarr unlink '+ data);
+                            console.log('Logarr unlink '+ data);
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            alert( "Posting failed (ajax)" );
+                            console.log("Posting failed (ajax)");
+                        }
+                    });
+                    return false;
+                });
+            });
+        </script>
+
     </head>
     
     <body id="body" style="border: 10px solid #252525; color: #FFFFFF;">
@@ -249,10 +280,21 @@
                         <div class="slide">
                             <input class="expandtoggle" type="checkbox" name="slidebox" id="<?php echo $k; ?>" checked>
                             <label for="<?php echo $k; ?>" class="expandtoggle"></label>
+
                                 <div id="expand" class="expand">
                                     <p><?php readExternalLog($v, $config['max-lines']); ?></p>
                                 </div>
+
                         </div>
+
+                        <!-- <form id="<?php echo $k; ?>"> -->
+                        <form id="form">
+                            <!-- <input name="file" value=" unlink file " required> -->
+                            <input name="file" type="text" value="<?php echo $v; ?>" required readonly />
+                            <!-- <input name="file" type="text" value=" unlink " required> WORKS -->
+                                <br>
+                            <input name="submit" type="submit" class="btn btn-primary" value="Unlink" />
+                        </form>
 
                     </div>
                         
@@ -261,6 +303,9 @@
             </div>
                 
         </div>
+
+        <div id='response'></div>
+
         
         <button onclick="topFunction(), checkAll1()" id="myBtn" title="Go to top"></button>
         
@@ -322,7 +367,6 @@
             };
             
         </script>
-
 
     </body>
     
