@@ -225,6 +225,10 @@ body::-webkit-scrollbar-thumb {
 }
  
 
+.slidebutton {
+    font-size: .75rem;
+}
+
 table,
 th,
 td {
@@ -240,8 +244,6 @@ tbody {
 tr {
     width: 100%
 }
-
-
 
 /* Titles */
 
@@ -287,9 +289,10 @@ h6,
 }
 
 #left {
+    float: left;
     text-align: left;
     vertical-align: middle;
-    align-items: center;
+    /* align-items: center; */
     width: 40%;
     margin-left: 1em;
     padding-bottom: 0; 
@@ -299,13 +302,6 @@ h6,
     text-align: left;
     margin-bottom: 1em
 }
-
-.leftbottom {
-    display: flex;
-    text-align: left;
-    height: auto;
-}
-
 
 #timestamp {
     text-align: left;
@@ -327,7 +323,7 @@ h6,
     text-align: right;
     vertical-align: middle;
     width: 40%;
-    margin-top: 1rem;
+    /* margin-top: 1rem; */
     margin-bottom: auto;
     margin-right: 1em;
 }
@@ -342,9 +338,12 @@ h6,
     text-align: right;
 }
 
-.rightbottom {
+#rightbottom {
+    display: flex;
+    float: right;
     text-align: right;
-    margin: 5px;
+    margin-top: .5rem;
+    height: auto;
 }
 
 
@@ -353,8 +352,8 @@ h6,
 #slidertable {
     vertical-align: middle;
     height: 3em;
-    margin-left: 1vw;
-    margin-right: 1em;
+    /* margin-left: 1vw; */
+    margin-right: .5rem;
     border: 1px solid black;
     border-radius: 8px;
     background-color: #3d3d3d;
@@ -419,6 +418,7 @@ h6,
     background-color: #f2f2f2;
     -webkit-transition: .4s;
     transition: .4s;
+    background: radial-gradient(circle at .1rem .1rem, white, rgba(20, 20, 20));
 }
 
 input:checked+.slider {
@@ -464,6 +464,7 @@ input:checked+.slider:before {
     border-color: #000000;
     outline: none;
     transition: all ease 0.3s;
+    box-shadow: none !important;
 }
 
 .button2:active {
@@ -489,7 +490,9 @@ input:checked+.slider:before {
     width: 20vw;
     max-width: 17em;
     font-size: 1em;
-    padding-left: .5em;
+    padding-left: .5rem;
+    margin-right: .5rem;
+    border-radius: 5px;
 }
 
 input[type=search]::-webkit-search-cancel-button {
@@ -548,6 +551,7 @@ input[type=search]::-webkit-search-cancel-button {
     color: rgb(255, 255, 255);
     background-color: #8E8B8B;
     border-color: #000000;
+    box-shadow: none !important;
 }
 
 .button:active {
@@ -595,6 +599,15 @@ input[type=search]::-webkit-search-cancel-button {
 
 /* SLIDING DIVs */
 
+#logcontainer {
+
+    background-color: inherit;
+    margin-bottom: 6rem;
+}
+
+#logs {
+    z-index: 1000;
+}
 
 .row2 {
     display: flex;
@@ -656,11 +669,35 @@ input[type=search]::-webkit-search-cancel-button {
     border: 1px solid black;
     margin: 0px 2em 0px 2em;
     position: relative;
-    margin-bottom: 20px;
+}
+
+#slidebottom {
+    width: 100%;
+    position: relative;
+    margin-bottom: 1rem;
 }
 
 .expanded {
     height: 600px !important;
+}
+
+ .formsdownload {
+    float: right;
+ }
+
+#unlinkform {
+    float: left;
+    margin-left: 2rem;
+}
+
+#downloadform {
+    float: right;
+    margin-right: 2rem;
+}
+
+.hidden {
+    visibility: hidden;
+    display: none;
 }
 
 .auto-style1 {
@@ -689,19 +726,19 @@ input[type="checkbox"] {
     -moz-border-radius: 5px;
     border-radius: 5px;
     width: 3em;
-    height: 3em;
+    height: 3em;   
+    -webkit-transition: .5s;
+    -moz-transition: .5s;
+    transition: .5s;
     cursor: pointer;
-        -webkit-transition: .5s;
-            -moz-transition: .5s;
-            transition: .5s;
-        }
+}
 
 .expandtoggle:hover {
     background-color: rgba(104, 2, 51, 0.400);
     background-size: 3em;
-        -webkit-transition: .3s;
-        -moz-transition: .3s;
-        transition: .3s;
+    -webkit-transition: .3s;
+    -moz-transition: .3s;
+    transition: .3s;
 }
 
 .expandtoggle::before {
@@ -712,9 +749,9 @@ input[type="checkbox"] {
     display: inline-block;
     width: 2em;
     height: 2em;
-        -webkit-transition: .5s;
-            -moz-transition: .5s;
-            transition: .5s; 
+    -webkit-transition: .5s;
+    -moz-transition: .5s;
+    transition: .5s; 
 }
 
 
@@ -735,10 +772,10 @@ input[type="checkbox"] {
 .expandtoggle:checked~.expandtoggle::before {
     content: "";
     background: url(../images/increase.png) no-repeat;
-        background-size: 2em;
-        display: inline-block;
-        width: 2em;
-        height: 2em;
+    background-size: 2em;
+    display: inline-block;
+    width: 2em;
+    height: 2em;
 }
 
 /* Footer */
@@ -759,11 +796,14 @@ input[type="checkbox"] {
 }
 
 .footer {
+    position: fixed;
     width: 100%;
+    bottom: 1rem;
     text-align: center;
     color: #555555;
     font-size: 1.2em;
-    text-decoration: none;}
+    text-decoration: none;
+}
 
 a {
     font-size: 1em;
@@ -793,7 +833,7 @@ a:hover {
 #clock {
     display: flex;
     flex-direction: row;
-    float: right;
+    /* float: right; */
     height: 9rem;
     width: 17rem;
     margin: 0;
@@ -837,7 +877,7 @@ a:hover {
 
 .dtg {
     color: #C8C8C8;
-    font-size: .9rem;
+    font-size: 1rem;
     font-weight: 600;
     margin: auto;
     text-align: center;
