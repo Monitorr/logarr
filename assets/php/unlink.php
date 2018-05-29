@@ -4,8 +4,6 @@
         ini_set('display_startup_errors', 1);
         error_reporting(E_ALL);
 
-        //$file=$_POST['file'];
-
         print_r('Form submitted:  unlink file: ');
         var_dump($_POST['file']);
             echo "<br>";
@@ -18,7 +16,8 @@
 
 $file = ($_POST['file']);
 
-    //echo "file: " ." $file\n";
+$today = date("D d M Y | H:i:s");
+
     echo "<br><br>";
 
  if(is_file($file)){
@@ -57,13 +56,33 @@ $file = ($_POST['file']);
             if($delete == true) {
                 echo "Delete success: $file\n"; 
                     echo "<br>"; 
-                echo "Bug: You must reload this page before attempting to unlink another log. // CHANGE ME //"; 
+
+                $newlogfile = $file;
+
+                $current .= $today . " | Logarr created new log file: " . $newlogfile . "\n";
+                
+                $createfile = file_put_contents($newlogfile, $current);
+
+
+                if($createfile == true) {
+                
+                    echo $today . " | Logarr created new log file: " . $newlogfile; 
+
+                        echo "<br>"; 
+
+                    echo " Put this in a modal?? // CHANGE ME";
+                }
+
+                else {
+                
+                    echo "Logarr was unable to create new log file: " . $newlogfile; 
+                }
+
             }
 
             else {
                 echo "Delete fail: $file\n;";
                     echo "<br>"; 
-                echo "Bug: You must reload this page before attempting to unlink another log.// CHANGE ME // "; 
             }
         }
     }

@@ -48,6 +48,8 @@
       
         <meta name="robots" content="NOINDEX, NOFOLLOW">
 
+        <!-- // CHANGE ME - Change to new config file  -->
+        
         <?php $file = 'assets/config/config.php';
             //Use the function is_file to check if the config file already exists or not.
             if(!is_file($file)){
@@ -65,26 +67,27 @@
 
         <script>
             <?php
-            $timezone = $config['timezone'];
-            $dt = new DateTime("now", new DateTimeZone("$timezone"));
-            $timeStandard = (int) ($config['timestandard']);
+                $timezone = $config['timezone'];
+                $dt = new DateTime("now", new DateTimeZone("$timezone"));
+                $timeStandard = (int) ($config['timestandard']);
+                $rftime = $config['rftime'];
             ?>
-            var servertime = "<?php echo $dt->format("D M d Y H:i:s"); ?>";
+            var servertime = "<?php echo $dt->format("D d M Y H:i:s"); ?>";
             var timeStandard = <?php echo $timeStandard; ?>;
             var servertimezone = "<?php echo $timezone; ?>";
+            var rftime = "<?php echo $rftime; ?>";
             function updateTime() {
-                var timeString = date.toLocaleString('en-US', {hour12: timeStandard, weekday: 'short', year: 'numeric', month: 'long', day: 'numeric', hour:'2-digit', minute:'2-digit', second:'2-digit'}).toString();
+                var timeString = date.toLocaleString('en-US', {hour12: timeStandard, weekday: 'short', year: 'numeric', day: 'numeric', month: 'long', hour:'2-digit', minute:'2-digit', second:'2-digit'}).toString();
                 var res = timeString.split(",");
                 var time = res[3];
-                var dateString = res[0]+' | '+res[1].split(" ")[2]+" "+res[1].split(" ")[1]+','+res[2];
+                var dateString = res[0]+' | '+res[1].split(" ")[2]+" "+res[1].split(" ")[1]+res[2];
                 var data = '<div class="dtg">' + time + '</div>';
                 data+= '<div id="line">__________</div>';
                 data+= '<div class="date">' + dateString + '</div>';
                 $("#timer").html(data);
-                window.setTimeout(updateTime, 1000);
+                window.setTimeout(updateTime, rftime);
             }
             $(document).ready(function() {
-
                 updateTime();
             });
         </script>
@@ -97,9 +100,11 @@
 
             var myHilitor; // global variable
             document.addEventListener("DOMContentLoaded", function(e) {
-            myHilitor = new Hilitor("content");
-            myHilitor.apply("error");
-            }, false);
+                myHilitor = new Hilitor("content");
+                myHilitor.apply("error");
+            }, 
+            
+            false);
 
         </script>
 
@@ -124,14 +129,13 @@
 
         <script src="assets/js/logarr.main.js"></script>
 
+
+             <!-- UNLINK FUNCTION  -->
         <script>
             $(document).ready(function () {
                 $(".forms").submit(function(event){
-
                     event.preventDefault(); // using this page stop being refreshing
-
-                    var logName = $(this).attr('id');;
-
+                    var logName = $(this).attr('id');
                     $.ajax({
                         type: 'POST',
                         url: 'assets/php/unlink.php',
@@ -139,7 +143,8 @@
                         data: $(this).serialize(),
                         success: function (data) {
                             $('#response').html(data);
-                            $('#'+logName+'-log').html(''); //empty the log on screen
+                            $('#'+logName+'-log').html(''); //empty the log screen
+                            //setTimeout(('#'+logName+'-log').html(''), 2000); //CHANGE ME // wait 2 seconds for PHP create new log file to complete .
                             console.log('Logarr unlink '+ data);
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
@@ -151,6 +156,20 @@
                 });
             });
         </script>
+
+            <!-- LOG DOWNLOAD FUNCTION  -->
+        <script>
+            $(document).ready(function () {
+                $(".formsdownload").submit(function(event){
+                    event.preventDefault(); // using this page stop being refreshing
+                    var logFilePath = ($(this).serialize()).replace('filedownload=','');
+                    console.log('Logarr download log: ' + logFilePath);
+                    window.open('assets/php/download.php?file='+logFilePath);
+                    return false;
+                });
+            });
+        </script>
+
 
     </head>
     
@@ -188,31 +207,9 @@
         
             <div id="left" class="Column">
 
-                <div id="left" class="Column">
-                    <div id="clock">
-                        <canvas id="canvas" width="120" height="120"></canvas>
-                        <div class="dtg" id="timer"></div>
-                    </div>
-                </div>
-                
-                <div id="leftbottom" class="leftbottom">
-                    
-                    <table id="slidertable">
-                        <tr>
-                            <th id="textslider">
-                            Auto Update:
-                            </th>
-                            <th id="slider">
-                                <label class="switch" id="buttonStart">
-                                    <input type="checkbox">
-                                    <span class="slider round"></span>
-                                </label>
-                            </th>
-                        </tr>
-                    </table>
-                        
-                    <input id="Update" class="button2" type="button" value="Update" onclick="refreshblockUI();  return false" />
-
+                <div id="clock">
+                    <canvas id="canvas" width="120" height="120"></canvas>
+                    <div class="dtg" id="timer"></div>
                 </div>
 
             </div>
@@ -235,9 +232,29 @@
                 
                 <div id="rightmiddle" class="rightmiddle">
                     <form id="searchForm" method="post" action="index.php" onsubmit="searchblockUI(); return false;">
-                        <input name="text-search" id="text-search" type="search" value="" class="input" placeholder="search & highlight...">
-                        <input id="submit" type="submit" value="Submit" class="button" />
+                        <input name="text-search" id="text-search" type="search" value="" class="input" placeholder="search & highlight..." required>
+                        <input id="submit" type="submit" value="Submit" class="button btn btn-primary" title="Execute search"  />
                     </form>
+                </div>
+
+                <div id="rightbottom" class="rightbottom">
+                    
+                    <table id="slidertable">
+                        <tr title="Enable log auto-update | Interval: <?php echo $config['rflog']; ?> ms ">
+                            <th id="textslider">
+                            Auto Update:
+                            </th>
+                            <th id="slider">
+                                <label class="switch" id="buttonStart">
+                                    <input type="checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                            </th>
+                        </tr>
+                    </table>
+                        
+                    <input id="Update" class="button2 btn btn-primary" type="button" value="Update" title="Trigger manual log update" onclick="refreshblockUI();  return false" />
+
                 </div>
 
             </div>
@@ -278,20 +295,30 @@
                             <input class="expandtoggle" type="checkbox" name="slidebox" id="<?php echo $k; ?>" checked>
                             <label for="<?php echo $k; ?>" class="expandtoggle"></label>
 
-                                <div id="expand" class="expand">
-                                    <p id="<?php echo $k; ?>-log"><?php readExternalLog($v, $config['max-lines']); ?></p>
-                                </div>
+                            <div id="expand" class="expand">
+                                <p id="<?php echo $k; ?>-log"><?php readExternalLog($v, $config['max-lines']); ?></p>
+                            </div>
 
                         </div>
 
-                        <!-- <form id="<?php echo $k; ?>"> -->
-                        <form id="<?php echo $k; ?>" class="forms">
-                            <!-- <input name="file" value=" unlink file " required> -->
-                            <input name="file" type="text" value="<?php echo $v; ?>" required readonly />
-                            <!-- <input name="file" type="text" value=" unlink " required> WORKS -->
-                                <br>
-                            <input name="submit" type="submit" class="btn btn-primary" value="Unlink" />
-                        </form>
+                        <table id="slidebottom"> 
+                            <tr>
+                                <td id="unlinkform">
+                                    <form id="<?php echo $k; ?>" class="forms">
+                                        <input name="file" type="text" class="hidden" value="<?php echo $v; ?>" required readonly />
+                                            <br>
+                                        <input name="submit" type="submit" class="slidebutton btn btn-primary" title="Attempt log file roll. NOTE: This function will copy the current log file to '[logfilename].bak', delete the original log file, and create a new blank log file with the orginal log filename. This function may not succeed if log file is in use." value="Roll Log" />
+                                    </form>
+                                </td>
+                                <td id="downloadform">
+                                    <form id="<?php echo $k; ?>" class="formsdownload">
+                                        <input name="filedownload" type="text" class="hidden" value="<?php echo $v; ?>" required readonly />
+                                            <br>
+                                        <input name="submitdl" type="submit" class="slidebutton btn btn-primary" title="Download full log file"  value="Download" />
+                                    </form>
+                                </td>
+                            </tr>
+                        </table>
 
                     </div>
                         
@@ -300,6 +327,9 @@
             </div>
                 
         </div>
+
+
+        <!-- Put this in a modal???  // CHANGE ME -->
 
         <div id='response'></div>
 
@@ -312,11 +342,16 @@
             
             <script src="assets/js/update.js" async></script>
 
-            <a href="https://github.com/monitorr/logarr" target="_blank">Repo: Logarr </a> |
-            <a href="https://github.com/Monitorr/logarr/releases" target="_blank"> Version: <?php echo file_get_contents( "assets/js/version/version.txt" );?></a>
-                 <br>
-            <a class="footer" id="version_check" style="cursor: pointer">Check for Update</a>
+            <div id="logarrid">
+                <a href="https://github.com/monitorr/logarr" title="Logarr GitHub Repo" target="_blank" >Logarr </a> |
+                <a href="https://github.com/Monitorr/logarr/releases" title="Logarr releases" target="_blank"> Version: <?php echo file_get_contents( "assets/js/version/version.txt" );?></a>
                 <br>
+            </div>
+
+            <div id="version">
+                <a id="version_check" title="Check and execute update" style="cursor: pointer">Check for Update</a>
+                <br>
+            </div>
 
             <div id="version_check_auto"></div>
 
@@ -329,21 +364,21 @@
         <script>
                  
                 // When the user scrolls down 20px from the top of the document, show the button
-                window.onscroll = function() {scrollFunction()};
+            window.onscroll = function() {scrollFunction()};
 
-                function scrollFunction() {
-                    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-                        document.getElementById("myBtn").style.display = "block";
-                    } else {
-                        document.getElementById("myBtn").style.display = "none";
-                    }
+            function scrollFunction() {
+                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                    document.getElementById("myBtn").style.display = "block";
+                } else {
+                    document.getElementById("myBtn").style.display = "none";
                 }
+            }
 
                 // When the user clicks on the button, scroll to the top of the document
-                function topFunction() {
-                    document.body.scrollTop = 0;
-                    document.documentElement.scrollTop = 0;
-                }
+            function topFunction() {
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+            }
 
         </script>
 
