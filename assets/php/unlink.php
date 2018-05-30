@@ -59,7 +59,7 @@ $today = date("D d M Y | H:i:s");
 
                 $newlogfile = $file;
 
-                $current .= $today . " | Logarr created new log file: " . $newlogfile . "\n";
+                $current = $today . " | Logarr created new log file: " . $newlogfile . "\n";
                 
                 $createfile = file_put_contents($newlogfile, $current);
 

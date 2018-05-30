@@ -54,10 +54,9 @@
             //Use the function is_file to check if the config file already exists or not.
             if(!is_file($file)){
                 copy('assets/config/config.sample-12feb18.php', $file);
-            } 
-        ?>
+            }
 
-        <?php include ('assets/config/config.php'); ?>
+            include ('assets/config/config.php'); ?>
 
         <title><?php echo $config['title']; ?></title>
 
@@ -133,18 +132,20 @@
              <!-- UNLINK FUNCTION  -->
         <script>
             $(document).ready(function () {
-                $(".forms").submit(function(event){
+                $("button[data-action='unlink-log']").on('click', function(event){
+
                     event.preventDefault(); // using this page stop being refreshing
-                    var logName = $(this).attr('id');
+
+                    var logName = $(this).data('service');
+
                     $.ajax({
                         type: 'POST',
                         url: 'assets/php/unlink.php',
                         processData: false,
-                        data: $(this).serialize(),
+                        data: "file=" + $(".path[data-service='" + $(this).data('service') + "']").html().trim(),
                         success: function (data) {
                             $('#response').html(data);
-                            $('#'+logName+'-log').html(''); //empty the log screen
-                            //setTimeout(('#'+logName+'-log').html(''), 2000); //CHANGE ME // wait 2 seconds for PHP create new log file to complete .
+                            setTimeout(refresh(), 1000);
                             console.log('Logarr unlink '+ data);
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
@@ -160,10 +161,10 @@
             <!-- LOG DOWNLOAD FUNCTION  -->
         <script>
             $(document).ready(function () {
-                $(".formsdownload").submit(function(event){
+                $("button[data-action='download-log']").on('click', function(event){
                     event.preventDefault(); // using this page stop being refreshing
-                    var logFilePath = ($(this).serialize()).replace('filedownload=','');
-                    console.log('Logarr download log: ' + logFilePath);
+                    var logFilePath = ($(".path[data-service='" + $(this).data('service') + "']").html()).replace('file=','').trim();
+                    console.log(logFilePath);
                     window.open('assets/php/download.php?file='+logFilePath);
                     return false;
                 });
@@ -284,7 +285,7 @@
                                 <div class="filesize">
                                     Log File Size: <?php echo human_filesize(filesize($v)); ?>
                                 </div>
-                                <div class="path">
+                                <div class="path" data-service="<?php echo $k;?>">
                                     <?php echo $v; ?>
                                 </div>
                             </div>
@@ -304,18 +305,10 @@
                         <table id="slidebottom"> 
                             <tr>
                                 <td id="unlinkform">
-                                    <form id="<?php echo $k; ?>" class="forms">
-                                        <input name="file" type="text" class="hidden" value="<?php echo $v; ?>" required readonly />
-                                            <br>
-                                        <input name="submit" type="submit" class="slidebutton btn btn-primary" title="Attempt log file roll. NOTE: This function will copy the current log file to '[logfilename].bak', delete the original log file, and create a new blank log file with the orginal log filename. This function may not succeed if log file is in use." value="Roll Log" />
-                                    </form>
+                                    <button type="button" class="log-action-button slidebutton btn btn-primary" data-action="unlink-log" data-service="<?php echo $k;?>"  title="Attempt log file roll. NOTE: This function will copy the current log file to '[logfilename].bak', delete the original log file, and create a new blank log file with the orginal log filename. This function may not succeed if log file is in use.">Roll Log</button>
                                 </td>
                                 <td id="downloadform">
-                                    <form id="<?php echo $k; ?>" class="formsdownload">
-                                        <input name="filedownload" type="text" class="hidden" value="<?php echo $v; ?>" required readonly />
-                                            <br>
-                                        <input name="submitdl" type="submit" class="slidebutton btn btn-primary" title="Download full log file"  value="Download" />
-                                    </form>
+                                    <button type="button" class="log-action-button slidebutton btn btn-primary" data-action="download-log" data-service="<?php echo $k;?>" title="Download full log file">Download</button>
                                 </td>
                             </tr>
                         </table>
