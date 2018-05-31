@@ -26,7 +26,7 @@ $config = array(
 
     'timezone' => 'UTC',   
 		// Timezone used for UI clock. IF on Linux, this is automatically generated. If on Windows, set this to a preferred value, or the default timezone of UTC will be used. 
-        // timezone note 1: timezone format: ($timezone = 'America/Los_Angeles',) Timezones are listed here: https://php.net/manual/en/timezones.php
+		// timezone note 1: timezone format: ($timezone = 'America/Los_Angeles',) Timezones are listed here: https://php.net/manual/en/timezones.php
 
     'timestandard' => 0, 
 		// 1 = 12-hour format | 0 = 24-hour format
