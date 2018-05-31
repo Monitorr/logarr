@@ -7,7 +7,11 @@
     include ('../config/config.php');
 
     $file = $_GET['file'];
-    if(in_array($file, $logs)){ //otherwise everyone will have access to more files than you should want
+
+
+        // check if log file exists in config.php:
+
+    if(in_array($file, $logs)){ 
         if (file_exists($file)) {
             header('Content-Description: File Transfer');
             header('Content-Type: application/octet-stream');
@@ -20,11 +24,17 @@
             flush();
             readfile($file);
             exit;
-        } else {
+        } 
+        
+        else {
             echo 'file: ' . $file . ' does not exist.';
         }
-    } else {
-        echo 'Illegal File';
+    } 
+
+        // Deny access if log file does NOT exist in config.php:
+    
+    else {
+        echo 'ERROR: Illegal File';
     }
 
 ?>
