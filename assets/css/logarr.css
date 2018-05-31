@@ -571,6 +571,7 @@ input[type=search]::-webkit-search-cancel-button {
 .logheader {
     width: auto;
     width: -webkit-fill-available;
+    width: -moz-available;
     margin: 0 auto;
     margin-left: 0;
     margin-right: 0;
