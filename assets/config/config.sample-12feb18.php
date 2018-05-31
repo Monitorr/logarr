@@ -36,8 +36,8 @@ $config = array(
 
     'rflog' => '30000', 
 		// Log auto-update interval (in milliseconds) when enabled via toggle switch in UI.
-        // rflog note 1: Set this value with the size of your logs as a deciding factor. If set too low (below ~10000ms), your browser will crash.
-        // rflog note 2: During log update, the browser will have NO response. 
+		// rflog note 1: Set this value with the size of your logs as a deciding factor. If set too low (below ~10000ms), your browser will crash.
+		// rflog note 2: During log update, the browser will have NO response. 
 
     'updateBranch' => 'develop', 
 		// update branch you wish to use when updating via the Logarr GUI // "master" or "develop"
