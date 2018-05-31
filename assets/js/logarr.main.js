@@ -7,12 +7,15 @@ function searchblockUI() {
     $.blockUI({
         message: 'Searching...'
     });
+    console.log('Logarr is performing search');
     setTimeout(function () {
         highlight();
         count()
         $.unblockUI()
     }, 300);
 };
+
+    // highlight searched terms:
 
 function highlight() {
     var text = document.getElementById("text-search").value;
@@ -23,6 +26,7 @@ function highlight() {
     document.getElementById("logcontainer").innerHTML = newe;
 };
 
+    // count searched term occurances:
 
 function count() {
     var text = document.getElementById("text-search").value;
@@ -39,7 +43,6 @@ function refreshblockUI() {
     $.growlUI('Updating Logs...');
     setTimeout(function () {
         refresh();
-        // highlighterror()
     }, 300);
 };
 
@@ -47,14 +50,26 @@ function refreshblockUI() {
 function refresh() {
     var url = 'index.php';
     $('#logcontainer').load(url + ' #logcontainer');
+     console.log('Logarr log update START');
+    //highlightHilitor(); // How to re-highlight after refresh?? // CHANGE ME
 };
 
 
-function highlighterror() {
-    text = 'error';
-    var query = new RegExp("(\\b" + text + "\\b)", "gim");
-    var e = document.getElementById("logcontainer").innerHTML;
-    var enew = e.replace(/(<span>|<\/span>)/igm, "");
-    var newe = enew.replace(query, "<span>$1</span>");
-    document.getElementById("logcontainer").innerHTML = newe;
+    // highlight all "error" terms:
+
+function highlightHilitor() {
+    var myHilitor; // global variable
+    myHilitor = new Hilitor("content");
+    myHilitor.apply("error");
 };
+
+    // manual highlight all "error" terms: **not working** // CHANGE ME
+
+    function highlighterror() {
+        text = 'error';
+        var query = new RegExp("(\\b" + text + "\\b)", "gim");
+        var e = document.getElementById("logcontainer").innerHTML;
+        var enew = e.replace(/(<span>|<\/span>)/igm, "");
+        var newe = enew.replace(query, "<span>$1</span>");
+        document.getElementById("logcontainer").innerHTML = newe;
+    };
