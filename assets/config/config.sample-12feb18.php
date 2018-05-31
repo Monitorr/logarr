@@ -22,28 +22,29 @@ $config = array(
 // ** Change Logarr site settings BELOW this line **
 
     'title' => 'Logarr', 
-		// Site Title
+	// Site Title
 
     'timezone' => 'UTC',   
-		// Timezone used for UI clock. IF on Linux, this is automatically generated. If on Windows, set this to a preferred value, or the default timezone of UTC will be used. 
+	// Timezone used for UI clock. IF on Linux, this is automatically generated. If on Windows, set this to a preferred value, or the default timezone of UTC will be used. 
         // timezone note 1: timezone format: ($timezone = 'America/Los_Angeles',) Timezones are listed here: https://php.net/manual/en/timezones.php
 
     'timestandard' => 0, 
-		// 1 = 12-hour format | 0 = 24-hour format
+	// 1 = 12-hour format | 0 = 24-hour format
 
     'rftime' => '5000', 
-		// Time display update interval (in milliseconds)
+	// Time display update interval (in milliseconds)
 
-    'rflog' => '30000', // Log auto-update interval (in milliseconds) when enabled via toggle switch in UI.
+    'rflog' => '30000', 
+	// Log auto-update interval (in milliseconds) when enabled via toggle switch in UI.
         // rflog note 1: Set this value with the size of your logs as a deciding factor. If set too low (below ~10000ms), your browser will crash.
         // rflog note 2: During log update, the browser will have NO response. 
 
     'updateBranch' => 'develop', 
-		// update branch you wish to use when updating via the Logarr GUI // "master" or "develop"
+	// update branch you wish to use when updating via the Logarr GUI // "master" or "develop"
 
     'max-lines' => 1000, 
-		// Default line limit for all logs
-		// NOTE:  This value will drastically effect the loading time of Logarr. If the Logarr UI loads slow, lower this value and/or ensure your logs are not too large.  See "rflog" note above.
+	// Default line limit for all logs
+	// NOTE:  This value will drastically effect the loading time of Logarr. If the Logarr UI loads slow, lower this value and/or ensure your logs are not too large.  See "rflog" note above.
 
 // ** Change Logarr site settings ABOVE this line **
 
