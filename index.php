@@ -70,17 +70,23 @@
                 $dt = new DateTime("now", new DateTimeZone("$timezone"));
                 $timeStandard = (int) ($config['timestandard']);
                 $rftime = $config['rftime'];
+            $timezone_suffix = '';
+                if(!$timeStandard){
+                    $dateTime = new DateTime();
+                    $dateTime->setTimeZone(new DateTimeZone($timezone));
+                    $timezone_suffix = $dateTime->format('T');
+                }
             ?>
             var servertime = "<?php echo $dt->format("D d M Y H:i:s"); ?>";
             var timeStandard = <?php echo $timeStandard; ?>;
-            var servertimezone = "<?php echo $timezone; ?>";
+            var timeZone = "<?php  echo $timezone_suffix; ?>";
             var rftime = "<?php echo $rftime; ?>";
             function updateTime() {
                 var timeString = date.toLocaleString('en-US', {hour12: timeStandard, weekday: 'short', year: 'numeric', day: 'numeric', month: 'long', hour:'2-digit', minute:'2-digit', second:'2-digit'}).toString();
                 var res = timeString.split(",");
                 var time = res[3];
                 var dateString = res[0]+' | '+res[1].split(" ")[2]+" "+res[1].split(" ")[1]+res[2];
-                var data = '<div class="dtg">' + time + '</div>';
+                var data = '<div class="dtg">' + time + ' ' + timeZone + '</div>';
                 data+= '<div id="line">__________</div>';
                 data+= '<div class="date">' + dateString + '</div>';
                 $("#timer").html(data);
