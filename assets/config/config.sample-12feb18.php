@@ -59,7 +59,7 @@ $logs = array(
     // Recommended individual log files be NO MORE than ~3MB in size  
     // If this page is exposed to your WAN, check the logging applications' settings for sensitive data within logs
 
-    // Log path example: "NameOfLog" => 'C:/link/to/log/file',
+    // Log path example: "NameOfLog" => 'C:/link/to/log/file.txt',
 
 // ** Add Logs BELOW this line **
 
