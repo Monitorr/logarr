@@ -118,22 +118,7 @@ function refresh() {
             }
         }
 
-         // count searched term occurances from mark search input field // NOT WORKING:
-
-
-        var count2 = function () {
-            var text = document.getElementById("text-search2").value;
-            var count =
-            $(".markresults").length; // append markresults class to ALL search results to count
-            $(".count").text(count);
-            $('.count').append(" occurance(s) of: '");
-            $('.count').append(text);
-            $('.count').append("'");
-        };
-
-
-
-        var mark = function () {
+        function mark() { //marks and counts now
 
             // Read the keyword
             var keyword = $("input[name='markinput']").val();
@@ -154,6 +139,10 @@ function refresh() {
                         separateWordSearch: true,
                         done: function () {
                             $results = $content.find("mark");
+                            $(".count").text($results.length);
+                            $('.count').append(" occurance(s) of: '");
+                            $('.count').append(keyword);
+                            $('.count').append("'");
                             $results.addClass("markresults");
                             currentIndex = 0;
                             //jumpTo();  //Auto focus/scroll to first searched term after search submit // CHANGE ME
@@ -164,8 +153,9 @@ function refresh() {
         };
 
        // $("input[type='button']").on("click", mark, count2); // NOT WORKING if enabled WILL count, but won't highlight // CHANGE ME
-        $("input[type='button']").on("click", mark);
-        mark();
+        $("input[type='button']").on("click", function() {
+            mark();
+        });
         //count2(); // NOT WORKING  // CHANGE ME
 
 
@@ -217,5 +207,4 @@ function refresh() {
             }
         });
     });
-
 
