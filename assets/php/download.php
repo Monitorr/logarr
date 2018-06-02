@@ -3,16 +3,15 @@
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
-    $file = '../config/config.php';
-    //Use the function is_file to check if the config file already exists or not.
-    if(!is_file($file)){
-        copy('../config/config.sample-12feb18.php', $file);
-    }
 
     include ('../config/config.php');
 
     $file = $_GET['file'];
-    if(in_array($file, $logs)){ //otherwise everyone will have access to more files than you should want
+
+
+        // check if log file exists in config.php:
+
+    if(in_array($file, $logs)){ 
         if (file_exists($file)) {
             header('Content-Description: File Transfer');
             header('Content-Type: application/octet-stream');
@@ -25,12 +24,17 @@
             flush();
             readfile($file);
             exit;
-        } else {
+        } 
+        
+        else {
             echo 'file: ' . $file . ' does not exist.';
         }
-    } else {
-        echo 'Illegal File';
-    }
+    } 
 
+        // Deny access if log file does NOT exist in config.php:
+    
+    else {
+        echo 'ERROR: Illegal File';
+    }
 
 ?>

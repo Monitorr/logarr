@@ -44,7 +44,6 @@
         <meta name="msapplication-square310x310logo" content="assets/images/favicon/mstile-310x310.png" />
         <meta name="theme-color" content="#252525"/>
         <meta name="theme_color" content="#252525"/>
-        
       
         <meta name="robots" content="NOINDEX, NOFOLLOW">
 
@@ -56,7 +55,8 @@
                 copy('assets/config/config.sample-12feb18.php', $file);
             }
 
-            include ('assets/config/config.php'); ?>
+            include ('assets/config/config.php'); 
+        ?>
 
         <title><?php echo $config['title']; ?></title>
 
@@ -70,7 +70,7 @@
                 $dt = new DateTime("now", new DateTimeZone("$timezone"));
                 $timeStandard = (int) ($config['timestandard']);
                 $rftime = $config['rftime'];
-            $timezone_suffix = '';
+                $timezone_suffix = '';
                 if(!$timeStandard){
                     $dateTime = new DateTime();
                     $dateTime->setTimeZone(new DateTimeZone($timezone));
@@ -103,18 +103,6 @@
 
         <script>
 
-            var myHilitor; // global variable
-            document.addEventListener("DOMContentLoaded", function(e) {
-                myHilitor = new Hilitor("content");
-                myHilitor.apply("error");
-            }, 
-            
-            false);
-
-        </script>
-
-        <script>
-
             var nIntervId;
             var onload;
 
@@ -134,8 +122,7 @@
 
         <script src="assets/js/logarr.main.js"></script>
 
-
-             <!-- UNLINK FUNCTION  -->
+             <!-- LOG UNLINK FUNCTION  -->
         <script>
             $(document).ready(function () {
                 $("button[data-action='unlink-log']").on('click', function(event){
@@ -149,11 +136,26 @@
                         url: 'assets/php/unlink.php',
                         processData: false,
                         data: "file=" + $(".path[data-service='" + $(this).data('service') + "']").html().trim(),
-                        success: function (data) {
-                            $('#response').html(data);
+                        success: function (data) {          
+                            $('#modalContent').html(data);
                             setTimeout(refresh(), 1000);
                             console.log('Logarr unlink '+ data);
+
+                            var modal = document.getElementById('responseModal');
+                            var span = document.getElementsByClassName("closemodal")[0];
+                            modal.style.display = "block";
+
+                            span.onclick = function() {
+                                modal.style.display = "none";
+                            }
+
+                            window.onclick = function(event) {
+                                if (event.target == modal) {
+                                    modal.style.display = "none";
+                                }
+                            }
                         },
+
                         error: function(jqXHR, textStatus, errorThrown) {
                             alert( "Posting failed (ajax)" );
                             console.log("Posting failed (ajax)");
@@ -177,10 +179,9 @@
             });
         </script>
 
-
     </head>
     
-    <body id="body" style="border: 10px solid #252525; color: #FFFFFF;">
+    <body id="body" style="border: 10px solid #252525; color: #FFFFFF;" onload="highlightHilitor()">
 
         <?php
 
@@ -223,9 +224,7 @@
 
             <div id="logo" class="Column">
 
-                <a href="javascript:history.go(0)"> 
-                    <img src="assets/images/log-icon.png" alt="Logarr" style="height:8em;border:0;">
-                </a>
+                <img src="assets/images/log-icon.png" alt="Logarr" style="height:8em;border:0;">
 
             </div>
 
@@ -240,7 +239,7 @@
                 <div id="rightmiddle" class="rightmiddle">
                     <form id="searchForm" method="post" action="index.php" onsubmit="searchblockUI(); return false;">
                         <input name="text-search" id="text-search" type="search" value="" class="input" placeholder="search & highlight..." required>
-                        <input id="submit" type="submit" value="Submit" class="button btn btn-primary" title="Execute search"  />
+                        <input id="submit" type="submit" value="Search" class="button btn btn-primary" title="Execute search"  />
                     </form>
                 </div>
 
@@ -248,6 +247,7 @@
                     
                     <table id="slidertable">
                         <tr title="Enable log auto-update | Interval: <?php echo $config['rflog']; ?> ms ">
+
                             <th id="textslider">
                             Auto Update:
                             </th>
@@ -257,10 +257,13 @@
                                     <span class="slider round"></span>
                                 </label>
                             </th>
+
+                            <th>
+                                <input id="Update" class="button2 btn btn-primary" type="button" value="Update" title="Trigger manual log update" onclick="refreshblockUI(); return false" />
+                            </th>
+
                         </tr>
                     </table>
-                        
-                    <input id="Update" class="button2 btn btn-primary" type="button" value="Update" title="Trigger manual log update" onclick="refreshblockUI();  return false" />
 
                 </div>
 
@@ -300,7 +303,7 @@
 
                         <div class="slide">
                             <input class="expandtoggle" type="checkbox" name="slidebox" id="<?php echo $k; ?>" checked>
-                            <label for="<?php echo $k; ?>" class="expandtoggle"></label>
+                            <label for="<?php echo $k; ?>" class="expandtoggle" title="Increase/decrease log view"></label>
 
                             <div id="expand" class="expand">
                                 <p id="<?php echo $k; ?>-log"><?php readExternalLog($v, $config['max-lines']); ?></p>
@@ -327,12 +330,16 @@
                 
         </div>
 
+            <!-- Unlink response modal: -->
 
-        <!-- Put this in a modal???  // CHANGE ME -->
+        <div id='responseModal'>
 
-        <div id='response'></div>
+            <span class="closemodal"  aria-hidden="true" title="Close">&times;</span>
 
+            <div id='modalContent'></div>
         
+        </div>
+
         <button onclick="topFunction(), checkAll1()" id="myBtn" title="Go to top"></button>
         
         <div class="footer">
