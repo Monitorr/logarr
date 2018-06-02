@@ -66,6 +66,7 @@
 
         <script>
             <?php
+                //initial values for clock:
                 $timezone = $config['timezone'];
                 $dt = new DateTime("now", new DateTimeZone("$timezone"));
                 $timeStandard = (int) ($config['timestandard']);
@@ -76,23 +77,45 @@
                     $dateTime->setTimeZone(new DateTimeZone($timezone));
                     $timezone_suffix = $dateTime->format('T');
                 }
+                $serverTime = $dt->format("D d M Y H:i:s");
             ?>
-            var servertime = "<?php echo $dt->format("D d M Y H:i:s"); ?>";
-            var timeStandard = <?php echo $timeStandard; ?>;
-            var timeZone = "<?php  echo $timezone_suffix; ?>";
-            var rftime = "<?php echo $rftime; ?>";
+            var servertime = "<?php echo $serverTime;?>";
+            var timeStandard = <?php echo $timeStandard;?>;
+            var timeZone = "<?php echo $timezone_suffix;?>";
+            var rftime = <?php echo $config['rftime'];?>;
+            var syncServerTimeInterval;
+
             function updateTime() {
-                var timeString = date.toLocaleString('en-US', {hour12: timeStandard, weekday: 'short', year: 'numeric', day: 'numeric', month: 'long', hour:'2-digit', minute:'2-digit', second:'2-digit'}).toString();
-                var res = timeString.split(",");
-                var time = res[3];
-                var dateString = res[0]+' | '+res[1].split(" ")[2]+" "+res[1].split(" ")[1]+res[2];
-                var data = '<div class="dtg">' + time + ' ' + timeZone + '</div>';
-                data+= '<div id="line">__________</div>';
-                data+= '<div class="date">' + dateString + '</div>';
-                $("#timer").html(data);
-                window.setTimeout(updateTime, rftime);
+                setInterval(function() {
+                    var timeString = date.toLocaleString('en-US', {hour12: timeStandard, weekday: 'short', year: 'numeric', day: 'numeric', month: 'long', hour:'2-digit', minute:'2-digit', second:'2-digit'}).toString();
+                    var res = timeString.split(",");
+                    var time = res[3];
+                    var dateString = res[0]+' | '+res[1].split(" ")[2]+" "+res[1].split(" ")[1]+res[2];
+                    var data = '<div class="dtg">' + time + ' ' + timeZone + '</div>';
+                    data+= '<div id="line">__________</div>';
+                    data+= '<div class="date">' + dateString + '</div>';
+                    $("#timer").html(data);
+                }, 1000);
+            }
+            function syncServerTime() {
+                $.ajax({
+                    url: "assets/php/time.php",
+                    type: "GET",
+                    success: function (response) {
+                        var response = $.parseJSON(response);
+                        console.log(response);
+                        servertime = response.serverTime;
+                        timeStandard = parseInt(response.timeStandard);
+                        timeZone = response.timezoneSuffix;
+                        rftime = parseInt(response.rftime);
+                        date = new Date(servertime);
+                        console.log(rftime);
+                        setTimeout(function() {syncServerTime()}, rftime); //delay is rftime
+                    }
+                });
             }
             $(document).ready(function() {
+                setTimeout(syncServerTime(), rftime); //delay is rftime
                 updateTime();
             });
         </script>
