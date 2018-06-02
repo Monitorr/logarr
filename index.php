@@ -2,11 +2,9 @@
 <html lang="en">
 
     <!--
-
                     LOGARR
         by @seanvree, @wjbeckett, and @jonfinley 
             https://github.com/Monitorr
-
     -->
 
     <head>
@@ -54,7 +52,6 @@
             if(!is_file($file)){
                 copy('assets/config/config.sample-12feb18.php', $file);
             }
-
             include ('assets/config/config.php'); 
         ?>
 
@@ -64,9 +61,33 @@
 
         <script src="assets/js/pace.js" async></script>
 
+        <script src="assets/js/jquery.blockUI.js" async></script>
+
+        <script src="assets/js/jquery.highlight.js" async> </script>
+
+
+             <?php 
+
+                if($config['timezone'] == "") {
+
+                    date_default_timezone_set('UTC');
+                    $timezone = date_default_timezone_get(); 
+
+                }
+
+                else {
+
+                    $timezoneconfig = $config['timezone'];
+                    date_default_timezone_set($timezoneconfig);
+                    $timezone = date_default_timezone_get();
+
+                }
+            ?>
+
         <script>
             <?php
-                $timezone = $config['timezone'];
+                //initial values for clock:
+                //$timezone = $config['timezone'];
                 $dt = new DateTime("now", new DateTimeZone("$timezone"));
                 $timeStandard = (int) ($config['timestandard']);
                 $rftime = $config['rftime'];
@@ -76,36 +97,55 @@
                     $dateTime->setTimeZone(new DateTimeZone($timezone));
                     $timezone_suffix = $dateTime->format('T');
                 }
+                $serverTime = $dt->format("D d M Y H:i:s");
             ?>
-            var servertime = "<?php echo $dt->format("D d M Y H:i:s"); ?>";
-            var timeStandard = <?php echo $timeStandard; ?>;
-            var timeZone = "<?php  echo $timezone_suffix; ?>";
-            var rftime = "<?php echo $rftime; ?>";
+            var servertime = "<?php echo $serverTime;?>";
+            var timeStandard = <?php echo $timeStandard;?>;
+            var timeZone = "<?php echo $timezone_suffix;?>";
+            var rftime = <?php echo $config['rftime'];?>;
             function updateTime() {
-                var timeString = date.toLocaleString('en-US', {hour12: timeStandard, weekday: 'short', year: 'numeric', day: 'numeric', month: 'long', hour:'2-digit', minute:'2-digit', second:'2-digit'}).toString();
-                var res = timeString.split(",");
-                var time = res[3];
-                var dateString = res[0]+' | '+res[1].split(" ")[2]+" "+res[1].split(" ")[1]+res[2];
-                var data = '<div class="dtg">' + time + ' ' + timeZone + '</div>';
-                data+= '<div id="line">__________</div>';
-                data+= '<div class="date">' + dateString + '</div>';
-                $("#timer").html(data);
-                window.setTimeout(updateTime, rftime);
+                setInterval(function() {
+                    var timeString = date.toLocaleString('en-US', {hour12: timeStandard, weekday: 'short', year: 'numeric', day: '2-digit', month: 'short', hour:'2-digit', minute:'2-digit', second:'2-digit'}).toString();
+                    var res = timeString.split(",");
+                    var time = res[3];
+                    var dateString = res[0]+'&nbsp; | &nbsp;'+res[1].split(" ")[2]+" "+res[1].split(" ")[1]+'<br>'+res[2];
+                    var data = '<div class="dtg">' + time + ' ' + timeZone + '</div>';
+                    data+= '<div id="line">__________</div>';
+                    data+= '<div class="date">' + dateString + '</div>';
+                    $("#timer").html(data);
+                }, 1000);
+            }
+            function syncServerTime() {
+                $.ajax({
+                    url: "assets/php/time.php",
+                    type: "GET",
+                    success: function (response) {
+                        var response = $.parseJSON(response);
+                        servertime = response.serverTime;
+                        timeStandard = parseInt(response.timeStandard);
+                        timeZone = response.timezoneSuffix;
+                        rftime = parseInt(response.rftime);
+                        date = new Date(servertime);
+                        setTimeout(function() {syncServerTime()}, rftime); //delay is rftime
+                        console.log('Logarr time update START');
+                    }
+                });
             }
             $(document).ready(function() {
+                setTimeout(syncServerTime(), rftime); //delay is rftime
                 updateTime();
             });
         </script>
 
         <script src="assets/js/clock.js" async></script>
 
-        <script src="assets/js/hilitor.js" async></script>
+        <!-- //CHANGE ME REMOVE HILITOR -->
+
+        <!-- <script src="assets/js/hilitor.js" async></script> -->  
 
         <script>
-
             var nIntervId;
             var onload;
-
              $(document).ready(function () {
                 $('#buttonStart :checkbox').change(function () {
                     if ($(this).is(':checked')) {
@@ -117,7 +157,6 @@
                 // Uncomment line below to set auto-refresh to ENABLE on page load
                 // $('#buttonStart :checkbox').attr('checked', 'checked').change();
             });  
-
         </script>
 
         <script src="assets/js/logarr.main.js"></script>
@@ -126,11 +165,8 @@
         <script>
             $(document).ready(function () {
                 $("button[data-action='unlink-log']").on('click', function(event){
-
                     event.preventDefault(); // using this page stop being refreshing
-
                     var logName = $(this).data('service');
-
                     $.ajax({
                         type: 'POST',
                         url: 'assets/php/unlink.php',
@@ -140,22 +176,18 @@
                             $('#modalContent').html(data);
                             setTimeout(refresh(), 1000);
                             console.log('Logarr unlink '+ data);
-
                             var modal = document.getElementById('responseModal');
                             var span = document.getElementsByClassName("closemodal")[0];
                             modal.style.display = "block";
-
                             span.onclick = function() {
                                 modal.style.display = "none";
                             }
-
                             window.onclick = function(event) {
                                 if (event.target == modal) {
                                     modal.style.display = "none";
                                 }
                             }
                         },
-
                         error: function(jqXHR, textStatus, errorThrown) {
                             alert( "Posting failed (ajax)" );
                             console.log("Posting failed (ajax)");
@@ -179,9 +211,10 @@
             });
         </script>
 
+
     </head>
     
-    <body id="body" style="border: 10px solid #252525; color: #FFFFFF;" onload="highlightHilitor()">
+    <body id="body" style="border: 10px solid #252525; color: #FFFFFF;" onload="highlightjs()">
 
         <?php
 
@@ -258,8 +291,8 @@
                                 </label>
                             </th>
 
-                            <th>
-                                <input id="Update" class="button2 btn btn-primary" type="button" value="Update" title="Trigger manual log update" onclick="refreshblockUI(); return false" />
+                            <th>                               
+                                <input id="Update" class="button2 btn btn-primary" type="button" value="Update" title="Trigger log manual update" onclick="refreshblockUI(); return false" />
                             </th>
 
                         </tr>
@@ -349,7 +382,7 @@
             <script src="assets/js/update.js" async></script>
 
             <div id="logarrid">
-                <a href="https://github.com/monitorr/logarr" title="Logarr GitHub Repo" target="_blank" >Logarr </a> |
+                <a href="https://github.com/monitorr/logarr" title="Logarr GitHub repo" target="_blank" >Logarr </a> |
                 <a href="https://github.com/Monitorr/logarr/releases" title="Logarr releases" target="_blank"> Version: <?php echo file_get_contents( "assets/js/version/version.txt" );?></a>
                 <br>
             </div>
@@ -362,8 +395,6 @@
             <div id="version_check_auto"></div>
 
         </div>
-
-        <script src="assets/js/jquery.blockUI.js"></script>
 
         <!-- scroll to top   -->
 
