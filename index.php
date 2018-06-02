@@ -83,7 +83,6 @@
             var timeStandard = <?php echo $timeStandard;?>;
             var timeZone = "<?php echo $timezone_suffix;?>";
             var rftime = <?php echo $config['rftime'];?>;
-            var syncServerTimeInterval;
 
             function updateTime() {
                 setInterval(function() {
@@ -103,13 +102,11 @@
                     type: "GET",
                     success: function (response) {
                         var response = $.parseJSON(response);
-                        console.log(response);
                         servertime = response.serverTime;
                         timeStandard = parseInt(response.timeStandard);
                         timeZone = response.timezoneSuffix;
                         rftime = parseInt(response.rftime);
                         date = new Date(servertime);
-                        console.log(rftime);
                         setTimeout(function() {syncServerTime()}, rftime); //delay is rftime
                     }
                 });
