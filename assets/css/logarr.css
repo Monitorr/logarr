@@ -976,3 +976,39 @@ a:hover {
         transform: rotate(360deg);
     }
 }
+
+
+
+#markform {
+
+    position: fixed;
+    z-index: 5000;
+    margin-left: 15%;
+    /* right: 0; */
+}
+mark {
+    background: yellow;
+}
+
+mark.current {
+    background: orange;
+}
+
+mark.animate {
+    background-position: left bottom;
+    color: #000;
+}
+
+
+.content {
+    margin-top: 50px;
+}
+
+
+.markresults
+
+{
+
+    Color: green;
+
+}

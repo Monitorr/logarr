@@ -65,6 +65,10 @@
 
         <script src="assets/js/jquery.highlight.js" async> </script>
 
+        <script src="assets/js/jquery.mark.min.js" async> </script>
+
+        <!-- <script src="assets/js/mark.js" async> </script> -->
+
 
              <?php 
 
@@ -218,8 +222,7 @@
 
         <?php
 
-            function readExternalLog($filename, $maxLines)
-            {
+            function readExternalLog($filename, $maxLines) {
                 ini_set("auto_detect_line_endings", true);
                 $log = file($filename);
                 $log = array_reverse($log);
@@ -232,8 +235,7 @@
                 
             }
 
-            function human_filesize($bytes, $decimals = 2)
-            {
+            function human_filesize($bytes, $decimals = 2) {
                 $size = array('B','kB','MB','GB','TB','PB','EB','ZB','YB');
                 $factor = floor((strlen($bytes) - 1) / 3);
                 return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$size[$factor];
@@ -243,6 +245,15 @@
 
         <div id="ajaxtimestamp" title="Analog clock timeout. Refresh page."></div>
         <div id="ajaxmarquee" title="Offline marquee timeout. Refresh page."></div>
+
+                <div id="markform">
+                    Mark:
+                    <input type="search" name="markinput"  id="text-search2" value="marksearch" placeholder="highlight . . .">
+                    <button data-search="next" class="button btn btn-primary">&darr;</button>
+                    <button data-search="prev" class="button btn btn-primary">&uarr;</button>
+                    <button data-search="clear" class="button btn btn-primary">✖</button>
+                    <input type="button" value="Search" class="button btn btn-primary">
+                </div>
 
         <div class="header">
         
@@ -303,6 +314,9 @@
             </div>
             
         </div>
+
+
+
 
         <div id="logcontainer">
 
