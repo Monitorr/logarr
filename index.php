@@ -66,11 +66,20 @@
         <script src="assets/js/jquery.highlight.js" async> </script>
 
         <script src="assets/js/jquery.mark.min.js" async> </script>
+            
+               <!-- Highlight error terms onload:  -->
 
-        <!-- <script src="assets/js/mark.js" async> </script> -->
+        <script>
+            function highlightjsload() {
+                $.growlUI('Loading logs...');
+                setTimeout(function () {
+                    highlightjs();
+                }, 300);
+            };
+        </script>
 
-
-             <?php 
+                <!-- // Set global timezone from config file: -->
+            <?php 
 
                 if($config['timezone'] == "") {
 
@@ -143,10 +152,6 @@
 
         <script src="assets/js/clock.js" async></script>
 
-        <!-- //CHANGE ME REMOVE HILITOR -->
-
-        <!-- <script src="assets/js/hilitor.js" async></script> -->  
-
         <script>
             var nIntervId;
             var onload;
@@ -169,7 +174,7 @@
         <script>
             $(document).ready(function () {
                 $("button[data-action='unlink-log']").on('click', function(event){
-                    event.preventDefault(); // using this page stop being refreshing
+                    event.preventDefault(); // stop being refreshed
                     var logName = $(this).data('service');
                     $.ajax({
                         type: 'POST',
@@ -215,10 +220,23 @@
             });
         </script>
 
+             <!-- Execute search on ENTER keyup:  -->
+        <script>
+
+            $(document).ready(function () {
+                $("#text-search2").keyup(function(event) {
+                    if (event.keyCode === 13) {
+                        $("#marksearch").click();
+                    }
+                });
+            });
+
+        </script>
+
 
     </head>
     
-    <body id="body" style="border: 10px solid #252525; color: #FFFFFF;" onload="highlightjs()">
+    <body id="body" style="border: 10px solid #252525; color: #FFFFFF;" onload="highlightjsload()">
 
         <?php
 
@@ -246,14 +264,6 @@
         <div id="ajaxtimestamp" title="Analog clock timeout. Refresh page."></div>
         <div id="ajaxmarquee" title="Offline marquee timeout. Refresh page."></div>
 
-                <div id="markform">
-                    Mark:
-                    <input type="search" name="markinput"  id="text-search2" value="marksearch" placeholder="highlight . . .">
-                    <button data-search="next" class="button btn btn-primary">&darr;</button>
-                    <button data-search="prev" class="button btn btn-primary">&uarr;</button>
-                    <button data-search="clear" class="button btn btn-primary">✖</button>
-                    <input type="button" value="Search" class="button btn btn-primary">
-                </div>
 
         <div class="header">
         
@@ -275,16 +285,20 @@
             <div id="right" class="Column"> 
 
                 <div id="righttop" class="righttop">
-                    
-                    <div id="count" class="count"> </div>
-
+                    <div id="markform">
+                        <input type="search" name="markinput"  id="text-search2" class="input" title="Input search term" placeholder=" Search & highlight . . ." required>
+                        <input type="button" name="marksearch"  id="marksearch" value="Search" class="btn marksearch btn-primary" title="Execute search">
+                        <button data-search="next" class="btn search-button btn-primary" title="Focus to first search result">&darr;</button>
+                        <button data-search="prev" class="btn search-button btn-primary" title="Focus to last search result" >&uarr;</button>
+                        <button data-search="clear" class="btn search-button btn-primary" title="Clear search results">✖</button>
+                        
+                    </div>
                 </div>
                 
                 <div id="rightmiddle" class="rightmiddle">
-                    <form id="searchForm" method="post" action="index.php" onsubmit="searchblockUI(); return false;">
-                        <input name="text-search" id="text-search" type="search" value="" class="input" placeholder="search & highlight..." required>
-                        <input id="submit" type="submit" value="Search" class="button btn btn-primary" title="Execute search"  />
-                    </form>
+
+                     <div id="count" class="count"> </div>
+
                 </div>
 
                 <div id="rightbottom" class="rightbottom">
@@ -293,8 +307,9 @@
                         <tr title="Enable log auto-update | Interval: <?php echo $config['rflog']; ?> ms ">
 
                             <th id="textslider">
-                            Auto Update:
+                                Auto Update:
                             </th>
+
                             <th id="slider">
                                 <label class="switch" id="buttonStart">
                                     <input type="checkbox">
@@ -314,9 +329,6 @@
             </div>
             
         </div>
-
-
-
 
         <div id="logcontainer">
 
@@ -339,7 +351,7 @@
 
                             <div id="filepath"  class="right">
                                 <div class="filesize">
-                                    Log File Size: <?php echo human_filesize(filesize($v)); ?>
+                                    Log file size: <?php echo human_filesize(filesize($v)); ?>
                                 </div>
                                 <div class="path" data-service="<?php echo $k;?>">
                                     <?php echo $v; ?>
