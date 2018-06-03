@@ -66,6 +66,8 @@
         <script src="assets/js/jquery.highlight.js" async> </script>
 
         <script src="assets/js/jquery.mark.min.js" async> </script>
+
+        <script src="assets/js/logarr.main.js"></script>
             
                <!-- Highlight error terms onload:  -->
 
@@ -167,8 +169,6 @@
                 // $('#buttonStart :checkbox').attr('checked', 'checked').change();
             });  
         </script>
-
-        <script src="assets/js/logarr.main.js"></script>
 
              <!-- LOG UNLINK FUNCTION  -->
         <script>
