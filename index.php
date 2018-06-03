@@ -286,7 +286,7 @@
 
                 <div id="righttop" class="righttop">
                     <div id="markform">
-                        <input type="search" name="markinput"  id="text-search2" class="input" title="Input search term" placeholder=" Search & highlight . . ." required>
+                        <input type="search" name="markinput"  id="text-search2" class="input" title="Input search term" placeholder=" Search & highlight . . .">
                         <input type="button" name="marksearch"  id="marksearch" value="Search" class="btn marksearch btn-primary" title="Execute search">
                         <button data-search="next" class="btn search-button btn-primary" title="Focus to first search result">&darr;</button>
                         <button data-search="prev" class="btn search-button btn-primary" title="Focus to last search result" >&uarr;</button>
