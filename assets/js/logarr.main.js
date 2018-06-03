@@ -62,18 +62,37 @@ $(function () {
 
         //Jumps to the element matching the currentIndex
      
-    function jumpTo() {
-        if ($results.length) {
-            var position,
-                $current = $results.eq(currentIndex);
-            $results.removeClass(currentClass);
-            if ($current.length) {
-                $current.addClass(currentClass);
-                position = $current.offset().top - offsetTop;
-                window.scrollTo(0, position);
+        function jumpTo() {
+            if ($results.length) {
+                var position,
+                    $current = $results.eq(currentIndex);
+                $results.removeClass(currentClass);
+                if ($current.length) {
+                    $current.addClass(currentClass);
+                    var currentOffset = $('.markresults.current').offsetTop;
+                    var parent = $('.markresults.current').parent();
+                    while (!parent.is('div')) {
+                        parent = parent.parent();
+                    }
+                    
+                        /* not animated page scroll */
+                    $('html, body').scrollTop(
+                        $(parent).offset().top
+                    );
+
+                        /*
+                            $('html, body').animate({
+                                scrollTop: $(parent).offset().top
+                            }, 200); //make this value bigger if you want smoother/longer scroll
+                        */
+
+                    /* not animated scroll */
+                    parent.scrollTop(
+                        $('.markresults.current').offset().top - parent.offset().top + parent.scrollTop()
+                    );
+                }
             }
         }
-    }
 
     function mark() {
 
@@ -94,7 +113,7 @@ $(function () {
         $content.unmark({
             done: function () {
                 $content.mark(keyword, {
-                    separateWordSearch: true,
+                    separateWordSearch: false,
                     done: function () {
                         $results = $content.find("mark");
                         $(".count").text($results.length);
