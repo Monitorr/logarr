@@ -1,14 +1,19 @@
 {
-    "config": {
-        "title": "Logarr",
-        "jumpOnSearch": "0",
-        "logRefresh": "true",
-        "timezone": "Europe\/Amsterdam",
-        "timestandard": "0",
-        "rftime": "3000",
-        "rflog": "30000",
-        "rfconfig": "5000",
-        "updateBranch": "develop",
-        "maxLines": "150"
-    }
+  "config": {
+    "title": "Logarr",
+    "jumpOnSearch": 0,
+    "logRefresh": 0,
+    "timezone": "UTC",
+    "timestandard": 0,
+    "rftime": "60000",
+    "rflog": "30000",
+    "rfconfig": "5000",
+    "updateBranch": "develop",
+    "maxLines": 1000
+  },
+  "logs": {
+    "Apache_error": "C:\\ProgramData\\nzbdrone\\logs\\sonarr.txt",
+    "Error": "C:\\ProgramData\\Radarr\\logs\\radarr.txt",
+    "PHP": "C:\\php\\7.1\\logs\\php.log"
+  }
 }
