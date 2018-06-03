@@ -18,6 +18,7 @@ body {
     font-size: 14px;
 }
 
+
 .flex {
     display: -webkit-flex;
     display: flex;
@@ -428,6 +429,7 @@ input:checked+.slider:before {
     color: #000000;
     font-weight: 600;
     background-color: #ff6;
+    padding: .1rem;
 }
 
 .input {
@@ -446,6 +448,7 @@ input:checked+.slider:before {
 input[type=search]::-webkit-search-cancel-button {
     -webkit-appearance: searchfield-cancel-button;
     appearance: searchfield-cancel-button;
+    -moz-appearance: searchfield-cancel-button;
 }
 
 .count {
@@ -463,19 +466,32 @@ input[type=search]::-webkit-search-cancel-button {
 }
 
 .highlight {
-    background-color: rgb(253, 0, 127);
-    -moz-border-radius: 5px;
+    background-color: red !important;
+    color: white !important;
+    -moz-border-radius: .1rem;
     /* FF1+ */
-    -webkit-border-radius: 5px;
+    -webkit-border-radius: .1rem;
     /* Saf3-4 */
-    border-radius: 5px;
+    border-radius: .1rem;
     /* Opera 10.5, IE 9, Saf5, Chrome */
-    -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+    -moz-box-shadow: 0 1px .1rem rgba(0, 0, 0, 0.7);
     /* FF3.5+ */
-    -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+    -webkit-box-shadow: 0 1px .1rem rgba(0, 0, 0, 0.7);
     /* Saf3.0+, Chrome */
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 1px .1rem rgba(0, 0, 0, 0.7);
     /* Opera 10.5+, IE 9.0 */
+}
+
+
+.error {
+    padding: .1rem;
+    background-color: red !important;
+    color: white !important;
+    font-style: normal;
+    font-weight: 600;
+    -moz-border-radius: .1rem;
+    -webkit-border-radius: .1rem;
+    border-radius: .1rem;
 }
 
 /* Search Indicator */
@@ -959,4 +975,40 @@ a:hover {
     99% {
         transform: rotate(360deg);
     }
+}
+
+
+
+#markform {
+
+    position: fixed;
+    z-index: 5000;
+    margin-left: 15%;
+    /* right: 0; */
+}
+mark {
+    background: yellow;
+}
+
+mark.current {
+    background: orange;
+}
+
+mark.animate {
+    background-position: left bottom;
+    color: #000;
+}
+
+
+.content {
+    margin-top: 50px;
+}
+
+
+.markresults
+
+{
+
+    Color: green;
+
 }

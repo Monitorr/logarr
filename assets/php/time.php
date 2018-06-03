@@ -1,4 +1,3 @@
-
 <?php
     include ('../config/config.php');
     $timezone = $config['timezone'];

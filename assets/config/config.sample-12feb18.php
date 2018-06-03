@@ -31,7 +31,7 @@ $config = array(
     'timestandard' => 0,
 		// 1 = 12-hour format | 0 = 24-hour format
 
-    'rftime' => '5000',
+    'rftime' => '60000',
 		// Time display update interval (in milliseconds)
 
     'rflog' => '30000',
