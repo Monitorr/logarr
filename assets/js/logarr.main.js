@@ -74,6 +74,17 @@ $(function () {
                     while (!parent.is('div')) {
                         parent = parent.parent();
                     }
+                    
+                        /* not animated page scroll */
+                    $('html, body').scrollTop(
+                        $(parent).offset().top
+                    );
+
+                        /*
+                            $('html, body').animate({
+                                scrollTop: $(parent).offset().top
+                            }, 200); //make this value bigger if you want smoother/longer scroll
+                        */
 
                     /* not animated scroll */
                     parent.scrollTop(
