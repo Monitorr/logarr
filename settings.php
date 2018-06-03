@@ -94,7 +94,7 @@ https://github.com/Monitorr/Monitorr
         //initial values for clock:
         //$timezone = $config['timezone'];
         $dt = new DateTime("now", new DateTimeZone("$timezone"));
-        $timeStandard = (int) ($preferences['timestandard']);
+        $timeStandard = (int) ($preferences['timestandard'] === "True" ? true:false);
         $rftime = $config['rftime'];
         $timezone_suffix = '';
         if(!$timeStandard){
@@ -128,6 +128,7 @@ https://github.com/Monitorr/Monitorr
                     var response = $.parseJSON(response);
                     servertime = response.serverTime;
                     timeStandard = parseInt(response.timeStandard);
+                    console.log(timeStandard);
                     timeZone = response.timezoneSuffix;
                     rftime = response.rftime;
                     date = new Date(servertime);

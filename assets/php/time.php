@@ -1,9 +1,9 @@
 <?php
     include('functions.php');
-    $timezone = $config['timezone'];
+    $timezone = $preferences['timezone'];
     $dt = new DateTime("now", new DateTimeZone("$timezone"));
-    $timeStandard = (int) ($config['timestandard']);
-    $rftime = $config['rftime'];
+    $timeStandard = (int) ($preferences['timestandard'] === "True" ? true:false);
+    $rftime = $settings['rftime'];
     $timezone_suffix = '';
     if(!$timeStandard){
         $dateTime = new DateTime();

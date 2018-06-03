@@ -492,7 +492,7 @@ include ('..//functions.php');
                                                     data: $('#preferencesettings').alpaca().getValue(),
                                                     success: function(data) {
                                                         alert("Settings saved! Applying changes...");
-                                                        setTimeout(function () { window.top.location = "../../../../settings.php" + window.top.location.hash }, 3000);
+                                                        setTimeout(function () { window.top.location.reload(true); }, 3000);
                                                     },
                                                     error: function(errorThrown){
                                                         console.log(errorThrown);
