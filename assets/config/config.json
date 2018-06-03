@@ -10,10 +10,5 @@
         "rfconfig": "5000",
         "updateBranch": "develop",
         "maxLines": "150"
-    },
-    "logs": {
-        "Apache_error": "D:\\wamp\\logs\\apache_error.log",
-        "Error": "D:\\wamp\\logs\\error.log",
-        "PHP": "D:\\wamp\\logs\\php_error.log"
     }
 }
