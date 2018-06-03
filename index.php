@@ -275,7 +275,7 @@
 
     </head>
     
-    <body id="body" style="border: 10px solid #252525; color: #FFFFFF;" onload="highlightjsload()">
+    <body id="body" style="color: #FFFFFF;" onload="highlightjsload()">
         <div id="ajaxtimestamp" title="Analog clock timeout. Refresh page."></div>
         <div id="ajaxmarquee" title="Offline marquee timeout. Refresh page."></div>
 
@@ -414,15 +414,16 @@
 
         <button onclick="topFunction(), checkAll1()" id="myBtn" title="Go to top"></button>
         
-        <div class="footer">
+        <div id="footer">
 
             <script src="assets/js/update_auto.js" async></script>
             
             <script src="assets/js/update.js" async></script>
 
             <div id="logarrid">
-                <a href="https://github.com/monitorr/logarr" title="Logarr GitHub repo" target="_blank" >Logarr </a> |
-                <a href="https://github.com/Monitorr/logarr/releases" title="Logarr releases" target="_blank"> Version: <?php echo file_get_contents( "assets/js/version/version.txt" );?></a>
+                <a href="https://github.com/monitorr/logarr" title="Logarr GitHub repo" target="_blank" class="footer">Logarr </a> |
+                <a href="settings.php" title="Logarr Settings" target="_blank" class="footer">Settings</a> |
+                <a href="https://github.com/Monitorr/logarr/releases" title="Logarr releases" target="_blank" class="footer"> Version: <?php echo file_get_contents( "assets/js/version/version.txt" );?></a>
                 <br>
             </div>
 

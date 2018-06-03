@@ -1,5 +1,7 @@
 <?php
 $config = json_decode(file_get_contents(__DIR__ . '/../config/config.json'),1)['config'];
+$preferences = json_decode(file_get_contents(__DIR__ . '/../config/config.json'),1)['preferences'];
+$settings = json_decode(file_get_contents(__DIR__ . '/../config/config.json'),1)['settings'];
 $logs = json_decode(file_get_contents(__DIR__ . '/../config/config.json'),1)['logs'];
 
 
