@@ -102,7 +102,7 @@ $(function () {
         $content.unmark({
             done: function () {
                 $content.mark(keyword, {
-                    separateWordSearch: true,
+                    separateWordSearch: false,
                     done: function () {
                         $results = $content.find("mark");
                         $(".count").text($results.length);
