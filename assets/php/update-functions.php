@@ -24,14 +24,14 @@ if($copy == 1){
 	if($res === TRUE){
 		$zip->extractTo($extractPath);
 		$zip->close();
-		// copy config.php to safe place while we update
-		rename('../config/config.php', $extractPath.'config.php');
+		// copy config.json to safe place while we update
+		rename('../config/config.json', $extractPath.'config.json');
 		// copy files from temp to monitorr root
 		$scanPath = array_diff(scandir($extractPath), array('..','.'));
 		$fullPath = $extractPath . $scanPath[2];
 		recurse_copy($fullPath,$base_path);
-		// restore config.php file
-		rename($extractPath.'config.php', '../config/config.php');
+		// restore config.json file
+		rename($extractPath.'config.json', '../config/config.json');
 		// update users local version number file
 		$userfile = fopen ("../js/version/version.txt", "w");
 		$user_vnum = fgets($userfile);

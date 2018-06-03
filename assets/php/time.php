@@ -1,5 +1,5 @@
 <?php
-    include ('../config/config.php');
+    include('functions.php');
     $timezone = $config['timezone'];
     $dt = new DateTime("now", new DateTimeZone("$timezone"));
     $timeStandard = (int) ($config['timestandard']);

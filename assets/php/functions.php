@@ -1,5 +1,6 @@
 <?php
-include_once '../config/config.php';
+$config = json_decode(file_get_contents(__DIR__ . '/../config/config.json'),1)['config'];
+$logs = json_decode(file_get_contents(__DIR__ . '/../config/config.json'),1)['logs'];
 
 
 // New version download information
@@ -20,6 +21,25 @@ $ext_version_loc = 'https://raw.githubusercontent.com/Monitorr/logarr/' . $branc
 // users information. But it can be replaced with something more simple
 $vnum_loc = "../js/version/version.txt"; #example: version/vnum_1.txt
 
+function readExternalLog($filename, $k) {
+    $config = $GLOBALS['config'];
+    ini_set("auto_detect_line_endings", true);
+    $log = file($filename);
+    $log = array_reverse($log);
+    $lines = $log;
+
+    foreach ($lines as $line_num => $line) {
+        echo "<b>Line {$line_num}</b> : " . htmlspecialchars($line) . "<br />\n";
+        if($line_num == $config['maxLines']) break;
+    }
+
+}
+
+function human_filesize($bytes, $decimals = 2) {
+    $size = array('B','kB','MB','GB','TB','PB','EB','ZB','YB');
+    $factor = floor((strlen($bytes) - 1) / 3);
+    return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$size[$factor];
+}
 
 function recurse_copy($src,$dst) {
     $dir = opendir($src);

@@ -47,12 +47,24 @@
 
         <!-- // CHANGE ME - Change to new config file  -->
         
-        <?php $file = 'assets/config/config.php';
+        <?php
+            $file = 'assets/config/config.json';
+
+            function convertConfig()
+            {
+                include(__DIR__ . '/../config/config.php');
+                $new_config = json_decode(file_get_contents(__DIR__ . '/../config/config.sample-03jun2018.json'), 1);
+                $old_config = array('config' => $config, 'logs' => $logs);
+                $json = json_encode(array_merge($new_config, $old_config), JSON_PRETTY_PRINT);
+                file_put_contents(__DIR__ . '/../config/config.json', $json);
+            }
+            if (is_file('assets/config/config.php') && !is_file($file)) convertConfig();
+
             //Use the function is_file to check if the config file already exists or not.
             if(!is_file($file)){
-                copy('assets/config/config.sample-12feb18.php', $file);
+                copy('assets/config/config.sample-03jun2018.json', $file);
             }
-            include ('assets/config/config.php'); 
+            include ('assets/php/functions.php');
         ?>
 
         <title><?php echo $config['title']; ?></title>
@@ -68,7 +80,30 @@
         <script src="assets/js/jquery.mark.min.js" async> </script>
 
         <script src="assets/js/logarr.main.js"></script>
-            
+
+        <!-- sync config with javascript -->
+        <script>
+            var config = <?php echo json_encode($config);?>;
+            function refreshConfig() {
+                $.ajax({
+                    url: "assets/php/sync-config.php",
+                    data: {config:config},
+                    type: "POST",
+                    success: function (response) {
+                        console.log(response);
+                        var config = $.parseJSON(response);
+                        setTimeout(function () {
+                            refreshConfig()
+                        }, config.rfconfig); //delay is rftime
+                        document.title = config.title; //update page title to configured title
+                        console.log('Refreshed config variables');
+                    }
+                });
+            };
+            refreshConfig();
+            console.log(config);
+        </script>
+
                <!-- Highlight error terms onload:  -->
 
         <script>
@@ -82,7 +117,7 @@
 
                 <!-- // Set global timezone from config file: -->
             <?php 
-
+                //Why is this necessary? - rob1998
                 if($config['timezone'] == "") {
 
                     date_default_timezone_set('UTC');
@@ -139,15 +174,15 @@
                         servertime = response.serverTime;
                         timeStandard = parseInt(response.timeStandard);
                         timeZone = response.timezoneSuffix;
-                        rftime = parseInt(response.rftime);
+                        rftime = response.rftime;
                         date = new Date(servertime);
-                        setTimeout(function() {syncServerTime()}, rftime); //delay is rftime
+                        setTimeout(function() {syncServerTime()}, config.rftime); //delay is rftime
                         console.log('Logarr time update START');
                     }
                 });
             }
             $(document).ready(function() {
-                setTimeout(syncServerTime(), rftime); //delay is rftime
+                setTimeout(syncServerTime(), config.rftime); //delay is rftime
                 updateTime();
             });
         </script>
@@ -157,18 +192,22 @@
         <script>
             var nIntervId;
             var onload;
-             $(document).ready(function () {
+            $(document).ready(function () {
                 $('#buttonStart :checkbox').change(function () {
                     if ($(this).is(':checked')) {
                         nIntervId = setInterval(refreshblockUI, <?php echo $config['rflog']; ?>);
                     } else {
                         clearInterval(nIntervId);
                     }
+                    //refreshConfig();
+                    config.logRefresh = $('#buttonStart :checkbox').is(':checked');
+                    //refreshConfig();
                 });
                 // Uncomment line below to set auto-refresh to ENABLE on page load
-                // $('#buttonStart :checkbox').attr('checked', 'checked').change();
-            });  
+                if(config.logRefresh) $('#buttonStart :checkbox').attr('checked', 'checked').change();
+            });
         </script>
+
 
              <!-- LOG UNLINK FUNCTION  -->
         <script>
@@ -237,30 +276,6 @@
     </head>
     
     <body id="body" style="border: 10px solid #252525; color: #FFFFFF;" onload="highlightjsload()">
-
-        <?php
-
-            function readExternalLog($filename, $maxLines) {
-                ini_set("auto_detect_line_endings", true);
-                $log = file($filename);
-                $log = array_reverse($log);
-                $lines = $log;
-
-                foreach ($lines as $line_num => $line) {
-                    echo "<b>Line {$line_num}</b> : " . htmlspecialchars($line) . "<br />\n";
-                    if($line_num == $maxLines) break;
-                }
-                
-            }
-
-            function human_filesize($bytes, $decimals = 2) {
-                $size = array('B','kB','MB','GB','TB','PB','EB','ZB','YB');
-                $factor = floor((strlen($bytes) - 1) / 3);
-                return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$size[$factor];
-            }
-
-        ?>
-
         <div id="ajaxtimestamp" title="Analog clock timeout. Refresh page."></div>
         <div id="ajaxmarquee" title="Offline marquee timeout. Refresh page."></div>
 
@@ -333,60 +348,58 @@
         <div id="logcontainer">
 
             <div id="logwrapper" class="flex">
+            <?php
+            foreach ($logs as $k => $v) { ?>
 
-                <?php foreach ($logs as $k => $v) { ?>
+                <div id="<?php echo $k; ?>-log-container" class="flex-child">
 
-                    <div id="logs" class="flex-child">
+                    <div class="row2">
 
-                        <div class="row2">
-                    
-                            <div id="filedate" class="left">
-                                <br>
-                                <?php echo "Last modified: " . date (" H:i", filemtime($v))."L |" . date ( " D, d M", filemtime($v)); $v; ?>
-                            </div>
-
-                            <div class="logheader">
-                                <strong><?php echo $k; ?>:</strong>
-                            </div>
-
-                            <div id="filepath"  class="right">
-                                <div class="filesize">
-                                    Log file size: <?php echo human_filesize(filesize($v)); ?>
-                                </div>
-                                <div class="path" data-service="<?php echo $k;?>">
-                                    <?php echo $v; ?>
-                                </div>
-                            </div>
-
+                        <div id="filedate" class="left">
+                            <br>
+                            <?php echo "Last modified: " . date (" H:i", filemtime($v))."L |" . date ( " D, d M", filemtime($v)); $v; ?>
                         </div>
 
-                        <div class="slide">
-                            <input class="expandtoggle" type="checkbox" name="slidebox" id="<?php echo $k; ?>" checked>
-                            <label for="<?php echo $k; ?>" class="expandtoggle" title="Increase/decrease log view"></label>
-
-                            <div id="expand" class="expand">
-                                <p id="<?php echo $k; ?>-log"><?php readExternalLog($v, $config['max-lines']); ?></p>
-                            </div>
-
+                        <div class="logheader">
+                            <strong><?php echo $k; ?>:</strong>
                         </div>
 
-                        <table id="slidebottom"> 
-                            <tr>
-                                <td id="unlinkform">
-                                    <button type="button" class="log-action-button slidebutton btn btn-primary" data-action="unlink-log" data-service="<?php echo $k;?>"  title="Attempt log file roll. NOTE: This function will copy the current log file to '[logfilename].bak', delete the original log file, and create a new blank log file with the orginal log filename. This function may not succeed if log file is in use.">Roll Log</button>
-                                </td>
-                                <td id="downloadform">
-                                    <button type="button" class="log-action-button slidebutton btn btn-primary" data-action="download-log" data-service="<?php echo $k;?>" title="Download full log file">Download</button>
-                                </td>
-                            </tr>
-                        </table>
+                        <div id="filepath"  class="right">
+                            <div class="filesize">
+                                Log file size: <?php echo human_filesize(filesize($v)); ?>
+                            </div>
+                            <div class="path" data-service="<?php echo $k;?>">
+                                <?php echo $v; ?>
+                            </div>
+                        </div>
 
                     </div>
-                        
-                <?php } ?>
 
+                    <div class="slide">
+                        <input class="expandtoggle" type="checkbox" name="slidebox" id="<?php echo $k; ?>" checked>
+                        <label for="<?php echo $k; ?>" class="expandtoggle" title="Increase/decrease log view"></label>
+
+                        <div id="expand" class="expand">
+                            <p id="<?php echo $k; ?>-log"><?php readExternalLog($v, $k); ?></p>
+                        </div>
+
+                    </div>
+
+                    <table id="slidebottom">
+                        <tr>
+                            <td id="unlinkform">
+                                <button type="button" class="log-action-button slidebutton btn btn-primary" data-action="unlink-log" data-service="<?php echo $k;?>"  title="Attempt log file roll. NOTE: This function will copy the current log file to '[logfilename].bak', delete the original log file, and create a new blank log file with the orginal log filename. This function may not succeed if log file is in use.">Roll Log</button>
+                            </td>
+                            <td id="downloadform">
+                                <button type="button" class="log-action-button slidebutton btn btn-primary" data-action="download-log" data-service="<?php echo $k;?>" title="Download full log file">Download</button>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+
+            <?php } ?>
             </div>
-                
         </div>
 
             <!-- Unlink response modal: -->

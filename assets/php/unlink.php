@@ -4,7 +4,7 @@
         ini_set('display_startup_errors', 1);
         error_reporting(E_ALL);
 
-        include ('../config/config.php');
+        include('functions.php');
 
         print_r('Form submitted:  unlink file: ');
         var_dump($_POST['file']);
@@ -21,7 +21,7 @@
 
     echo "<br><br>";
 
-        // check if log file exists in config.php:
+        // check if log file exists in config.json:
 
     if(in_array($file, $logs)){ 
 
@@ -131,7 +131,7 @@
 
     } 
     
-        // Deny access if log file does NOT exist in config.php:
+        // Deny access if log file does NOT exist in config.json:
 
     else {
         echo 'ERROR:  Illegal File';

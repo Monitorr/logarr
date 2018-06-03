@@ -3,7 +3,6 @@
 
 // Set sytles for BlockUI overlays in /assets/js/jquery.blockUI.js
 
-
 function refreshblockUI() {
     $.growlUI('Updating logs...');
     setTimeout(function () {
@@ -122,7 +121,7 @@ $(function () {
                         $('.count').append("'");
                         $results.addClass("markresults");
                         currentIndex = 0;
-                        //jumpTo();  // Auto focus/scroll to first searched term after search submit // CHANGE ME
+                        if(config.jumpOnSearch) jumpTo(); // Auto focus/scroll to first searched term after search submit, if user had enabled option in config
                     }
                 });
             }
