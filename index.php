@@ -66,6 +66,8 @@
         <script src="assets/js/jquery.highlight.js" async> </script>
 
         <script src="assets/js/jquery.mark.min.js" async> </script>
+
+        <script src="assets/js/logarr.main.js"></script>
             
                <!-- Highlight error terms onload:  -->
 
@@ -167,8 +169,6 @@
                 // $('#buttonStart :checkbox').attr('checked', 'checked').change();
             });  
         </script>
-
-        <script src="assets/js/logarr.main.js"></script>
 
              <!-- LOG UNLINK FUNCTION  -->
         <script>
@@ -297,14 +297,14 @@
                 
                 <div id="rightmiddle" class="rightmiddle">
 
-                     <div id="count" class="count"> </div>
+                     <div id="count" class="count" title="Search results have been highlighted in yellow"> </div>
 
                 </div>
 
                 <div id="rightbottom" class="rightbottom">
                     
                     <table id="slidertable">
-                        <tr title="Enable log auto-update | Interval: <?php echo $config['rflog']; ?> ms ">
+                        <tr title="Toggle log auto-update | Interval: <?php echo $config['rflog']; ?> ms ">
 
                             <th id="textslider">
                                 Auto Update:

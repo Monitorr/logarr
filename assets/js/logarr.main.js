@@ -1,7 +1,7 @@
 // Logarr main JS script
 // https://github.com/Monitorr
 
-// Set sytles for BlockUI overlays in /assets/js/jquery.blockUI.js
+// Set styles for BlockUI overlays in /assets/js/jquery.blockUI.js
 
 
 function refreshblockUI() {
@@ -14,7 +14,7 @@ function refreshblockUI() {
 
     setTimeout(function () {
         highlightjs();
-    }, 3000); // CHANGE ME ??
+    }, 3000);
 };
 
 
@@ -74,7 +74,7 @@ $(function () {
                     while (!parent.is('div')) {
                         parent = parent.parent();
                     }
-                    
+
                         /* not animated page scroll */
                     $('html, body').scrollTop(
                         $(parent).offset().top
@@ -86,7 +86,7 @@ $(function () {
                             }, 200); //make this value bigger if you want smoother/longer scroll
                         */
 
-                    /* not animated scroll */
+                        /* not animated scroll */
                     parent.scrollTop(
                         $('.markresults.current').offset().top - parent.offset().top + parent.scrollTop()
                     );
@@ -121,8 +121,9 @@ $(function () {
                         $('.count').append(keyword);
                         $('.count').append("'");
                         $results.addClass("markresults");
+                        $('.count').addClass("countresults");
                         currentIndex = 0;
-                        //jumpTo();  // Auto focus/scroll to first searched term after search submit // CHANGE ME
+                        //jumpTo();  // Auto focus/scroll to first searched term after search submit
                     }
                 });
             }
@@ -131,7 +132,7 @@ $(function () {
 
     // TO DO:  Search will not highlight if manual/auto update is peformed first?  ?? CHANGE ME
 
-        $("input[name='marksearch']").on("click", function () { //Key up?? //CHANGE ME
+        $("input[name='marksearch']").on("click", function () {
             $.blockUI({
                 message: 'Searching ...'
             });
@@ -146,9 +147,9 @@ $(function () {
 
     $clearBtn.on("click", function () {
         $content.unmark();
-        $input.val("").focus();
+        $input.val("");
         var url = 'index.php';
-        $('#count').load(url + ' #count');
+        $('.count').removeClass("countresults");
     });
 
    
@@ -167,7 +168,7 @@ $(function () {
         }
     });
 
-        // THIS WILL "LIVE SEARCH" as soon as user keyup in search field: // DO NOT WANT THIS, but cool feature: //CHANGE ME
+        // THIS WILL "LIVE SEARCH" as soon as user keyup in search field: 
         /**
          * Searches for the entered keyword in the
          * specified context on input
