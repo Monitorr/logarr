@@ -67,7 +67,7 @@
             include ('assets/php/functions.php');
         ?>
 
-        <title><?php echo $config['title']; ?></title>
+        <title><?php echo $preferences['sitetitle']; ?></title>
 
         <script src="assets/js/jquery.min.js"> </script>
 
@@ -84,24 +84,40 @@
         <!-- sync config with javascript -->
         <script>
             var config = <?php echo json_encode($config);?>;
+            var settings = <?php echo json_encode($settings);?>;
+            var preferences = <?php echo json_encode($preferences);?>;
             function refreshConfig() {
                 $.ajax({
                     url: "assets/php/sync-config.php",
-                    data: {config:config},
+                    data: {config:config,settings:settings,preferences:preferences},
                     type: "POST",
                     success: function (response) {
-                        console.log(response);
-                        var config = $.parseJSON(response);
+
+                        var json = JSON.parse(response);
+                        var config = json.config;
+                        var settings = json.settings;
+                        var preferences = json.preferences;
+
                         setTimeout(function () {
                             refreshConfig()
-                        }, config.rfconfig); //delay is rftime
-                        document.title = config.title; //update page title to configured title
+                        }, settings.rfconfig); //delay is rftime
+
+
+                        if(settings.logRefresh != "false" && !$('#buttonStart :checkbox').prop('checked')){
+                            console.log('log refresh true');
+                            $('#autoRefreshLog').click();
+                            $('#buttonStart :checkbox').prop('checked', 'true').change();
+                        } else if(settings.logRefresh != "true" && $('#buttonStart :checkbox').prop('checked')) {
+                            console.log('log refresh false');
+                            $('#autoRefreshLog').click();
+                            $('#buttonStart :checkbox').removeProp('checked');
+                        }
+                        document.title = preferences.sitetitle; //update page title to configured title
                         console.log('Refreshed config variables');
                     }
                 });
             };
             refreshConfig();
-            console.log(config);
         </script>
 
                <!-- Highlight error terms onload:  -->
@@ -118,7 +134,7 @@
                 <!-- // Set global timezone from config file: -->
             <?php 
                 //Why is this necessary? - rob1998
-                if($config['timezone'] == "") {
+                if($preferences['timezone'] == "") {
 
                     date_default_timezone_set('UTC');
                     $timezone = date_default_timezone_get(); 
@@ -127,7 +143,7 @@
 
                 else {
 
-                    $timezoneconfig = $config['timezone'];
+                    $timezoneconfig = $preferences['timezone'];
                     date_default_timezone_set($timezoneconfig);
                     $timezone = date_default_timezone_get();
 
@@ -137,10 +153,10 @@
         <script>
             <?php
                 //initial values for clock:
-                //$timezone = $config['timezone'];
+                //$timezone = $preferences['timezone'];
                 $dt = new DateTime("now", new DateTimeZone("$timezone"));
-                $timeStandard = (int) ($config['timestandard']);
-                $rftime = $config['rftime'];
+                $timeStandard = (int) ($preferences['timestandard']);
+                $rftime = $settings['rftime'];
                 $timezone_suffix = '';
                 if(!$timeStandard){
                     $dateTime = new DateTime();
@@ -152,7 +168,7 @@
             var servertime = "<?php echo $serverTime;?>";
             var timeStandard = <?php echo $timeStandard;?>;
             var timeZone = "<?php echo $timezone_suffix;?>";
-            var rftime = <?php echo $config['rftime'];?>;
+            var rftime = <?php echo $settings['rftime'];?>;
             function updateTime() {
                 setInterval(function() {
                     var timeString = date.toLocaleString('en-US', {hour12: timeStandard, weekday: 'short', year: 'numeric', day: '2-digit', month: 'short', hour:'2-digit', minute:'2-digit', second:'2-digit'}).toString();
@@ -176,13 +192,13 @@
                         timeZone = response.timezoneSuffix;
                         rftime = response.rftime;
                         date = new Date(servertime);
-                        setTimeout(function() {syncServerTime()}, config.rftime); //delay is rftime
+                        setTimeout(function() {syncServerTime()}, settings.rftime); //delay is rftime
                         console.log('Logarr time update START');
                     }
                 });
             }
             $(document).ready(function() {
-                setTimeout(syncServerTime(), config.rftime); //delay is rftime
+                setTimeout(syncServerTime(), settings.rftime); //delay is rftime
                 updateTime();
             });
         </script>
@@ -192,19 +208,18 @@
         <script>
             var nIntervId;
             var onload;
+            var logInterval = false;
             $(document).ready(function () {
                 $('#buttonStart :checkbox').change(function () {
-                    if ($(this).is(':checked')) {
-                        nIntervId = setInterval(refreshblockUI, <?php echo $config['rflog']; ?>);
+                    console.log(settings.logRefresh);
+                    if ($(this).is(':checked') && logInterval == false) {
+                        nIntervId = setInterval(refreshblockUI, settings.rflog);
+                        logInterval = true;
                     } else {
                         clearInterval(nIntervId);
+                        logInterval = false;
                     }
-                    //refreshConfig();
-                    config.logRefresh = $('#buttonStart :checkbox').is(':checked');
-                    //refreshConfig();
                 });
-                // Uncomment line below to set auto-refresh to ENABLE on page load
-                if(config.logRefresh) $('#buttonStart :checkbox').attr('checked', 'checked').change();
             });
         </script>
 
@@ -319,7 +334,7 @@
                 <div id="rightbottom" class="rightbottom">
                     
                     <table id="slidertable">
-                        <tr title="Enable log auto-update | Interval: <?php echo $config['rflog']; ?> ms ">
+                        <tr title="Enable log auto-update | Interval: <?php echo $settings['rflog']; ?> ms ">
 
                             <th id="textslider">
                                 Auto Update:
@@ -327,7 +342,7 @@
 
                             <th id="slider">
                                 <label class="switch" id="buttonStart">
-                                    <input type="checkbox">
+                                    <input id="autoRefreshLog" type="checkbox">
                                     <span class="slider round"></span>
                                 </label>
                             </th>

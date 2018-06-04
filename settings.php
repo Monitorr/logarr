@@ -9,7 +9,7 @@ function convertConfig()
     $json = json_encode(array_merge($new_config, $old_config), JSON_PRETTY_PRINT);
     file_put_contents(__DIR__ . '/../config/config.json', $json);
 }
-if (is_file('assets/config/config.php') && !is_file($config_file)) convertConfig();
+//if (is_file('assets/config/config.php') && !is_file($config_file)) convertConfig();
 
 //Use the function is_file to check if the config file already exists or not.
 if(!is_file($config_file)){
@@ -51,6 +51,8 @@ https://github.com/Monitorr/Monitorr
     <!-- sync config with javascript -->
     <script>
         var config = <?php echo json_encode($config);?>;
+        var settings = <?php echo json_encode($settings);?>;
+        var preferences = <?php echo json_encode($preferences);?>;
         function refreshConfig() {
             $.ajax({
                 url: "assets/php/sync-config.php",
@@ -67,13 +69,13 @@ https://github.com/Monitorr/Monitorr
                 }
             });
         };
-        refreshConfig();
+        //refreshConfig();
         console.log(config);
     </script>
     <!-- // Set global timezone from config file: -->
     <?php
     //Why is this necessary? - rob1998
-    if($config['timezone'] == "") {
+    if($preferences['timezone'] == "") {
 
         date_default_timezone_set('UTC');
         $timezone = date_default_timezone_get();
@@ -82,7 +84,7 @@ https://github.com/Monitorr/Monitorr
 
     else {
 
-        $timezoneconfig = $config['timezone'];
+        $timezoneconfig = $preferences['timezone'];
         date_default_timezone_set($timezoneconfig);
         $timezone = date_default_timezone_get();
 
@@ -92,10 +94,10 @@ https://github.com/Monitorr/Monitorr
     <script>
         <?php
         //initial values for clock:
-        //$timezone = $config['timezone'];
+        //$timezone = $preferences['timezone'];
         $dt = new DateTime("now", new DateTimeZone("$timezone"));
         $timeStandard = (int) ($preferences['timestandard'] === "True" ? true:false);
-        $rftime = $config['rftime'];
+        $rftime = $settings['rftime'];
         $timezone_suffix = '';
         if(!$timeStandard){
             $dateTime = new DateTime();
@@ -128,7 +130,6 @@ https://github.com/Monitorr/Monitorr
                     var response = $.parseJSON(response);
                     servertime = response.serverTime;
                     timeStandard = parseInt(response.timeStandard);
-                    console.log(timeStandard);
                     timeZone = response.timezoneSuffix;
                     rftime = response.rftime;
                     date = new Date(servertime);
@@ -224,7 +225,7 @@ https://github.com/Monitorr/Monitorr
 
     <title>
         <?php
-        echo $config['title'];
+        echo $preferences['sitetitle'];
         ?>
         | Settings
     </title>
@@ -232,76 +233,21 @@ https://github.com/Monitorr/Monitorr
     <!-- <?php include ('assets/php/gitinfo.php'); ?> -->
 
 
-    <script>
-
-        var nIntervId2;
-        var onload;
-
-        $(document).ready(function() {
-
-            var current = -1;
-
-            function updateSummary() {
-
-                rfsysinfo =
-                <?php
-                    $rfsysinfo = $config['rfsysinfo'];
-                    echo $rfsysinfo;
-                    ?>
-
-                    $.ajax({
-                        type: 'POST',
-                        url: 'assets/php/marquee.php',
-                        data: {
-                            current: current
-                        },
-
-                        timeout: 4000,
-                        success: function(data) {
-                            if(data){
-                                result = $.parseJSON(data);
-                                console.log(result);
-                                $("#summary").fadeOut(function() {
-                                    $(this).html(result[0]).fadeIn();
-                                });
-                                current = result[1];
-                            }
-
-                            else {
-                                current = -1;
-                                $("#summary").hide();
-                            }
-
-                            window.setTimeout(updateSummary, 5000);
-                            //window.setTimeout(updateSummary, rfsysinfo);
-                        }
-                    });
-            }
-
-            updateSummary();
-        });
-
-    </script>
 
     <script>
         $(function() {
-            var settingsPage = 'assets/php/settings/info.php';
-            if(window.location.hash) {
-                switch (window.location.hash) {
-                    case "#user-preferences":
-                        load_preferences();
-                        break;
-                    case "#logarr-settings":
-                        load_settings();
-                        break;
-                    case "#logarr-logs":
-                        load_logs();
-                        break;
-                    default:
-                        load_info();
-                }
-            } else{
-                load_info();
+            switch (window.location.hash) {
+                case "#user-preferences":
+                    load_preferences();
+                    break;
+                case "#logarr-settings":
+                    load_settings();
+                    break;
+                case "#logarr-logs":
+                    load_logs();
+                    break;
+                default:
+                    load_info();
             }
         });
     </script>
@@ -322,7 +268,7 @@ https://github.com/Monitorr/Monitorr
     <div id="settingsbrand">
         <div class="navbar-brand">
             <?php
-            echo $config['title'];
+            echo $preferences['sitetitle'];
             ?>
         </div>
     </div>

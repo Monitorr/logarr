@@ -24,7 +24,7 @@ $ext_version_loc = 'https://raw.githubusercontent.com/Monitorr/logarr/' . $branc
 $vnum_loc = "../js/version/version.txt"; #example: version/vnum_1.txt
 
 function readExternalLog($filename, $k) {
-    $config = $GLOBALS['config'];
+    $settings = $GLOBALS['settings'];
     ini_set("auto_detect_line_endings", true);
     $log = file($filename);
     $log = array_reverse($log);
@@ -32,7 +32,7 @@ function readExternalLog($filename, $k) {
 
     foreach ($lines as $line_num => $line) {
         echo "<b>Line {$line_num}</b> : " . htmlspecialchars($line) . "<br />\n";
-        if($line_num == $config['maxLines']) break;
+        if($line_num == $settings['maxLines']) break;
     }
 
 }

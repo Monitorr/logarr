@@ -476,7 +476,7 @@ include ('..//functions.php');
                                 },
                                 "form": {
                                     "attributes": {
-                                        "action": "post_receiver-user_preferences.php",
+                                        "action": "post-settings/post_receiver-user_preferences.php",
                                         "method": "post",
                                     },
                                     "buttons": {

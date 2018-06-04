@@ -371,7 +371,11 @@ h6,
     background: radial-gradient(circle at .1rem .1rem, white, rgb(20, 20, 20));
 }
 
-input:checked+.slider {
+#buttonStart.switch > input[type=checkbox] + .slider {
+    background-color: red;
+}
+
+#buttonStart.switch > input[type=checkbox]:checked + .slider {
     background-color: green;
 }
 
@@ -1775,8 +1779,6 @@ uploadbtn:hover {
 
 .expandtoggle:checked~.expand {
     height: 20rem;
-    overflow-y: hidden;
-    overflow-x: hidden;
 }
 
 .expandtoggle {
