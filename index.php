@@ -124,10 +124,12 @@
 
         <script>
             function highlightjsload() {
-                $.growlUI('Loading logs...');
-                setTimeout(function () {
-                    highlightjs();
-                }, 300);
+                if(settings.autoHighlight == "true"){
+                    $.growlUI('Loading logs...');
+                    setTimeout(function () {
+                        highlightjs();
+                    }, 300);
+                }
             };
         </script>
 

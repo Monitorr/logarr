@@ -147,6 +147,7 @@ include ('..//functions.php');
                     "layout": {
                         "template": './templates/two-column-layout-template.html',
                         "bindings": {
+                            "autoHighlight": "leftcolumn",
                             "jumpOnSearch": "leftcolumn",
                             "logRefresh": "leftcolumn",
                             "maxLines": "leftcolumn",
@@ -166,6 +167,32 @@ include ('..//functions.php');
                     "collapsible": false,
                     "legendStyle": "button",
                     "fields": {
+                        "autoHighlight": {
+                            "type": "radio",
+                            "validate": true,
+                            "showMessages": true,
+                            "disabled": false,
+                            "hidden": false,
+                            "label": "Auto Highlight:",
+                            "helpers": ["Highlight errors automatically."],
+                            "hideInitValidationError": false,
+                            "focus": false,
+                            "optionLabels": [" True", " False"],
+                            "name": "autoHighlight",
+                            "typeahead": {},
+                            "allowOptionalEmpty": false,
+                            "data": {},
+                            "autocomplete": "false",
+                            "disallowEmptySpaces": true,
+                            "disallowOnlyEmptySpaces": false,
+                            "removeDefaultNone": true,
+                            "fields": {},
+                            "events": {
+                                "change": function() {
+                                    $('.alpaca-form-button-submit').addClass('buttonchange');
+                                }
+                            }
+                        },
                         "jumpOnSearch": {
                             "type": "radio",
                             "validate": true,

@@ -2,6 +2,14 @@
   "type": "object",
   "required": false,
   "properties": {
+    "autoHighlight": {
+      "type": "string",
+      "enum": ["true", "false"],
+      "required": true,
+      "pattern": {},
+      "default": "true",
+      "properties": {}
+    },
     "jumpOnSearch": {
       "type": "string",
       "enum": ["true", "false"],

@@ -10,10 +10,11 @@ function refreshblockUI() {
     }, 300);
 
     //wait 3 seconds after log update to highlight error terms:
-
-    setTimeout(function () {
-        highlightjs();
-    }, 3000); // CHANGE ME ??
+    if(settings.autoHighlight == "true") {
+        setTimeout(function () {
+            highlightjs();
+        }, 3000); // CHANGE ME ??
+    }
 };
 
 
