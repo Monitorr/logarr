@@ -13,12 +13,12 @@
 
 
 
-**NOTICE (06 June 18)**: If updating to version **4.5** from ANY previous version, you will need to re-create your config.php file in the /assets/config/ directory. You can do this by renaming your old config.php file, coping the config.sample-06jun18.php to config.php, and then edit the newly created config.php file with your values.
+**NOTICE (06 June 18)**: If updating to version **4.5** from ANY previous version, you will need to re-create your config.php file in the /assets/config/ directory after updating. You can do this by renaming your old config.php file, coping the file config.sample-06jun18.php to config.php, and then edit the newly created config.php file with your values.
 
 
 ## Features:
 
-**Latest major change:** Log rolling tool / Log download tool/ Max line limit
+**Latest major change** (_06 June 18 - v4.5_): Log rolling tool / Log download tool/ Max line limit
 
  - Fully self-hosted, no applications to install
  - Live display any .log, .txt, etc. file on the hosting webserver
@@ -52,7 +52,7 @@
 2) Browse to <localhost\domain>/logarr/index.php (config.php will be auto populated in /assets/config/config.php)
 3) Configure log paths: Edit the file \assets\config\config.php 
 4) Edit permissions for LOG files so your webserver can display the data
-5) Navigate to your  <localhost\domain>/logarr/index.php 
+5) Browse to: <localhost\domain>/logarr/index.php 
 6) Chill
 
 ## Feature Requests:
