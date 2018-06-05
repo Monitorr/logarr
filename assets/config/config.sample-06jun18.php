@@ -4,8 +4,8 @@
 // https://github.com/Monitorr/logarr
 
 
-                            // Last updated: 06 JUN 2018 //  //CHANGE ME
-                                    // v4.5.0  //  // CHANGE ME
+                            // Last updated: 06 JUN 2018 //
+                                    // v4.5.0  //
 
 
              // ** DO NOT edit the config.SAMPLE-DATE.php file ** //
