@@ -2,11 +2,9 @@
 <html lang="en">
 
     <!--
-
                     LOGARR
         by @seanvree, @wjbeckett, and @jonfinley 
             https://github.com/Monitorr
-
     -->
 
     <head>
@@ -44,60 +42,121 @@
         <meta name="msapplication-square310x310logo" content="assets/images/favicon/mstile-310x310.png" />
         <meta name="theme-color" content="#252525"/>
         <meta name="theme_color" content="#252525"/>
-        
       
         <meta name="robots" content="NOINDEX, NOFOLLOW">
 
+        <!-- // CHANGE ME - Change to new config file  -->
+        
         <?php $file = 'assets/config/config.php';
             //Use the function is_file to check if the config file already exists or not.
             if(!is_file($file)){
                 copy('assets/config/config.sample-12feb18.php', $file);
-            } 
+            }
+            include ('assets/config/config.php'); 
         ?>
-
-        <?php include ('assets/config/config.php'); ?>
 
         <title><?php echo $config['title']; ?></title>
 
         <script src="assets/js/jquery.min.js"> </script>
 
         <script src="assets/js/pace.js" async></script>
-        
-        <script>
 
-            $(document).ready(function() {
-                function update() {
-                    $.ajax({
-                        type: 'POST',
-                        url: 'assets/config/timestamp.php',
-                        success: function(data) {
-                            $("#timer").html(data); 
-                            window.setTimeout(update, <?php echo $config['rftime']; ?>);
-                            }
-                    });
+        <script src="assets/js/jquery.blockUI.js" async></script>
+
+        <script src="assets/js/jquery.highlight.js" async> </script>
+
+        <script src="assets/js/jquery.mark.min.js" async> </script>
+
+        <script src="assets/js/logarr.main.js"></script>
+            
+               <!-- Highlight error terms onload:  -->
+
+        <script>
+            function highlightjsload() {
+                $.growlUI('Loading logs...');
+                setTimeout(function () {
+                    highlightjs();
+                }, 300);
+            };
+        </script>
+
+                <!-- // Set global timezone from config file: -->
+            <?php 
+
+                if($config['timezone'] == "") {
+
+                    date_default_timezone_set('UTC');
+                    $timezone = date_default_timezone_get(); 
+
                 }
-                update();
+
+                else {
+
+                    $timezoneconfig = $config['timezone'];
+                    date_default_timezone_set($timezoneconfig);
+                    $timezone = date_default_timezone_get();
+
+                }
+            ?>
+
+        <script>
+            <?php
+                //initial values for clock:
+                //$timezone = $config['timezone'];
+                $dt = new DateTime("now", new DateTimeZone("$timezone"));
+                $timeStandard = (int) ($config['timestandard']);
+                $rftime = $config['rftime'];
+                $timezone_suffix = '';
+                if(!$timeStandard){
+                    $dateTime = new DateTime();
+                    $dateTime->setTimeZone(new DateTimeZone($timezone));
+                    $timezone_suffix = $dateTime->format('T');
+                }
+                $serverTime = $dt->format("D d M Y H:i:s");
+            ?>
+            var servertime = "<?php echo $serverTime;?>";
+            var timeStandard = <?php echo $timeStandard;?>;
+            var timeZone = "<?php echo $timezone_suffix;?>";
+            var rftime = <?php echo $config['rftime'];?>;
+            function updateTime() {
+                setInterval(function() {
+                    var timeString = date.toLocaleString('en-US', {hour12: timeStandard, weekday: 'short', year: 'numeric', day: '2-digit', month: 'short', hour:'2-digit', minute:'2-digit', second:'2-digit'}).toString();
+                    var res = timeString.split(",");
+                    var time = res[3];
+                    var dateString = res[0]+'&nbsp; | &nbsp;'+res[1].split(" ")[2]+" "+res[1].split(" ")[1]+'<br>'+res[2];
+                    var data = '<div class="dtg">' + time + ' ' + timeZone + '</div>';
+                    data+= '<div id="line">__________</div>';
+                    data+= '<div class="date">' + dateString + '</div>';
+                    $("#timer").html(data);
+                }, 1000);
+            }
+            function syncServerTime() {
+                $.ajax({
+                    url: "assets/php/time.php",
+                    type: "GET",
+                    success: function (response) {
+                        var response = $.parseJSON(response);
+                        servertime = response.serverTime;
+                        timeStandard = parseInt(response.timeStandard);
+                        timeZone = response.timezoneSuffix;
+                        rftime = parseInt(response.rftime);
+                        date = new Date(servertime);
+                        setTimeout(function() {syncServerTime()}, rftime); //delay is rftime
+                        console.log('Logarr time update START');
+                    }
+                });
+            }
+            $(document).ready(function() {
+                setTimeout(syncServerTime(), rftime); //delay is rftime
+                updateTime();
             });
-
-        </script>
-        
-        <script src="assets/js/hilitor.js" async></script>
-
-        <script>
-
-            var myHilitor; // global variable
-            document.addEventListener("DOMContentLoaded", function(e) {
-            myHilitor = new Hilitor("content");
-            myHilitor.apply("error");
-            }, false);
-
         </script>
 
-        <script>
+        <script src="assets/js/clock.js" async></script>
 
+        <script>
             var nIntervId;
             var onload;
-
              $(document).ready(function () {
                 $('#buttonStart :checkbox').change(function () {
                     if ($(this).is(':checked')) {
@@ -109,19 +168,79 @@
                 // Uncomment line below to set auto-refresh to ENABLE on page load
                 // $('#buttonStart :checkbox').attr('checked', 'checked').change();
             });  
+        </script>
+
+             <!-- LOG UNLINK FUNCTION  -->
+        <script>
+            $(document).ready(function () {
+                $("button[data-action='unlink-log']").on('click', function(event){
+                    event.preventDefault(); // stop being refreshed
+                    var logName = $(this).data('service');
+                    $.ajax({
+                        type: 'POST',
+                        url: 'assets/php/unlink.php',
+                        processData: false,
+                        data: "file=" + $(".path[data-service='" + $(this).data('service') + "']").html().trim(),
+                        success: function (data) {          
+                            $('#modalContent').html(data);
+                            setTimeout(refresh(), 1000);
+                            console.log('Logarr unlink '+ data);
+                            var modal = document.getElementById('responseModal');
+                            var span = document.getElementsByClassName("closemodal")[0];
+                            modal.style.display = "block";
+                            span.onclick = function() {
+                                modal.style.display = "none";
+                            }
+                            window.onclick = function(event) {
+                                if (event.target == modal) {
+                                    modal.style.display = "none";
+                                }
+                            }
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            alert( "Posting failed (ajax)" );
+                            console.log("Posting failed (ajax)");
+                        }
+                    });
+                    return false;
+                });
+            });
+        </script>
+
+            <!-- LOG DOWNLOAD FUNCTION  -->
+        <script>
+            $(document).ready(function () {
+                $("button[data-action='download-log']").on('click', function(event){
+                    event.preventDefault(); // using this page stop being refreshing
+                    var logFilePath = ($(".path[data-service='" + $(this).data('service') + "']").html()).replace('file=','').trim();
+                    console.log(logFilePath);
+                    window.open('assets/php/download.php?file='+logFilePath);
+                    return false;
+                });
+            });
+        </script>
+
+             <!-- Execute search on ENTER keyup:  -->
+        <script>
+
+            $(document).ready(function () {
+                $("#text-search2").keyup(function(event) {
+                    if (event.keyCode === 13) {
+                        $("#marksearch").click();
+                    }
+                });
+            });
 
         </script>
 
-        <script src="assets/js/logarr.main.js"></script>
 
     </head>
     
-    <body id="body" style="border: 10px solid #252525; color: #FFFFFF;">
+    <body id="body" style="border: 10px solid #252525; color: #FFFFFF;" onload="highlightjsload()">
 
         <?php
 
-            function readExternalLog($filename)
-            {
+            function readExternalLog($filename, $maxLines) {
                 ini_set("auto_detect_line_endings", true);
                 $log = file($filename);
                 $log = array_reverse($log);
@@ -129,72 +248,82 @@
 
                 foreach ($lines as $line_num => $line) {
                     echo "<b>Line {$line_num}</b> : " . htmlspecialchars($line) . "<br />\n";
+                    if($line_num == $maxLines) break;
                 }
                 
             }
 
-            function human_filesize($bytes, $decimals = 2)
-            {
+            function human_filesize($bytes, $decimals = 2) {
                 $size = array('B','kB','MB','GB','TB','PB','EB','ZB','YB');
                 $factor = floor((strlen($bytes) - 1) / 3);
                 return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$size[$factor];
             }
 
-        ?> 
+        ?>
+
+        <div id="ajaxtimestamp" title="Analog clock timeout. Refresh page."></div>
+        <div id="ajaxmarquee" title="Offline marquee timeout. Refresh page."></div>
+
 
         <div class="header">
         
-            <div id="left" class="Column"> 
+            <div id="left" class="Column">
 
-                <div id="lefttop" class="lefttop">
-                    
-                    <div id="timer" class="Column"></div>
-
-                </div>
-                
-                <div id="leftbottom" class="leftbottom">
-                    
-                    <table id="slidertable">
-                        <tr>
-                            <th id="textslider">
-                            Auto Update:
-                            </th>
-                            <th id="slider">
-                                <label class="switch" id="buttonStart">
-                                    <input type="checkbox">
-                                    <span class="slider round"></span>
-                                </label>
-                            </th>
-                        </tr>
-                    </table>
-                        
-                    <input id="Update" class="button2" type="button" value="Update" onclick="refreshblockUI();  return false" />
-
+                <div id="clock">
+                    <canvas id="canvas" width="120" height="120"></canvas>
+                    <div class="dtg" id="timer"></div>
                 </div>
 
             </div>
 
             <div id="logo" class="Column">
 
-                <a href="javascript:history.go(0)"> 
-                    <img src="assets/images/log-icon.png" alt="Logarr" style="height:8em;border:0;">
-                </a>
+                <img src="assets/images/log-icon.png" alt="Logarr" style="height:8em;border:0;">
 
             </div>
 
             <div id="right" class="Column"> 
 
                 <div id="righttop" class="righttop">
-                    
-                    <div id="count" class="count"> </div>
-
+                    <div id="markform">
+                        <input type="search" name="markinput"  id="text-search2" class="input" title="Input search term" placeholder=" Search & highlight . . .">
+                        <input type="button" name="marksearch"  id="marksearch" value="Search" class="btn marksearch btn-primary" title="Execute search">
+                        <button data-search="next" class="btn search-button btn-primary" title="Focus to first search result">&darr;</button>
+                        <button data-search="prev" class="btn search-button btn-primary" title="Focus to last search result" >&uarr;</button>
+                        <button data-search="clear" class="btn search-button btn-primary" title="Clear search results">✖</button>
+                        
+                    </div>
                 </div>
                 
                 <div id="rightmiddle" class="rightmiddle">
-                    <form id="searchForm" method="post" action="index.php" onsubmit="searchblockUI(); return false;">
-                        <input name="text-search" id="text-search" type="search" value="" class="input" placeholder="search & highlight...">
-                        <input id="submit" type="submit" value="Submit" class="button" />
-                    </form>
+
+                     <div id="count" class="count" title="Search results have been highlighted in yellow"> </div>
+
+                </div>
+
+                <div id="rightbottom" class="rightbottom">
+                    
+                    <table id="slidertable">
+                        <tr title="Toggle log auto-update | Interval: <?php echo $config['rflog']; ?> ms ">
+
+                            <th id="textslider">
+                                Auto Update:
+                            </th>
+
+                            <th id="slider">
+                                <label class="switch" id="buttonStart">
+                                    <input type="checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                            </th>
+
+                            <th>                               
+                                <input id="Update" class="button2 btn btn-primary" type="button" value="Update" title="Trigger log manual update" onclick="refreshblockUI(); return false" />
+                            </th>
+
+                        </tr>
+                    </table>
+
                 </div>
 
             </div>
@@ -222,9 +351,9 @@
 
                             <div id="filepath"  class="right">
                                 <div class="filesize">
-                                    Log File Size: <?php echo human_filesize(filesize($v)); ?>
+                                    Log file size: <?php echo human_filesize(filesize($v)); ?>
                                 </div>
-                                <div class="path">
+                                <div class="path" data-service="<?php echo $k;?>">
                                     <?php echo $v; ?>
                                 </div>
                             </div>
@@ -233,11 +362,24 @@
 
                         <div class="slide">
                             <input class="expandtoggle" type="checkbox" name="slidebox" id="<?php echo $k; ?>" checked>
-                            <label for="<?php echo $k; ?>" class="expandtoggle"></label>
-                                <div id="expand" class="expand">
-                                    <p><?php readExternalLog($v); ?></p>
-                                </div>
+                            <label for="<?php echo $k; ?>" class="expandtoggle" title="Increase/decrease log view"></label>
+
+                            <div id="expand" class="expand">
+                                <p id="<?php echo $k; ?>-log"><?php readExternalLog($v, $config['max-lines']); ?></p>
+                            </div>
+
                         </div>
+
+                        <table id="slidebottom"> 
+                            <tr>
+                                <td id="unlinkform">
+                                    <button type="button" class="log-action-button slidebutton btn btn-primary" data-action="unlink-log" data-service="<?php echo $k;?>"  title="Attempt log file roll. NOTE: This function will copy the current log file to '[logfilename].bak', delete the original log file, and create a new blank log file with the orginal log filename. This function may not succeed if log file is in use.">Roll Log</button>
+                                </td>
+                                <td id="downloadform">
+                                    <button type="button" class="log-action-button slidebutton btn btn-primary" data-action="download-log" data-service="<?php echo $k;?>" title="Download full log file">Download</button>
+                                </td>
+                            </tr>
+                        </table>
 
                     </div>
                         
@@ -246,7 +388,17 @@
             </div>
                 
         </div>
+
+            <!-- Unlink response modal: -->
+
+        <div id='responseModal'>
+
+            <span class="closemodal"  aria-hidden="true" title="Close">&times;</span>
+
+            <div id='modalContent'></div>
         
+        </div>
+
         <button onclick="topFunction(), checkAll1()" id="myBtn" title="Go to top"></button>
         
         <div class="footer">
@@ -255,38 +407,41 @@
             
             <script src="assets/js/update.js" async></script>
 
-            <a href="https://github.com/monitorr/logarr" target="_blank">Repo: Logarr </a> |
-            <a href="https://github.com/Monitorr/logarr/releases" target="_blank"> Version: <?php echo file_get_contents( "assets/js/version/version.txt" );?></a>
-                 <br>
-            <a class="footer" id="version_check" style="cursor: pointer">Check for Update</a>
+            <div id="logarrid">
+                <a href="https://github.com/monitorr/logarr" title="Logarr GitHub repo" target="_blank" >Logarr </a> |
+                <a href="https://github.com/Monitorr/logarr/releases" title="Logarr releases" target="_blank"> Version: <?php echo file_get_contents( "assets/js/version/version.txt" );?></a>
                 <br>
+            </div>
+
+            <div id="version">
+                <a id="version_check" title="Check and execute update" style="cursor: pointer">Check for Update</a>
+                <br>
+            </div>
 
             <div id="version_check_auto"></div>
 
         </div>
-
-        <script src="assets/js/jquery.blockUI.js"></script>
 
         <!-- scroll to top   -->
 
         <script>
                  
                 // When the user scrolls down 20px from the top of the document, show the button
-                window.onscroll = function() {scrollFunction()};
+            window.onscroll = function() {scrollFunction()};
 
-                function scrollFunction() {
-                    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-                        document.getElementById("myBtn").style.display = "block";
-                    } else {
-                        document.getElementById("myBtn").style.display = "none";
-                    }
+            function scrollFunction() {
+                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                    document.getElementById("myBtn").style.display = "block";
+                } else {
+                    document.getElementById("myBtn").style.display = "none";
                 }
+            }
 
                 // When the user clicks on the button, scroll to the top of the document
-                function topFunction() {
-                    document.body.scrollTop = 0;
-                    document.documentElement.scrollTop = 0;
-                }
+            function topFunction() {
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+            }
 
         </script>
 
@@ -307,7 +462,6 @@
             };
             
         </script>
-
 
     </body>
     

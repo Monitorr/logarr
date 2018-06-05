@@ -2,7 +2,6 @@
 include_once '../config/config.php';
 
 
-
 // New version download information
 
 $branch = $config['updateBranch'];
