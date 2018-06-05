@@ -1,4 +1,4 @@
-FROM lsiobase/alpine.nginx:3.6
+FROM lsiobase/alpine.nginx:3.7
 
 MAINTAINER Monitorr
 
@@ -6,8 +6,9 @@ MAINTAINER Monitorr
 RUN \
  apk add --no-cache \
 	php7-session \
-	php7-zip
+	php7-zip \
 	git
+	
   
   
 # Add local files
