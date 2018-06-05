@@ -1247,29 +1247,6 @@ a {
     text-decoration: none;
 }
 
-#title_input {
-    position: relative;
-    margin-bottom: 2rem;
-}
-
-#enabled_option {
-    position: relative;
-    margin-top: -8rem;
-    margin-left: 16.5rem;
-    z-index: 1000;
-}
-
-#type_option {
-    position: relative;
-}
-
-#link_option {
-    position: relative;
-    margin-top: -6.5rem;
-    margin-left: 16.5rem;
-    z-index: 1000;
-}
-
 /* Service Image Modal */
 
 .modal {

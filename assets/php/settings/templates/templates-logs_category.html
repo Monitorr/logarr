@@ -1,0 +1,25 @@
+<script type="text/x-handlebars-template">
+
+    <div id="category_option">
+
+        {{#if options.label}}
+        <label class="{{#if options.labelClass}}{{options.labelClass}}{{/if}} alpaca-control-label" for="{{id}}">
+            
+            {{{options.label}}}
+
+            <i class="fa fa-fw fa-question-circle input_icon" id="category_input_icon" title="Category of log."></i>
+
+        </label>
+        
+        {{/if}} {{#control}}{{/control}} {{#if options.helper}}
+
+        <p class="{{#if options.helperClass}}{{options.helperClass}}{{/if}}">
+            <i class="info-sign"></i>
+            {{{options.helper}}}
+        </p>
+
+        {{/if}}
+
+    </div>
+
+</script>

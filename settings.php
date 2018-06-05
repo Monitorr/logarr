@@ -50,28 +50,41 @@ https://github.com/Monitorr/Monitorr
 
     <!-- sync config with javascript -->
     <script>
-        var config = <?php echo json_encode($config);?>;
         var settings = <?php echo json_encode($settings);?>;
         var preferences = <?php echo json_encode($preferences);?>;
         function refreshConfig() {
             $.ajax({
                 url: "assets/php/sync-config.php",
-                data: {config:config},
+                data: {settings:settings,preferences:preferences},
                 type: "POST",
                 success: function (response) {
-                    console.log(response);
-                    var config = $.parseJSON(response);
+
+                    var json = JSON.parse(response);
+                    var settings = json.settings;
+                    var preferences = json.preferences;
+
                     setTimeout(function () {
                         refreshConfig()
-                    }, config.rfconfig); //delay is rftime
-                    document.title = config.title; //update page title to configured title
+                    }, settings.rfconfig); //delay is rftime
+
+
+                    if(settings.logRefresh != "false" && !$('#buttonStart :checkbox').prop('checked')){
+                        console.log('log refresh true');
+                        $('#autoRefreshLog').click();
+                        $('#buttonStart :checkbox').prop('checked', 'true').change();
+                    } else if(settings.logRefresh != "true" && $('#buttonStart :checkbox').prop('checked')) {
+                        console.log('log refresh false');
+                        $('#autoRefreshLog').click();
+                        $('#buttonStart :checkbox').removeProp('checked');
+                    }
+                    document.title = preferences.sitetitle; //update page title to configured title
                     console.log('Refreshed config variables');
                 }
             });
         };
-        //refreshConfig();
-        console.log(config);
+        refreshConfig();
     </script>
+
     <!-- // Set global timezone from config file: -->
     <?php
     //Why is this necessary? - rob1998
@@ -96,7 +109,7 @@ https://github.com/Monitorr/Monitorr
         //initial values for clock:
         //$timezone = $preferences['timezone'];
         $dt = new DateTime("now", new DateTimeZone("$timezone"));
-        $timeStandard = (int) ($preferences['timestandard'] === "True" ? true:false);
+        $timeStandard = (int) ($preferences['timestandard']);
         $rftime = $settings['rftime'];
         $timezone_suffix = '';
         if(!$timeStandard){
@@ -133,13 +146,13 @@ https://github.com/Monitorr/Monitorr
                     timeZone = response.timezoneSuffix;
                     rftime = response.rftime;
                     date = new Date(servertime);
-                    setTimeout(function() {syncServerTime()}, config.rftime); //delay is rftime
+                    setTimeout(function() {syncServerTime()}, settings.rftime); //delay is rftime
                     console.log('Logarr time update START');
                 }
             });
         }
         $(document).ready(function() {
-            setTimeout(syncServerTime(), config.rftime); //delay is rftime
+            setTimeout(syncServerTime(), settings.rftime); //delay is rftime
             updateTime();
         });
     </script>
@@ -230,7 +243,7 @@ https://github.com/Monitorr/Monitorr
         | Settings
     </title>
 
-    <!-- <?php include ('assets/php/gitinfo.php'); ?> -->
+    <!-- <?php include ('./assets/php/gitinfo.php'); ?> -->
 
 
 
@@ -243,7 +256,7 @@ https://github.com/Monitorr/Monitorr
                 case "#logarr-settings":
                     load_settings();
                     break;
-                case "#logarr-logs":
+                case "#logs-configuration":
                     load_logs();
                     break;
                 default:

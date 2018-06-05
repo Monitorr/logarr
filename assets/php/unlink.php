@@ -15,7 +15,9 @@
         print_r('Server attempting to unlink:  ');
         var_dump($_POST['file']);
 
-    $file = ($_POST['file']);
+
+
+$file = ($_POST['file']);
 
     $today = date("D d M Y | H:i:s");
 
@@ -23,7 +25,7 @@
 
         // check if log file exists in config.json:
 
-    if(in_array($file, $logs)){ 
+    if(in_array_recursive($file, $logs)){
 
         // check if log file exists:
 

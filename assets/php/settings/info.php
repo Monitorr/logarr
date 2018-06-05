@@ -91,7 +91,7 @@ include ('..//functions.php');
 
     <title>
         <?php
-        $title = $config['title'];
+        $title = $preferences['sitetitle'];
         echo $title . PHP_EOL;
         ?>
         | Info
@@ -200,7 +200,7 @@ include ('..//functions.php');
                 Update branch selected:
                 <strong>
                     <?php
-                    $updateBranch = $config['updateBranch'];
+                    $updateBranch = $preferences['updateBranch'];
                     echo '| ' . $updateBranch . ' | ' . PHP_EOL;
                     ?>
                 </strong>

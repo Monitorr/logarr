@@ -11,7 +11,7 @@
 
         // check if log file exists in config.json:
 
-    if(in_array($file, $logs)){ 
+    if(in_array_recursive($file, $logs)){
         if (file_exists($file)) {
             header('Content-Description: File Transfer');
             header('Content-Type: application/octet-stream');

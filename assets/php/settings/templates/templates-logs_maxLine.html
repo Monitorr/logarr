@@ -1,20 +1,20 @@
 <script type="text/x-handlebars-template">
 
-    <div id="enabled_option">
-    
+    <div id="maxLine_option">
+
         {{#if options.label}}
         <label class="{{#if options.labelClass}}{{options.labelClass}}{{/if}} alpaca-control-label" for="{{id}}">
+            
+            {{{options.label}}}
 
-            {{{options.label}}} 
+            <i class="fa fa-fw fa-question-circle input_icon" id="maxLine_input_icon" title="Maximum amount of lines to display."></i>
 
-            <i class="fa fa-fw fa-question-circle input_icon" id="enabled_option_icon" title="If disabled, service will NOT be checked or displayed in the UI."> </i>
-        
         </label>
-
-        {{/if}} {{#control}}{{/control}} {{#if options.helper}}
         
+        {{/if}} {{#control}}{{/control}} {{#if options.helper}}
+
         <p class="{{#if options.helperClass}}{{options.helperClass}}{{/if}}">
-            <i class="info-sign"> </i>
+            <i class="info-sign"></i>
             {{{options.helper}}}
         </p>
 

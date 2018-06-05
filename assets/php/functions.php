@@ -1,5 +1,4 @@
 <?php
-$config = json_decode(file_get_contents(__DIR__ . '/../config/config.json'),1)['config'];
 $preferences = json_decode(file_get_contents(__DIR__ . '/../config/config.json'),1)['preferences'];
 $settings = json_decode(file_get_contents(__DIR__ . '/../config/config.json'),1)['settings'];
 $logs = json_decode(file_get_contents(__DIR__ . '/../config/config.json'),1)['logs'];
@@ -7,7 +6,7 @@ $logs = json_decode(file_get_contents(__DIR__ . '/../config/config.json'),1)['lo
 
 // New version download information
 
-$branch = $config['updateBranch'];
+$branch = $preferences['updateBranch'];
 
 // location to download new version zip
 $remote_file_url = 'https://github.com/Monitorr/logarr/zipball/' . $branch . '';
@@ -23,16 +22,25 @@ $ext_version_loc = 'https://raw.githubusercontent.com/Monitorr/logarr/' . $branc
 // users information. But it can be replaced with something more simple
 $vnum_loc = "../js/version/version.txt"; #example: version/vnum_1.txt
 
-function readExternalLog($filename, $k) {
+function readExternalLog($log) {
     $settings = $GLOBALS['settings'];
     ini_set("auto_detect_line_endings", true);
-    $log = file($filename);
+
+    if(isset($log['autoRollSize']) && $log['autoRollSize'] != 0){
+        //TODO: INSERT AUTO ROLL LOG FUNCTION
+    }
+
+
+    $log = file($log['path']);
     $log = array_reverse($log);
     $lines = $log;
-
+    $maxLines = $settings['maxLines'];
+    if (isset($log['maxLines'])) {
+        $maxLines = $log['maxLines'];
+    }
     foreach ($lines as $line_num => $line) {
         echo "<b>Line {$line_num}</b> : " . htmlspecialchars($line) . "<br />\n";
-        if($line_num == $settings['maxLines']) break;
+        if($line_num == $maxLines) break;
     }
 
 }
@@ -66,5 +74,14 @@ function delTree($dir) {
     }
     return rmdir($dir);
   }
+function in_array_recursive($needle, $haystack) {   //For checking if the file is indeed a configured log file
+    $it = new RecursiveIteratorIterator(new RecursiveArrayIterator($haystack));
+    foreach($it AS $element) {
+        if($element == $needle) {
+            return true;
+        }
+    }
+    return false;
+}
 
 ?>

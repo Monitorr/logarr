@@ -19,7 +19,7 @@ include ('..//functions.php');
         <script type="text/javascript" src="../../js/jquery.min.js"></script>
         <script type="text/javascript" src="../../js/handlebars.js"></script>
         <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="http://code.cloudcms.com/alpaca/1.5.24/bootstrap/alpaca.min.js"></script>
+        <script type="text/javascript" src="https://code.cloudcms.com/alpaca/1.5.24/bootstrap/alpaca.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.9/ace.js"></script>
        
             <style>
@@ -84,7 +84,7 @@ include ('..//functions.php');
 
         <title>
             <?php
-                $title = $config['sitetitle'];
+                $title = $preferences['sitetitle'];
                 echo $title . PHP_EOL;
             ?>
             | User Preferences
