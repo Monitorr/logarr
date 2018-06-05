@@ -50,7 +50,7 @@
         <?php $file = 'assets/config/config.php';
             //Use the function is_file to check if the config file already exists or not.
             if(!is_file($file)){
-                copy('assets/config/config.sample-12feb18.php', $file);
+                copy('assets/config/config.sample-06jun18.php', $file);
             }
             include ('assets/config/config.php'); 
         ?>
@@ -161,8 +161,10 @@
                 $('#buttonStart :checkbox').change(function () {
                     if ($(this).is(':checked')) {
                         nIntervId = setInterval(refreshblockUI, <?php echo $config['rflog']; ?>);
+                        console.log("Auto update: Enabled | Interval: <?php echo $config['rflog']; ?> ms");
                     } else {
                         clearInterval(nIntervId);
+                        console.log("Auto update: Disabled");
                     }
                 });
                 // Uncomment line below to set auto-refresh to ENABLE on page load
@@ -172,51 +174,47 @@
 
              <!-- LOG UNLINK FUNCTION  -->
         <script>
-            $(document).ready(function () {
-                $("button[data-action='unlink-log']").on('click', function(event){
-                    event.preventDefault(); // stop being refreshed
-                    var logName = $(this).data('service');
-                    $.ajax({
-                        type: 'POST',
-                        url: 'assets/php/unlink.php',
-                        processData: false,
-                        data: "file=" + $(".path[data-service='" + $(this).data('service') + "']").html().trim(),
-                        success: function (data) {          
-                            $('#modalContent').html(data);
-                            setTimeout(refresh(), 1000);
-                            console.log('Logarr unlink '+ data);
-                            var modal = document.getElementById('responseModal');
-                            var span = document.getElementsByClassName("closemodal")[0];
-                            modal.style.display = "block";
-                            span.onclick = function() {
+            $(document).on('click', 'button[data-action=\'unlink-log\']', function(event) {
+                event.preventDefault(); // stop page from being refreshed
+                var logName = $(this).data('service');
+                $.ajax({
+                    type: 'POST',
+                    url: 'assets/php/unlink.php',
+                    processData: false,
+                    data: "file=" + $(".path[data-service='" + $(this).data('service') + "']").html().trim(),
+                    success: function (data) {
+                        $('#modalContent').html(data);
+                        setTimeout(refresh(), 1000);
+                        console.log('Logarr unlink '+ data);
+                        var modal = document.getElementById('responseModal');
+                        var span = document.getElementsByClassName("closemodal")[0];
+                        modal.style.display = "block";
+                        span.onclick = function() {
+                            modal.style.display = "none";
+                        }
+                        window.onclick = function(event) {
+                            if (event.target == modal) {
                                 modal.style.display = "none";
                             }
-                            window.onclick = function(event) {
-                                if (event.target == modal) {
-                                    modal.style.display = "none";
-                                }
-                            }
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                            alert( "Posting failed (ajax)" );
-                            console.log("Posting failed (ajax)");
                         }
-                    });
-                    return false;
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        alert( "Posting failed (ajax)" );
+                        console.log("Posting failed (ajax)");
+                    }
                 });
+                return false;
             });
         </script>
 
             <!-- LOG DOWNLOAD FUNCTION  -->
         <script>
-            $(document).ready(function () {
-                $("button[data-action='download-log']").on('click', function(event){
-                    event.preventDefault(); // using this page stop being refreshing
-                    var logFilePath = ($(".path[data-service='" + $(this).data('service') + "']").html()).replace('file=','').trim();
-                    console.log(logFilePath);
-                    window.open('assets/php/download.php?file='+logFilePath);
-                    return false;
-                });
+            $(document).on('click', 'button[data-action=\'download-log\']', function(event) {
+                event.preventDefault(); // stop page from being refreshed
+                var logFilePath = ($(".path[data-service='" + $(this).data('service') + "']").html()).replace('file=','').trim();
+                console.log(logFilePath);
+                window.open('assets/php/download.php?file='+logFilePath);
+                return false;
             });
         </script>
 
