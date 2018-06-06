@@ -138,6 +138,7 @@ $(function () {
             });
             console.log('Logarr is performing search');
             setTimeout(function () {
+                $('#buttonStart :checkbox').prop('checked', false).change(); // if auto-update is enabled, disable it after search submit
                 $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search
                 mark();
                 $.unblockUI()
