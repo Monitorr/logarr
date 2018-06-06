@@ -186,6 +186,7 @@ h6,
 
 #clock {
     display: flex;
+    position: relative;
     flex-direction: row;
     height: 9rem;
     width: 17rem;
@@ -200,6 +201,7 @@ h6,
     border-radius: 1rem;
     box-shadow: 5px 5px 5px black;
     text-shadow: 1px 1px black;
+    z-index: 2000;
 }
 
 #canvas {
@@ -259,7 +261,7 @@ h6,
     width: 20%;
     filter: drop-shadow(.2rem .2rem .2rem black);
     -webkit-filter: drop-shadow(.2rem .2rem .2rem black);
-    z-index: -1;
+    z-index: 1000;
     cursor: default;
 }
 
@@ -303,6 +305,7 @@ h6,
     border-radius: 6px;
     background-color: #3d3d3d;
     box-shadow: 3px 3px 3px black;
+    z-index: 2000;
 }
 
 #textslider {
@@ -507,10 +510,8 @@ mark.current {
 }
 
 .input:hover {
-
     /* border-color: #007bff; */
     border: .2rem solid #007bff;
-
 }
 
 .input:focus {
