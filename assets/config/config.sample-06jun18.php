@@ -45,7 +45,7 @@ $config = array(
     'updateBranch' => 'develop',
 		// update branch you wish to use when updating via the Logarr GUI // "master" or "develop".
 
-    'max-lines' => 1000,
+    'max-lines' => 2000,
 		// Default line limit for all logs
 		// NOTE:  This value will drastically effect the loading time of Logarr. If the Logarr UI loads slow, lower this value and/or ensure your logs are not too large.  See "rflog" note above.
 
