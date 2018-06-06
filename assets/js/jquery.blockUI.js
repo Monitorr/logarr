@@ -134,6 +134,7 @@
                 color: '#fff',
                 border: '3px solid #680233',
                 backgroundColor: '#000',
+                boxShadow: "5px 5px 15px rgb(15, 15, 15)",
                 cursor: 'wait',
                 fadeIn: 100,
                 fadeOut: 500,

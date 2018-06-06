@@ -4,8 +4,8 @@
 // https://github.com/Monitorr/logarr
 
 
-                            // Last updated: 12 FEB 2018 //  //CHANGE ME
-                                    // v4.0.0  //  // CHANGE ME
+                            // Last updated: 06 JUN 2018 //  //CHANGE ME
+                                    // v4.5.0  //  // CHANGE ME
 
 
              // ** DO NOT edit the config.SAMPLE-DATE.php file ** //
@@ -31,8 +31,9 @@ $config = array(
     'timestandard' => 0,
 		// 1 = 12-hour format | 0 = 24-hour format
 
-    'rftime' => '60000',
-		// Time display update interval (in milliseconds)
+    'rftime' => '180000',
+    // Specifies how frequently (in milliseconds) the UI clock will synchronize time with the hosting webserver. 
+    // rftime note 1: Time deviation should be minimal, therefore suggested value is ~ 180000 ms (3 min).
 
     'rflog' => '30000',
 		// Log auto-update interval (in milliseconds) when enabled via toggle switch in UI.
@@ -40,7 +41,7 @@ $config = array(
 		// rflog note 2: During log update, the browser will have NO response. 
 
     'updateBranch' => 'develop',
-		// update branch you wish to use when updating via the Logarr GUI // "master" or "develop"
+		// update branch you wish to use when updating via the Logarr GUI // "master" or "develop".
 
     'max-lines' => 1000,
 		// Default line limit for all logs

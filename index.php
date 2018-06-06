@@ -44,13 +44,11 @@
         <meta name="theme_color" content="#252525"/>
       
         <meta name="robots" content="NOINDEX, NOFOLLOW">
-
-        <!-- // CHANGE ME - Change to new config file  -->
         
         <?php $file = 'assets/config/config.php';
             //Use the function is_file to check if the config file already exists or not.
             if(!is_file($file)){
-                copy('assets/config/config.sample-12feb18.php', $file);
+                copy('assets/config/config.sample-06jun18.php', $file);
             }
             include ('assets/config/config.php'); 
         ?>
@@ -70,7 +68,6 @@
         <script src="assets/js/logarr.main.js"></script>
             
                <!-- Highlight error terms onload:  -->
-
         <script>
             function highlightjsload() {
                 $.growlUI('Loading logs...');
@@ -161,8 +158,10 @@
                 $('#buttonStart :checkbox').change(function () {
                     if ($(this).is(':checked')) {
                         nIntervId = setInterval(refreshblockUI, <?php echo $config['rflog']; ?>);
+                        console.log("Auto update: Enabled | Interval: <?php echo $config['rflog']; ?> ms");
                     } else {
                         clearInterval(nIntervId);
+                        console.log("Auto update: Disabled");
                     }
                 });
                 // Uncomment line below to set auto-refresh to ENABLE on page load
@@ -172,67 +171,67 @@
 
              <!-- LOG UNLINK FUNCTION  -->
         <script>
-            $(document).ready(function () {
-                $("button[data-action='unlink-log']").on('click', function(event){
-                    event.preventDefault(); // stop being refreshed
-                    var logName = $(this).data('service');
-                    $.ajax({
-                        type: 'POST',
-                        url: 'assets/php/unlink.php',
-                        processData: false,
-                        data: "file=" + $(".path[data-service='" + $(this).data('service') + "']").html().trim(),
-                        success: function (data) {          
-                            $('#modalContent').html(data);
-                            setTimeout(refresh(), 1000);
-                            console.log('Logarr unlink '+ data);
-                            var modal = document.getElementById('responseModal');
-                            var span = document.getElementsByClassName("closemodal")[0];
-                            modal.style.display = "block";
-                            span.onclick = function() {
+            $(document).on('click', 'button[data-action=\'unlink-log\']', function(event) {
+                event.preventDefault(); // stop page from being refreshed
+                var logName = $(this).data('service');
+                $.ajax({
+                    type: 'POST',
+                    url: 'assets/php/unlink.php',
+                    processData: false,
+                    data: "file=" + $(".path[data-service='" + $(this).data('service') + "']").html().trim(),
+                    success: function (data) {
+                        $('#modalContent').html(data);
+                        setTimeout(refresh(), 1000);
+                        console.log('Logarr unlink '+ data);
+                        var modal = document.getElementById('responseModal');
+                        var span = document.getElementsByClassName("closemodal")[0];
+                        modal.style.display = "block";
+                        span.onclick = function() {
+                            modal.style.display = "none";
+                        }
+                        window.onclick = function(event) {
+                            if (event.target == modal) {
                                 modal.style.display = "none";
                             }
-                            window.onclick = function(event) {
-                                if (event.target == modal) {
-                                    modal.style.display = "none";
-                                }
-                            }
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                            alert( "Posting failed (ajax)" );
-                            console.log("Posting failed (ajax)");
                         }
-                    });
-                    return false;
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        alert( "Posting failed (ajax)" );
+                        console.log("Posting failed (ajax)");
+                    }
                 });
+                return false;
             });
         </script>
 
             <!-- LOG DOWNLOAD FUNCTION  -->
         <script>
-            $(document).ready(function () {
-                $("button[data-action='download-log']").on('click', function(event){
-                    event.preventDefault(); // using this page stop being refreshing
-                    var logFilePath = ($(".path[data-service='" + $(this).data('service') + "']").html()).replace('file=','').trim();
-                    console.log(logFilePath);
-                    window.open('assets/php/download.php?file='+logFilePath);
-                    return false;
-                });
+            $(document).on('click', 'button[data-action=\'download-log\']', function(event) {
+                event.preventDefault(); // stop page from being refreshed
+                var logFilePath = ($(".path[data-service='" + $(this).data('service') + "']").html()).replace('file=','').trim();
+                console.log(logFilePath);
+                window.open('assets/php/download.php?file='+logFilePath);
+                return false;
             });
         </script>
 
-             <!-- Execute search on ENTER keyup:  -->
         <script>
 
             $(document).ready(function () {
+
+                    // Hide previous/next search buttons until search is performed:
+                $('.btn-visible').addClass("btn-hidden");
+
+                    // Execute search on ENTER keyup:
                 $("#text-search2").keyup(function(event) {
                     if (event.keyCode === 13) {
                         $("#marksearch").click();
                     }
                 });
+
             });
 
         </script>
-
 
     </head>
     
@@ -288,10 +287,9 @@
                     <div id="markform">
                         <input type="search" name="markinput"  id="text-search2" class="input" title="Input search term" placeholder=" Search & highlight . . .">
                         <input type="button" name="marksearch"  id="marksearch" value="Search" class="btn marksearch btn-primary" title="Execute search">
-                        <button data-search="next" class="btn search-button btn-primary" title="Focus to first search result">&darr;</button>
-                        <button data-search="prev" class="btn search-button btn-primary" title="Focus to last search result" >&uarr;</button>
+                        <button data-search="next" name="nextBtn" class="btn search-button btn-primary btn-visible" title="Focus to first search result">&darr;</button>
+                        <button data-search="prev" name="prevBtn" class="btn search-button btn-primary btn-visible" title="Focus to last search result" >&uarr;</button>
                         <button data-search="clear" class="btn search-button btn-primary" title="Clear search results">✖</button>
-                        
                     </div>
                 </div>
                 
@@ -318,7 +316,7 @@
                             </th>
 
                             <th>                               
-                                <input id="Update" class="button2 btn btn-primary" type="button" value="Update" title="Trigger log manual update" onclick="refreshblockUI(); return false" />
+                                <input id="Update" type="button" name="updateBtn" class="button2 btn btn-primary" value="Update" title="Trigger log manual update" onclick="refreshblockUI(); return false" />
                             </th>
 
                         </tr>

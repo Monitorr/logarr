@@ -65,7 +65,6 @@ body::-webkit-scrollbar-thumb {
 
 /* scroll to top  */
 
-
 #myBtn {
     width: 5em;
     height: 5em;
@@ -77,7 +76,8 @@ body::-webkit-scrollbar-thumb {
     border: none;
     outline: none;
     background: url(../images/up-arrow.png) no-repeat center center;
-    background-color: rgba(37, 37, 37, 0.250);
+    box-shadow: 5px 5px 15px rgb(15, 15, 15);
+    background-color: rgba(37, 37, 37, 0.50);
     background-size: 4em;
     cursor: pointer;
     padding: 15px;
@@ -400,7 +400,6 @@ input:checked+.slider:before {
 
 .button2 {
     vertical-align: middle;
-    /* width: 5em; */
     margin-right: .5rem;
     font-size: .75rem;
     font-weight: 500;
@@ -411,9 +410,7 @@ input:checked+.slider:before {
     cursor: pointer;
     border-radius: 5px;
     color: rgb(255, 255, 255);
-    /* background-color: #3d3d3d; */
     background-color: #8E8B8B;
-    /* border-color: #000000; */
     border: .2rem solid rgb(90, 90, 90);
     outline: none;
     transition: all ease 0.3s;
@@ -469,6 +466,23 @@ mark.current {
     font-size: .75rem;
 }
 
+
+.btn-visible {
+
+    visibility: visible;
+
+}
+
+
+ .btn-hidden {
+
+    visibility: hidden;
+    display: none;
+
+ }
+
+
+
 .slide span {
     color: #000000;
     font-weight: 600;
@@ -516,9 +530,6 @@ input[type=search]::-webkit-search-cancel-button {
 }
 
 #count {
-    /* display: inline-block;     */
-    /* width: 18vw; */
-    /* max-width: 14em; */
     margin-right: 10em;
     padding: .2rem;
     padding-left: .5rem;
@@ -614,19 +625,19 @@ input[type=search]::-webkit-search-cancel-button {
 /* SCROLL BARS */
 
 .expand::-webkit-scrollbar {
-    width: 10px;
+    width: .75rem;
     background-color: #252525;
 }
 
 .expand::-webkit-scrollbar-track {
+    /* border-radius: .2rem; */
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
     background-color: #252525;
 }
 
 .expand::-webkit-scrollbar-thumb {
-    border-radius: 10px;
+    border-radius: .2rem;
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
     box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
     background-color: #8E8B8B;
@@ -835,6 +846,7 @@ input[type="checkbox"] {
     background-color: rgba(0, 0, 0, 0.900);
     border: 3px solid #680233;
     border-radius: 4px;
+    box-shadow: 5px 5px 15px rgb(15, 15, 15);
     overflow-y: auto;
     z-index: 8000;
 }
