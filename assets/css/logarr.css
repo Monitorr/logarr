@@ -1,6 +1,5 @@
 /* LOGARR SYLESHEET */
- /* https://github.com/Monitorr */
-
+/* https://github.com/Monitorr */
 
 /* Body */
 
@@ -18,7 +17,6 @@ body {
     font-size: 14px;
 }
 
-
 .flex {
     display: -webkit-flex;
     display: flex;
@@ -26,7 +24,7 @@ body {
     align-items: center;
     justify-content: center;
     margin-top: 1em;
-     
+
 }
 
 .flex-child {
@@ -41,7 +39,6 @@ body {
 }
 
 /* SCROLL BARS */
-
 
 body::-webkit-scrollbar {
     width: 10px;
@@ -62,9 +59,7 @@ body::-webkit-scrollbar-thumb {
     background-color: #8E8B8B;
 }
 
-
 /* scroll to top  */
-
 
 #myBtn {
     width: 5em;
@@ -77,7 +72,8 @@ body::-webkit-scrollbar-thumb {
     border: none;
     outline: none;
     background: url(../images/up-arrow.png) no-repeat center center;
-    background-color: rgba(37, 37, 37, 0.250);
+    box-shadow: 5px 5px 15px rgb(15, 15, 15);
+    background-color: rgba(37, 37, 37, 0.50);
     background-size: 4em;
     cursor: pointer;
     padding: 15px;
@@ -94,7 +90,6 @@ body::-webkit-scrollbar-thumb {
     -moz-transition: .5s;
     transition: .5s;
 }
- 
 
 .slidebutton {
     font-size: .75rem;
@@ -145,7 +140,6 @@ h6,
     line-height: 1.6;
 }
 
-
 /* Top Margin */
 
 .header {
@@ -165,7 +159,7 @@ h6,
     vertical-align: middle;
     width: 40%;
     margin-left: 1em;
-    padding-bottom: 0; 
+    padding-bottom: 0;
 }
 
 .lefttop {
@@ -187,6 +181,7 @@ h6,
 
 #clock {
     display: flex;
+    position: relative;
     flex-direction: row;
     height: 9rem;
     width: 17rem;
@@ -201,6 +196,7 @@ h6,
     border-radius: 1rem;
     box-shadow: 5px 5px 5px black;
     text-shadow: 1px 1px black;
+    z-index: 2000;
 }
 
 #canvas {
@@ -210,6 +206,7 @@ h6,
     width: 8rem;
     height: 8rem;
     font-size: 30px;
+    z-index: 1000;
 }
 
 #time {
@@ -253,13 +250,16 @@ h6,
     padding-bottom: .5em;
 }
 
-
 #logo {
     text-align: center;
     vertical-align: middle;
     width: 20%;
-    cursor: default;
-    z-index: -1;
+}
+
+#logo > img {
+    filter: drop-shadow(.2rem .2rem .2rem black);
+    -webkit-filter: drop-shadow(.2rem .2rem .2rem black);
+    cursor: pointer;
 }
 
 #right {
@@ -290,7 +290,6 @@ h6,
     margin-top: .75rem;
     height: auto;
 }
-
 
 /* Refresh Switch */
 
@@ -379,11 +378,11 @@ h6,
     background-color: green;
 }
 
-input:focus+.slider {
+input:focus + .slider {
     box-shadow: 0 0 1px green;
 }
 
-input:checked+.slider:before {
+input:checked + .slider:before {
     -webkit-transform: translateX(7px);
     -ms-transform: translateX(7px);
     transform: translateX(7px);
@@ -398,13 +397,10 @@ input:checked+.slider:before {
     border-radius: 50%;
 }
 
-
 /* Update Button */
-
 
 .button2 {
     vertical-align: middle;
-    /* width: 5em; */
     margin-right: .5rem;
     font-size: .75rem;
     font-weight: 500;
@@ -415,9 +411,7 @@ input:checked+.slider:before {
     cursor: pointer;
     border-radius: 5px;
     color: rgb(255, 255, 255);
-    /* background-color: #3d3d3d; */
     background-color: #8E8B8B;
-    /* border-color: #000000; */
     border: .2rem solid rgb(90, 90, 90);
     outline: none;
     transition: all ease 0.3s;
@@ -428,13 +422,12 @@ input:checked+.slider:before {
     box-shadow: 0 3px 0 black;
 }
 
-
 /* SEARCH */
 
 #markform {
     position: fixed;
     right: 0;
-    margin-right: 1rem;
+    margin-right: 1.5rem;
     padding: 1rem;
     margin-top: -.5rem;
     background-color: rgba(37, 37, 37, 0.750);
@@ -473,6 +466,15 @@ mark.current {
     font-size: .75rem;
 }
 
+.btn-visible {
+    visibility: visible;
+}
+
+.btn-hidden {
+    display: none;
+    visibility: hidden;
+}
+
 .slide span {
     color: #000000;
     font-weight: 600;
@@ -491,6 +493,20 @@ mark.current {
     padding-left: .5rem;
     margin-right: .5rem;
     border-radius: 5px;
+    background-color: rgb(225, 225, 225);
+    border: .2rem solid rgb(90, 90, 90);
+    /* border: .2rem solid transparent; */
+}
+
+.input:hover {
+
+    /* border-color: #007bff; */
+    border: .2rem solid #007bff;
+
+}
+
+.input:focus {
+    border: .2rem solid #007bff;
 }
 
 input[type=search]::-webkit-search-cancel-button {
@@ -504,9 +520,6 @@ input[type=search]::-webkit-search-cancel-button {
 }
 
 #count {
-    display: inline-block;    
-    /* width: 18vw; */
-    /* max-width: 14em; */
     margin-right: 10em;
     text-align: right;
     font-size: 1em;
@@ -529,7 +542,6 @@ input[type=search]::-webkit-search-cancel-button {
     box-shadow: 0 1px .1rem rgba(0, 0, 0, 0.7);
     /* Opera 10.5+, IE 9.0 */
 }
-
 
 .error {
     padding: .1rem;
@@ -571,7 +583,6 @@ input[type=search]::-webkit-search-cancel-button {
     box-shadow: 0 3px 0 black;
 }
 
-
 .button_loader {
     background-color: transparent;
     border: 4px solid #f3f3f3;
@@ -584,31 +595,28 @@ input[type=search]::-webkit-search-cancel-button {
     animation: spin 0.8s linear infinite;
 }
 
-
 /**** LOGS ****/
-
 
 /* SCROLL BARS */
 
 .expand::-webkit-scrollbar {
-    width: 10px;
+    width: .75rem;
     background-color: #252525;
 }
 
 .expand::-webkit-scrollbar-track {
+    /* border-radius: .2rem; */
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
     background-color: #252525;
 }
 
 .expand::-webkit-scrollbar-thumb {
-    border-radius: 10px;
+    border-radius: .2rem;
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
     box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
     background-color: #8E8B8B;
-} 
-
+}
 
 /* SLIDING DIVs */
 
@@ -648,10 +656,9 @@ input[type=search]::-webkit-search-cancel-button {
     cursor: default;
 }
 
-
 .left {
-    width: 100%; 
-     margin-right: 0;
+    width: 100%;
+    margin-right: 0;
     margin-left: 0;
     text-align: left;
     vertical-align: bottom;
@@ -744,11 +751,10 @@ input[type="checkbox"] {
     -moz-border-radius: 5px;
     border-radius: 5px;
     width: 3em;
-    height: 3em;   
+    height: 3em;
     -webkit-transition: .5s;
     -moz-transition: .5s;
     transition: .5s;
-    cursor: pointer;
 }
 
 .expandtoggle:hover {
@@ -759,18 +765,19 @@ input[type="checkbox"] {
     transition: .3s;
 }
 
+Ø
 .expandtoggle::before {
     background: url(../images/decrease.png) no-repeat;
     background-size: 2em;
-    content : "";
+    content: "";
     display: inline-block;
     width: 2em;
     height: 2em;
     -webkit-transition: .5s;
     -moz-transition: .5s;
-    transition: .5s; 
+    transition: .5s;
+    cursor: pointer;
 }
-
 
 .expand {
     height: 600px;
@@ -782,64 +789,66 @@ input[type="checkbox"] {
     padding: 0 10px 0 10px;
 }
 
-.expandtoggle:checked~.expand {
+.expandtoggle:checked ~ .expand {
     height: 250px;
 }
 
-.expandtoggle:checked~.expandtoggle::before {
+.expandtoggle:checked ~ .expandtoggle::before {
     content: "";
     background: url(../images/increase.png) no-repeat;
     background-size: 2em;
     display: inline-block;
     width: 2em;
     height: 2em;
+    cursor: row-resize;
 }
 
-    /* Unlink response modal: */
+/* Unlink response modal: */
 
-    #responseModal {
-        display: none;
-        position: fixed;
-        top: 0;
-        width: 50%;
-        margin-top: 15%;
-        margin-left: 25%;
-        margin-right: 25%;
-        padding: 1rem;
-        color: white;
-        text-align: center;
-        align-items: center;
-        background-color: rgba(0, 0, 0, 0.900);
-        border: 3px solid #680233;
-        border-radius: 4px;
-        overflow-y: auto;
-        z-index: 8000;
-    }
+#responseModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    width: 50%;
+    margin-top: 15%;
+    margin-left: 25%;
+    margin-right: 25%;
+    padding: 1rem;
+    color: white;
+    text-align: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.900);
+    border: 3px solid #680233;
+    border-radius: 4px;
+    box-shadow: 5px 5px 15px rgb(15, 15, 15);
+    overflow-y: auto;
+    z-index: 8000;
+}
 
-    #modalContent {
-        /* padding-top: .5rem; */
-        padding-bottom: 0;
-        align-items: center;
-        font-size: 1.2rem;
-    }
+#modalContent {
+    /* padding-top: .5rem; */
+    padding-bottom: 0;
+    align-items: center;
+    font-size: 1.2rem;
+}
 
-    .closemodal {
-        position: fixed;
-        color: rgb(255, 80, 80);
-        left: 27%;
-        margin-top: -1rem;
-        /* margin-left: -36%; */
-        font-size: 2rem;
-        font-weight: 700;
-    }
+.closemodal {
+    position: fixed;
+    color: rgb(255, 80, 80);
+    left: 27%;
+    margin-top: -1rem;
+    /* margin-left: -36%; */
+    font-size: 2rem;
+    font-weight: 700;
+}
 
-    .closemodal:hover,
-    .closemodal:focus {
-        color: red;
-        text-decoration: none;
-        cursor: pointer;
-        font-weight: 900;
-    }
+.closemodal:hover,
+.closemodal:focus {
+    color: red;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 900;
+}
 
 /* Footer */
 
@@ -856,13 +865,12 @@ input[type="checkbox"] {
     position: fixed;
     left: 0;
     right: 0;
-    bottom: 2rem;
+    bottom: 1rem;
     margin: auto;
-    margin-top: 1vw;
     text-align: center;
     color: #555555;
     font-size: 1rem;
-    z-index: 1;
+    z-index: -1;
 }
 
 .footer {
@@ -886,7 +894,6 @@ a {
     font-weight: 300;
     text-decoration: none;
 }
-
 
 .notification {
     width: 100%;
@@ -1078,10 +1085,11 @@ a {
     font-weight: 500;
 }
 
-.navbar-default .navbar-nav>li>a {
+.navbar-default .navbar-nav > li > a {
     color: white;
     font-weight: 500;
 }
+
 /*     Wrappers      */
 
 #wrapper {
@@ -1120,6 +1128,7 @@ a {
     padding-top: 70px;
     width: 100%;
 }
+
 /*     Sidebar nav styles        */
 
 .sidebar-nav li {
@@ -1421,7 +1430,6 @@ input[name="imginput"]:focus {
     cursor: pointer;
 }
 
-
 input[type="file"] {
     display: none;
 }
@@ -1554,26 +1562,26 @@ uploadbtn:hover {
     margin-top: 1rem;
 }
 
-.btn-group>.btn:first-child {
+.btn-group > .btn:first-child {
     margin-left: 0;
     background-color: rgb(200, 200, 200);
     color: black;
 }
 
-.btn-group>.btn-group:not(:first-child)>.btn,
-.btn-group>.btn:not(:first-child) {
+.btn-group > .btn-group:not(:first-child) > .btn,
+.btn-group > .btn:not(:first-child) {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     background-color: rgb(200, 200, 200);
     color: black
 }
 
-.btn-group>.btn:first-child:hover {
+.btn-group > .btn:first-child:hover {
     background-color: rgb(150, 150, 150);
     color: white;
 }
 
-.btn-group>.btn:not(:first-child):hover {
+.btn-group > .btn:not(:first-child):hover {
     background-color: rgb(150, 150, 150);
     color: white;
 }
@@ -1624,6 +1632,7 @@ uploadbtn:hover {
 #footer > p {
     text-align: center;
 }
+
 #version > p {
     text-align: center;
 }
@@ -1709,10 +1718,6 @@ uploadbtn:hover {
     height: 40rem;
 }
 
-.slide {
-    position: relative;
-}
-
 #serviceform {
     background-color: inherit;
 }
@@ -1744,57 +1749,6 @@ uploadbtn:hover {
     font-size: 1.5rem;
     font-weight: 600;
     cursor: wait;
-}
-
-.expand {
-    height: 33rem;
-    transition: height 0.5s;
-    word-wrap: break-word;
-    width: auto;
-    padding: 0 10px 0 10px;
-}
-
-.expandtoggle:checked~.expand {
-    height: 20rem;
-}
-
-.expandtoggle {
-    display: block;
-    position: absolute;
-    text-align: center;
-    margin: 0;
-    right: 2.5em;
-    bottom: .5em;
-    padding-top: .5em;
-    background-color: rgba(150, 150, 150, 0.75);
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-    width: 2em;
-    height: 2.2em;
-    cursor: pointer;
-    -webkit-transition: .5s;
-    -moz-transition: .5s;
-    transition: .5s;
-}
-
-.expandtoggle:hover {
-    background-color: rgba(255, 255, 255, 0.4);
-    background-size: 3em;
-    -webkit-transition: .3s;
-    -moz-transition: .3s;
-    transition: .3s;
-}
-
-.expandtoggle::before {
-    background: url(../img/toggle.png) no-repeat;
-    background-size: 2em;
-    content: "";
-    display: inline-block;
-    width: 2em;
-    height: 2em;
-    -webkit-transition: .5s;
-    -moz-transition: .5s;
-    transition: .5s;
 }
 
 #preferenceform {
@@ -1848,7 +1802,7 @@ uploadbtn:hover {
     width: 100%;
 }
 
-#settingstable{
+#settingstable {
     cursor: default;
 }
 
@@ -2005,5 +1959,5 @@ uploadbtn:hover {
 }
 
 .transparent-background {
-    background:transparent;
+    background: transparent;
 }

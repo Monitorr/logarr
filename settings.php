@@ -81,7 +81,7 @@ https://github.com/Monitorr/Monitorr
                     console.log('Refreshed config variables');
                 }
             });
-        };
+        }
         refreshConfig();
     </script>
 

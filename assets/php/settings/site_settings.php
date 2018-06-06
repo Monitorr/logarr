@@ -150,7 +150,8 @@ include ('..//functions.php');
                             "autoHighlight": "leftcolumn",
                             "jumpOnSearch": "leftcolumn",
                             "logRefresh": "leftcolumn",
-                            "maxLines": "leftcolumn",
+                            "liveSearch": "leftcolumn",
+                            "maxLines": "rightcolumn",
                             "rfconfig": "rightcolumn",
                             "rflog": "rightcolumn",
                             "rftime": "rightcolumn",
@@ -230,6 +231,31 @@ include ('..//functions.php');
                             "focus": false,
                             "optionLabels": [" True", " False"],
                             "name": "logRefresh",
+                            "typeahead": {},
+                            "allowOptionalEmpty": false,
+                            "data": {},
+                            "autocomplete": "false",
+                            "disallowEmptySpaces": true,
+                            "disallowOnlyEmptySpaces": false,
+                            "removeDefaultNone": true,
+                            "fields": {},
+                            "events": {
+                                "change": function() {
+                                    $('.alpaca-form-button-submit').addClass('buttonchange');
+                                }
+                            }
+                        },
+                        "liveSearch": {
+                            "type": "radio",
+                            "validate": true,
+                            "showMessages": true,
+                            "disabled": false,
+                            "hidden": false,
+                            "label": "Live Search:",
+                            "hideInitValidationError": false,
+                            "focus": false,
+                            "optionLabels": [" True", " False"],
+                            "name": "liveSearch",
                             "typeahead": {},
                             "allowOptionalEmpty": false,
                             "data": {},

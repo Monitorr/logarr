@@ -19,6 +19,7 @@
         <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
         <link href='//fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="assets/css/logarr.css" />
+        <link rel="stylesheet" href="assets/css/custom.css" />
 
         <link rel="apple-touch-icon-precomposed" sizes="57x57" href="assets/images/favicon/apple-touch-icon-57x57.png" />
         <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/images/favicon/apple-touch-icon-114x114.png" />
@@ -114,7 +115,7 @@
                         console.log('Refreshed config variables');
                     }
                 });
-            };
+            }
             refreshConfig();
         </script>
 
@@ -128,7 +129,7 @@
                         highlightjs();
                     }, 300);
                 }
-            };
+            }
         </script>
 
                 <!-- // Set global timezone from config file: -->
@@ -228,6 +229,8 @@
         <script>
             $(document).on('click', 'button[data-action=\'unlink-log\']', function(event) {
                 event.preventDefault(); // stop being refreshed
+                console.log('Attempting log roll');
+                $.growlUI("Attempting <br> log roll");
                 var logName = $(this).data('service');
                 $.ajax({
                     type: 'POST',
@@ -236,14 +239,14 @@
                     data: "file=" + $(".path[data-service='" + $(this).data('service') + "']").html().trim(),
                     success: function (data) {
                         $('#modalContent').html(data);
-                        setTimeout(refresh(), 1000);
+                        setTimeout(refreshblockUI(), 1000);
                         console.log('Logarr unlink '+ data);
                         var modal = document.getElementById('responseModal');
                         var span = document.getElementsByClassName("closemodal")[0];
                         modal.style.display = "block";
                         span.onclick = function() {
                             modal.style.display = "none";
-                        }
+                        };
                         window.onclick = function(event) {
                             if (event.target == modal) {
                                 modal.style.display = "none";
@@ -303,9 +306,7 @@
             </div>
 
             <div id="logo" class="Column">
-
-                <img src="assets/images/log-icon.png" alt="Logarr" style="height:8em;border:0;">
-
+                 <img src="assets/images/log-icon.png" alt="Logarr" style="height:8em;border:0;" title="Reload Logarr" onclick="window.location.reload(true);">
             </div>
 
             <div id="right" class="Column"> 
@@ -313,9 +314,9 @@
                 <div id="righttop" class="righttop">
                     <div id="markform">
                         <input type="search" name="markinput"  id="text-search2" class="input" title="Input search term" placeholder=" Search & highlight . . .">
-                        <input type="button" name="marksearch"  id="marksearch" value="Search" class="btn marksearch btn-primary" title="Execute search">
-                        <button data-search="next" class="btn search-button btn-primary" title="Focus to first search result">&darr;</button>
-                        <button data-search="prev" class="btn search-button btn-primary" title="Focus to last search result" >&uarr;</button>
+                        <input type="button" name="marksearch"  id="marksearch" value="Search" class="btn marksearch btn-primary" title="Execute search. Results will be highlighted in yellow.">
+                        <button data-search="next" name="nextBtn" class="btn search-button btn-primary btn-visible btn-hidden" title="Focus to first search result">&darr;</button>
+                        <button data-search="prev" name="prevBtn" class="btn search-button btn-primary btn-visible btn-hidden" title="Focus to last search result" >&uarr;</button>
                         <button data-search="clear" class="btn search-button btn-primary" title="Clear search results">✖</button>
                         
                     </div>
@@ -323,7 +324,7 @@
                 
                 <div id="rightmiddle" class="rightmiddle">
 
-                     <div id="count" class="count"> </div>
+                     <div id="count" class="count" title="Search results have been highlighted in yellow. NOTE: Search results will be cleared if a log update is triggered."> </div>
 
                 </div>
 
@@ -343,8 +344,8 @@
                                 </label>
                             </th>
 
-                            <th>                               
-                                <input id="Update" class="button2 btn btn-primary" type="button" value="Update" title="Trigger log manual update" onclick="refreshblockUI(); return false" />
+                            <th>
+                                <input id="Update" type="button" name="updateBtn" class="button2 btn btn-primary" value="Update" title="Trigger log manual update" onclick="refreshblockUI(); return false" />
                             </th>
 
                         </tr>
@@ -363,7 +364,7 @@
             foreach ($logs as $log) {
                 if($log['enabled'] == "Yes"){?>
 
-                <div id="<?php echo $log['logTitle']; ?>-log-container" class="flex-child">
+                <div id="<?php echo str_replace(" ", "-", $log['logTitle']); ?>-log-container" class="flex-child">
 
                     <div class="row2">
 
@@ -487,8 +488,8 @@
 
            function checkAll1() {
                 checkedAll(true);
-            };
-            
+           }
+
         </script>
 
     </body>

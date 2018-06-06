@@ -26,6 +26,14 @@
       "default": "true",
       "properties": {}
     },
+    "liveSearch": {
+      "type": "string",
+      "enum": ["true", "false"],
+      "required": true,
+      "pattern": {},
+      "default": "true",
+      "properties": {}
+    },
     "maxLines": {
       "type": "integer",
       "required": true,

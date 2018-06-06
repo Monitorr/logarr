@@ -6,25 +6,23 @@
 function refreshblockUI() {
     $.growlUI('Updating logs...');
     setTimeout(function () {
+        $('.btn-visible').addClass("btn-hidden");
         refresh();
     }, 300);
 
     //wait 3 seconds after log update to highlight error terms:
-    if(settings.autoHighlight == "true") {
+    if (settings.autoHighlight == "true") {
         setTimeout(function () {
             highlightjs();
         }, 3000); // CHANGE ME ??
     }
-};
-
-
+}
+Ø;
 function refresh() {
     var url = 'index.php';
     $('#logcontainer').load(url + ' #logcontainer');
     console.log('Logarr log update START');
-};
-
-
+}
 // highlight all "error" terms:
 
 function highlightjs() {
@@ -32,9 +30,8 @@ function highlightjs() {
         element: 'em',
         className: 'error'
     });
-};
-
-    // Search function:
+}
+// Search function:
 
 $(function () {
 
@@ -60,44 +57,45 @@ $(function () {
         // the current index of the focused element
         currentIndex = 0;
 
-        //Jumps to the element matching the currentIndex
-     
-        function jumpTo() {
-            if ($results.length) {
-                var position,
-                    $current = $results.eq(currentIndex);
-                $results.removeClass(currentClass);
-                if ($current.length) {
-                    $current.addClass(currentClass);
-                    var currentOffset = $('.markresults.current').offsetTop;
-                    var parent = $('.markresults.current').parent();
-                    while (!parent.is('div')) {
-                        parent = parent.parent();
-                    }
-                    
-                        /* not animated page scroll */
-                    $('html, body').scrollTop(
-                        $(parent).offset().top
-                    );
+    //Jumps to the element matching the currentIndex
 
-                        /*
-                            $('html, body').animate({
-                                scrollTop: $(parent).offset().top
-                            }, 200); //make this value bigger if you want smoother/longer scroll
-                        */
-
-                    /* not animated scroll */
-                    parent.scrollTop(
-                        $('.markresults.current').offset().top - parent.offset().top + parent.scrollTop()
-                    );
+    function jumpTo() {
+        if ($results.length) {
+            var position,
+                $current = $results.eq(currentIndex);
+            $results.removeClass(currentClass);
+            if ($current.length) {
+                $current.addClass(currentClass);
+                var currentOffset = $('.markresults.current').offsetTop;
+                var parent = $('.markresults.current').parent();
+                while (!parent.is('div')) {
+                    parent = parent.parent();
                 }
+
+                /* not animated page scroll */
+                $('html, body').scrollTop(
+                    $(parent).offset().top
+                );
+
+                /*
+                    $('html, body').animate({
+                        scrollTop: $(parent).offset().top
+                    }, 200); //make this value bigger if you want smoother/longer scroll
+                */
+
+                /* not animated scroll */
+                parent.scrollTop(
+                    $('.markresults.current').offset().top - parent.offset().top + parent.scrollTop()
+                );
             }
         }
+    }
 
     function mark() {
 
         // Read the keyword
         var keyword = $("input[name='markinput']").val();
+        $content = $(".slide");
 
         // Determine selected options
         var options = {
@@ -122,38 +120,39 @@ $(function () {
                         $('.count').append("'");
                         $results.addClass("markresults");
                         currentIndex = 0;
-                        if(config.jumpOnSearch) jumpTo(); // Auto focus/scroll to first searched term after search submit, if user had enabled option in config
+                        if (settings.jumpOnSearch) jumpTo(); // Auto focus/scroll to first searched term after search submit, if user had enabled option in config
                     }
                 });
             }
         });
-    };
-
+    }
     // TO DO:  Search will not highlight if manual/auto update is peformed first?  ?? CHANGE ME
 
-        $("input[name='marksearch']").on("click", function () { //Key up?? //CHANGE ME
-            $.blockUI({
-                message: 'Searching ...'
-            });
-            console.log('Logarr is performing search');
-            setTimeout(function () {
-                mark();
-                $.unblockUI()
-            }, 300);
+    $("input[name='marksearch']").on("click", function () {
+        $.blockUI({
+            message: 'Searching ...'
         });
-    
-     // Clears the search
-
-    $clearBtn.on("click", function () {
-        $content.unmark();
-        $input.val("").focus();
-        var url = 'index.php';
-        $('#count').load(url + ' #count');
+        console.log('Logarr is performing search');
+        setTimeout(function () {
+            $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search
+            mark();
+            $.unblockUI()
+        }, 300);
     });
 
-   
-      // Next and previous search jump to
-     
+    // Clears the search
+
+    $clearBtn.on("click", function () {
+        console.log('Logarr cleared search results');
+        $content.unmark();
+        $input.val("");
+        $('.count').removeClass("countresults");
+        $('.btn-visible').addClass("btn-hidden");
+    });
+
+
+    // Next and previous search jump to
+
     $nextBtn.add($prevBtn).on("click", function () {
         if ($results.length) {
             currentIndex += $(this).is($prevBtn) ? -1 : 1;
@@ -167,25 +166,17 @@ $(function () {
         }
     });
 
-        // THIS WILL "LIVE SEARCH" as soon as user keyup in search field: // DO NOT WANT THIS, but cool feature: //CHANGE ME
-        /**
-         * Searches for the entered keyword in the
-         * specified context on input
-         */
-        // $input.on("click", function () {
-        //     var searchVal = this.value;
-        //     $content.unmark({
-        //         done: function () {
-        //             $content.mark(searchVal, {
-        //                 separateWordSearch: true,
-        //                 done: function () {
-        //                     $results = $content.find("mark");
-        //                     currentIndex = 0;
-        //                     jumpTo();
-        //                 }
-        //             });
-        //         }
-        //     });
-        // });
-
+    // THIS WILL "LIVE SEARCH" as soon as user keyup in search field: // DO NOT WANT THIS, but cool feature: //CHANGE ME
+    /**
+     * Searches for the entered keyword in the
+     * specified context on input
+     */
+    var timeoutID = null;
+    $("input[name='markinput']").keyup(function (e) {
+        clearTimeout(timeoutID);
+        if (settings.liveSearch == "true") {
+            $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search
+            timeoutID = setTimeout(() => mark(e.target.value), 500);
+        }
+    });
 });

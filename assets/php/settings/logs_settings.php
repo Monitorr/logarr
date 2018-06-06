@@ -105,7 +105,7 @@ include ('../functions.php');
 
 
 
-<div id="modalloading" title="Monitorr services are populating.">
+<div id="modalloading" title="Monitorr logs are populating.">
 
     <div id="modalloadingspinner" style="transform:translateZ(0);"> </div>
 
@@ -116,7 +116,7 @@ include ('../functions.php');
         };
     </script>
 
-    <p class="modaltextloading">Loading services ...</p>
+    <p class="modaltextloading">Loading logs ...</p>
 
 </div>
 
@@ -414,7 +414,7 @@ include ('../functions.php');
                                         error: function(errorThrown){
                                             console.log(errorThrown);
                                         }
-                                    },)
+                                    },);
                                     $('.alpaca-form-button-submit').removeClass('buttonchange');
                                 }
                             },

@@ -1,4 +1,4 @@
-var servertime
+var servertime;
 var servertimezone;
 
 date = servertime;

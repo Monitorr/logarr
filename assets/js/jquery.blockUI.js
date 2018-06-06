@@ -123,7 +123,7 @@
             // styles for the message when blocking; if you wish to disable
             // these and use an external stylesheet then do this in your code:
             // $.blockUI.defaults.css = {};
-              css: {
+            css: {
                 margin: 0,
                 padding: '.5em',
                 width: '30%',
@@ -134,6 +134,7 @@
                 color: '#fff',
                 border: '3px solid #680233',
                 backgroundColor: '#000',
+                boxShadow: "5px 5px 15px rgb(15, 15, 15)",
                 cursor: 'wait',
                 fadeIn: 100,
                 fadeOut: 500,

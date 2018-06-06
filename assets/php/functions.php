@@ -40,7 +40,7 @@ function readExternalLog($log) {
     }
     foreach ($lines as $line_num => $line) {
         echo "<b>Line {$line_num}</b> : " . htmlspecialchars($line) . "<br />\n";
-        if($line_num == $maxLines) break;
+        if($maxLines != 0 && $line_num == $maxLines) break;
     }
 
 }
