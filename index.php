@@ -44,8 +44,6 @@
         <meta name="theme_color" content="#252525"/>
       
         <meta name="robots" content="NOINDEX, NOFOLLOW">
-
-        <!-- // CHANGE ME - Change to new config file  -->
         
         <?php $file = 'assets/config/config.php';
             //Use the function is_file to check if the config file already exists or not.
@@ -70,7 +68,6 @@
         <script src="assets/js/logarr.main.js"></script>
             
                <!-- Highlight error terms onload:  -->
-
         <script>
             function highlightjsload() {
                 $.growlUI('Loading logs...');
@@ -218,19 +215,23 @@
             });
         </script>
 
-             <!-- Execute search on ENTER keyup:  -->
         <script>
 
             $(document).ready(function () {
+
+                    // Hide previous/next search buttons until search is performed:
+                $('.btn-visible').addClass("btn-hidden");
+
+                    // Execute search on ENTER keyup:
                 $("#text-search2").keyup(function(event) {
                     if (event.keyCode === 13) {
                         $("#marksearch").click();
                     }
                 });
+
             });
 
         </script>
-
 
     </head>
     
@@ -286,10 +287,9 @@
                     <div id="markform">
                         <input type="search" name="markinput"  id="text-search2" class="input" title="Input search term" placeholder=" Search & highlight . . .">
                         <input type="button" name="marksearch"  id="marksearch" value="Search" class="btn marksearch btn-primary" title="Execute search">
-                        <button data-search="next" class="btn search-button btn-primary" title="Focus to first search result">&darr;</button>
-                        <button data-search="prev" class="btn search-button btn-primary" title="Focus to last search result" >&uarr;</button>
+                        <button data-search="next" name="nextBtn" class="btn search-button btn-primary btn-visible" title="Focus to first search result">&darr;</button>
+                        <button data-search="prev" name="prevBtn" class="btn search-button btn-primary btn-visible" title="Focus to last search result" >&uarr;</button>
                         <button data-search="clear" class="btn search-button btn-primary" title="Clear search results">✖</button>
-                        
                     </div>
                 </div>
                 
@@ -316,7 +316,7 @@
                             </th>
 
                             <th>                               
-                                <input id="Update" class="button2 btn btn-primary" type="button" value="Update" title="Trigger log manual update" onclick="refreshblockUI(); return false" />
+                                <input id="Update" type="button" name="updateBtn" class="button2 btn btn-primary" value="Update" title="Trigger log manual update" onclick="refreshblockUI(); return false" />
                             </th>
 
                         </tr>

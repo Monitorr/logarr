@@ -7,6 +7,7 @@
 function refreshblockUI() {
     $.growlUI('Updating logs...');
     setTimeout(function () {
+        $('.btn-visible').addClass("btn-hidden"); // Hide previous/next search buttons on log update (prevent memory leak)
         refresh();
     }, 300);
 
@@ -46,9 +47,8 @@ $(function () {
         $prevBtn = $("button[data-search='prev']"),
         // next button
         $nextBtn = $("button[data-search='next']"),
+
         // the context where to search
-
-
         $content = $(".slide"),
         // jQuery object to save <mark> elements
         $results,
@@ -98,6 +98,7 @@ $(function () {
 
         // Read the keyword
         var keyword = $("input[name='markinput']").val();
+        $content = $(".slide");
 
         // Determine selected options
         var options = {
@@ -130,7 +131,6 @@ $(function () {
         });
     };
 
-    // TO DO:  Search will not highlight if manual/auto update is peformed first?  ?? CHANGE ME
 
         $("input[name='marksearch']").on("click", function () {
             $.blockUI({
@@ -138,6 +138,7 @@ $(function () {
             });
             console.log('Logarr is performing search');
             setTimeout(function () {
+                $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search
                 mark();
                 $.unblockUI()
             }, 300);
@@ -146,12 +147,13 @@ $(function () {
      // Clears the search
 
     $clearBtn.on("click", function () {
+        console.log('Logarr cleared search results');
         $content.unmark();
         $input.val("");
         var url = 'index.php';
         $('.count').removeClass("countresults");
+        $('.btn-visible').addClass("btn-hidden");
     });
-
    
       // Next and previous search jump to
      
