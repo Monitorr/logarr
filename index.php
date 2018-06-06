@@ -175,6 +175,7 @@
         <script>
             $(document).on('click', 'button[data-action=\'unlink-log\']', function(event) {
                 event.preventDefault(); // stop page from being refreshed
+                console.log('Attempting log roll');
                 $.growlUI("Attempting <br> log roll");
                 var logName = $(this).data('service');
                 $.ajax({
@@ -184,7 +185,7 @@
                     data: "file=" + $(".path[data-service='" + $(this).data('service') + "']").html().trim(),
                     success: function (data) {
                         $('#modalContent').html(data);
-                        setTimeout(refresh(), 1000);
+                        setTimeout(refreshblockUI(), 1000);
                         console.log('Logarr unlink '+ data);
                         var modal = document.getElementById('responseModal');
                         var span = document.getElementsByClassName("closemodal")[0];
@@ -281,7 +282,9 @@
 
             <div id="logo" class="Column">
 
-                <img src="assets/images/log-icon.png" alt="Logarr" style="height:8em;border:0;">
+                <a href="javascript:history.go(0)"> 
+                    <img src="assets/images/log-icon.png" alt="Logarr" style="height:8em;border:0;" title="Reload Logarr">
+                </a>
 
             </div>
 
@@ -290,7 +293,7 @@
                 <div id="righttop" class="righttop">
                     <div id="markform">
                         <input type="search" name="markinput"  id="text-search2" class="input" title="Input search term" placeholder=" Search & highlight . . .">
-                        <input type="button" name="marksearch"  id="marksearch" value="Search" class="btn marksearch btn-primary" title="Execute search">
+                        <input type="button" name="marksearch"  id="marksearch" value="Search" class="btn marksearch btn-primary" title="Execute search. Results will be highlighted in yellow.">
                         <button data-search="next" name="nextBtn" class="btn search-button btn-primary btn-visible" title="Focus to first search result">&darr;</button>
                         <button data-search="prev" name="prevBtn" class="btn search-button btn-primary btn-visible" title="Focus to last search result" >&uarr;</button>
                         <button data-search="clear" class="btn search-button btn-primary" title="Clear search results">✖</button>
@@ -299,7 +302,7 @@
                 
                 <div id="rightmiddle" class="rightmiddle">
 
-                     <div id="count" class="count" title="Search results have been highlighted in yellow"> </div>
+                     <div id="count" class="count" title="Search results have been highlighted in yellow. NOTE: Search results will be cleared if a log update is triggered."> </div>
 
                 </div>
 

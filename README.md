@@ -34,6 +34,7 @@
 
  **Features in development:**
 - Settings page
+- Custom CSS
  
  
 ## Screenshot:
