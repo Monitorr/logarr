@@ -175,6 +175,7 @@
         <script>
             $(document).on('click', 'button[data-action=\'unlink-log\']', function(event) {
                 event.preventDefault(); // stop page from being refreshed
+                $.growlUI("Attempting <br> log roll");
                 var logName = $(this).data('service');
                 $.ajax({
                     type: 'POST',
@@ -210,6 +211,7 @@
         <script>
             $(document).on('click', 'button[data-action=\'download-log\']', function(event) {
                 event.preventDefault(); // stop page from being refreshed
+                $.growlUI("Downloading <br> log file");
                 var logFilePath = ($(".path[data-service='" + $(this).data('service') + "']").html()).replace('file=','').trim();
                 console.log(logFilePath);
                 window.open('assets/php/download.php?file='+logFilePath);
