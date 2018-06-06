@@ -159,9 +159,11 @@
                     if ($(this).is(':checked')) {
                         nIntervId = setInterval(refreshblockUI, <?php echo $config['rflog']; ?>);
                         console.log("Auto update: Enabled | Interval: <?php echo $config['rflog']; ?> ms");
+                        $.growlUI("Auto update: Enabled");
                     } else {
                         clearInterval(nIntervId);
                         console.log("Auto update: Disabled");
+                        $.growlUI("Auto update: Disabled");
                     }
                 });
                 // Uncomment line below to set auto-refresh to ENABLE on page load
