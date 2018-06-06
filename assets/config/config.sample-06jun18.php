@@ -6,6 +6,8 @@
 
                             // Last updated: 06 JUN 2018 //
                                     // v4.5.0  //
+									
+// ** NOTE:  See the Logarr [Wiki](https://github.com/Monitorr/logarr/wiki/NOTICE:-Updating-Logarr) for an important notice regarding a major upcoming update to Logarr (ETA July 2018) **
 
 
              // ** DO NOT edit the config.SAMPLE-DATE.php file ** //
