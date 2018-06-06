@@ -32,8 +32,8 @@ $config = array(
 		// 1 = 12-hour format | 0 = 24-hour format
 
     'rftime' => '180000',
-    // Specifies how frequently (in milliseconds) the UI clock will synchronize time with the hosting webserver. 
-    // rftime note 1: Time deviation should be minimal, therefore suggested value is ~ 180000 ms (3 min).
+		// Specifies how frequently (in milliseconds) the UI clock will synchronize time with the hosting webserver.
+		// rftime note 1: Time deviation should be minimal, therefore suggested value is ~ 180000 ms (3 min).
 
     'rflog' => '30000',
 		// Log auto-update interval (in milliseconds) when enabled via toggle switch in UI.
