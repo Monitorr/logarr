@@ -510,10 +510,8 @@ mark.current {
 }
 
 .input:hover {
-
     /* border-color: #007bff; */
     border: .2rem solid #007bff;
-
 }
 
 .input:focus {
@@ -809,7 +807,8 @@ input[type="checkbox"] {
 }
 
 .expand {
-    height: 600px;
+    /* height: 600px; */
+    height: 43rem;
     overflow: auto;
     transition: height 0.5s;
     background-color: #606060;
@@ -819,7 +818,8 @@ input[type="checkbox"] {
 }
 
 .expandtoggle:checked~.expand {
-    height: 250px;
+    /* height: 250px; */
+    height: 17rem;
 }
 
 .expandtoggle:checked~.expandtoggle::before {
