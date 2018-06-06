@@ -12,8 +12,8 @@
 
 
 
+**NOTICE (06 June 18)**: If updating to version **4.5** from ANY previous version, you will need to re-create your config.php file in the /assets/config/ directory after updating. You can do this by renaming your old config.php file, copying the file config.sample-06jun18.php to config.php, and then edit the newly created config.php file with your values. See the [Wiki](https://github.com/Monitorr/logarr/wiki/NOTICE:-Updating-Logarr) for more information.
 
-**NOTICE (06 June 18)**: If updating to version **4.5** from ANY previous version, you will need to re-create your config.php file in the /assets/config/ directory after updating. You can do this by renaming your old config.php file, coping the file config.sample-06jun18.php to config.php, and then edit the newly created config.php file with your values.
 
 
 ## Features:
