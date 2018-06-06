@@ -765,7 +765,6 @@ input[type="checkbox"] {
     transition: .3s;
 }
 
-Ø
 .expandtoggle::before {
     background: url(../images/decrease.png) no-repeat;
     background-size: 2em;

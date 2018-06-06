@@ -17,7 +17,6 @@ function refreshblockUI() {
         }, 3000); // CHANGE ME ??
     }
 }
-Ø;
 function refresh() {
     var url = 'index.php';
     $('#logcontainer').load(url + ' #logcontainer');
