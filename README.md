@@ -38,7 +38,7 @@
  
 ## Screenshot:
 
-![logarr](https://i.imgur.com/bc5jDg5.png)
+![logarr](https://i.imgur.com/GjrSWfk.png)
 
 
 ## Prerequisites:
