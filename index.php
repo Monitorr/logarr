@@ -293,10 +293,10 @@
                 <div id="righttop" class="righttop">
                     <div id="markform">
                         <input type="search" name="markinput"  id="text-search2" class="input" title="Input search term" placeholder=" Search & highlight . . .">
-                        <input type="button" name="marksearch"  id="marksearch" value="Search" class="btn marksearch btn-primary" title="Execute search. Results will be highlighted in yellow.">
-                        <button data-search="next" name="nextBtn" class="btn search-button btn-primary btn-visible" title="Focus to first search result">&darr;</button>
-                        <button data-search="prev" name="prevBtn" class="btn search-button btn-primary btn-visible" title="Focus to last search result" >&uarr;</button>
-                        <button data-search="clear" class="btn search-button btn-primary" title="Clear search results">✖</button>
+                        <input type="button" name="marksearch"  id="marksearch" value="Search" class="btn marksearch btn-primary" onclick="this.blur();" title="Execute search. Results will be highlighted in yellow.">
+                        <button data-search="next" name="nextBtn" class="btn search-button btn-primary btn-visible" onclick="this.blur();" title="Focus to first search result">&darr;</button>
+                        <button data-search="prev" name="prevBtn" class="btn search-button btn-primary btn-visible" onclick="this.blur();" title="Focus to last search result" >&uarr;</button>
+                        <button data-search="clear" class="btn search-button btn-primary" onclick="this.blur();" title="Clear search results">✖</button>
                     </div>
                 </div>
                 
@@ -323,7 +323,7 @@
                             </th>
 
                             <th>                               
-                                <input id="Update" type="button" name="updateBtn" class="button2 btn btn-primary" value="Update" title="Trigger log manual update" onclick="refreshblockUI(); return false" />
+                                <input id="Update" type="button" name="updateBtn" class="button2 btn btn-primary" value="Update" title="Trigger log manual update" onclick="refreshblockUI(); this.blur(); return false" />
                             </th>
 
                         </tr>
@@ -378,10 +378,10 @@
                         <table id="slidebottom"> 
                             <tr>
                                 <td id="unlinkform">
-                                    <button type="button" class="log-action-button slidebutton btn btn-primary" data-action="unlink-log" data-service="<?php echo $k;?>"  title="Attempt log file roll. NOTE: This function will copy the current log file to '[logfilename].bak', delete the original log file, and create a new blank log file with the orginal log filename. This function may not succeed if log file is in use.">Roll Log</button>
+                                    <button type="button" class="log-action-button slidebutton btn btn-primary" data-action="unlink-log" data-service="<?php echo $k;?>"  onclick="this.blur();" title="Attempt log file roll. NOTE: This function will copy the current log file to '[logfilename].bak', delete the original log file, and create a new blank log file with the orginal log filename. This function may not succeed if log file is in use.">Roll Log</button>
                                 </td>
                                 <td id="downloadform">
-                                    <button type="button" class="log-action-button slidebutton btn btn-primary" data-action="download-log" data-service="<?php echo $k;?>" title="Download full log file">Download</button>
+                                    <button type="button" class="log-action-button slidebutton btn btn-primary" data-action="download-log" data-service="<?php echo $k;?>" onclick="this.blur();" title="Download full log file">Download</button>
                                 </td>
                             </tr>
                         </table>
