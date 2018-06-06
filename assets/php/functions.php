@@ -25,7 +25,7 @@ function readExternalLog($log)
 {
     $settings = $GLOBALS['settings'];
     ini_set("auto_detect_line_endings", true);
-
+    $result = "";
     if (isset($log['autoRollSize']) && $log['autoRollSize'] != 0) {
         //TODO: INSERT AUTO ROLL LOG FUNCTION
     }
@@ -39,10 +39,10 @@ function readExternalLog($log)
         $maxLines = $log['maxLines'];
     }
     foreach ($lines as $line_num => $line) {
-        echo "<b>Line {$line_num}</b> : " . htmlspecialchars($line) . "<br />\n";
+        $result .= "<b>Line {$line_num}</b> : " . htmlspecialchars($line) . "<br />\n";
         if ($maxLines != 0 && $line_num == $maxLines) break;
     }
-
+    return $result;
 }
 
 function human_filesize($bytes, $decimals = 2)

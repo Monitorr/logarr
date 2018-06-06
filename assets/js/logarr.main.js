@@ -19,8 +19,20 @@ function refreshblockUI() {
 }
 function refresh() {
     var url = 'index.php';
-    $('#logcontainer').load(url + ' #logcontainer');
+    loadLog();
     console.log('Logarr log update START');
+}
+
+function loadLog() {
+    $.ajax({
+        url: "assets/php/load-log.php",
+        data: {'hash':window.location.hash},
+        type: "POST",
+        success: function (response) {
+            $('#logcontainer').html(response);
+            console.log('Loaded logs');
+        }
+    });
 }
 // highlight all "error" terms:
 

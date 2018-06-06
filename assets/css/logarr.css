@@ -1960,3 +1960,12 @@ uploadbtn:hover {
 .transparent-background {
     background: transparent;
 }
+
+/* Category filter navigation */
+#categoryFilter {
+    text-align: center;
+}
+.category-filter-item {
+    padding: 5px 10px;
+    font-size: 1.5rem;
+}

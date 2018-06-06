@@ -119,19 +119,6 @@
             refreshConfig();
         </script>
 
-               <!-- Highlight error terms onload:  -->
-
-        <script>
-            function highlightjsload() {
-                if(settings.autoHighlight == "true"){
-                    $.growlUI('Loading logs...');
-                    setTimeout(function () {
-                        highlightjs();
-                    }, 300);
-                }
-            }
-        </script>
-
                 <!-- // Set global timezone from config file: -->
             <?php 
                 //Why is this necessary? - rob1998
@@ -356,66 +343,18 @@
             </div>
             
         </div>
+        <script>
+            $(document).ready(function () {
+                refreshblockUI();
+            });
 
-        <div id="logcontainer">
+            $(document).on('click', '.category-filter-item', function(event) {
+                console.log('test');
+                refreshblockUI();
+            });
+        </script>
 
-            <div id="logwrapper" class="flex">
-            <?php
-            foreach ($logs as $log) {
-                if($log['enabled'] == "Yes"){?>
-
-                <div id="<?php echo str_replace(" ", "-", $log['logTitle']); ?>-log-container" class="flex-child">
-
-                    <div class="row2">
-
-                        <div id="filedate" class="left">
-                            <br>
-                            <?php echo "Last modified: " . date (" H:i | D, d M", filemtime($log['path'])); $log['path']; ?>
-                        </div>
-
-                        <div class="logheader">
-                            <strong><?php echo $log['logTitle']; ?>:</strong>
-                        </div>
-
-                        <div id="filepath"  class="right">
-                            <div class="filesize">
-                                Log file size: <?php echo human_filesize(filesize($log['path'])); ?>
-                            </div>
-                            <div class="path" data-service="<?php echo $log['logTitle'];?>">
-                                <?php echo $log['path']; ?>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="slide">
-                        <input class="expandtoggle" type="checkbox" name="slidebox" id="<?php echo $log['logTitle']; ?>" checked>
-                        <label for="<?php echo $log['logTitle']; ?>" class="expandtoggle" title="Increase/decrease log view"></label>
-
-                        <div id="expand" class="expand">
-                            <p id="<?php echo $log['logTitle']; ?>-log"><?php readExternalLog($log); ?></p>
-                        </div>
-
-                    </div>
-
-                    <table id="slidebottom">
-                        <tr>
-                            <td id="unlinkform">
-                                <button type="button" class="log-action-button slidebutton btn btn-primary" data-action="unlink-log" data-service="<?php echo $log['logTitle'];?>"  title="Attempt log file roll. NOTE: This function will copy the current log file to '[logfilename].bak', delete the original log file, and create a new blank log file with the orginal log filename. This function may not succeed if log file is in use.">Roll Log</button>
-                            </td>
-                            <td id="downloadform">
-                                <button type="button" class="log-action-button slidebutton btn btn-primary" data-action="download-log" data-service="<?php echo $log['logTitle'];?>" title="Download full log file">Download</button>
-                            </td>
-                        </tr>
-                    </table>
-
-                </div>
-
-            <?php
-                }
-            } ?>
-            </div>
-        </div>
+        <div id="logcontainer"></div>
 
             <!-- Unlink response modal: -->
 
