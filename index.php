@@ -17,7 +17,7 @@
         <meta name="Logarr" content="Logarr: Self-hosted, single-page, log consolidation tool." />
 
         <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
-        <link href='//fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
+        <!-- <link href='//fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'> -->
         <link rel="stylesheet" href="assets/css/logarr.css" />
         <link rel="stylesheet" href="assets/css/custom.css" />
 
@@ -124,20 +124,21 @@
                 //Why is this necessary? - rob1998
                 if($preferences['timezone'] == "") {
 
-                    date_default_timezone_set('UTC');
-                    $timezone = date_default_timezone_get(); 
+                date_default_timezone_set('UTC');
+                $timezone = date_default_timezone_get();
 
-                }
+            }
 
-                else {
+            else {
 
-                    $timezoneconfig = $preferences['timezone'];
-                    date_default_timezone_set($timezoneconfig);
-                    $timezone = date_default_timezone_get();
+                $timezoneconfig = $preferences['timezone'];
+                date_default_timezone_set($timezoneconfig);
+                $timezone = date_default_timezone_get();
 
-                }
-            ?>
+            }
+        ?>
 
+                <!-- UI clock functions: -->
         <script>
             <?php
                 //initial values for clock:
@@ -170,6 +171,7 @@
                 }, 1000);
             }
             function syncServerTime() {
+                console.log('Logarr time update START | Interval: <?php echo $config['rftime']; ?> ms');
                 $.ajax({
                     url: "assets/php/time.php",
                     type: "GET",
@@ -180,6 +182,10 @@
                         timeZone = response.timezoneSuffix;
                         rftime = response.rftime;
                         date = new Date(servertime);
+                        setTimeout(function() {syncServerTime()}, rftime); //delay is rftime
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log("ERROR: time ajax fail");
                         setTimeout(function() {syncServerTime()}, settings.rftime); //delay is rftime
                         console.log('Logarr time update START');
                     }
@@ -193,6 +199,7 @@
 
         <script src="assets/js/clock.js" async></script>
 
+             <!-- Auto update function:  -->
         <script>
             var nIntervId;
             var onload;
@@ -203,9 +210,13 @@
                     if ($(this).is(':checked') && logInterval == false) {
                         nIntervId = setInterval(refreshblockUI, settings.rflog);
                         logInterval = true;
+                        console.log("Auto update: Enabled | Interval: <?php echo $config['rflog']; ?> ms");
+                        $.growlUI("Auto update: Enabled");
                     } else {
                         clearInterval(nIntervId);
                         logInterval = false;
+                        console.log("Auto update: Disabled");
+                        $.growlUI("Auto update: Disabled");
                     }
                 });
             });
@@ -253,9 +264,10 @@
             <!-- LOG DOWNLOAD FUNCTION  -->
         <script>
             $(document).on('click', 'button[data-action=\'download-log\']', function(event) {
-                event.preventDefault(); // using this page stop being refreshing
+                event.preventDefault(); // stop page from being refreshed
+                $.growlUI("Downloading <br> log file");
                 var logFilePath = ($(".path[data-service='" + $(this).data('service') + "']").html()).replace('file=','').trim();
-                console.log(logFilePath);
+                console.log("Downloading log file: " + logFilePath);
                 window.open('assets/php/download.php?file='+logFilePath);
                 return false;
             });
@@ -287,13 +299,10 @@
             });
         </script>
 
-
     </head>
     
     <body id="body" style="color: #FFFFFF;">
         <div id="ajaxtimestamp" title="Analog clock timeout. Refresh page."></div>
-        <div id="ajaxmarquee" title="Offline marquee timeout. Refresh page."></div>
-
 
         <div class="header">
         
@@ -313,14 +322,18 @@
             <div id="right" class="Column"> 
 
                 <div id="righttop" class="righttop">
-                    <div id="markform">
-                        <input type="search" name="markinput"  id="text-search2" class="input" title="Input search term" placeholder=" Search & highlight . . .">
-                        <input type="button" name="marksearch"  id="marksearch" value="Search" class="btn marksearch btn-primary" title="Execute search. Results will be highlighted in yellow.">
-                        <button data-search="next" name="nextBtn" class="btn search-button btn-primary btn-visible btn-hidden" title="Focus to first search result">&darr;</button>
-                        <button data-search="prev" name="prevBtn" class="btn search-button btn-primary btn-visible btn-hidden" title="Focus to last search result" >&uarr;</button>
-                        <button data-search="clear" class="btn search-button btn-primary" title="Clear search results">✖</button>
+                    <form method="POST">
+                        <div id="markform">
+
+                            <input type="search" name="markinput"  id="text-search2" class="input" title="Input search term" placeholder=" Search & highlight . . ." required>
+                            <button data-search="search" name="searchBtn" id="searchBtn" value="Search" class="btn marksearch btn-primary" onclick="this.blur(); return false;" title="Execute search. Results will be highlighted in yellow.">Search</button>
+                            <span id="validity" class="validity"></span>
+                            <button data-search="next" name="nextBtn" class="btn search-button btn-primary btn-visible" onclick="this.blur(); return false;" title="Focus to first search result">&darr;</button>
+                            <button data-search="prev" name="prevBtn" class="btn search-button btn-primary btn-visible" onclick="this.blur(); return false;" title="Focus to last search result" >&uarr;</button>
+                            <button data-search="clear" class="btn search-button btn-primary" onclick="this.blur(); return false;" title="Clear search results">✖</button>
                         
-                    </div>
+                        </div>
+                    </form>
                 </div>
                 
                 <div id="rightmiddle" class="rightmiddle">
@@ -345,8 +358,8 @@
                                 </label>
                             </th>
 
-                            <th>
-                                <input id="Update" type="button" name="updateBtn" class="button2 btn btn-primary" value="Update" title="Trigger log manual update" onclick="refreshblockUI(); return false" />
+                            <th>                               
+                                <input id="Update" type="button" name="updateBtn" class="button2 btn btn-primary" value="Update" title="Trigger log manual update" onclick="refreshblockUI(); this.blur(); return false" />
                             </th>
 
                         </tr>
@@ -374,8 +387,10 @@
         
         <div id="footer">
 
+                <!-- Checks for Logarr application update on page load: -->
             <script src="assets/js/update_auto.js" async></script>
             
+                <!-- Checks for Logarr application update on "Check for update" click: -->
             <script src="assets/js/update.js" async></script>
 
             <div id="logarrid">

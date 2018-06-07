@@ -130,14 +130,15 @@
                 top: '40%',
                 left: '35%',
                 textAlign: 'center',
-                'font-size': '3em',
+                'font-size': '2.5vw',
                 color: '#fff',
                 border: '3px solid #680233',
                 backgroundColor: '#000',
                 boxShadow: "5px 5px 15px rgb(15, 15, 15)",
                 cursor: 'wait',
-                fadeIn: 100,
-                fadeOut: 500,
+                fadeIn: 200,
+                fadeOut: 400,
+                zIndex: 10000,
             }, 
 
             // minimal style set used when themes are used
@@ -153,7 +154,11 @@
             overlayCSS: {
                 backgroundColor: '#000',
                 opacity: 0.8,
-                cursor: 'wait'
+                 fadeIn: 100,
+                cursor: 'wait',
+                fadeIn: 100,
+                fadeOut: 500,
+                zIndex: 9000,
             }, 
 
 
@@ -175,8 +180,9 @@
                 backgroundColor: '#000',
                 border: '3px solid #680233',
                 fadeIn: 200,
-                fadeOut: 500,
+                fadeOut: 400,
                 cursor: 'wait',
+                zIndex: 11000,
              }, 
 
 

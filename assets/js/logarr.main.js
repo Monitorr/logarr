@@ -49,12 +49,15 @@ $(function () {
 
     // the input field
     var $input = $("input[name='markinput']"),
-        // clear button
-        $clearBtn = $("button[data-search='clear']"),
-        // prev button
-        $prevBtn = $("button[data-search='prev']"),
-        // next button
+            // search button
+        $searchBtn = $("button[data-search='search']"),
+            // next button
         $nextBtn = $("button[data-search='next']"),
+            // prev button
+        $prevBtn = $("button[data-search='prev']"),
+            // clear button
+        $clearBtn = $("button[data-search='clear']"),
+
         // the context where to search
 
 
@@ -95,13 +98,13 @@ $(function () {
                     }, 200); //make this value bigger if you want smoother/longer scroll
                 */
 
-                /* not animated scroll */
-                parent.scrollTop(
-                    $('.markresults.current').offset().top - parent.offset().top + parent.scrollTop()
-                );
+                    /* not animated scroll */
+                    parent.scrollTop(
+                        $('.markresults.current').offset().top - parent.offset().top + parent.scrollTop()
+                    );
+                }
             }
         }
-    }
 
     function mark() {
 
@@ -131,39 +134,41 @@ $(function () {
                         $('.count').append(keyword);
                         $('.count').append("'");
                         $results.addClass("markresults");
+                        $('.count').addClass("countresults");
                         currentIndex = 0;
                         if (settings.jumpOnSearch) jumpTo(); // Auto focus/scroll to first searched term after search submit, if user had enabled option in config
                     }
                 });
             }
         });
-    }
-    // TO DO:  Search will not highlight if manual/auto update is peformed first?  ?? CHANGE ME
+    };
 
-    $("input[name='marksearch']").on("click", function () {
-        $.blockUI({
-            message: 'Searching ...'
-        });
+    $searchBtn.on("click", function () {
         console.log('Logarr is performing search');
+        $('#buttonStart :checkbox').prop('checked', false).change(); // if auto-update is enabled, disable it after search submit
+        $.blockUI({
+            message: 'Searching...'
+        });
         setTimeout(function () {
             $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search
             mark();
             $.unblockUI()
         }, 300);
     });
-
-    // Clears the search
+    
+     // Clears the search
 
     $clearBtn.on("click", function () {
         console.log('Logarr cleared search results');
+        $.growlUI('Clearing <br> search results');
         $content.unmark();
         $input.val("");
         $('.count').removeClass("countresults");
         $('.btn-visible').addClass("btn-hidden");
     });
 
-
-    // Next and previous search jump to
+   
+      // Next and previous search jump to
 
     $nextBtn.add($prevBtn).on("click", function () {
         if ($results.length) {
@@ -178,7 +183,7 @@ $(function () {
         }
     });
 
-    // THIS WILL "LIVE SEARCH" as soon as user keyup in search field: // DO NOT WANT THIS, but cool feature: //CHANGE ME
+    // THIS WILL "LIVE SEARCH" as soon as user keyup in search field:
     /**
      * Searches for the entered keyword in the
      * specified context on input
