@@ -4,6 +4,12 @@
 // Set styles for BlockUI overlays in /assets/js/jquery.blockUI.js
 
 
+$(function () {
+    $.growlUI('Loading logs...');
+    console.log('Logarr is loading logs');
+});
+
+
 function refreshblockUI() {
     $.growlUI('Updating logs...');
     setTimeout(function () {
@@ -41,12 +47,14 @@ $(function () {
 
     // the input field
     var $input = $("input[name='markinput']"),
-        // clear button
-        $clearBtn = $("button[data-search='clear']"),
-        // prev button
-        $prevBtn = $("button[data-search='prev']"),
-        // next button
+            // search button
+        $searchBtn = $("button[data-search='search']"),
+            // next button
         $nextBtn = $("button[data-search='next']"),
+            // prev button
+        $prevBtn = $("button[data-search='prev']"),
+            // clear button
+        $clearBtn = $("button[data-search='clear']"),
 
         // the context where to search
         $content = $(".slide"),
@@ -131,24 +139,24 @@ $(function () {
         });
     };
 
-
-        $("input[name='marksearch']").on("click", function () {
-            $.blockUI({
-                message: 'Searching ...'
-            });
-            console.log('Logarr is performing search');
-            setTimeout(function () {
-                $('#buttonStart :checkbox').prop('checked', false).change(); // if auto-update is enabled, disable it after search submit
-                $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search
-                mark();
-                $.unblockUI()
-            }, 300);
+    $searchBtn.on("click", function () {
+        console.log('Logarr is performing search');
+        $('#buttonStart :checkbox').prop('checked', false).change(); // if auto-update is enabled, disable it after search submit
+        $.blockUI({
+            message: 'Searching...'
         });
+        setTimeout(function () {
+            $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search
+            mark();
+            $.unblockUI()
+        }, 300);
+    });
     
      // Clears the search
 
     $clearBtn.on("click", function () {
         console.log('Logarr cleared search results');
+        $.growlUI('Clearing <br> search results');
         $content.unmark();
         $input.val("");
         var url = 'index.php';

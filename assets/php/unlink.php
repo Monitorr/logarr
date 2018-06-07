@@ -43,6 +43,10 @@
                 fwrite($fh, "$today | ERROR: Logarr was unable to copy log file:  $file\n");
                 
                 fclose($fh);
+                
+                echo "<script type='text/javascript'>";
+                    echo "console.log('ERROR: Logarr was unable to copy log file:  $file');";
+                echo "</script>";
 
             }
 
@@ -53,6 +57,10 @@
                 echo "Copy log file: success: $newfile";
                     echo "<br>";
 
+                echo "<script type='text/javascript'>";
+                    echo "console.log('Copy log file: success: $newfile');";
+                echo "</script>";
+
                 sleep(2);
 
                     // delete orginal log file:
@@ -61,10 +69,13 @@
 
                 sleep(2);
 
-
                 if($delete == true) {
 
-                    echo "Delete original log file: success: $file\n"; 
+                    echo "Delete original log file: success: $file\n";
+
+                    echo "<script type='text/javascript'>";
+                        echo "console.log('Delete original log file: success: $file');";
+                    echo "</script>";
 
                         echo "<br>"; 
 
@@ -80,23 +91,33 @@
                     
                         echo "Create new log file: success: " . $newlogfile; 
 
-                            echo "<br>"; 
+                            echo "<br>";
 
+                        echo "<script type='text/javascript'>";
+                            echo "console.log('Create new log file: success:  $newlogfile');";
+                        echo "</script>";
                     }
 
                     else {
                     
                         echo "Create new log file: FAIL: " . $newlogfile;
 
-                            echo "<br>"; 
-                    }
+                            echo "<br>";
 
+                        echo "<script type='text/javascript'>";
+                            echo "console.log('ERROR: Create new log file: FAIL:  $newlogfile');";
+                        echo "</script>";
+                    }
                 }
 
                 else {
                     echo "Delete original log file: FAIL: $file\n";
 
                         echo "<br>"; 
+
+                    echo "<script type='text/javascript'>";
+                        echo "console.log('ERROR: Delete original log file: FAIL: $file');";
+                    echo "</script>";
 
                         //write log file entry if unlink of original log file fails:
 
@@ -112,13 +133,20 @@
 
                         echo "Delete log file backup: Success: $newfile";
 
+                        echo "<script type='text/javascript'>";
+                            echo "console.log('Delete log file backup: Success: $newfile');";
+                        echo "</script>";
+
                     }
 
                     else {
 
                         echo "Delete log file backup: FAIL: $newfile";
+
+                        echo "<script type='text/javascript'>";
+                            echo "console.log('ERROR: Delete log file backup: FAIL: $newfile');";
+                        echo "</script>";
                     }
-                        
                 }
             }
         }
@@ -126,16 +154,22 @@
         else {
 
             echo 'file: ' . $file . ' does not exist.';
+
+            echo "<script type='text/javascript'>";
+                echo "console.log('ERROR: file: '" . $file . "' does not exist.');";
+            echo "</script>";
         
         }
-
     } 
     
         // Deny access if log file does NOT exist in config.php:
 
     else {
         echo 'ERROR:  Illegal File';
-    }
 
+        echo "<script type='text/javascript'>";
+            echo "console.log('ERROR:  Illegal File');";
+        echo "</script>";
+    }
 
 ?>
