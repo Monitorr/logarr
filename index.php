@@ -274,6 +274,19 @@
 
         </script>
 
+        <script>
+            $(document).ready(function () {
+                refreshblockUI();
+            });
+
+            $(document).on('click', '.category-filter-item', function(event) {
+                refreshblockUI();
+                setTimeout(function () {
+                    console.log('Filtering logs on: ' + window.location.hash);
+                }, 500);
+            });
+        </script>
+
 
     </head>
     
@@ -344,16 +357,6 @@
             </div>
             
         </div>
-        <script>
-            $(document).ready(function () {
-                refreshblockUI();
-            });
-
-            $(document).on('click', '.category-filter-item', function(event) {
-                console.log('test');
-                refreshblockUI();
-            });
-        </script>
 
         <div id="logcontainer"></div>
 

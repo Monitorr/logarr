@@ -28,7 +28,9 @@ function loadLog() {
         data: {'hash':window.location.hash},
         type: "POST",
         success: function (response) {
+            //$('#logcontainer').fadeOut('slow').delay(500);
             $('#logcontainer').html(response);
+            $('#logwrapper').fadeIn('slow');
             console.log('Loaded logs');
         }
     });

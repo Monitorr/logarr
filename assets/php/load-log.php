@@ -6,7 +6,7 @@ echo "<!--";
 print_r($category);
 echo "-->";
 $categories = array();
-$result = "<div id=\"logwrapper\" class=\"flex\">";
+$result = "<div id='logwrapper' class='flex' style='display: none;'>";
 $rolledLogs = "";
 foreach ($logs as $log) {
     if(isset($log['category']) && !empty($log['category']) && !in_array(strtolower($log['category']), $categories)) array_push($categories, strtolower($log['category']));
