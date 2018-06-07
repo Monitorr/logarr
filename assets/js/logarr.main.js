@@ -18,7 +18,6 @@ function refreshblockUI() {
     }
 }
 function refresh() {
-    var url = 'index.php';
     loadLog();
     console.log('Logarr log update START');
 }

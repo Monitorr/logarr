@@ -72,15 +72,15 @@
 
         <script src="assets/js/jquery.min.js"> </script>
 
-        <script src="assets/js/pace.js" async></script>
-
         <script src="assets/js/jquery.blockUI.js" async></script>
+
+        <script src="assets/js/pace.js" async></script>
 
         <script src="assets/js/jquery.highlight.js" async> </script>
 
         <script src="assets/js/jquery.mark.min.js" async> </script>
 
-        <script src="assets/js/logarr.main.js"></script>
+        <script src="assets/js/logarr.main.js" async></script>
 
         <!-- sync config with javascript -->
         <script>
@@ -226,19 +226,20 @@
                     data: "file=" + $(".path[data-service='" + $(this).data('service') + "']").html().trim(),
                     success: function (data) {
                         $('#modalContent').html(data);
-                        setTimeout(refreshblockUI(), 1000);
-                        console.log('Logarr unlink '+ data);
-                        var modal = document.getElementById('responseModal');
-                        var span = document.getElementsByClassName("closemodal")[0];
-                        modal.style.display = "block";
-                        span.onclick = function() {
-                            modal.style.display = "none";
-                        };
-                        window.onclick = function(event) {
-                            if (event.target == modal) {
-                                modal.style.display = "none";
+                        var modal = $('#responseModal');
+                        var span = $('.closemodal');
+                        modal.fadeIn('slow');
+                        span.click(function() {
+                            modal.fadeOut('slow');
+                        });
+                        $(body).click(function(event) {
+                            if (event.target != modal) {
+                                modal.fadeOut('slow');
                             }
-                        }
+                        });
+                        setTimeout(function () {
+                            modal.fadeOut('slow');
+                        }, 3000);
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         alert( "Posting failed (ajax)" );
@@ -276,7 +277,7 @@
 
     </head>
     
-    <body id="body" style="color: #FFFFFF;" onload="highlightjsload()">
+    <body id="body" style="color: #FFFFFF;">
         <div id="ajaxtimestamp" title="Analog clock timeout. Refresh page."></div>
         <div id="ajaxmarquee" title="Offline marquee timeout. Refresh page."></div>
 

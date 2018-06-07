@@ -7,9 +7,21 @@ print_r($category);
 echo "-->";
 $categories = array();
 $result = "<div id=\"logwrapper\" class=\"flex\">";
+$rolledLogs = "";
 foreach ($logs as $log) {
     if(isset($log['category']) && !empty($log['category']) && !in_array(strtolower($log['category']), $categories)) array_push($categories, strtolower($log['category']));
-    if(empty($category) || (!empty($category) && isset($log['category']) && strtolower($log['category']) == strtolower($category))){
+    $parsedPath = parseLogPath($log['path']);
+    if(!startsWith($parsedPath, 'Error') && (empty($category) || (!empty($category) && isset($log['category']) && strtolower($log['category']) == strtolower($category)))){
+
+        //auto role check
+        if(isset($log['autoRollSize']) && $log['autoRollSize'] != 0){ //check if it should be checked
+            if (file_exists($parsedPath) && filesize($parsedPath) > convertToBytes($log['autoRollSize'])) {
+                $rolledLogs .= $log['logTitle'] . ', ';
+                unlinkLog($parsedPath, false);
+            }
+        }
+
+        //showing the log
         if($log['enabled'] == "Yes") {
             $result .= "
                 <div id=\"".str_replace(" ", "-", $log['logTitle'])."-log-container\" class=\"flex-child\">
@@ -18,7 +30,7 @@ foreach ($logs as $log) {
     
                         <div id=\"filedate\" class=\"left\">
                             <br>
-                            Last modified: ". date(" H:i | D, d M", filemtime( $log['path'] ))."
+                            Last modified: ". date(" H:i | D, d M", filemtime( $parsedPath ))."
                         </div>
     
                         <div class=\"logheader\">
@@ -27,10 +39,10 @@ foreach ($logs as $log) {
     
                         <div id=\"filepath\" class=\"right\">
                             <div class=\"filesize\">
-                                Log file size: ".human_filesize(filesize($log['path']))."
+                                Log file size: ".human_filesize(filesize($parsedPath))."
                             </div>
                             <div class=\"path\" data-service=\"" . $log['logTitle'] . "\">
-                                " . $log['path'] . "
+                                " . $parsedPath . "
                             </div>
                         </div>
     
@@ -72,6 +84,35 @@ foreach ($logs as $log) {
         }
     }
 }
+$notifications = '<script>
+                    
+                    console.log("Automatically rolled the following logs: '.substr($rolledLogs,0,-2).'")
+
+                    setTimeout(function () {
+                        $("#modalContent").html(
+                            "Automatically rolled the following logs:<br><br>" + 
+                            "'.str_replace(", ", "<br>", $rolledLogs).'"
+                        );
+
+                        var modal = $("#responseModal");
+                        var span = $(".closemodal");
+                        modal.fadeIn("slow"); //fadein
+                        
+                        span.click(function() { //fadeout when close button is clicked
+                            modal.fadeOut("slow");
+                        });
+                        $(body).click(function(event) { // fade out when clicked outside the modal
+                            if (event.target != modal) {
+                                modal.fadeOut("slow");
+                            }
+                        });
+                        setTimeout(function () { //auto fade out after 3 seconds
+                            modal.fadeOut("slow");
+                        }, 3000);
+                    
+                    },500); // delay for fade in
+                    </script>';
+
 $result .= "</div>";
 $categoryNavigation = "<nav id='categoryFilter'>";
 $categoryNavigation .= "<a href='#' class='category-filter-item'>All</a>";
@@ -81,4 +122,5 @@ foreach ($categories as $categoryLink) {
 $categoryNavigation .= "</nav>";
 echo $categoryNavigation;
 echo $result;
+if(!empty($rolledLogs)) echo $notifications;
 ?>

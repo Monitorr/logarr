@@ -156,12 +156,12 @@ include ('../functions.php');
                                 "enabled": "#enabled_option"
                             }
                         },
-                        "//maxLine": {
+                        "//maxLines": {
                             "templates": {
-                                "control": "./templates/templates-logs_maxLine.html"
+                                "control": "./templates/templates-logs_maxLines.html"
                             },
                             "bindings": {
-                                "maxLine": "#maxLine_option"
+                                "maxLine": "#maxLines_option"
                             }
                         },
                         "//autoRollSize": {
@@ -316,7 +316,7 @@ include ('../functions.php');
                                 "focus": false,
                                 "optionLabels": [],
                                 "name": "maxLines",
-                                "placeholder": "1000",
+                                "placeholder": "E.g. 1000",
                                 "typeahead": {},
                                 "size": "10",
                                 "allowOptionalEmpty": false,
@@ -334,7 +334,7 @@ include ('../functions.php');
                                 }
                             },
                             "autoRollSize": {
-                                "type": "number",
+                                "type": "text",
                                 "validate": true,
                                 "showMessages": true,
                                 "disabled": false,
@@ -345,7 +345,7 @@ include ('../functions.php');
                                 "focus": false,
                                 "optionLabels": [],
                                 "name": "autoRollSize",
-                                "placeholder": "1000",
+                                "placeholder": "E.g. 2MB or 200KB",
                                 "typeahead": {},
                                 "size": "10",
                                 "allowOptionalEmpty": false,
@@ -376,7 +376,7 @@ include ('../functions.php');
                                 "focus": false,
                                 "optionLabels": [],
                                 "name": "category",
-                                "placeholder": "",
+                                "placeholder": "E.g. Media",
                                 "typeahead": {},
                                 "allowOptionalEmpty": true,
                                 "data": {},
@@ -395,13 +395,12 @@ include ('../functions.php');
                         },
                     },
                     "form": {
-                        "attributes": {
-                            "action": "post-settings/post_receiver-logs.php",
-                            "method": "post",
-                            "contentType": "application/json"
-                        },
                         "buttons": {
                             "submit": {
+                                "type": "button",
+                                "label": "Submit",
+                                "name": "submit",
+                                "value": "submit",
                                 "click": function formsubmit() {
                                     var data = $('#servicesettings').alpaca().getValue();
                                     $.post('post-settings/post_receiver-logs.php', {
@@ -425,6 +424,12 @@ include ('../functions.php');
                     }
                 },
                 "postRender": function(control) {
+                    if (control.form) {
+                        control.form.registerSubmitHandler(function (e) {
+                            control.form.getButtonEl('submit').click();
+                            return false;
+                        });
+                    }
                     document.getElementById("modalloading").remove();
                 }
             });
