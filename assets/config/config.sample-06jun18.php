@@ -80,4 +80,4 @@ $logs = array(
 
     // config style adapted from @causeFX and this website: https://www.abeautifulsite.net/a-better-way-to-write-config-files-in-php 
 
-?>
+

@@ -1,5 +1,5 @@
 <?php
-include ('..//functions.php');
+include ('../functions.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -62,14 +62,6 @@ include ('..//functions.php');
             display: block;
         }
 
-        .auto-style1 {
-            text-align: center;
-        }
-
-        #centertext {
-            padding-bottom: 2rem !important;
-        }
-
         label {
             width: 100% !important;
             max-width: 100% !important;
@@ -84,7 +76,7 @@ include ('..//functions.php');
 
     <title>
         <?php
-        $title = $preferences['sitetitle'];
+        $title = $GLOBALS['preferences']['sitetitle'];
         echo $title . PHP_EOL;
         ?>
         | User Preferences
@@ -399,10 +391,11 @@ include ('..//functions.php');
                                 "name": "submit",
                                 "value": "submit",
                                 click: function(){
-                                    var data = $('#sitesettings').alpaca().getValue();
+                                    let siteSettings = $('#sitesettings');
+                                    var data = siteSettings.alpaca().getValue();
                                     $.post({
                                         url: 'post-settings/post_receiver-site_settings.php',
-                                        data: $('#sitesettings').alpaca().getValue(),
+                                        data: siteSettings.alpaca().getValue(),
                                         success: function(data) {
                                             alert("Settings saved!");
                                             // setTimeout(location.reload.bind(location), 500)

@@ -3,4 +3,3 @@
   file_put_contents('../../../css/custom.css', $_POST['css']);
 
   die('success');
-?>

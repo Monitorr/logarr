@@ -62,14 +62,6 @@ include ('../functions.php');
             display: block;
         }
 
-        .auto-style1 {
-            text-align: center;
-        }
-
-        #centertext {
-            padding-bottom: 2rem !important;
-        }
-
         label {
             width: 100% !important;
             max-width: 100% !important;
@@ -84,7 +76,7 @@ include ('../functions.php');
 
     <title>
         <?php
-        $title = $preferences['sitetitle'];
+        $title = $GLOBALS['preferences']['sitetitle'];
         echo $title . PHP_EOL;
         ?>
         | User Preferences
@@ -186,7 +178,6 @@ include ('../functions.php');
                     "toolbarSticky": true,
                     "focus": false,
                     "collapsible": true,
-                    "focus": false,
                     "actionbar": {
                         "showLabels": true,
                         "actions": [{

@@ -24,10 +24,6 @@
             flush();
             readfile($file);
             exit;
-
-            echo "<script type='text/javascript'>";
-                echo "console.log('Downloading log file: $file');";
-            echo "</script>";
         } 
         
         else {
@@ -49,4 +45,3 @@
         echo "</script>";
     }
 
-?>

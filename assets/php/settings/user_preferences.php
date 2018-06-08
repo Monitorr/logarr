@@ -1,5 +1,5 @@
 <?php
-include ('..//functions.php');
+include ('../functions.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -62,14 +62,6 @@ include ('..//functions.php');
                     display: block;
                 }
 
-                .auto-style1 {
-                    text-align: center;
-                }
-
-                #centertext {
-                    padding-bottom: 2rem !important;
-                }
-
                 label {
                     width: 100% !important;
                     max-width: 100% !important;
@@ -84,7 +76,7 @@ include ('..//functions.php');
 
         <title>
             <?php
-                $title = $preferences['sitetitle'];
+                $title = $GLOBALS['preferences']['sitetitle'];
                 echo $title . PHP_EOL;
             ?>
             | User Preferences
@@ -486,10 +478,11 @@ include ('..//functions.php');
                                             "name": "submit",
                                             "value": "submit",
                                             click: function(){
-                                                var data = $('#preferencesettings').alpaca().getValue();
+                                                let preferenceSettings = $('#preferencesettings');
+                                                var data = preferenceSettings.alpaca().getValue();
                                                 $.post({
                                                     url: 'post-settings/post_receiver-user_preferences.php',
-                                                    data: $('#preferencesettings').alpaca().getValue(),
+                                                    data: preferenceSettings.alpaca().getValue(),
                                                     success: function(data) {
                                                         alert("Settings saved! Applying changes...");
                                                         setTimeout(function () { window.top.location.reload(true); }, 3000);
@@ -515,7 +508,7 @@ include ('..//functions.php');
                                 }
                             },
                             "postRender": function(control) {
-                                cssEditor = ace.edit("customCSSEditor");
+                                const cssEditor = ace.edit("customCSSEditor");
                                 cssEditor.getSession().setMode("ace/mode/css");
                                 cssEditor.setTheme("ace/theme/idle_fingers");
 

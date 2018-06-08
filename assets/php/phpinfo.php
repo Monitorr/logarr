@@ -19,7 +19,7 @@
 
 <?php
 
-echo "<center>";
+echo "<div style='text-align: center; margin: auto;'>";
 
 echo " <strong> Required Extensions: </strong> ";
 
@@ -135,7 +135,7 @@ else {
     echo "</a>";
 }
 
-echo "</center>";
+echo "</div>";
 
 ?>
 

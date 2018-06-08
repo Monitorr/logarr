@@ -86,12 +86,12 @@ foreach ($logs as $log) {
 }
 $notifications = '<script>
                     
-                    console.log("Automatically rolled the following logs: '.substr($rolledLogs,0,-2).'")
+                    console.log("Automatically rolled the following logs: '.substr($rolledLogs,0,-2). '");
 
                     setTimeout(function () {
                         $("#modalContent").html(
                             "Automatically rolled the following logs:<br><br>" + 
-                            "'.str_replace(", ", "<br>", $rolledLogs).'"
+                            "' .str_replace(", ", "<br>", $rolledLogs).'"
                         );
 
                         var modal = $("#responseModal");
@@ -123,4 +123,3 @@ $categoryNavigation .= "</nav>";
 echo $categoryNavigation;
 echo $result;
 if(!empty($rolledLogs)) echo $notifications;
-?>

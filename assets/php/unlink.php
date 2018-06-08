@@ -9,4 +9,3 @@ include ('functions.php');
 $file = ($_POST['file']);
 unlinkLog($file, true);
 
-?>

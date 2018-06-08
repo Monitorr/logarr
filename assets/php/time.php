@@ -1,9 +1,9 @@
 <?php
     include('functions.php');
-    $timezone = $preferences['timezone'];
+    $timezone = $GLOBALS['preferences']['timezone'];
     $dt = new DateTime("now", new DateTimeZone("$timezone"));
-    $timeStandard = (int) ($preferences['timestandard'] === "True" ? true:false);
-    $rftime = $settings['rftime'];
+    $timeStandard = (int) ($GLOBALS['preferences']['timestandard'] === "True" ? true:false);
+    $rftime = $GLOBALS['settings']['rftime'];
     $timezone_suffix = '';
     if(!$timeStandard){
         $dateTime = new DateTime();
@@ -18,4 +18,3 @@
         'rftime' => $rftime
     );
     echo json_encode($response);
-?>

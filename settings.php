@@ -1,20 +1,5 @@
 <?php
-$config_file = 'assets/config/config.json';
-
-function convertConfig()
-{
-    include(__DIR__ . '/../config/config.php');
-    $new_config = json_decode(file_get_contents(__DIR__ . '/../config/config.sample-03jun2018.json'), 1);
-    $old_config = array('config' => $config, 'logs' => $logs);
-    $json = json_encode(array_merge($new_config, $old_config), JSON_PRETTY_PRINT);
-    file_put_contents(__DIR__ . '/../config/config.json', $json);
-}
-//if (is_file('assets/config/config.php') && !is_file($config_file)) convertConfig();
-
-//Use the function is_file to check if the config file already exists or not.
-if(!is_file($config_file)){
-    copy('assets/config/config.sample-03jun2018.json', $config_file);
-}
+$config_file = "assets/config/config.json";
 include ('assets/php/functions.php');
 ?>
 
@@ -50,8 +35,8 @@ https://github.com/Monitorr/Monitorr
 
     <!-- sync config with javascript -->
     <script>
-        var settings = <?php echo json_encode($settings);?>;
-        var preferences = <?php echo json_encode($preferences);?>;
+        var settings = <?php echo json_encode($GLOBALS['settings']);?>;
+        var preferences = <?php echo json_encode($GLOBALS['preferences']);?>;
         function refreshConfig() {
             $.ajax({
                 url: "assets/php/sync-config.php",
@@ -88,7 +73,7 @@ https://github.com/Monitorr/Monitorr
     <!-- // Set global timezone from config file: -->
     <?php
     //Why is this necessary? - rob1998
-    if($preferences['timezone'] == "") {
+    if($GLOBALS['preferences']['timezone'] == "") {
 
         date_default_timezone_set('UTC');
         $timezone = date_default_timezone_get();
@@ -97,7 +82,7 @@ https://github.com/Monitorr/Monitorr
 
     else {
 
-        $timezoneconfig = $preferences['timezone'];
+        $timezoneconfig = $GLOBALS['preferences']['timezone'];
         date_default_timezone_set($timezoneconfig);
         $timezone = date_default_timezone_get();
 
@@ -109,8 +94,8 @@ https://github.com/Monitorr/Monitorr
         //initial values for clock:
         //$timezone = $preferences['timezone'];
         $dt = new DateTime("now", new DateTimeZone("$timezone"));
-        $timeStandard = (int) ($preferences['timestandard']);
-        $rftime = $settings['rftime'];
+        $timeStandard = (int) ($GLOBALS['preferences']['timestandard']);
+        $rftime = $GLOBALS['settings']['rftime'];
         $timezone_suffix = '';
         if(!$timeStandard){
             $dateTime = new DateTime();
@@ -177,7 +162,7 @@ https://github.com/Monitorr/Monitorr
         }
 
         #summary {
-            margin-top: 0rem !important;
+            margin-top: 0 !important;
             width: 17rem !important;
             position: relative !important;
             margin-bottom: 1rem;
@@ -214,10 +199,6 @@ https://github.com/Monitorr/Monitorr
 
         body.online #link-bar {
             display: block;
-        }
-
-        .auto-style1 {
-            text-align: center;
         }
 
         #left {
@@ -330,7 +311,7 @@ https://github.com/Monitorr/Monitorr
 
     <div id="version" >
 
-        <script src="assets/js/update_auto.js" async></script>
+        <script src="assets/js/update.js" async></script>
 
         <p> <a class="footer a" href="https://github.com/monitorr/Logarr" target="_blank" title="Logarr Repo"> Logarr </a> | <a class="footer a" href="https://github.com/Monitorr/logarr/releases" target="_blank" title="Logarr Releases"> <?php echo file_get_contents( "assets/js/version/version.txt" );?> </a> </p>
 

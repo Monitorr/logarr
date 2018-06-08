@@ -81,8 +81,9 @@ $(function () {
             $results.removeClass(currentClass);
             if ($current.length) {
                 $current.addClass(currentClass);
-                var currentOffset = $('.markresults.current').offsetTop;
-                var parent = $('.markresults.current').parent();
+                let currentMarkResult = $('.markresults.current');
+                var currentOffset = currentMarkResult.offsetTop;
+                var parent = currentMarkResult.parent();
                 while (!parent.is('div')) {
                     parent = parent.parent();
                 }
@@ -100,7 +101,7 @@ $(function () {
 
                     /* not animated scroll */
                     parent.scrollTop(
-                        $('.markresults.current').offset().top - parent.offset().top + parent.scrollTop()
+                        currentMarkResult.offset().top - parent.offset().top + parent.scrollTop()
                     );
                 }
             }
@@ -129,20 +130,20 @@ $(function () {
                     separateWordSearch: false,
                     done: function () {
                         $results = $content.find("mark");
-                        $(".count").text($results.length);
-                        $('.count').append(" occurance(s) of: '");
-                        $('.count').append(keyword);
-                        $('.count').append("'");
+                        let count = $(".count");
+                        count.text($results.length);
+                        count.append(" occurance(s) of: '");
+                        count.append(keyword);
+                        count.append("'");
                         $results.addClass("markresults");
-                        $('.count').addClass("countresults");
+                        count.addClass("countresults");
                         currentIndex = 0;
                         if (settings.jumpOnSearch) jumpTo(); // Auto focus/scroll to first searched term after search submit, if user had enabled option in config
                     }
                 });
             }
         });
-    };
-
+    }
     $searchBtn.on("click", function () {
         console.log('Logarr is performing search');
         $('#buttonStart :checkbox').prop('checked', false).change(); // if auto-update is enabled, disable it after search submit
@@ -189,7 +190,7 @@ $(function () {
      * specified context on input
      */
     var timeoutID = null;
-    $("input[name='markinput']").keyup(function (e) {
+    $input.keyup(function (e) {
         clearTimeout(timeoutID);
         if (settings.liveSearch == "true") {
             $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search

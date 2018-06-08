@@ -69,12 +69,10 @@ body::-webkit-scrollbar-thumb {
     position: fixed;
     bottom: 2em;
     right: 2em;
-    z-index: 99;
     border: none;
     outline: none;
-    background: url(../images/up-arrow.png) no-repeat center center;
     box-shadow: 5px 5px 15px rgb(15, 15, 15);
-    background-color: rgba(37, 37, 37, 0.50);
+    background: rgba(37, 37, 37, 0.50) url(../images/up-arrow.png) no-repeat center center;
     background-size: 4em;
     cursor: pointer;
     padding: 15px;
@@ -163,16 +161,6 @@ h6,
     padding-bottom: 0;
 }
 
-.lefttop {
-    text-align: left;
-    margin-bottom: 1em
-}
-
-#timestamp {
-    text-align: left;
-    vertical-align: middle;
-}
-
 #time {
     text-align: left;
     vertical-align: middle;
@@ -187,10 +175,7 @@ h6,
     height: 9rem;
     width: 17rem;
     margin: 0;
-    padding-top: .5rem;
-    padding-bottom: .5rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding: .5rem 1rem;
     font-size: 1rem;
     justify-content: center;
     background-color: #3d3d3d;
@@ -201,9 +186,7 @@ h6,
 }
 
 #canvas {
-    margin: 0 auto;
-    margin-bottom: .5rem;
-    margin-right: .5rem;
+    margin: 0 .5rem .5rem auto;
     width: 8rem;
     height: 8rem;
     font-size: 30px;
@@ -214,12 +197,8 @@ h6,
     display: flex;
     flex-direction: row;
     float: left;
-    margin: auto;
-    margin-left: 3vw;
-    padding-top: .5rem;
-    padding-bottom: .5rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    margin: auto auto auto 3vw;
+    padding: .5rem 1rem;
     justify-content: center;
     background-color: #3d3d3d;
     border-radius: 8px;
@@ -308,10 +287,7 @@ h6,
 #textslider {
     margin: auto;
     width: 8rem;
-    padding-top: .2em;
-    padding-bottom: .2em;
-    padding-right: .4em;
-    padding-left: 1em;
+    padding: .2em .4em .2em 1em;
     text-shadow: 1px 1px black;
     text-align: center;
     font-size: 1em;
@@ -365,10 +341,9 @@ h6,
     width: 13px;
     left: 2px;
     bottom: 2px;
-    background-color: #f2f2f2;
     -webkit-transition: .4s;
     transition: .4s;
-    background: radial-gradient(circle at .1rem .1rem, white, rgb(20, 20, 20));
+    background: #f2f2f2 radial-gradient(circle at .1rem .1rem, white, rgb(20, 20, 20));
 }
 
 #buttonStart.switch > input[type=checkbox] + .slider {
@@ -442,16 +417,6 @@ mark {
 
 mark.current {
     background: orange;
-}
-
-.markresults {
-    padding: .1rem;
-    color: black !important;
-    font-style: normal;
-    font-weight: 600;
-    -moz-border-radius: .1rem;
-    -webkit-border-radius: .1rem;
-    border-radius: .1rem;
 }
 
 .marksearch {
@@ -566,9 +531,7 @@ input[type=search]::-webkit-search-cancel-button {
 
 #count {
     margin-right: 10em;
-    padding: .2rem;
-    padding-left: .5rem;
-    padding-right: .5rem;
+    padding: .2rem .5rem;
     font-size: .80rem;
     font-weight: 600;
     color: black;
@@ -639,18 +602,6 @@ input[type=search]::-webkit-search-cancel-button {
     box-shadow: 0 3px 0 black;
 }
 
-.button_loader {
-    background-color: transparent;
-    border: 4px solid #f3f3f3;
-    border-radius: 50%;
-    border-top: 4px solid #969696;
-    border-bottom: 4px solid #969696;
-    width: 35px;
-    height: 35px;
-    -webkit-animation: spin 0.8s linear infinite;
-    animation: spin 0.8s linear infinite;
-}
-
 /**** LOGS ****/
 
 /* SCROLL BARS */
@@ -690,7 +641,7 @@ input[type=search]::-webkit-search-cancel-button {
 
 .row2 {
     display: flex;
-    border-spacing: 0px;
+    border-spacing: 0;
     padding-top: 1em;
     padding-right: 2em;
     padding-left: 2em;
@@ -700,9 +651,7 @@ input[type=search]::-webkit-search-cancel-button {
     width: auto;
     width: -webkit-fill-available;
     width: -moz-available;
-    margin: 0 auto;
-    margin-left: 0;
-    margin-right: 0;
+    margin: 0;
     text-align: center;
     vertical-align: middle;
     font-size: 2em;
@@ -746,7 +695,7 @@ input[type=search]::-webkit-search-cancel-button {
 
 .slide {
     border: 1px solid black;
-    margin: 0px 2em 0px 2em;
+    margin: 0 2em 0 2em;
     position: relative;
 }
 
@@ -779,10 +728,6 @@ input[type=search]::-webkit-search-cancel-button {
 .hidden {
     visibility: hidden;
     display: none;
-}
-
-.auto-style1 {
-    font-size: x-small;
 }
 
 p {
@@ -907,11 +852,6 @@ input[type="checkbox"] {
 
 /* Footer */
 
-#settingslink {
-    cursor: default;
-    margin-bottom: .5rem;
-}
-
 #version_check_auto {
     cursor: default;
 }
@@ -961,62 +901,6 @@ a {
 
 /* Progress Bar */
 
-.pace {
-    -webkit-pointer-events: none;
-    pointer-events: auto;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: auto;
-}
-
-.pace-inactive {
-    display: none;
-}
-
-.pace .pace-progress {
-    background: #680233;
-    position: fixed;
-    z-index: 2000;
-    top: 0;
-    right: 100%;
-    width: 100%;
-    height: 8px;
-}
-
-.pace .pace-progress-inner {
-    display: block;
-    position: absolute;
-    right: 0px;
-    width: 100px;
-    height: 100%;
-    box-shadow: 0 0 10px #680233, 0 0 5px #680233;
-    opacity: 1.0;
-    -webkit-transform: rotate(3deg) translate(0px, -4px);
-    -moz-transform: rotate(3deg) translate(0px, -4px);
-    -ms-transform: rotate(3deg) translate(0px, -4px);
-    -o-transform: rotate(3deg) translate(0px, -4px);
-    transform: rotate(3deg) translate(0px, -4px);
-}
-
-.pace .pace-activity {
-    display: block;
-    position: fixed;
-    z-index: 2000;
-    top: 15px;
-    right: 15px;
-    width: 14px;
-    height: 14px;
-    border: solid 2px transparent;
-    border-top-color: #680233;
-    border-left-color: #680233;
-    border-radius: 10px;
-    -webkit-animation: pace-spinner 400ms linear infinite;
-    -moz-animation: pace-spinner 400ms linear infinite;
-    -ms-animation: pace-spinner 400ms linear infinite;
-    -o-animation: pace-spinner 400ms linear infinite;
-    animation: pace-spinner 400ms linear infinite;
-}
-
 @-webkit-keyframes pace-spinner {
     0% {
         -webkit-transform: rotate(0deg);
@@ -1064,10 +948,8 @@ a {
 @keyframes pace-spinner {
     0% {
         transform: rotate(0deg);
-        transform: rotate(0deg);
     }
     100% {
-        transform: rotate(360deg);
         transform: rotate(360deg);
     }
 }
@@ -1097,7 +979,7 @@ a {
     vertical-align: middle;
     margin: 0;
     /* background-color: rgba(31, 31, 31, 0.500); */
-    padding: 0px;
+    padding: 0;
     color: #ffffff;
     text-shadow: 0 0 15px #FF0104;
     outline: 0;
@@ -1153,8 +1035,7 @@ a {
     -webkit-transition: all 0.3s ease;
     transition: all 0.3s ease;
     float: left;
-    margin: 0;
-    margin-bottom: 1rem;
+    margin: 0 0 1rem;
 }
 
 #sidebar-wrapper {
@@ -1296,8 +1177,7 @@ a {
     display: block;
     font-size: 1rem;
     text-decoration: none;
-    padding: .5rem;
-    padding-left: .75rem;
+    padding: .5rem .5rem .5rem .75rem;
 }
 
 .sidebar-nav li a:hover,
@@ -1320,10 +1200,8 @@ a {
     width: fit-content;
     height: 14rem;
     height: fit-content;
-    margin: 0 auto;
-    margin-top: 15%;
-    padding: 1rem;
-    padding-bottom: .5rem;
+    margin: 15% auto 0;
+    padding: 1rem 1rem .5rem;
     color: black;
     text-align: center;
     align-items: center;
@@ -1333,78 +1211,12 @@ a {
     z-index: 2000;
 }
 
-#myModal3 {
-    display: none;
-    position: fixed;
-    top: 0;
-    overflow-y: auto;
-    height: 70%;
-    margin-top: 10%;
-    margin-left: 10%;
-    margin-right: 10%;
-    padding: 1rem;
-    padding-bottom: .5rem;
-    color: black;
-    text-align: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.900);
-    border: 1px solid #888;
-    border-radius: 4px;
-    z-index: 2000;
-}
-
-#myModal3::-webkit-scrollbar {
-    width: 8px;
-    background-color: #252525;
-}
-
-#myModal3::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    border-radius: 8px;
-    background-color: #252525;
-}
-
-#myModal3::-webkit-scrollbar-thumb {
-    border-radius: 8px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
-    background-color: #8E8B8B;
-}
-
 /* Modal Content/Box */
 
 .modal-content {
     background-color: transparent;
-    padding: 2rem;
-    padding-top: .5rem;
-    padding-bottom: 0;
+    padding: .5rem 2rem 0;
     align-items: center;
-}
-
-#mymodal4 {
-    /* padding-top: .5rem; */
-    padding-bottom: 0;
-    align-items: center;
-}
-
-#imgthumb {
-    display: inline-grid;
-    padding: 1rem;
-}
-
-#imgbtn {
-    height: 7rem;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-}
-
-#imgpath {
-    display: inline-grid;
-    margin-top: .5rem;
-    color: white;
-    text-align: center;
 }
 
 input[name="imginput"] {
@@ -1419,21 +1231,6 @@ input[name="imginput"] {
 input[name="imginput"]:focus {
     color: white !important;
     background-color: transparent !important;
-}
-
-.modaltext {
-    color: #aaa;
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: .5rem;
-    cursor: default;
-}
-
-.modalimgpath {
-    color: #aaa;
-    font-size: 1rem;
-    font-weight: 400;
-    cursor: default;
 }
 
 /* Modal Close Button */
@@ -1452,110 +1249,6 @@ input[name="imginput"]:focus {
     text-decoration: none;
     cursor: pointer;
     font-weight: 900;
-}
-
-.closeimg {
-    position: fixed;
-    color: rgb(255, 80, 80);
-    float: left;
-    margin-left: -36%;
-    font-size: 2rem;
-    font-weight: 700;
-}
-
-.closeimg:hover,
-.closeimg:focus {
-    color: red;
-    text-decoration: none;
-    cursor: pointer;
-    font-weight: 900;
-}
-
-/* IMG upload form */
-
-#uploadbutton {
-    background-color: transparent;
-    padding: .5rem;
-    color: #aaa;
-    cursor: default;
-}
-
-#choosefile {
-    color: white;
-    cursor: pointer;
-}
-
-input[type="file"] {
-    display: none;
-}
-
-.file-upload {
-    display: inline-block;
-    padding: 1px 6px;
-    border-radius: .2rem;
-    background-color: rgb(200, 200, 200);
-    border: none;
-    color: black;
-    cursor: pointer;
-}
-
-.file-upload:hover {
-    background-color: rgb(150, 150, 150);
-    color: white;
-}
-
-.uploadbtn {
-    visibility: hidden;
-    background-color: rgb(150, 150, 150) !important;
-    color: black !important;
-    cursor: not-allowed !important;
-}
-
-uploadbtn:hover {
-    background-color: rgb(150, 150, 150) !important;
-    color: black !important;
-    cursor: not-allowed !important;
-}
-
-#upload {
-    border-radius: .2rem;
-    background-color: rgb(200, 200, 200);
-    border: none;
-    color: black;
-    cursor: pointer;
-}
-
-#upload:hover {
-    background-color: rgb(150, 150, 150);
-    color: white;
-}
-
-#file-selected {
-    color: white;
-    cursor: default;
-}
-
-#uploadreturn {
-    position: static;
-    color: white;
-    font-size: 1rem;
-    background-color: transparent;
-    text-align: center;
-    cursor: default;
-}
-
-#uploadreturn:empty {
-    visibility: hidden;
-}
-
-#uploadok {
-    color: green;
-    font-weight: 700;
-}
-
-#uploaderror {
-    color: red;
-    font-weight: 700;
 }
 
 #checkurl {
@@ -1585,36 +1278,8 @@ uploadbtn:hover {
     z-index: 1;
 }
 
-.alpaca-form-buttons-container {
-    text-align: center;
-    width: 14.5rem;
-    padding: .5rem;
-    background-color: rgba(126, 126, 126, 0.50);
-    border-radius: 4px;
-}
-
-.alpaca-form-button-submit {
-    margin-right: .5rem;
-    opacity: 1 !important;
-}
-
 .buttonchange {
     background-color: green;
-}
-
-#myBtn2 {
-    color: white;
-    background-color: #007bff;
-    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-}
-
-#myBtn2:hover {
-    background-color: #0073ee;
-}
-
-.alpaca-array-actionbar,
-.alpaca-array-actionbar.btn-group {
-    margin-top: 1rem;
 }
 
 .btn-group > .btn:first-child {
@@ -1652,8 +1317,7 @@ uploadbtn:hover {
 #settingsbrand {
     width: 17rem;
     margin-bottom: 1rem;
-    padding: 0px;
-    padding-top: .5rem;
+    padding: .5rem 0 0;
     text-align: center;
     cursor: default;
 }
@@ -1661,8 +1325,7 @@ uploadbtn:hover {
 .settingstitle {
     width: 16rem;
     margin: 0;
-    padding: 1rem;
-    padding-bottom: .25rem;
+    padding: 1rem 1rem .25rem;
     background-color: transparent;
     text-shadow: 0 0 6px #FF0104;
     vertical-align: middle;
@@ -1677,8 +1340,7 @@ uploadbtn:hover {
 #version {
     display: block;
     font-size: 1rem;
-    padding: 1rem;
-    padding-top: 1.5rem;
+    padding: 1.5rem 1rem 1rem;
     background-color: transparent;
     cursor: default;
     text-align: center;
@@ -1710,21 +1372,19 @@ uploadbtn:hover {
     padding: .2rem;
 }
 
-.toolslink:hover {
-    color: #ffffff;
-    text-shadow: 0 0 15px #FF0104;
-}
-
 #infodata {
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-bottom: 1rem;
+    padding: 1rem;
     font-size: .75rem;
     margin-bottom: 1.5rem;
     color: white;
     background-color: #3d3d3d;
     border-radius: 1rem;
     box-shadow: 5px 5px 5px black;
+}
+
+#infodata > .table {
+    margin-bottom: auto;
+    border-bottom: 1px solid #dee2e6;;
 }
 
 .extok {
@@ -1817,7 +1477,7 @@ uploadbtn:hover {
 /* Custom CSS */
 
 .customCSS {
-    padding: 0px 15px;
+    padding: 0 15px;
     width: 98%;
     margin: 0 auto;
 }
@@ -1833,22 +1493,12 @@ uploadbtn:hover {
     font-weight: 600;
 }
 
-.ace_content {
-    height: 100% !important;
-}
-
 #siteform {
     background-color: inherit;
 }
 
 #sitesettings {
     padding-left: 10%;
-}
-
-#tablesitesettings {
-    border-collapse: separate;
-    margin: auto;
-    width: 100%;
 }
 
 #tableuserprefs {
@@ -1888,36 +1538,6 @@ uploadbtn:hover {
     color: yellow;
 }
 
-.alpaca-message-invalidValueOfEnum {
-    color: red !important;
-}
-
-.alpaca-field-text-max-length-indicator.err {
-    color: red;
-    font-style: italic;
-    cursor: default;
-    z-index: 1000;
-}
-
-.alpaca-field-text-max-length-indicator {
-    font-style: italic;
-    cursor: default;
-}
-
-#enablednote {
-    position: absolute;
-    color: grey;
-    background-color: #1F1F1F;
-    font-style: italic;
-    padding-left: 1rem;
-    cursor: default;
-}
-
-.alpaca-field-object {
-    padding-right: 2rem;
-    padding-bottom: 1rem;
-}
-
 .alpaca-control-label {
     font-size: 1.1rem;
     font-weight: 600;
@@ -1927,52 +1547,10 @@ uploadbtn:hover {
     width: 10rem;
 }
 
-#image_option {
-    margin-top: 3rem;
-}
-
-.alpaca-image-display {
-    float: right;
-    margin-top: -16rem !important;
-    padding-right: 7rem;
-}
-
 .help-block {
     color: grey;
     font-style: italic;
     padding-left: 1.5rem;
-    cursor: default;
-}
-
-.alpaca-message-invalidPattern {
-    color: red;
-    font-style: italic;
-    background-color: inherit;
-    cursor: default;
-    z-index: 1000;
-}
-
-.alpaca-message-stringValueTooSmall {
-    color: red;
-    font-style: italic;
-    cursor: default;
-}
-
-.alpaca-message-stringValueTooLarge {
-    color: red;
-    font-style: italic;
-    cursor: default;
-}
-
-.alpaca-message-stringNotANumber {
-    color: red;
-    font-style: italic;
-    cursor: default;
-}
-
-.alpaca-message-notOptional {
-    color: red;
-    font-style: italic;
     cursor: default;
 }
 
@@ -1991,22 +1569,12 @@ uploadbtn:hover {
     cursor: default;
 }
 
-#centertext {
-    display: flex;
-    white-space: nowrap;
-    justify-content: center;
-    direction: rtl;
-    padding: 0px;
-    padding-top: .5rem;
-}
-
 .settings-title {
     display: flex;
     white-space: nowrap;
     justify-content: center;
     direction: rtl;
-    padding: 0px;
-    padding-top: .5rem;
+    padding: .5rem 0 0;
     position: absolute;
     left: 0;
     right: 0;

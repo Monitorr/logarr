@@ -57,6 +57,8 @@ function parseLogPath($path) {
             if($file_time == 0 || !isset($last_edited_file)) return 'ERROR: Something went wrong, no file found'; //Using this in other code to see if a file exists
 
             return $dir . DIRECTORY_SEPARATOR . $last_edited_file; //return the merged dir and filename
+        } else {
+            return "ERROR: path is dynamic, only dynamic filenames are allowed!";
         }
     } else {
         return $path; //if path doesn't contain *, just return the path. Nothing fancy here
@@ -258,4 +260,4 @@ function convertToBytes($from){
     }
 }
 
-?>
+

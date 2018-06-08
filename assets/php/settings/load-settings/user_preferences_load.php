@@ -10,4 +10,3 @@ $return = json_encode( $preferences, true);
 
 echo $return;
 
-?>

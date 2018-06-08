@@ -53,9 +53,9 @@
 
             function convertConfig()
             {
-                include(__DIR__ . '/../config/config.php');
+                include('config/config.php');
                 $new_config = json_decode(file_get_contents(__DIR__ . '/../config/config.sample-03jun2018.json'), 1);
-                $old_config = array('config' => $config, 'logs' => $logs);
+                $old_config = array('config' => $GLOBALS['config'], 'logs' => $GLOBALS['logs']);
                 $json = json_encode(array_merge($new_config, $old_config), JSON_PRETTY_PRINT);
                 file_put_contents(__DIR__ . '/../config/config.json', $json);
             }
@@ -68,7 +68,7 @@
             include ('assets/php/functions.php');
         ?>
 
-        <title><?php echo $preferences['sitetitle']; ?></title>
+        <title><?php echo $GLOBALS['preferences']['sitetitle']; ?></title>
 
         <script src="assets/js/jquery.min.js"> </script>
 
@@ -84,8 +84,8 @@
 
         <!-- sync config with javascript -->
         <script>
-            var settings = <?php echo json_encode($settings);?>;
-            var preferences = <?php echo json_encode($preferences);?>;
+            var settings = <?php echo json_encode($GLOBALS['settings']);?>;
+            var preferences = <?php echo json_encode($GLOBALS['preferences']);?>;
             function refreshConfig() {
                 $.ajax({
                     url: "assets/php/sync-config.php",
@@ -124,10 +124,10 @@
         <script>
             <?php
                 //initial values for clock:
-                $timezone = $preferences['timezone'];
+                $timezone = $GLOBALS['preferences']['timezone'];
                 $dt = new DateTime("now", new DateTimeZone("$timezone"));
-                $timeStandard = (int) ($preferences['timestandard']);
-                $rftime = $settings['rftime'];
+                $timeStandard = (int) ($GLOBALS['preferences']['timestandard']);
+                $rftime = $GLOBALS['settings']['rftime'];
                 $timezone_suffix = '';
                 if(!$timeStandard){
                     $dateTime = new DateTime();
@@ -139,7 +139,7 @@
             var servertime = "<?php echo $serverTime;?>";
             var timeStandard = <?php echo $timeStandard;?>;
             var timeZone = "<?php echo $timezone_suffix;?>";
-            var rftime = <?php echo $settings['rftime'];?>;
+            var rftime = <?php echo $GLOBALS['settings']['rftime'];?>;
             function updateTime() {
                 setInterval(function() {
                     var timeString = date.toLocaleString('en-US', {hour12: timeStandard, weekday: 'short', year: 'numeric', day: '2-digit', month: 'short', hour:'2-digit', minute:'2-digit', second:'2-digit'}).toString();
@@ -361,7 +361,7 @@
         
         </div>
 
-        <button onclick="topFunction(), checkAll1()" id="myBtn" title="Go to top"></button>
+        <button onclick="topFunction();checkAll1();" id="myBtn" title="Go to top"></button>
         
         <div id="footer">
             

@@ -31,5 +31,5 @@
     $commitresult = json_decode($commitresult, true);// decode to associative array
     $commiturl = $commitresult['html_url'];
     $commit = substr($commiturl, -40, 7);
-?>
+
 

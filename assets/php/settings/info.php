@@ -1,5 +1,5 @@
 <?php
-include ('..//functions.php');
+include ('../functions.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -57,28 +57,8 @@ include ('..//functions.php');
             display: block;
         }
 
-        .auto-style1 {
-            text-align: center;
-        }
-
-        #centertext {
-            padding-bottom: 2rem !important;
-        }
-
-
-        #includedContent {
-            float: right;
-            width: 95% !important;
-        }
-
         tbody {
             cursor: default !important;
-        }
-
-        .links {
-            color: yellow !important;
-            font-size: 1rem !important;
-            font-weight: 500 !important;
         }
 
         select, input {
@@ -92,7 +72,7 @@ include ('..//functions.php');
 
     <title>
         <?php
-        $title = $preferences['sitetitle'];
+        $title = $GLOBALS['preferences']['sitetitle'];
         echo $title . PHP_EOL;
         ?>
         | Info
@@ -112,7 +92,6 @@ include ('..//functions.php');
 <div id="infodata">
 
     <table class="table">
-        <thead> <div id="blank"> . </div> </thead>
         <tbody>
         <tr>
             <td><strong>Logarr Installed Version:</strong></td>
@@ -124,11 +103,11 @@ include ('..//functions.php');
             <td><strong>Logarr Latest Version:</strong></td>
             <td>Master:
                 <a href="https://github.com/Monitorr/logarr/releases" target="_blank" title="Logarr Releases">
-                    <img src="https://img.shields.io/github/release/Monitorr/logarr.svg?style=flat" label="Logarr Release" alt="Logarr Release" style="width:6rem;height:1.1rem;" >
+                    <img src="https://img.shields.io/github/release/Monitorr/logarr.svg?style=flat" alt="Logarr Release" style="width:6rem;height:1.1rem;" >
                 </a>
                 | Develop:
                 <a href="https://github.com/Monitorr/logarr/releases" target="_blank" title="Logarr Releases">
-                    <img src="https://img.shields.io/github/release/Monitorr/logarr/all.svg" label="Logarr Release" alt="Logarr Release" style="width:6rem;height:1.1rem;" >
+                    <img src="https://img.shields.io/github/release/Monitorr/logarr/all.svg" alt="Logarr Release" style="width:6rem;height:1.1rem;" >
                 </a>
             </td>
 
@@ -201,7 +180,7 @@ include ('..//functions.php');
                 Update branch selected:
                 <strong>
                     <?php
-                    $updateBranch = $preferences['updateBranch'];
+                    $updateBranch = $GLOBALS['preferences']['updateBranch'];
                     echo '| ' . $updateBranch . ' | ' . PHP_EOL;
                     ?>
                 </strong>
@@ -226,19 +205,13 @@ include ('..//functions.php');
             <td><strong>Resources:</strong></td>
             <td><a href="https://github.com/Monitorr/logarr" target="_blank" title="Logarr GitHub Repo"> <img src="https://img.shields.io/badge/GitHub-repo-green.svg" style="width:4rem;height:1rem;" alt="Logarr GitHub Repo"></a> | <a href="https://hub.docker.com/r/Monitorr/logarr/" target="_blank" title="Logarr Docker Repo"> <img src="https://img.shields.io/docker/build/Monitorr/logarr.svg?maxAge=2592000" style="width:6rem;height:1rem;" alt="Logarr Docker Repo"></a> | <a href="https://feathub.com/Monitorr/logarr" target="_blank" title="Logarr Feature Request"> <img src="https://img.shields.io/badge/FeatHub-suggest-blue.svg" style="width:5rem;height:1rem;" alt="Logarr Feature Request"></a> | <a href="https://discord.gg/j2XGCtH" target="_blank" title="Logarr Discord Channel"> <img src="https://img.shields.io/discord/102860784329052160.svg" style="width:5rem;height:1rem;" alt="Logarr on Discord" ></a> | <a href="https://paypal.me/monitorrapp" target="_blank" title="Buy us a beer!"> <img src="https://img.shields.io/badge/Donate-PayPal-green.svg" style="width:4rem;height:1rem;" alt="PayPal" ></a> </td>
         </tr>
-
         </tbody>
-        <tr>
-            <!-- <div id="blank"> . </div> -->
-        </tr>
     </table>
 
 </div>
 
 <div class="slide">
-    <input class="expandtoggle" type="checkbox" name="slidebox"  checked>
-        <div id ="phpContent"> </div>
-    </input>
+    <div id ="phpContent"> </div>
 </div>
 
 <script>document.getElementById("phpContent").innerHTML='<object type="text/html" class="phpobject" data="../phpinfo.php" ></object>'</script>

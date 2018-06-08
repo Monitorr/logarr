@@ -7,4 +7,3 @@
 
         file_put_contents(__DIR__ . "/../../../config/config.json", json_encode($json, JSON_PRETTY_PRINT));
 
-?>
