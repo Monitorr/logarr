@@ -8,12 +8,13 @@ include ('..//functions.php');
     <meta charset="utf-8">
     <link type="text/css" href="../../css/bootstrap.min.css" rel="stylesheet">
     <link type="text/css" href="../../css/logarr.css" rel="stylesheet">
-    <link type="text/css" href="../../data/css/custom.css" rel="stylesheet">
+    <link type="text/css" href="../../css/custom.css" rel="stylesheet">
 
     <meta name="theme-color" content="#464646" />
     <meta name="theme_color" content="#464646" />
 
-    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/jquery.blockUI.js" async></script>
     <!-- <script type="text/javascript" src="../../js/pace.js" async></script> -->
 
     <style>
@@ -242,8 +243,7 @@ include ('..//functions.php');
 
 <script>document.getElementById("phpContent").innerHTML='<object type="text/html" class="phpobject" data="../phpinfo.php" ></object>'</script>
 
-<script src="../../js/update.js" async></script>
-<script src="../../js/update_auto-settings.js" async></script>
+<script src="../../js/update-settings.js" async></script>
 
 
 </body>

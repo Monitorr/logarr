@@ -119,30 +119,12 @@
             refreshConfig();
         </script>
 
-                <!-- // Set global timezone from config file: -->
-            <?php 
-                //Why is this necessary? - rob1998
-                if($preferences['timezone'] == "") {
-
-                date_default_timezone_set('UTC');
-                $timezone = date_default_timezone_get();
-
-            }
-
-            else {
-
-                $timezoneconfig = $preferences['timezone'];
-                date_default_timezone_set($timezoneconfig);
-                $timezone = date_default_timezone_get();
-
-            }
-        ?>
 
                 <!-- UI clock functions: -->
         <script>
             <?php
                 //initial values for clock:
-                //$timezone = $preferences['timezone'];
+                $timezone = $preferences['timezone'];
                 $dt = new DateTime("now", new DateTimeZone("$timezone"));
                 $timeStandard = (int) ($preferences['timestandard']);
                 $rftime = $settings['rftime'];
@@ -171,7 +153,7 @@
                 }, 1000);
             }
             function syncServerTime() {
-                console.log('Logarr time update START | Interval: <?php echo $config['rftime']; ?> ms');
+                console.log('Logarr time update START | Interval: ' + settings.rftime + ' ms');
                 $.ajax({
                     url: "assets/php/time.php",
                     type: "GET",
@@ -182,11 +164,9 @@
                         timeZone = response.timezoneSuffix;
                         rftime = response.rftime;
                         date = new Date(servertime);
-                        setTimeout(function() {syncServerTime()}, rftime); //delay is rftime
+                        setTimeout(function() {syncServerTime()}, settings.rftime); //delay is rftime
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                        console.log("ERROR: time ajax fail");
-                        setTimeout(function() {syncServerTime()}, settings.rftime); //delay is rftime
                         console.log('Logarr time update START');
                     }
                 });
@@ -206,11 +186,10 @@
             var logInterval = false;
             $(document).ready(function () {
                 $('#buttonStart :checkbox').change(function () {
-                    console.log(settings.logRefresh);
                     if ($(this).is(':checked') && logInterval == false) {
                         nIntervId = setInterval(refreshblockUI, settings.rflog);
                         logInterval = true;
-                        console.log("Auto update: Enabled | Interval: <?php echo $config['rflog']; ?> ms");
+                        console.log("Auto update: Enabled | Interval: " + settings.rflog + " ms");
                         $.growlUI("Auto update: Enabled");
                     } else {
                         clearInterval(nIntervId);
@@ -253,8 +232,7 @@
                         }, 3000);
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                        alert( "Posting failed (ajax)" );
-                        console.log("Posting failed (ajax)");
+                        console.log("ERROR: unlink ajax posting failed");
                     }
                 });
                 return false;
@@ -345,7 +323,7 @@
                 <div id="rightbottom" class="rightbottom">
                     
                     <table id="slidertable">
-                        <tr title="Enable log auto-update | Interval: <?php echo $settings['rflog']; ?> ms ">
+                        <tr title="Toggle log auto-update | Interval: <?php echo $settings['rflog']; ?> ms ">
 
                             <th id="textslider">
                                 Auto Update:
@@ -386,11 +364,8 @@
         <button onclick="topFunction(), checkAll1()" id="myBtn" title="Go to top"></button>
         
         <div id="footer">
-
-                <!-- Checks for Logarr application update on page load: -->
-            <script src="assets/js/update_auto.js" async></script>
             
-                <!-- Checks for Logarr application update on "Check for update" click: -->
+                <!-- Checks for Logarr application update on page load & "Check for update" click: -->
             <script src="assets/js/update.js" async></script>
 
             <div id="logarrid">

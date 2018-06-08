@@ -21,6 +21,17 @@ $ext_version_loc = 'https://raw.githubusercontent.com/Monitorr/logarr/' . $branc
 // users information. But it can be replaced with something more simple
 $vnum_loc = "../js/version/version.txt"; #example: version/vnum_1.txt
 
+if($GLOBALS['preferences']['timezone'] == "") {
+    date_default_timezone_set('UTC');
+    $timezone = date_default_timezone_get();
+}
+
+else {
+    $timezoneconfig = $GLOBALS['preferences']['timezone'];
+    date_default_timezone_set($timezoneconfig);
+    $timezone = date_default_timezone_get();
+}
+
 function parseLogPath($path) {
     if (substr_count ($path, '*') == 1) { //check to see if the path contains only 1 *
         $dir = dirname($path); //store the dir so we can merge it with the filename in the end
@@ -70,6 +81,8 @@ function readExternalLog($log)
 }
 
 function unlinkLog($file, $print) {
+
+
     if($print) echo('Form submitted:  unlink file:<br>'.$file);
     if($print) echo('Server received: unlink file:<br>'.$file);
     if($print) echo('Server attempting to unlink:<br>'.$file);

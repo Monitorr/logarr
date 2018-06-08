@@ -29,22 +29,22 @@ if($copy == 1){
 		// copy files from temp to monitorr root
 		$scanPath = array_diff(scandir($extractPath), array('..','.'));
 		$fullPath = $extractPath . $scanPath[2];
-		recurse_copy($fullPath,$base_path);
+        recurse_copy($fullPath,$base_path);
 		// restore config.json file
-		rename($extractPath.'config.json', '../config/config.json');
+        rename($extractPath.'config.json', '../config/config.json');
 		// update users local version number file
 		$userfile = fopen ("../js/version/version.txt", "w");
 		$user_vnum = fgets($userfile);
-		fwrite($userfile, $_POST['version']);
-		fclose($userfile);
-		delTree($fullPath);
+        fwrite($userfile, $_POST['version']);
+        fclose($userfile);
+        delTree($fullPath);
 		// success updating files
 		$data = array("unzip" => 1);
 	}else{
 		// error updating files
 		$data = array("unzip" => 0);
 		// delete potentially corrupt file
-		unlink($local_file);
+        unlink($local_file);
 	}
 }
 // send the json data
