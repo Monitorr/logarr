@@ -1,5 +1,5 @@
 <?php
-include ('../functions.php');
+include('../functions.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,8 +13,8 @@ include ('../functions.php');
     <link type="text/css" href="../../css/logarr.css" rel="stylesheet">
     <link type="text/css" href="../../css/custom.css" rel="stylesheet">
 
-    <meta name="theme-color" content="#464646" />
-    <meta name="theme_color" content="#464646" />
+    <meta name="theme-color" content="#464646"/>
+    <meta name="theme_color" content="#464646"/>
 
     <script type="text/javascript" src="../../js/jquery.min.js"></script>
     <script type="text/javascript" src="../../js/handlebars.js"></script>
@@ -88,7 +88,7 @@ include ('../functions.php');
 
 <script>
     document.body.className += ' fade-out';
-    $(function() {
+    $(function () {
         $('body').removeClass('fade-out');
     });
 </script>
@@ -96,15 +96,14 @@ include ('../functions.php');
 <p id="response"></p>
 
 
-
 <div id="siteform">
 
     <div id="sitesettings"></div>
 
     <script type="text/javascript">
-        $(document).ready(function() {
+        $(document).ready(function () {
             var CustomConnector = Alpaca.Connector.extend({
-                buildAjaxConfig: function(uri, isJson) {
+                buildAjaxConfig: function (uri, isJson) {
                     var ajaxConfig = this.base(uri, isJson);
                     ajaxConfig.headers = {
                         "ssoheader": "abcde12345"
@@ -122,10 +121,10 @@ include ('../functions.php');
                     console.log(data);
                 },
 
-                error: function(errorThrown){
+                error: function (errorThrown) {
                     console.log(errorThrown);
                     document.getElementById("response").innerHTML = "GET failed (ajax)";
-                    alert( "GET failed (ajax)" );
+                    alert("GET failed (ajax)");
                 },
             });
 
@@ -181,7 +180,7 @@ include ('../functions.php');
                             "removeDefaultNone": true,
                             "fields": {},
                             "events": {
-                                "change": function() {
+                                "change": function () {
                                     $('.alpaca-form-button-submit').addClass('buttonchange');
                                 }
                             }
@@ -207,7 +206,7 @@ include ('../functions.php');
                             "removeDefaultNone": true,
                             "fields": {},
                             "events": {
-                                "change": function() {
+                                "change": function () {
                                     $('.alpaca-form-button-submit').addClass('buttonchange');
                                 }
                             }
@@ -232,7 +231,7 @@ include ('../functions.php');
                             "removeDefaultNone": true,
                             "fields": {},
                             "events": {
-                                "change": function() {
+                                "change": function () {
                                     $('.alpaca-form-button-submit').addClass('buttonchange');
                                 }
                             }
@@ -257,7 +256,7 @@ include ('../functions.php');
                             "removeDefaultNone": true,
                             "fields": {},
                             "events": {
-                                "change": function() {
+                                "change": function () {
                                     $('.alpaca-form-button-submit').addClass('buttonchange');
                                 }
                             }
@@ -286,7 +285,7 @@ include ('../functions.php');
                             "renderButtons": true,
                             "attributes": {},
                             "events": {
-                                "change": function() {
+                                "change": function () {
                                     $('.alpaca-form-button-submit').addClass('buttonchange');
                                 }
                             }
@@ -315,7 +314,7 @@ include ('../functions.php');
                             "renderButtons": true,
                             "attributes": {},
                             "events": {
-                                "change": function() {
+                                "change": function () {
                                     $('.alpaca-form-button-submit').addClass('buttonchange');
                                 }
                             }
@@ -344,7 +343,7 @@ include ('../functions.php');
                             "renderButtons": true,
                             "attributes": {},
                             "events": {
-                                "change": function() {
+                                "change": function () {
                                     $('.alpaca-form-button-submit').addClass('buttonchange');
                                 }
                             }
@@ -373,7 +372,7 @@ include ('../functions.php');
                             "renderButtons": true,
                             "attributes": {},
                             "events": {
-                                "change": function() {
+                                "change": function () {
                                     $('.alpaca-form-button-submit').addClass('buttonchange');
                                 }
                             }
@@ -390,17 +389,17 @@ include ('../functions.php');
                                 "label": "Submit",
                                 "name": "submit",
                                 "value": "submit",
-                                click: function(){
+                                click: function () {
                                     let siteSettings = $('#sitesettings');
                                     var data = siteSettings.alpaca().getValue();
                                     $.post({
                                         url: 'post-settings/post_receiver-site_settings.php',
                                         data: siteSettings.alpaca().getValue(),
-                                        success: function(data) {
+                                        success: function (data) {
                                             alert("Settings saved!");
                                             // setTimeout(location.reload.bind(location), 500)
                                         },
-                                        error: function(errorThrown){
+                                        error: function (errorThrown) {
                                             console.log(errorThrown);
                                             alert("Error submitting data.");
                                         }
@@ -408,7 +407,7 @@ include ('../functions.php');
                                     $('.alpaca-form-button-submit').removeClass('buttonchange');
                                 }
                             },
-                            "reset":{
+                            "reset": {
                                 "label": "Clear Values"
                             }
                             // "view": {

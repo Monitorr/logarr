@@ -432,7 +432,7 @@ mark.current {
     font-size: .75rem;
 }
 
-#text-search2:invalid~span:after {
+#text-search2:invalid ~ span:after {
     position: absolute;
     content: '!';
     margin-top: .1rem;
@@ -440,7 +440,7 @@ mark.current {
     color: red;
 }
 
-#text-search2:valid~span:after {
+#text-search2:valid ~ span:after {
     position: absolute;
     content: '✓';
     margin-top: .5rem;
@@ -455,7 +455,7 @@ mark.current {
 }
 
 input:invalid {
-   border: .2rem solid rgb(90, 90, 90);
+    border: .2rem solid rgb(90, 90, 90);
 }
 
 input:valid {
@@ -470,11 +470,10 @@ input:valid {
     visibility: visible;
 }
 
- .btn-hidden {
+.btn-hidden {
     visibility: hidden;
     display: none;
- }
-
+}
 
 .slide span {
     color: #000000;
@@ -789,7 +788,7 @@ input[type="checkbox"] {
     padding: 0 10px 0 10px;
 }
 
-.expandtoggle:checked~.expand {
+.expandtoggle:checked ~ .expand {
     height: 17rem;
 }
 
@@ -1589,6 +1588,7 @@ input[name="imginput"]:focus {
 #categoryFilter {
     text-align: center;
 }
+
 .category-filter-item {
     padding: 5px 10px;
     font-size: 1.5rem;

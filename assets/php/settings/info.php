@@ -1,5 +1,5 @@
 <?php
-include ('../functions.php');
+include('../functions.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,8 +10,8 @@ include ('../functions.php');
     <link type="text/css" href="../../css/logarr.css" rel="stylesheet">
     <link type="text/css" href="../../css/custom.css" rel="stylesheet">
 
-    <meta name="theme-color" content="#464646" />
-    <meta name="theme_color" content="#464646" />
+    <meta name="theme-color" content="#464646"/>
+    <meta name="theme_color" content="#464646"/>
 
     <script src="../../js/jquery.min.js"></script>
     <script src="../../js/jquery.blockUI.js" async></script>
@@ -84,7 +84,7 @@ include ('../functions.php');
 
 <script>
     document.body.className += ' fade-out';
-    $(function() {
+    $(function () {
         $('body').removeClass('fade-out');
     });
 </script>
@@ -95,7 +95,7 @@ include ('../functions.php');
         <tbody>
         <tr>
             <td><strong>Logarr Installed Version:</strong></td>
-            <td><?php echo file_get_contents( "../../js/version/version.txt" )?> <p id="version_check_auto"></p> </td>
+            <td><?php echo file_get_contents("../../js/version/version.txt") ?> <p id="version_check_auto"></p></td>
             <td><strong>OS / Version:</strong></td>
             <td><?php echo php_uname(); ?></td>
         </tr>
@@ -103,11 +103,13 @@ include ('../functions.php');
             <td><strong>Logarr Latest Version:</strong></td>
             <td>Master:
                 <a href="https://github.com/Monitorr/logarr/releases" target="_blank" title="Logarr Releases">
-                    <img src="https://img.shields.io/github/release/Monitorr/logarr.svg?style=flat" alt="Logarr Release" style="width:6rem;height:1.1rem;" >
+                    <img src="https://img.shields.io/github/release/Monitorr/logarr.svg?style=flat" alt="Logarr Release"
+                         style="width:6rem;height:1.1rem;">
                 </a>
                 | Develop:
                 <a href="https://github.com/Monitorr/logarr/releases" target="_blank" title="Logarr Releases">
-                    <img src="https://img.shields.io/github/release/Monitorr/logarr/all.svg" alt="Logarr Release" style="width:6rem;height:1.1rem;" >
+                    <img src="https://img.shields.io/github/release/Monitorr/logarr/all.svg" alt="Logarr Release"
+                         style="width:6rem;height:1.1rem;">
                 </a>
             </td>
 
@@ -117,7 +119,7 @@ include ('../functions.php');
 
             <td>
 
-                <?php echo phpversion() ;
+                <?php echo phpversion();
 
                 echo " <strong> | Extensions: </strong> ";
 
@@ -125,9 +127,7 @@ include ('../functions.php');
                     echo " <div class='extok' title='PHP cURL extension loaded OK' >";
                     echo "cURL";
                     echo "</div>";
-                }
-
-                else {
+                } else {
                     echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP cURL extension NOT loaded'>";
                     echo "cURL";
                     echo "</a>";
@@ -137,9 +137,7 @@ include ('../functions.php');
                     echo " | <div class='extok' title='PHP sqlite3 extension loaded OK'>";
                     echo "php_sqlite3";
                     echo "</div>";
-                }
-
-                else {
+                } else {
                     echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP php_sqlite3 extension NOT loaded'>";
                     echo "php_sqlite3";
                     echo "</a>";
@@ -149,9 +147,7 @@ include ('../functions.php');
                     echo " | <div class='extok' title='PHP pdo_sqlite extension loaded OK'>";
                     echo "pdo_sqlite";
                     echo "</div>";
-                }
-
-                else {
+                } else {
                     echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP pdo_sqlite extension NOT loaded'>";
                     echo "pdo_sqlite";
                     echo "</a>";
@@ -161,9 +157,7 @@ include ('../functions.php');
                     echo " | <div class='extok' title='PHP ZIP extension loaded OK'>";
                     echo "php7-zip";
                     echo "</div>";
-                }
-
-                else {
+                } else {
                     echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='php7-zip extension NOT loaded'>";
                     echo "php7-zip";
                     echo "</a>";
@@ -203,7 +197,21 @@ include ('../functions.php');
             </td>
 
             <td><strong>Resources:</strong></td>
-            <td><a href="https://github.com/Monitorr/logarr" target="_blank" title="Logarr GitHub Repo"> <img src="https://img.shields.io/badge/GitHub-repo-green.svg" style="width:4rem;height:1rem;" alt="Logarr GitHub Repo"></a> | <a href="https://hub.docker.com/r/Monitorr/logarr/" target="_blank" title="Logarr Docker Repo"> <img src="https://img.shields.io/docker/build/Monitorr/logarr.svg?maxAge=2592000" style="width:6rem;height:1rem;" alt="Logarr Docker Repo"></a> | <a href="https://feathub.com/Monitorr/logarr" target="_blank" title="Logarr Feature Request"> <img src="https://img.shields.io/badge/FeatHub-suggest-blue.svg" style="width:5rem;height:1rem;" alt="Logarr Feature Request"></a> | <a href="https://discord.gg/j2XGCtH" target="_blank" title="Logarr Discord Channel"> <img src="https://img.shields.io/discord/102860784329052160.svg" style="width:5rem;height:1rem;" alt="Logarr on Discord" ></a> | <a href="https://paypal.me/monitorrapp" target="_blank" title="Buy us a beer!"> <img src="https://img.shields.io/badge/Donate-PayPal-green.svg" style="width:4rem;height:1rem;" alt="PayPal" ></a> </td>
+            <td><a href="https://github.com/Monitorr/logarr" target="_blank" title="Logarr GitHub Repo"> <img
+                            src="https://img.shields.io/badge/GitHub-repo-green.svg" style="width:4rem;height:1rem;"
+                            alt="Logarr GitHub Repo"></a> | <a href="https://hub.docker.com/r/Monitorr/logarr/"
+                                                               target="_blank" title="Logarr Docker Repo"> <img
+                            src="https://img.shields.io/docker/build/Monitorr/logarr.svg?maxAge=2592000"
+                            style="width:6rem;height:1rem;" alt="Logarr Docker Repo"></a> | <a
+                        href="https://feathub.com/Monitorr/logarr" target="_blank" title="Logarr Feature Request"> <img
+                            src="https://img.shields.io/badge/FeatHub-suggest-blue.svg" style="width:5rem;height:1rem;"
+                            alt="Logarr Feature Request"></a> | <a href="https://discord.gg/j2XGCtH" target="_blank"
+                                                                   title="Logarr Discord Channel"> <img
+                            src="https://img.shields.io/discord/102860784329052160.svg" style="width:5rem;height:1rem;"
+                            alt="Logarr on Discord"></a> | <a href="https://paypal.me/monitorrapp" target="_blank"
+                                                              title="Buy us a beer!"> <img
+                            src="https://img.shields.io/badge/Donate-PayPal-green.svg" style="width:4rem;height:1rem;"
+                            alt="PayPal"></a></td>
         </tr>
         </tbody>
     </table>
@@ -211,10 +219,10 @@ include ('../functions.php');
 </div>
 
 <div class="slide">
-    <div id ="phpContent"> </div>
+    <div id="phpContent"></div>
 </div>
 
-<script>document.getElementById("phpContent").innerHTML='<object type="text/html" class="phpobject" data="../phpinfo.php" ></object>'</script>
+<script>document.getElementById("phpContent").innerHTML = '<object type="text/html" class="phpobject" data="../phpinfo.php" ></object>'</script>
 
 <script src="../../js/update-settings.js" async></script>
 

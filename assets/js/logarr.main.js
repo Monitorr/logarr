@@ -17,6 +17,7 @@ function refreshblockUI() {
         }, 3000); // CHANGE ME ??
     }
 }
+
 function refresh() {
     loadLog();
     console.log('Logarr log update START');
@@ -25,7 +26,7 @@ function refresh() {
 function loadLog() {
     $.ajax({
         url: "assets/php/load-log.php",
-        data: {'hash':window.location.hash},
+        data: {'hash': window.location.hash},
         type: "POST",
         success: function (response) {
             //$('#logcontainer').fadeOut('slow').delay(500);
@@ -35,6 +36,7 @@ function loadLog() {
         }
     });
 }
+
 // highlight all "error" terms:
 
 function highlightjs() {
@@ -43,19 +45,20 @@ function highlightjs() {
         className: 'error'
     });
 }
+
 // Search function:
 
 $(function () {
 
     // the input field
     var $input = $("input[name='markinput']"),
-            // search button
+        // search button
         $searchBtn = $("button[data-search='search']"),
-            // next button
+        // next button
         $nextBtn = $("button[data-search='next']"),
-            // prev button
+        // prev button
         $prevBtn = $("button[data-search='prev']"),
-            // clear button
+        // clear button
         $clearBtn = $("button[data-search='clear']"),
 
         // the context where to search
@@ -99,13 +102,13 @@ $(function () {
                     }, 200); //make this value bigger if you want smoother/longer scroll
                 */
 
-                    /* not animated scroll */
-                    parent.scrollTop(
-                        currentMarkResult.offset().top - parent.offset().top + parent.scrollTop()
-                    );
-                }
+                /* not animated scroll */
+                parent.scrollTop(
+                    currentMarkResult.offset().top - parent.offset().top + parent.scrollTop()
+                );
             }
         }
+    }
 
     function mark() {
 
@@ -144,6 +147,7 @@ $(function () {
             }
         });
     }
+
     $searchBtn.on("click", function () {
         console.log('Logarr is performing search');
         $('#buttonStart :checkbox').prop('checked', false).change(); // if auto-update is enabled, disable it after search submit
@@ -156,8 +160,8 @@ $(function () {
             $.unblockUI()
         }, 300);
     });
-    
-     // Clears the search
+
+    // Clears the search
 
     $clearBtn.on("click", function () {
         console.log('Logarr cleared search results');
@@ -168,8 +172,8 @@ $(function () {
         $('.btn-visible').addClass("btn-hidden");
     });
 
-   
-      // Next and previous search jump to
+
+    // Next and previous search jump to
 
     $nextBtn.add($prevBtn).on("click", function () {
         if ($results.length) {

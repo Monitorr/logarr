@@ -1,5 +1,5 @@
 <?php
-include ('../functions.php');
+include('../functions.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,8 +13,8 @@ include ('../functions.php');
     <link type="text/css" href="../../css/logarr.css" rel="stylesheet">
     <link type="text/css" href="../../css/custom.css" rel="stylesheet">
 
-    <meta name="theme-color" content="#464646" />
-    <meta name="theme_color" content="#464646" />
+    <meta name="theme-color" content="#464646"/>
+    <meta name="theme_color" content="#464646"/>
 
     <script type="text/javascript" src="../../js/jquery.min.js"></script>
     <script type="text/javascript" src="../../js/handlebars.js"></script>
@@ -88,7 +88,7 @@ include ('../functions.php');
 
 <script>
     document.body.className += ' fade-out';
-    $(function() {
+    $(function () {
         $('body').removeClass('fade-out');
     });
 </script>
@@ -96,10 +96,9 @@ include ('../functions.php');
 <p id="response"></p>
 
 
-
 <div id="modalloading" title="Monitorr logs are populating.">
 
-    <div id="modalloadingspinner" style="transform:translateZ(0);"> </div>
+    <div id="modalloadingspinner" style="transform:translateZ(0);"></div>
 
     <script>
         window.paceOptions = {
@@ -116,7 +115,7 @@ include ('../functions.php');
     <div id="servicesettings"></div>
 
     <script type="text/javascript">
-        $(document).ready(function() {
+        $(document).ready(function () {
             Alpaca.registerConnectorClass("custom");
             $("#servicesettings").alpaca({
                 "connector": "custom",
@@ -202,7 +201,7 @@ include ('../functions.php');
                             "label": "Clear",
                             "action": "clear",
                             "iconClass": "fa fa-trash",
-                            "click": function(key, action, itemIndex) {
+                            "click": function (key, action, itemIndex) {
                                 var item = this.children[itemIndex];
                                 item.setValue("");
                             }
@@ -236,7 +235,7 @@ include ('../functions.php');
                                 "renderButtons": true,
                                 "attributes": {},
                                 "events": {
-                                    "change": function() {
+                                    "change": function () {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
                                     }
                                 }
@@ -266,7 +265,7 @@ include ('../functions.php');
                                 "renderButtons": true,
                                 "attributes": {},
                                 "events": {
-                                    "change": function() {
+                                    "change": function () {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
                                     }
                                 }
@@ -290,7 +289,7 @@ include ('../functions.php');
                                 "removeDefaultNone": true,
                                 "fields": {},
                                 "events": {
-                                    "change": function() {
+                                    "change": function () {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
                                     }
                                 }
@@ -319,7 +318,7 @@ include ('../functions.php');
                                 "renderButtons": true,
                                 "attributes": {},
                                 "events": {
-                                    "change": function() {
+                                    "change": function () {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
                                     }
                                 }
@@ -348,7 +347,7 @@ include ('../functions.php');
                                 "renderButtons": true,
                                 "attributes": {},
                                 "events": {
-                                    "change": function() {
+                                    "change": function () {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
                                     }
                                 }
@@ -378,7 +377,7 @@ include ('../functions.php');
                                 "renderButtons": true,
                                 "attributes": {},
                                 "events": {
-                                    "change": function() {
+                                    "change": function () {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
                                     }
                                 }
@@ -396,25 +395,25 @@ include ('../functions.php');
                                     var data = $('#servicesettings').alpaca().getValue();
                                     $.post('post-settings/post_receiver-logs.php', {
                                         data,
-                                        success: function(data){
+                                        success: function (data) {
                                             alert("Settings saved! Applying changes...");
                                             // Refresh form after submit:
                                             setTimeout(location.reload.bind(location), 1000)
                                         },
-                                        error: function(errorThrown){
+                                        error: function (errorThrown) {
                                             console.log(errorThrown);
                                         }
                                     },);
                                     $('.alpaca-form-button-submit').removeClass('buttonchange');
                                 }
                             },
-                            "reset":{
+                            "reset": {
                                 "label": "Clear Values"
                             }
                         }
                     }
                 },
-                "postRender": function(control) {
+                "postRender": function (control) {
                     if (control.form) {
                         control.form.registerSubmitHandler(function (e) {
                             control.form.getButtonEl('submit').click();
