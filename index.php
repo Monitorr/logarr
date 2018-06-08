@@ -346,7 +346,6 @@
                                 <div class="filesize">
                                     Log file size: <?php echo human_filesize(filesize($v)); ?>
                                 </div>
-                                <!-- <div class="path" data-service="<?php echo $k;?>"> -->
                                 <div class="path" data-service="<?php echo $k;?>">
                                     <?php echo $v; ?>
                                 </div>
@@ -359,12 +358,12 @@
 
                              <!-- <input class="expandtoggle" type="checkbox" name="slidebox" id="<?php echo $k; ?>" checked> -->
 
-                            <input class="expandtoggle" type="checkbox" name="slidebox" id="<?php echo $k = preg_replace('/\s+/', '', $k);?>" checked>
+                            <input class="expandtoggle" type="checkbox" name="slidebox" id="<?php echo str_replace(" ", "-", $k);?>" checked>
                             
-                            <label for="<?php echo $k = preg_replace('/\s+/', '', $k);?>" class="expandtoggle" title="Increase/decrease log view"></label>
+                            <label for="<?php echo str_replace(" ", "-", $k);?>" class="expandtoggle" title="Increase/decrease log view"></label>
 
                             <div id="expand" class="expand">
-                                <p id="<?php echo $k = preg_replace('/\s+/', '', $k);?>-log"><?php readExternalLog($v, $config['max-lines']); ?></p>
+                                <p id="<?php echo str_replace(" ", "-", $k);?>-log"><?php readExternalLog($v, $config['max-lines']); ?></p>
                             </div>
 
                         </div>
@@ -375,7 +374,7 @@
                                     <button type="button" class="log-action-button slidebutton btn btn-primary" data-action="unlink-log" data-service="<?php echo $k;?>"  onclick="this.blur();" title="Attempt log file roll. NOTE: This function will copy the current log file to '[logfilename].bak', delete the original log file, and create a new blank log file with the orginal log filename. This function may not succeed if log file is in use.">Roll Log</button>
                                 </td>
                                 <td id="downloadform">
-                                    <button type="button" class="log-action-button slidebutton btn btn-primary" data-action="download-log" data-service="<?php echo $k = preg_replace('/\s+/', '', $k);?>" onclick="this.blur();" title="Download full log file">Download</button>
+                                    <button type="button" class="log-action-button slidebutton btn btn-primary" data-action="download-log" data-service="<?php echo $k;?>" onclick="this.blur();" title="Download full log file">Download</button>
                                 </td>
                             </tr>
                         </table>
