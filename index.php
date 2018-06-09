@@ -59,7 +59,7 @@
 
         <script src="assets/js/pace.js" async></script>
 
-        <script src="assets/js/jquery.blockUI.js" async></script>
+        <script src="assets/js/jquery.blockUI.js"></script>
 
         <script src="assets/js/jquery.highlight.js" async> </script>
 
