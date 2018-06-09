@@ -17,7 +17,7 @@
         <meta name="Logarr" content="Logarr: Self-hosted, single-page, log consolidation tool." />
 
         <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
-        <link href='//fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
+        <!-- <link href='//fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'> -->
         <link rel="stylesheet" href="assets/css/logarr.css" />
 
         <link rel="apple-touch-icon-precomposed" sizes="57x57" href="assets/images/favicon/apple-touch-icon-57x57.png" />
@@ -63,39 +63,31 @@
 
         <script src="assets/js/jquery.highlight.js" async> </script>
 
+        <script src="assets/js/logarr.main.js"></script>
+
         <script src="assets/js/jquery.mark.min.js" async> </script>
 
-        <script src="assets/js/logarr.main.js"></script>
-            
-               <!-- Highlight error terms onload:  -->
-        <script>
-            function highlightjsload() {
-                $.growlUI('Loading logs...');
-                setTimeout(function () {
-                    highlightjs();
-                }, 300);
-            };
-        </script>
 
-                <!-- // Set global timezone from config file: -->
-            <?php 
+            <!-- // Set global timezone from config file: -->
+        <?php 
 
-                if($config['timezone'] == "") {
+            if($config['timezone'] == "") {
 
-                    date_default_timezone_set('UTC');
-                    $timezone = date_default_timezone_get(); 
+                date_default_timezone_set('UTC');
+                $timezone = date_default_timezone_get(); 
 
-                }
+            }
 
-                else {
+            else {
 
-                    $timezoneconfig = $config['timezone'];
-                    date_default_timezone_set($timezoneconfig);
-                    $timezone = date_default_timezone_get();
+                $timezoneconfig = $config['timezone'];
+                date_default_timezone_set($timezoneconfig);
+                $timezone = date_default_timezone_get();
 
-                }
-            ?>
+            }
+        ?>
 
+            <!-- UI clock functions: -->
         <script>
             <?php
                 //initial values for clock:
@@ -128,6 +120,7 @@
                 }, 1000);
             }
             function syncServerTime() {
+                console.log('Logarr time update START | Interval: <?php echo $config['rftime']; ?> ms');
                 $.ajax({
                     url: "assets/php/time.php",
                     type: "GET",
@@ -139,7 +132,9 @@
                         rftime = parseInt(response.rftime);
                         date = new Date(servertime);
                         setTimeout(function() {syncServerTime()}, rftime); //delay is rftime
-                        console.log('Logarr time update START');
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log("ERROR: time ajax fail");
                     }
                 });
             }
@@ -149,8 +144,9 @@
             });
         </script>
 
-        <script src="assets/js/clock.js" async></script>
+        <script src="assets/js/clock.js"></script>
 
+            <!-- Auto update function:  -->
         <script>
             var nIntervId;
             var onload;
@@ -166,12 +162,12 @@
                         $.growlUI("Auto update: Disabled");
                     }
                 });
-                // Uncomment line below to set auto-refresh to ENABLE on page load
+                    // Uncomment line below to set auto-refresh to ENABLE on page load
                 // $('#buttonStart :checkbox').attr('checked', 'checked').change();
             });  
         </script>
 
-             <!-- LOG UNLINK FUNCTION  -->
+            <!-- LOG UNLINK FUNCTION  -->
         <script>
             $(document).on('click', 'button[data-action=\'unlink-log\']', function(event) {
                 event.preventDefault(); // stop page from being refreshed
@@ -185,8 +181,8 @@
                     data: "file=" + $(".path[data-service='" + $(this).data('service') + "']").html().trim(),
                     success: function (data) {
                         $('#modalContent').html(data);
+                        //console.log('Logarr unlink '+ data);
                         setTimeout(refreshblockUI(), 1000);
-                        console.log('Logarr unlink '+ data);
                         var modal = document.getElementById('responseModal');
                         var span = document.getElementsByClassName("closemodal")[0];
                         modal.style.display = "block";
@@ -200,8 +196,7 @@
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                        alert( "Posting failed (ajax)" );
-                        console.log("Posting failed (ajax)");
+                        console.log("ERROR: unlink ajax posting failed");
                     }
                 });
                 return false;
@@ -214,33 +209,24 @@
                 event.preventDefault(); // stop page from being refreshed
                 $.growlUI("Downloading <br> log file");
                 var logFilePath = ($(".path[data-service='" + $(this).data('service') + "']").html()).replace('file=','').trim();
-                console.log(logFilePath);
+                console.log("Downloading log file: " + logFilePath);
                 window.open('assets/php/download.php?file='+logFilePath);
                 return false;
             });
         </script>
 
+            <!-- Hide previous/next search buttons until search is performed: -->
         <script>
 
             $(document).ready(function () {
-
-                    // Hide previous/next search buttons until search is performed:
-                $('.btn-visible').addClass("btn-hidden");
-
-                    // Execute search on ENTER keyup:
-                $("#text-search2").keyup(function(event) {
-                    if (event.keyCode === 13) {
-                        $("#marksearch").click();
-                    }
-                });
-
+                $('.btn-visible').addClass("btn-hidden");  
             });
 
         </script>
 
     </head>
     
-    <body id="body" style="border: 10px solid #252525; color: #FFFFFF;" onload="highlightjsload()">
+    <body>
 
         <?php
 
@@ -254,7 +240,6 @@
                     echo "<b>Line {$line_num}</b> : " . htmlspecialchars($line) . "<br />\n";
                     if($line_num == $maxLines) break;
                 }
-                
             }
 
             function human_filesize($bytes, $decimals = 2) {
@@ -262,12 +247,9 @@
                 $factor = floor((strlen($bytes) - 1) / 3);
                 return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$size[$factor];
             }
-
         ?>
 
         <div id="ajaxtimestamp" title="Analog clock timeout. Refresh page."></div>
-        <div id="ajaxmarquee" title="Offline marquee timeout. Refresh page."></div>
-
 
         <div class="header">
         
@@ -291,13 +273,18 @@
             <div id="right" class="Column"> 
 
                 <div id="righttop" class="righttop">
-                    <div id="markform">
-                        <input type="search" name="markinput"  id="text-search2" class="input" title="Input search term" placeholder=" Search & highlight . . .">
-                        <input type="button" name="marksearch"  id="marksearch" value="Search" class="btn marksearch btn-primary" onclick="this.blur();" title="Execute search. Results will be highlighted in yellow.">
-                        <button data-search="next" name="nextBtn" class="btn search-button btn-primary btn-visible" onclick="this.blur();" title="Focus to first search result">&darr;</button>
-                        <button data-search="prev" name="prevBtn" class="btn search-button btn-primary btn-visible" onclick="this.blur();" title="Focus to last search result" >&uarr;</button>
-                        <button data-search="clear" class="btn search-button btn-primary" onclick="this.blur();" title="Clear search results">✖</button>
-                    </div>
+                    <form method="POST">
+                        <div id="markform">
+                            
+                            <input type="search" name="markinput"  id="text-search2" class="input" title="Input search term" placeholder=" Search & highlight . . ." required>
+                            <button data-search="search" name="searchBtn" id="searchBtn" value="Search" class="btn marksearch btn-primary" onclick="this.blur(); return false;" title="Execute search. Results will be highlighted in yellow.">Search</button>
+                            <span id="validity" class="validity"></span>
+                            <button data-search="next" name="nextBtn" class="btn search-button btn-primary btn-visible" onclick="this.blur(); return false;" title="Focus to first search result">&darr;</button>
+                            <button data-search="prev" name="prevBtn" class="btn search-button btn-primary btn-visible" onclick="this.blur(); return false;" title="Focus to last search result" >&uarr;</button>
+                            <button data-search="clear" class="btn search-button btn-primary" onclick="this.blur(); return false;" title="Clear search results">✖</button>
+                        
+                        </div>
+                    </form>
                 </div>
                 
                 <div id="rightmiddle" class="rightmiddle">
@@ -366,11 +353,13 @@
                         </div>
 
                         <div class="slide">
-                            <input class="expandtoggle" type="checkbox" name="slidebox" id="<?php echo $k; ?>" checked>
-                            <label for="<?php echo $k; ?>" class="expandtoggle" title="Increase/decrease log view"></label>
+
+                            <input class="expandtoggle" type="checkbox" name="slidebox" id="<?php echo str_replace(" ", "-", $k);?>" checked>
+                            
+                            <label for="<?php echo str_replace(" ", "-", $k);?>" class="expandtoggle" title="Increase/decrease log view"></label>
 
                             <div id="expand" class="expand">
-                                <p id="<?php echo $k; ?>-log"><?php readExternalLog($v, $config['max-lines']); ?></p>
+                                <p id="<?php echo str_replace(" ", "-", $k);?>-log"><?php readExternalLog($v, $config['max-lines']); ?></p>
                             </div>
 
                         </div>
@@ -404,12 +393,23 @@
         
         </div>
 
+            <!-- Highlight error terms onload:  -->
+        <script>
+            $(document).ready(function () {
+                setTimeout(function () {
+                    highlightjs();
+                }, 300);
+            });
+        </script>
+
         <button onclick="topFunction(), checkAll1()" id="myBtn" title="Go to top"></button>
         
         <div class="footer">
 
-            <script src="assets/js/update_auto.js" async></script>
+                <!-- Checks for Logarr application update on page load: -->
+            <script src="assets/js/update_auto.js" async></script> 
             
+                <!-- Checks for Logarr application update on "Check for update" click: -->
             <script src="assets/js/update.js" async></script>
 
             <div id="logarrid">

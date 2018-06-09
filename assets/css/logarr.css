@@ -5,19 +5,20 @@
 /* Body */
 
 body {
-    transition: .5s opacity;
-    background-color: #252525;
-    font-family: 'Lato', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    border: 10px solid #252525;
-    color: #FFFFFF;
+    opacity: 1;
+    transition: 1s opacity;
     margin-bottom: 6rem;
+    border: 1rem solid #252525;
+    background-color: #252525;
+    -webkit-font-smoothing: antialiased;
+    /* font-family: 'Lato', sans-serif; */
+    font-family: 'Roboto:400', sans-serif;
+    color: #FFFFFF;
 }
 
 :root {
     font-size: 14px;
 }
-
 
 .flex {
     display: -webkit-flex;
@@ -26,7 +27,6 @@ body {
     align-items: center;
     justify-content: center;
     margin-top: 1em;
-     
 }
 
 .flex-child {
@@ -469,21 +469,48 @@ mark.current {
     font-size: .75rem;
 }
 
+#text-search2:invalid~span:after {
+    position: absolute;
+    content: '!';
+    margin-top: .1rem;
+    font-size: 1.5rem;
+    color: red;
+}
 
-.btn-visible {
-
-    visibility: visible;
+#text-search2:valid~span:after {
+    position: absolute;
+    content: '✓';
+    margin-top: .5rem;
+    color: green;
 
 }
 
+.validity {
+    position: absolute;
+    margin-left: -7rem;
+
+}
+
+input:invalid {
+   border: .2rem solid rgb(90, 90, 90);
+}
+
+input:valid {
+    border: .2rem solid rgb(90, 90, 90);
+}
+
+:not(output):-moz-ui-invalid {
+    box-shadow: none;
+}
+
+.btn-visible {
+    visibility: visible;
+}
 
  .btn-hidden {
-
     visibility: hidden;
     display: none;
-
  }
-
 
 
 .slide span {
@@ -506,12 +533,21 @@ mark.current {
     border-radius: 5px;
     background-color: rgb(225, 225, 225);
     border: .2rem solid rgb(90, 90, 90);
-    /* border: .2rem solid transparent; */
 }
 
 .input:hover {
     /* border-color: #007bff; */
     border: .2rem solid #007bff;
+}
+
+#text-search2:hover ~ #validity {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+#text-search2:focus ~ #validity {
+    display: none !important;
+    visibility: hidden !important;
 }
 
 .input:focus {
@@ -772,7 +808,7 @@ input[type="checkbox"] {
     position: absolute;
     text-align: center;
     margin: 0;
-    right: 1.5em;
+    right: 2em;
     bottom: .5em;
     padding-top: .5em;
     background-color: rgba(96, 96, 96, 0.750);
@@ -807,7 +843,6 @@ input[type="checkbox"] {
 }
 
 .expand {
-    /* height: 600px; */
     height: 43rem;
     overflow: auto;
     transition: height 0.5s;
@@ -818,7 +853,6 @@ input[type="checkbox"] {
 }
 
 .expandtoggle:checked~.expand {
-    /* height: 250px; */
     height: 17rem;
 }
 
@@ -829,7 +863,7 @@ input[type="checkbox"] {
     display: inline-block;
     width: 2em;
     height: 2em;
-    cursor: row-resize;
+    cursor: pointer;
 }
 
     /* Unlink response modal: */
@@ -839,7 +873,7 @@ input[type="checkbox"] {
     position: fixed;
     top: 0;
     width: 50%;
-    margin-top: 15%;
+    margin-top: 10%;
     margin-left: 25%;
     margin-right: 25%;
     padding: 1rem;
@@ -858,7 +892,7 @@ input[type="checkbox"] {
     /* padding-top: .5rem; */
     padding-bottom: 0;
     align-items: center;
-    font-size: 1.2rem;
+    font-size: 1.2vw;
 }
 
 .closemodal {
@@ -878,7 +912,6 @@ input[type="checkbox"] {
     cursor: pointer;
     font-weight: 900;
 }
-
 
 /* Footer */
 

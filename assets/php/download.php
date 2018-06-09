@@ -24,10 +24,18 @@
             flush();
             readfile($file);
             exit;
+
+            echo "<script type='text/javascript'>";
+                echo "console.log('Downloading log file: $file');";
+            echo "</script>";
         } 
         
         else {
             echo 'file: ' . $file . ' does not exist.';
+
+            echo "<script type='text/javascript'>";
+                echo "console.log('ERROR: file: '" . $file . "' does not exist.');";
+            echo "</script>";
         }
     } 
 
@@ -35,6 +43,10 @@
     
     else {
         echo 'ERROR: Illegal File';
+
+        echo "<script type='text/javascript'>";
+            echo "console.log('ERROR:  Illegal File');";
+        echo "</script>";
     }
 
 ?>
