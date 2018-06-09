@@ -2,7 +2,7 @@
 
 # Clone Logarr repo
 [[ ! -d /config/www/logarr/.git ]] && \
-git clone -b docker-alpha --single-branch https://github.com/Monitorr/logarr.git /config/www/logarr
+git clone -b docker-develop --single-branch https://github.com/Monitorr/logarr.git /config/www/logarr
 
 # Set permissions
 chown -R abc:abc \
