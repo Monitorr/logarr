@@ -63,9 +63,9 @@
 
         <script src="assets/js/jquery.highlight.js" async> </script>
 
-        <script src="assets/js/jquery.mark.min.js" async> </script>
-
         <script src="assets/js/logarr.main.js"></script>
+
+        <script src="assets/js/jquery.mark.min.js" async> </script>
 
 
             <!-- // Set global timezone from config file: -->
@@ -87,7 +87,7 @@
             }
         ?>
 
-                <!-- UI clock functions: -->
+            <!-- UI clock functions: -->
         <script>
             <?php
                 //initial values for clock:
@@ -146,7 +146,7 @@
 
         <script src="assets/js/clock.js"></script>
 
-             <!-- Auto update function:  -->
+            <!-- Auto update function:  -->
         <script>
             var nIntervId;
             var onload;
@@ -167,7 +167,7 @@
             });  
         </script>
 
-             <!-- LOG UNLINK FUNCTION  -->
+            <!-- LOG UNLINK FUNCTION  -->
         <script>
             $(document).on('click', 'button[data-action=\'unlink-log\']', function(event) {
                 event.preventDefault(); // stop page from being refreshed
@@ -216,7 +216,6 @@
         </script>
 
             <!-- Hide previous/next search buttons until search is performed: -->
-
         <script>
 
             $(document).ready(function () {
@@ -355,9 +354,6 @@
 
                         <div class="slide">
 
-
-                             <!-- <input class="expandtoggle" type="checkbox" name="slidebox" id="<?php echo $k; ?>" checked> -->
-
                             <input class="expandtoggle" type="checkbox" name="slidebox" id="<?php echo str_replace(" ", "-", $k);?>" checked>
                             
                             <label for="<?php echo str_replace(" ", "-", $k);?>" class="expandtoggle" title="Increase/decrease log view"></label>
@@ -397,11 +393,9 @@
         
         </div>
 
-             <!-- Highlight error terms onload:  -->
+            <!-- Highlight error terms onload:  -->
         <script>
             $(document).ready(function () {
-                // console.log('Logarr is loading logs');
-                // $.growlUI('Loading logs...');
                 setTimeout(function () {
                     highlightjs();
                 }, 300);
