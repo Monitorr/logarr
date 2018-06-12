@@ -8,6 +8,7 @@ $(document).ready(function(){
 		$.ajax({
 		   beforeSend: function(){
 			   $('#version_check').html('<img src="assets/images/loader.gif" width="16" height="16" />');
+			   console.log('Logarr is checking for an application update.');
 		   },
 		   type: "POST",
 		   url: "assets/php/version_check.php",
@@ -33,7 +34,8 @@ $(document).ready(function(){
 						   	   if(data.unzip == 1){ 
 							       // clear loading information
 						   		   $('#version_check').html("");
-							       // successful update
+								   // successful update
+									console.log('Logarr update successful! Reloading Logarr in 5 seconds...');
 									$('#version_check').html("<strong>Update Successful!</strong>");
 									$.blockUI(
 										{
@@ -47,28 +49,32 @@ $(document).ready(function(){
 									setTimeout(location.reload.bind(location), 5000);
                                   // location.reload();
 							   } else{
-								   // error during update/unzip   
+								   // error during update/unzip
+								   	console.log('Logarr update: An error occured while extracting the files.');
 									$('#version_check').html("<strong>An error occured while extracting the files.</strong>");
 									$.growlUI('An error occured while extracting the files.');
 									setTimeout(5000);
 							   }
 
                            } else {
-								   $('#version_check').html("<strong>An error occured while copying the files.</strong>");
-								   $.growlUI('An error occured while copying the files.');
-								   setTimeout(5000);
+							   		console.log('Logarr update: An error occured while copying the files.');
+									$('#version_check').html("<strong>An error occured while copying the files.</strong>");
+									$.growlUI('An error occured while copying the files.');
+									setTimeout(5000);
 								
                            }
 					   },
 					   error: function() {
 						   // error
+						   console.log('Logarr update: An error occured while updating your files.');
 						   $('#version_check').html('<strong>An error occured while updating your files.</strong>');
 						   $.growlUI('An error occured while updating your files.');
 						   setTimeout(5000);
 					   }
 					});
 			   } else{
-				    // user has the latest version already installed
+					// user has the latest version already installed
+					console.log('Logarr update: You have the latest version. Reloading Logarr in 5 seconds...');
 					$('#version_check').html("");   
 					$('#version_check').html("<strong>You have the latest version. Reloading Logarr in 5 seconds...</strong>");
 					// setTimeout(location.reload.bind(location), 5000);
@@ -86,6 +92,7 @@ $(document).ready(function(){
 		   },
 		   error: function() {
 			   // error
+			   console.log('Logarr update: An error occured while checking your Logarr version.');
 			   $('#version_check').html('<strong>An error occured while checking your Logarr version.</strong>');
 			   $.growlUI('An error occured while checking your Logarr version.');
 			   setTimeout(5000);
