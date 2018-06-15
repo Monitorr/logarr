@@ -89,8 +89,6 @@
         var settings = <?php echo json_encode($GLOBALS['settings']);?>;
         var preferences = <?php echo json_encode($GLOBALS['preferences']);?>;
 
-        <script src="assets/js/jquery.mark.min.js" async> </script>
-
         function refreshConfig() {
             $.ajax({
                 url: "assets/php/sync-config.php",
@@ -197,7 +195,7 @@
         });
     </script>
 
-    <script src="assets/js/clock.js" async></script>
+    <script src="assets/js/clock.js"></script>
 
     <!-- Auto update function:  -->
     <script>
