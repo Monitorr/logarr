@@ -73,12 +73,13 @@
 
     <script src="assets/js/jquery.min.js"></script>
 
-    <script src="assets/js/jquery.blockUI.js" async></script>
+        <script src="assets/js/pace.js" async></script>
 
-    <script src="assets/js/pace.js" async></script>
+        <script src="assets/js/jquery.blockUI.js"></script>
 
-    <script src="assets/js/jquery.highlight.js" async></script>
+        <script src="assets/js/jquery.highlight.js" async> </script>
 
+        <script src="assets/js/logarr.main.js"></script>
     <script src="assets/js/jquery.mark.min.js" async></script>
 
     <script src="assets/js/logarr.main.js" async></script>
@@ -87,6 +88,8 @@
     <script>
         var settings = <?php echo json_encode($GLOBALS['settings']);?>;
         var preferences = <?php echo json_encode($GLOBALS['preferences']);?>;
+
+        <script src="assets/js/jquery.mark.min.js" async> </script>
 
         function refreshConfig() {
             $.ajax({
