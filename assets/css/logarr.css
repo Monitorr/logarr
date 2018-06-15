@@ -894,7 +894,6 @@ a {
     text-align: center;
     color: #555555;
     font-size: .75rem;
-    Margin-bottom: 2rem;
     cursor: default;
 }
 
@@ -1339,7 +1338,6 @@ input[name="imginput"]:focus {
 #version {
     display: block;
     font-size: 1rem;
-    padding: 1.5rem 1rem 1rem;
     background-color: transparent;
     cursor: default;
     text-align: center;

@@ -10,7 +10,10 @@ $userfile = fopen($vnum_loc, "r");
 $user_vnum = fgets($userfile);
 fclose($userfile);
 
-if ($user_vnum == $vnum) {
+$user_version = floatval(substr($user_vnum,0,-1));
+$ext_version = floatval(substr($vnum,0,-1));
+
+if ($user_vnum == $vnum || (bccomp($user_version,$ext_version, 5) >= 0)) {
     // data
     $data = array("version" => 0);
 } else {
@@ -23,4 +26,3 @@ echo json_encode($data);
 //echo "<br>";
 //echo "remote repo version: $vnum <br />\n";
 //echo "local repo version: $user_vnum <br />\n";
-
