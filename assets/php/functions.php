@@ -1,7 +1,16 @@
 <?php
-$preferences = json_decode(file_get_contents(__DIR__ . '/../config/config.json'), 1)['preferences'];
-$settings = json_decode(file_get_contents(__DIR__ . '/../config/config.json'), 1)['settings'];
-$logs = json_decode(file_get_contents(__DIR__ . '/../config/config.json'), 1)['logs'];
+
+// Data Dir
+$authentication = json_decode(file_get_contents(__DIR__ . '../../data/datadir.json'), 1);
+$datadir = $authentication['datadir'];
+
+
+$config_file = $datadir . '/config.json';
+$preferences = json_decode(file_get_contents($config_file), 1)['preferences'];
+$settings = json_decode(file_get_contents($config_file), 1)['settings'];
+$logs = json_decode(file_get_contents($config_file), 1)['logs'];
+
+
 
 // New version download information
 
@@ -28,6 +37,10 @@ if ($GLOBALS['preferences']['timezone'] == "") {
     $timezoneconfig = $GLOBALS['preferences']['timezone'];
     date_default_timezone_set($timezoneconfig);
     $timezone = date_default_timezone_get();
+}
+
+function configExists() {
+	return is_file($GLOBALS['config_file']);
 }
 
 function parseLogPath($path)

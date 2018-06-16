@@ -17,7 +17,7 @@
     <meta name="Logarr" content="Logarr: Self-hosted, single-page, log consolidation tool."/>
 
     <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
-    <!-- <link href='//fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'> -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/css/logarr.css"/>
     <link rel="stylesheet" href="assets/css/custom.css"/>
 
@@ -49,7 +49,7 @@
     <!-- // CHANGE ME - Change to new config file  -->
 
     <?php
-    $file = 'assets/config/config.json';
+    /*$file = 'assets/config/config.json';
 
     function convertConfig()
     {
@@ -65,7 +65,7 @@
     //Use the function is_file to check if the config file already exists or not.
     if (!is_file($file)) {
         copy('assets/config/config.sample-03jun2018.json', $file);
-    }
+    }*/
     include('assets/php/functions.php');
     ?>
 
@@ -88,38 +88,6 @@
     <script>
         var settings = <?php echo json_encode($GLOBALS['settings']);?>;
         var preferences = <?php echo json_encode($GLOBALS['preferences']);?>;
-
-        function refreshConfig() {
-            $.ajax({
-                url: "assets/php/sync-config.php",
-                data: {settings: settings, preferences: preferences},
-                type: "POST",
-                success: function (response) {
-
-                    var json = JSON.parse(response);
-                    var settings = json.settings;
-                    var preferences = json.preferences;
-
-                    setTimeout(function () {
-                        refreshConfig()
-                    }, settings.rfconfig); //delay is rftime
-
-
-                    if (settings.logRefresh != "false" && !$('#buttonStart :checkbox').prop('checked')) {
-                        console.log('log refresh true');
-                        $('#autoRefreshLog').click();
-                        $('#buttonStart :checkbox').prop('checked', 'true').change();
-                    } else if (settings.logRefresh != "true" && $('#buttonStart :checkbox').prop('checked')) {
-                        console.log('log refresh false');
-                        $('#autoRefreshLog').click();
-                        $('#buttonStart :checkbox').removeProp('checked');
-                    }
-                    document.title = preferences.sitetitle; //update page title to configured title
-                    console.log('Refreshed config variables');
-                }
-            });
-        }
-
         refreshConfig();
     </script>
 
@@ -144,50 +112,6 @@
         var timeStandard = <?php echo $timeStandard;?>;
         var timeZone = "<?php echo $timezone_suffix;?>";
         var rftime = <?php echo $GLOBALS['settings']['rftime'];?>;
-
-        function updateTime() {
-            setInterval(function () {
-                var timeString = date.toLocaleString('en-US', {
-                    hour12: timeStandard,
-                    weekday: 'short',
-                    year: 'numeric',
-                    day: '2-digit',
-                    month: 'short',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    second: '2-digit'
-                }).toString();
-                var res = timeString.split(",");
-                var time = res[3];
-                var dateString = res[0] + '&nbsp; | &nbsp;' + res[1].split(" ")[2] + " " + res[1].split(" ")[1] + '<br>' + res[2];
-                var data = '<div class="dtg">' + time + ' ' + timeZone + '</div>';
-                data += '<div id="line">__________</div>';
-                data += '<div class="date">' + dateString + '</div>';
-                $("#timer").html(data);
-            }, 1000);
-        }
-
-        function syncServerTime() {
-            console.log('Logarr time update START | Interval: ' + settings.rftime + ' ms');
-            $.ajax({
-                url: "assets/php/time.php",
-                type: "GET",
-                success: function (response) {
-                    var response = $.parseJSON(response);
-                    servertime = response.serverTime;
-                    timeStandard = parseInt(response.timeStandard);
-                    timeZone = response.timezoneSuffix;
-                    rftime = response.rftime;
-                    date = new Date(servertime);
-                    setTimeout(function () {
-                        syncServerTime()
-                    }, settings.rftime); //delay is rftime
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.log('Logarr time update START');
-                }
-            });
-        }
 
         $(document).ready(function () {
             setTimeout(syncServerTime(), settings.rftime); //delay is rftime

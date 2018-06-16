@@ -1,5 +1,6 @@
 <?php
-$configContents = json_decode(file_get_contents(__DIR__ . '/../config/config.json'), 1);
+include(__DIR__ . '/functions.php');
+$configContents = json_decode(file_get_contents($config_file), 1);
 /*
  * enable for syncing settings back to the file
  *

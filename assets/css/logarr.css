@@ -18,6 +18,10 @@ body {
     font-size: 14px;
 }
 
+.center {
+    text-align: center;
+}
+
 .flex {
     display: -webkit-flex;
     display: flex;
@@ -807,6 +811,7 @@ input[type="checkbox"] {
 #responseModal {
     display: none;
     position: fixed;
+    left: 0;
     top: 0;
     width: 50%;
     margin-top: 10%;
@@ -1555,13 +1560,7 @@ input[name="imginput"]:focus {
     width: 85%;
     color: #555555;
     background-color: inherit;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 5rem;
-    padding-top: 1rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    font-size: .50rem;
+    margin: auto;
     text-align: center;
     cursor: default;
 }
@@ -1583,11 +1582,42 @@ input[name="imginput"]:focus {
 }
 
 /* Category filter navigation */
-#categoryFilter {
+#categoryFilter, #horizontal-nav {
     text-align: center;
 }
 
-.category-filter-item {
+.category-filter-item, .nav-item {
     padding: 5px 10px;
     font-size: 1.5rem;
+}
+
+/*** Authentication ***/
+#registration-container, #login-container {
+    margin: 2rem auto;
+    width: 50%;
+    padding: 2rem;
+}
+
+#login-form {
+    width: 50%;
+    margin: auto;
+}
+#login-form > div {
+    margin: 1rem auto;
+    text-align: center;
+}
+#loginbtn > button {
+    margin: auto 0.25rem;
+}
+table#regmulti > tbody >  tr > td {
+    vertical-align: top;
+}
+h5.heading {
+    color: rgb(255, 255, 255);
+    font-family: "Roboto:400", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 21px;
+    text-align: left;
+    margin-bottom: 0;
 }

@@ -116,6 +116,7 @@ $notifications = '<script>
 $result .= "</div>";
 $categoryNavigation = "<nav id='categoryFilter'>";
 $categoryNavigation .= "<a href='#' class='category-filter-item'>All</a>";
+sort($categories);
 foreach ($categories as $categoryLink) {
     $categoryNavigation .= "<a href='#$categoryLink' class='category-filter-item'>" . ucfirst($categoryLink) . "</a>";
 }

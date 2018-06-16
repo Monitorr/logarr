@@ -1,0 +1,45 @@
+{
+    "settings": {
+        "autoHighlight": "true",
+        "jumpOnSearch": "true",
+        "logRefresh": "false",
+        "liveSearch": "false",
+        "maxLines": "250",
+        "rfconfig": "5000",
+        "rflog": "30000",
+        "rftime": "30000"
+    },
+    "preferences": {
+        "sitetitle": "Logarr",
+        "siteurl": "https:\/\/dev.rob-bit.nl\/logarr",
+        "updateBranch": "develop",
+        "timezone": "Europe\/Amsterdam",
+        "timestandard": "False",
+        "language": "EN"
+    },
+    "logs": [
+        {
+            "logTitle": "Error",
+            "path": "D:\\wamp\\logs\\error.log",
+            "enabled": "Yes"
+        },
+        {
+            "logTitle": "Apache Errors",
+            "path": "D:\\wamp\\logs\\apache_error.log",
+            "enabled": "Yes",
+            "category": "Web"
+        },
+        {
+            "logTitle": "PHP",
+            "path": "D:\\wamp\\logs\\php_error.log",
+            "enabled": "Yes",
+            "category": "Test"
+        },
+        {
+            "logTitle": "Dynamic PHP",
+            "path": "C:\\logs\\php_error-*.log",
+            "enabled": "Yes",
+            "category": "Media"
+        }
+    ]
+}

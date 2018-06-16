@@ -1,6 +1,6 @@
 <?php
-
-$str = file_get_contents(__DIR__ . "/../../../config/config.json");
+include(__DIR__ . '/../../functions.php');
+$str = file_get_contents($config_file);
 
 $json = json_decode($str, true);
 
