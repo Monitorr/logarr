@@ -10,12 +10,13 @@
             <i class="fa fa-fw fa-question-circle input_icon" id="path_input_icon" title="Path of log"></i>
 
         </label>
-        
-        {{/if}} {{#control}}{{/control}} {{#if options.helper}}
 
-        <p class="{{#if options.helperClass}}{{options.helperClass}}{{/if}}">
+        {{/if}} {{#control}}{{/control}}
+        {{#if options.helpers}}
+
+        <p class="logs-input-helper">
             <i class="info-sign"></i>
-            {{{options.helper}}}
+            {{{options.helpers}}}
         </p>
 
         {{/if}}

@@ -40,10 +40,16 @@ function loadLog() {
 // highlight all "error" terms:
 
 function highlightjs() {
-    $(".expand").highlight("error", {
-        element: 'em',
-        className: 'error'
-    });
+    if('customHighlightTerms' in settings && settings.customHighlightTerms != "") {
+        var array = settings.customHighlightTerms.split(",");
+        for (let i = 0; i < array.length; i++) {
+            $(".expand").highlight(array[i].trim(), {
+                element: 'em',
+                className: array[i].trim()
+            });
+            console.log("Highlighting text containing: " + array[i].trim());
+        }
+    }
 }
 
 // Search function:
@@ -202,3 +208,112 @@ $(function () {
         }
     });
 });
+
+function refreshConfig() {
+    $.ajax({
+        url: "assets/php/sync-config.php",
+        data: {settings: settings, preferences: preferences},
+        type: "POST",
+        success: function (response) {
+
+            var json = JSON.parse(response);
+            var settings = json.settings;
+            var preferences = json.preferences;
+
+            setTimeout(function () {
+                refreshConfig()
+            }, settings.rfconfig); //delay is rftime
+
+
+            if (settings.logRefresh != "false" && !$('#buttonStart :checkbox').prop('checked')) {
+                console.log('log refresh true');
+                $('#autoRefreshLog').click();
+                $('#buttonStart :checkbox').prop('checked', 'true').change();
+            } else if (settings.logRefresh != "true" && $('#buttonStart :checkbox').prop('checked')) {
+                console.log('log refresh false');
+                $('#autoRefreshLog').click();
+                $('#buttonStart :checkbox').removeProp('checked');
+            }
+            document.title = preferences.sitetitle; //update page title to configured title
+            console.log('Refreshed config variables');
+        }
+    });
+}
+
+function updateTime() {
+    setInterval(function () {
+        var timeString = date.toLocaleString('en-US', {
+            hour12: timeStandard,
+            weekday: 'short',
+            year: 'numeric',
+            day: '2-digit',
+            month: 'short',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        }).toString();
+        var res = timeString.split(",");
+        var time = res[3];
+        var dateString = res[0] + '&nbsp; | &nbsp;' + res[1].split(" ")[2] + " " + res[1].split(" ")[1] + '<br>' + res[2];
+        var data = '<div class="dtg">' + time + ' ' + timeZone + '</div>';
+        data += '<div id="line">__________</div>';
+        data += '<div class="date">' + dateString + '</div>';
+        $("#timer").html(data);
+    }, 1000);
+}
+
+function syncServerTime() {
+    console.log('Logarr time update START | Interval: ' + settings.rftime + ' ms');
+    $.ajax({
+        url: "assets/php/time.php",
+        type: "GET",
+        success: function (response) {
+            var response = $.parseJSON(response);
+            servertime = response.serverTime;
+            timeStandard = parseInt(response.timeStandard);
+            timeZone = response.timezoneSuffix;
+            rftime = response.rftime;
+            date = new Date(servertime);
+            setTimeout(function () {
+                syncServerTime()
+            }, settings.rftime); //delay is rftime
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log('Logarr time update START');
+        }
+    });
+}
+
+function load_info() {
+    document.getElementById("setttings-page-title").innerHTML = 'Information';
+    document.getElementById("includedContent").innerHTML = '<object  type="text/html" class="object" data="assets/php/settings/info.php" ></object>';
+    $(".sidebar-nav-item").removeClass('active');
+    $("li[data-item='info']").addClass("active");
+}
+
+function load_preferences() {
+    document.getElementById("setttings-page-title").innerHTML = 'User Preferences';
+    document.getElementById("includedContent").innerHTML = '<object type="text/html" class="object" data="assets/php/settings/user_preferences.php" ></object>';
+    $(".sidebar-nav-item").removeClass('active');
+    $("li[data-item='user-preferences']").addClass("active");
+}
+
+function load_settings() {
+   document.getElementById("setttings-page-title").innerHTML = 'Logarr Settings';
+    document.getElementById("includedContent").innerHTML = '<object type="text/html" class="object" data="assets/php/settings/site_settings.php" ></object>';
+    $(".sidebar-nav-item").removeClass('active');
+    $("li[data-item='logarr-settings']").addClass("active");
+}
+function load_authentication() {
+    document.getElementById("setttings-page-title").innerHTML = 'Logarr Authentication';
+    document.getElementById("includedContent").innerHTML = '<object type="text/html" class="object" data="assets/php/settings/authentication.php" ></object>';
+    $(".sidebar-nav-item").removeClass('active');
+    $("li[data-item='logarr-authentication']").addClass("active");
+}
+
+function load_logs() {
+    document.getElementById("setttings-page-title").innerHTML = 'Logs Settings';
+    document.getElementById("includedContent").innerHTML = '<object type="text/html" class="object" data="assets/php/settings/logs_settings.php" ></object>';
+    $(".sidebar-nav-item").removeClass('active');
+    $("li[data-item='logs-configuration']").addClass("active");
+}

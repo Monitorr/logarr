@@ -2,38 +2,6 @@
   "type": "object",
   "required": false,
   "properties": {
-    "autoHighlight": {
-      "type": "string",
-      "enum": ["true", "false"],
-      "required": true,
-      "pattern": {},
-      "default": "true",
-      "properties": {}
-    },
-    "jumpOnSearch": {
-      "type": "string",
-      "enum": ["true", "false"],
-      "required": true,
-      "pattern": {},
-      "default": "true",
-      "properties": {}
-    },
-    "logRefresh": {
-      "type": "string",
-      "enum": ["true", "false"],
-      "required": true,
-      "pattern": {},
-      "default": "true",
-      "properties": {}
-    },
-    "liveSearch": {
-      "type": "string",
-      "enum": ["true", "false"],
-      "required": true,
-      "pattern": {},
-      "default": "true",
-      "properties": {}
-    },
     "maxLines": {
       "type": "integer",
       "required": true,
@@ -64,6 +32,42 @@
       "default": 5000,
       "minimum": 1000,
       "exclusiveMinimum": true,
+      "properties": {}
+    },
+    "customHighlightTerms": {
+      "type": "string",
+      "default": "error"
+    },
+    "autoHighlight": {
+      "type": "string",
+      "enum": ["true", "false"],
+      "required": true,
+      "pattern": {},
+      "default": "true",
+      "properties": {}
+    },
+    "jumpOnSearch": {
+      "type": "string",
+      "enum": ["true", "false"],
+      "required": true,
+      "pattern": {},
+      "default": "true",
+      "properties": {}
+    },
+    "logRefresh": {
+      "type": "string",
+      "enum": ["true", "false"],
+      "required": true,
+      "pattern": {},
+      "default": "true",
+      "properties": {}
+    },
+    "liveSearch": {
+      "type": "string",
+      "enum": ["true", "false"],
+      "required": true,
+      "pattern": {},
+      "default": "true",
       "properties": {}
     }
   }

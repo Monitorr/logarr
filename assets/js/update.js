@@ -102,7 +102,7 @@ $(document).ready(function () {
             // check for version verification
             if (data.version != 0) {
                 var uInfo = "uid=" + uid + "&version=" + data.version;
-                console.log('A Logarr update is available. Click "check for update" in the footer to update Logarr.');
+                console.log('Logarr version ' + data.version.trim() + ' is available. Click "check for update" in the footer to update Logarr.');
                 $.growlUI('An update is available');
                 setTimeout(15000);
 

@@ -1,6 +1,6 @@
 <?php
-$config_file = "assets/config/config.json";
 include('assets/php/functions.php');
+include('assets/php/auth_check.php');
 ?>
 
 <!DOCTYPE html>
@@ -22,6 +22,7 @@ https://github.com/Monitorr/Logarr
     <meta name="description" content="Monitorr">
 
     <link type="text/css" href="assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <link type="text/css" href="assets/css/logarr.css" rel="stylesheet">
     <link type="text/css" href="assets/css/custom.css" rel="stylesheet">
 
@@ -38,118 +39,45 @@ https://github.com/Monitorr/Logarr
     <script>
         var settings = <?php echo json_encode($GLOBALS['settings']);?>;
         var preferences = <?php echo json_encode($GLOBALS['preferences']);?>;
-
-        function refreshConfig() {
-            $.ajax({
-                url: "assets/php/sync-config.php",
-                data: {settings: settings, preferences: preferences},
-                type: "POST",
-                success: function (response) {
-
-                    var json = JSON.parse(response);
-                    var settings = json.settings;
-                    var preferences = json.preferences;
-
-                    setTimeout(function () {
-                        refreshConfig()
-                    }, settings.rfconfig); //delay is rftime
-
-
-                    if (settings.logRefresh != "false" && !$('#buttonStart :checkbox').prop('checked')) {
-                        console.log('log refresh true');
-                        $('#autoRefreshLog').click();
-                        $('#buttonStart :checkbox').prop('checked', 'true').change();
-                    } else if (settings.logRefresh != "true" && $('#buttonStart :checkbox').prop('checked')) {
-                        console.log('log refresh false');
-                        $('#autoRefreshLog').click();
-                        $('#buttonStart :checkbox').removeProp('checked');
-                    }
-                    document.title = preferences.sitetitle; //update page title to configured title
-                    console.log('Refreshed config variables');
-                }
-            });
-        }
-
         refreshConfig();
     </script>
 
     <!-- // Set global timezone from config file: -->
-    <?php
-    //Why is this necessary? - rob1998
-    if ($GLOBALS['preferences']['timezone'] == "") {
+	<?php
+	//Why is this necessary? - rob1998
+	if ($GLOBALS['preferences']['timezone'] == "") {
 
-        date_default_timezone_set('UTC');
-        $timezone = date_default_timezone_get();
+		date_default_timezone_set('UTC');
+		$timezone = date_default_timezone_get();
 
-    } else {
+	} else {
 
-        $timezoneconfig = $GLOBALS['preferences']['timezone'];
-        date_default_timezone_set($timezoneconfig);
-        $timezone = date_default_timezone_get();
+		$timezoneconfig = $GLOBALS['preferences']['timezone'];
+		date_default_timezone_set($timezoneconfig);
+		$timezone = date_default_timezone_get();
 
-    }
-    ?>
+	}
+	?>
 
     <script>
-        <?php
-        //initial values for clock:
-        //$timezone = $preferences['timezone'];
-        $dt = new DateTime("now", new DateTimeZone("$timezone"));
-        $timeStandard = (int)($GLOBALS['preferences']['timestandard']);
-        $rftime = $GLOBALS['settings']['rftime'];
-        $timezone_suffix = '';
-        if (!$timeStandard) {
-            $dateTime = new DateTime();
-            $dateTime->setTimeZone(new DateTimeZone($timezone));
-            $timezone_suffix = $dateTime->format('T');
-        }
-        $serverTime = $dt->format("D d M Y H:i:s");
-        ?>
+		<?php
+		//initial values for clock:
+		//$timezone = $preferences['timezone'];
+		$dt = new DateTime("now", new DateTimeZone("$timezone"));
+		$timeStandard = (int)($GLOBALS['preferences']['timestandard']);
+		$rftime = $GLOBALS['settings']['rftime'];
+		$timezone_suffix = '';
+		if (!$timeStandard) {
+			$dateTime = new DateTime();
+			$dateTime->setTimeZone(new DateTimeZone($timezone));
+			$timezone_suffix = $dateTime->format('T');
+		}
+		$serverTime = $dt->format("D d M Y H:i:s");
+		?>
         var servertime = "<?php echo $serverTime;?>";
         var timeStandard = <?php echo $timeStandard;?>;
         var timeZone = "<?php echo $timezone_suffix;?>";
         var rftime = <?php echo $settings['rftime'];?>;
-
-        function updateTime() {
-            setInterval(function () {
-                var timeString = date.toLocaleString('en-US', {
-                    hour12: timeStandard,
-                    weekday: 'short',
-                    year: 'numeric',
-                    day: '2-digit',
-                    month: 'short',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    second: '2-digit'
-                }).toString();
-                var res = timeString.split(",");
-                var time = res[3];
-                var dateString = res[0] + '&nbsp; | &nbsp;' + res[1].split(" ")[2] + " " + res[1].split(" ")[1] + '<br>' + res[2];
-                var data = '<div class="dtg">' + time + ' ' + timeZone + '</div>';
-                data += '<div id="line">__________</div>';
-                data += '<div class="date">' + dateString + '</div>';
-                $("#timer").html(data);
-            }, 1000);
-        }
-
-        function syncServerTime() {
-            $.ajax({
-                url: "assets/php/time.php",
-                type: "GET",
-                success: function (response) {
-                    var response = $.parseJSON(response);
-                    servertime = response.serverTime;
-                    timeStandard = parseInt(response.timeStandard);
-                    timeZone = response.timezoneSuffix;
-                    rftime = response.rftime;
-                    date = new Date(servertime);
-                    setTimeout(function () {
-                        syncServerTime()
-                    }, settings.rftime); //delay is rftime
-                    console.log('Logarr time update START');
-                }
-            });
-        }
 
         $(document).ready(function () {
             setTimeout(syncServerTime(), settings.rftime); //delay is rftime
@@ -233,9 +161,9 @@ https://github.com/Monitorr/Logarr
     </style>
 
     <title>
-        <?php
-        echo $preferences['sitetitle'];
-        ?>
+		<?php
+		echo $preferences['sitetitle'];
+		?>
         | Settings
     </title>
 
@@ -250,6 +178,9 @@ https://github.com/Monitorr/Logarr
                     break;
                 case "#logarr-settings":
                     load_settings();
+                    break;
+                case "#logarr-authentication":
+                    load_authentication();
                     break;
                 case "#logs-configuration":
                     load_logs();
@@ -275,9 +206,9 @@ https://github.com/Monitorr/Logarr
 
     <div id="settingsbrand">
         <div class="navbar-brand">
-            <?php
-            echo $preferences['sitetitle'];
-            ?>
+			<?php
+			echo $preferences['sitetitle'];
+			?>
         </div>
     </div>
 
@@ -301,23 +232,26 @@ https://github.com/Monitorr/Logarr
 
             <ul class="nav sidebar-nav">
 
-                <li>
-                    <a href="#info" onclick="load_info()"><i class="fa fa-fw fa-info"></i> Info </a>
+                <li class="sidebar-nav-item" data-item="info">
+                    <a href="#info" onclick="load_info()"><i class="fa fa-fw fa-info"></i>Info</a>
                 </li>
-                <li>
-                    <a href="#user-preferences" onclick="load_preferences()"><i class="fa fa-fw fa-cog"></i> User
-                        Preferences </a>
+                <li class="sidebar-nav-item" data-item="user-preferences">
+                    <a href="#user-preferences" onclick="load_preferences()"><i class="fa fa-fw fa-user"></i>User Preferences</a>
                 </li>
-                <li>
-                    <a href="#logarr-settings" onclick="load_settings()"><i class="fa fa-fw fa-cog"></i> Logarr Settings
-                    </a>
+                <li class="sidebar-nav-item" data-item="logarr-settings">
+                    <a href="#logarr-settings" onclick="load_settings()"><i class="fa fa-fw fa-cog"></i>Logarr Settings</a>
                 </li>
-                <li>
-                    <a href="#logs-configuration" onclick="load_logs()"><i class="fa fa-fw fa-cog"></i> Logs
-                        Configuration </a>
+                <li class="sidebar-nav-item" data-item="logarr-authentication">
+                    <a href="#logarr-authentication" onclick="load_authentication()"><i class="fa fa-fw fa-lock"></i>Authentication</a>
                 </li>
-                <li>
-                    <a href="index.php"><i class="fa fa-fw fa-home"></i> Logarr </a>
+                <li class="sidebar-nav-item" data-item="logs-configuration">
+                    <a href="#logs-configuration" onclick="load_logs()"><i class="fa fa-fw fa-book"></i>Logs Configuration</a>
+                </li>
+                <li class="sidebar-nav-item" data-item="log-out">
+                    <a href="settings.php?action=logout"><i class="fas fa-sign-out-alt"></i>Log Out</a>
+                </li>
+                <li class="sidebar-nav-item" data-item="logarr">
+                    <a href="index.php"><i class="fa fa-fw fa-home"></i>Logarr</a>
                 </li>
 
             </ul>
@@ -339,19 +273,15 @@ https://github.com/Monitorr/Logarr
 
         <div id="reginfo">
 
-            <?php
+			<?php
 
-            if (!is_file($config_file)) {
-                echo "Config file NOT present.";
-                echo "<br><br>";
-            } else {
-                echo 'Config file present:';
-                echo "<br>";
-                echo $config_file;
-                echo "<br><br>";
-            }
+			if (!configExists()) {
+				echo "Config file NOT present";
+			} else {
+				echo 'Config file present';
+			}
 
-            ?>
+			?>
 
         </div>
 
@@ -365,40 +295,30 @@ https://github.com/Monitorr/Logarr
 <div id="includedContent">
 
     <script>
-        function load_info() {
-            document.getElementById("setttings-page-title").innerHTML = 'Information';
-            document.getElementById("includedContent").innerHTML = '<object  type="text/html" class="object" data="assets/php/settings/info.php" ></object>';
-        }
-    </script>
-
-    <script>
-        function load_preferences() {
-            document.getElementById("setttings-page-title").innerHTML = 'User Preferences';
-            document.getElementById("includedContent").innerHTML = '<object type="text/html" class="object" data="assets/php/settings/user_preferences.php" ></object>';
-        }
-    </script>
-
-    <script>
-        function load_settings() {
-            document.getElementById("setttings-page-title").innerHTML = 'Logarr Settings';
-            document.getElementById("includedContent").innerHTML = '<object type="text/html" class="object" data="assets/php/settings/site_settings.php" ></object>';
-        }
-    </script>
-
-    <script>
-        function load_logs() {
-            document.getElementById("setttings-page-title").innerHTML = 'Logs Settings';
-            document.getElementById("includedContent").innerHTML = '<object type="text/html" class="object" data="assets/php/settings/logs_settings.php" ></object>';
-        }
     </script>
 
 </div>
 
 <div id="footer">
 
-    <p><a class="footer a" href="https://github.com/Monitorr/logarr" target="_blank"> Monitorr </a> | <a
-                class="footer a" href="https://github.com/Monitorr/logarr/releases"
-                target="_blank"> <?php echo file_get_contents(__DIR__ . "/assets/js/version/version.txt"); ?> </a></p>
+    <!-- Checks for Logarr application update on page load & "Check for update" click: -->
+    <script src="assets/js/update.js" async></script>
+
+    <div id="logarrid">
+        <a href="https://github.com/monitorr/logarr" title="Logarr GitHub repo" target="_blank"
+           class="footer">Logarr </a> |
+        <a href="settings.php" title="Logarr Settings" target="_blank" class="footer">Settings</a> |
+        <a href="https://github.com/Monitorr/logarr/releases" title="Logarr releases" target="_blank" class="footer">
+            Version: <?php echo file_get_contents("assets/js/version/version.txt"); ?></a>
+        <br>
+    </div>
+
+    <div id="version">
+        <a id="version_check" title="Check and execute update" style="cursor: pointer">Check for Update</a>
+        <br>
+    </div>
+
+    <div id="version_check_auto"></div>
 
 </div>
 </body>

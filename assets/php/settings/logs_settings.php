@@ -21,6 +21,7 @@ include('../functions.php');
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://code.cloudcms.com/alpaca/1.5.24/bootstrap/alpaca.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.9/ace.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 
     <style>
 
@@ -111,13 +112,13 @@ include('../functions.php');
 
 </div>
 
-<div id="serviceform">
-    <div id="servicesettings"></div>
+<div id="logsform">
+    <div id="logssettings"></div>
 
     <script type="text/javascript">
         $(document).ready(function () {
             Alpaca.registerConnectorClass("custom");
-            $("#servicesettings").alpaca({
+            $("#logssettings").alpaca({
                 "connector": "custom",
                 "dataSource": "./load-settings/logs_load.php",
                 "schemaSource": "./schemas/logs.json",
@@ -128,7 +129,7 @@ include('../functions.php');
                                 "control": "./templates/templates-logs_title.html"
                             },
                             "bindings": {
-                                "serviceTitle": "#title_input"
+                                "logTitle": "#title_input"
                             }
                         },
                         "//path": {
@@ -136,7 +137,7 @@ include('../functions.php');
                                 "control": "./templates/templates-logs_path.html"
                             },
                             "bindings": {
-                                "serviceTitle": "#path_input"
+                                "path": "#path_input"
                             }
                         },
                         "//enabled": {
@@ -152,7 +153,7 @@ include('../functions.php');
                                 "control": "./templates/templates-logs_maxLines.html"
                             },
                             "bindings": {
-                                "maxLine": "#maxLines_option"
+                                "maxLines": "#maxLines_option"
                             }
                         },
                         "//autoRollSize": {
@@ -186,7 +187,7 @@ include('../functions.php');
                         }, {
                             "label": "Remove Log",
                             "action": "remove",
-                            "iconClass": "fa fa-minus"
+                            "iconClass": "fa fa-trash"
                         }, {
                             "label": "Move Up",
                             "action": "up",
@@ -200,7 +201,7 @@ include('../functions.php');
                         }, {
                             "label": "Clear",
                             "action": "clear",
-                            "iconClass": "fa fa-trash",
+                            "iconClass": "fa fa-eraser",
                             "click": function (key, action, itemIndex) {
                                 var item = this.children[itemIndex];
                                 item.setValue("");
@@ -212,28 +213,13 @@ include('../functions.php');
                         "fields": {
                             "logTitle": {
                                 "type": "text",
-                                "validate": false,
                                 "showMessages": true,
-                                "disabled": false,
-                                "hidden": false,
                                 "label": "Log Title:",
                                 "constrainMaxLength": true,
                                 "showMaxLengthIndicator": true,
-                                "hideInitValidationError": false,
-                                "focus": false,
-                                "optionLabels": [],
                                 "name": "logTitle",
                                 "size": 20,
                                 "placeholder": "Log Name",
-                                "typeahead": {},
-                                "allowOptionalEmpty": false,
-                                "data": {},
-                                "autocomplete": false,
-                                "disallowEmptySpaces": false,
-                                "disallowOnlyEmptySpaces": false,
-                                "fields": {},
-                                "renderButtons": true,
-                                "attributes": {},
                                 "events": {
                                     "change": function () {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
@@ -242,28 +228,11 @@ include('../functions.php');
                             },
                             "path": {
                                 "type": "text",
-                                "validate": false,
                                 "showMessages": true,
-                                "disabled": false,
-                                "hidden": false,
                                 "label": "Log Path:",
-                                "constrainMaxLength": true,
-                                "showMaxLengthIndicator": true,
-                                "hideInitValidationError": false,
-                                "focus": false,
-                                "optionLabels": [],
+                                "helpers": ["Can be dynamic see <a href='https://github.com/Monitorr/logarr/wiki/(02)-Initial-configuration' target='_blank'>wiki</a>"],
                                 "name": "path",
-                                "size": 20,
                                 "placeholder": "C:\\path\\to.log",
-                                "typeahead": {},
-                                "allowOptionalEmpty": false,
-                                "data": {},
-                                "autocomplete": false,
-                                "disallowEmptySpaces": false,
-                                "disallowOnlyEmptySpaces": false,
-                                "fields": {},
-                                "renderButtons": true,
-                                "attributes": {},
                                 "events": {
                                     "change": function () {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
@@ -272,22 +241,10 @@ include('../functions.php');
                             },
                             "enabled": {
                                 "type": "select",
-                                "validate": false, // ** CHANGE ME ** change to TRUE to allow for user config propegation//
                                 "showMessages": true,
-                                "disabled": false,
-                                "hidden": false,
                                 "label": "Enabled:",
-                                "hideInitValidationError": false,
-                                "focus": false,
                                 "name": "enabled",
-                                "typeahead": {},
-                                "allowOptionalEmpty": false,
-                                "data": {},
-                                "autocomplete": false,
-                                "disallowEmptySpaces": true,
-                                "disallowOnlyEmptySpaces": false,
-                                "removeDefaultNone": true,
-                                "fields": {},
+                                "helpers": ["Enable or disable this log"],
                                 "events": {
                                     "change": function () {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
@@ -298,25 +255,11 @@ include('../functions.php');
                                 "type": "number",
                                 "validate": true,
                                 "showMessages": true,
-                                "disabled": false,
-                                "hidden": false,
                                 "label": "Maximum amount of lines:",
-                                "helper": "Log specific line maximum for logs.",
-                                "hideInitValidationError": false,
-                                "focus": false,
-                                "optionLabels": [],
+                                "helpers": ["Default line maximum for logs."],
                                 "name": "maxLines",
-                                "placeholder": "E.g. 1000",
-                                "typeahead": {},
+                                "placeholder": "1000",
                                 "size": "10",
-                                "allowOptionalEmpty": false,
-                                "data": {},
-                                "autocomplete": false,
-                                "disallowEmptySpaces": false,
-                                "disallowOnlyEmptySpaces": false,
-                                "fields": {},
-                                "renderButtons": true,
-                                "attributes": {},
                                 "events": {
                                     "change": function () {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
@@ -327,25 +270,11 @@ include('../functions.php');
                                 "type": "text",
                                 "validate": true,
                                 "showMessages": true,
-                                "disabled": false,
-                                "hidden": false,
                                 "label": "Auto Roll Log:",
-                                "helper": "Automatically roll log when equal or bigger then this size.",
-                                "hideInitValidationError": false,
-                                "focus": false,
-                                "optionLabels": [],
+                                "helpers": ["Automatically roll log when equal or bigger then this size."],
                                 "name": "autoRollSize",
                                 "placeholder": "E.g. 2MB or 200KB",
-                                "typeahead": {},
                                 "size": "10",
-                                "allowOptionalEmpty": false,
-                                "data": {},
-                                "autocomplete": false,
-                                "disallowEmptySpaces": false,
-                                "disallowOnlyEmptySpaces": false,
-                                "fields": {},
-                                "renderButtons": true,
-                                "attributes": {},
                                 "events": {
                                     "change": function () {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
@@ -354,28 +283,11 @@ include('../functions.php');
                             },
                             "category": {
                                 "type": "text",
-                                "validate": false,
-                                "showMessages": false,
-                                "disabled": false,
-                                "hidden": false,
                                 "label": "Category:",
-                                "constrainMaxLength": true,
-                                "showMaxLengthIndicator": true,
                                 "helpers": ["Category of the log, unused for now"],
                                 "hideInitValidationError": false,
-                                "focus": false,
-                                "optionLabels": [],
                                 "name": "category",
                                 "placeholder": "E.g. Media",
-                                "typeahead": {},
-                                "allowOptionalEmpty": true,
-                                "data": {},
-                                "autocomplete": false,
-                                "disallowEmptySpaces": false,
-                                "disallowOnlyEmptySpaces": false,
-                                "fields": {},
-                                "renderButtons": true,
-                                "attributes": {},
                                 "events": {
                                     "change": function () {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
@@ -392,7 +304,7 @@ include('../functions.php');
                                 "name": "submit",
                                 "value": "submit",
                                 "click": function formsubmit() {
-                                    var data = $('#servicesettings').alpaca().getValue();
+                                    var data = $('#logssettings').alpaca().getValue();
                                     $.post('post-settings/post_receiver-logs.php', {
                                         data,
                                         success: function (data) {

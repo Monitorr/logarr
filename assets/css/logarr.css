@@ -12,10 +12,15 @@ body {
     padding: 10px;
     color: #FFFFFF;
     margin-bottom: 6rem;
+    padding-bottom: 0;
 }
 
 :root {
     font-size: 14px;
+}
+
+.center {
+    text-align: center;
 }
 
 .flex {
@@ -482,7 +487,7 @@ input:valid {
     padding: .1rem;
 }
 
-.input {
+.input, input.form-control, select.form-control {
     color: black;
     text-align: left;
     vertical-align: middle;
@@ -497,7 +502,7 @@ input:valid {
     border: .2rem solid rgb(90, 90, 90);
 }
 
-.input:hover {
+.input:hover, input.form-control:hover, select.form-control:hover {
     /* border-color: #007bff; */
     border: .2rem solid #007bff;
 }
@@ -512,7 +517,7 @@ input:valid {
     visibility: hidden !important;
 }
 
-.input:focus {
+.input:focus, input.form-control:focus, select.form-control: focus {
     border: .2rem solid #007bff;
 }
 
@@ -563,8 +568,30 @@ input[type=search]::-webkit-search-cancel-button {
 
 .error {
     padding: .1rem;
-    background-color: red !important;
-    color: white !important;
+    background-color: red;
+    color: black;
+    font-style: normal;
+    font-weight: 600;
+    -moz-border-radius: .1rem;
+    -webkit-border-radius: .1rem;
+    border-radius: .1rem;
+}
+
+.warn {
+    padding: .1rem;
+    background-color: yellow;
+    color: black;
+    font-style: normal;
+    font-weight: 600;
+    -moz-border-radius: .1rem;
+    -webkit-border-radius: .1rem;
+    border-radius: .1rem;
+}
+
+.info {
+    padding: .1rem;
+    background-color: cyan;
+    color: black;
     font-style: normal;
     font-weight: 600;
     -moz-border-radius: .1rem;
@@ -807,6 +834,7 @@ input[type="checkbox"] {
 #responseModal {
     display: none;
     position: fixed;
+    left: 0;
     top: 0;
     width: 50%;
     margin-top: 10%;
@@ -894,7 +922,6 @@ a {
     text-align: center;
     color: #555555;
     font-size: .75rem;
-    Margin-bottom: 2rem;
     cursor: default;
 }
 
@@ -1066,6 +1093,11 @@ a {
 
 /*     Sidebar nav styles        */
 
+ul.nav.sidebar-nav > li > a > i {
+    text-align: left;
+    margin-right: 0.3em;
+}
+
 .sidebar-nav li {
     display: inline-block;
     line-height: 20px;
@@ -1091,7 +1123,7 @@ a {
     background-color: #3e011e;
 }
 
-.sidebar-nav li:first-child a:hover {
+.sidebar-nav li:first-child a:hover, .sidebar-nav li.sidebar-nav-item.active a {
     color: white;
     font-weight: 700;
     -webkit-transition: width 0.2s ease-in;
@@ -1165,7 +1197,7 @@ a {
     background-color: #987dbf;
 }
 
-.sidebar-nav li:hover:before {
+.sidebar-nav li:hover:before, .sidebar-nav li.sidebar-nav-item.active:before {
     -webkit-transition: width 0.2s ease-in;
     transition: width 0.2s ease-in;
     width: 100%;
@@ -1339,7 +1371,6 @@ input[name="imginput"]:focus {
 #version {
     display: block;
     font-size: 1rem;
-    padding: 1.5rem 1rem 1rem;
     background-color: transparent;
     cursor: default;
     text-align: center;
@@ -1356,14 +1387,16 @@ input[name="imginput"]:focus {
 #includedContent {
     float: right;
     width: calc(100% - 20rem);
-    padding-left: 2rem;
     margin-top: 5rem;
+    margin-bottom: 3rem;
+    background-color: #1F1F1F;
+    height: 65.5rem;
 }
 
 .object {
     float: right;
     width: 100%;
-    height: 100vh;
+    height: 65.5rem;
 }
 
 #version_check {
@@ -1432,12 +1465,8 @@ input[name="imginput"]:focus {
     height: 40rem;
 }
 
-#serviceform {
+#serviceform, #siteform {
     background-color: inherit;
-}
-
-#servicesettings {
-    margin-bottom: 6rem;
 }
 
 #modalloading {
@@ -1469,10 +1498,6 @@ input[name="imginput"]:focus {
     background-color: inherit;
 }
 
-#preferencesettings {
-    padding-left: 10%;
-}
-
 /* Custom CSS */
 
 .customCSS {
@@ -1490,14 +1515,6 @@ input[name="imginput"]:focus {
 #customcsslabel {
     font-size: 1.1rem;
     font-weight: 600;
-}
-
-#siteform {
-    background-color: inherit;
-}
-
-#sitesettings {
-    padding-left: 10%;
 }
 
 #tableuserprefs {
@@ -1557,13 +1574,7 @@ input[name="imginput"]:focus {
     width: 85%;
     color: #555555;
     background-color: inherit;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 5rem;
-    padding-top: 1rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    font-size: .50rem;
+    margin: auto;
     text-align: center;
     cursor: default;
 }
@@ -1584,12 +1595,90 @@ input[name="imginput"]:focus {
     background: transparent;
 }
 
+/* Logs Configuration */
+#title_input, #path_input, #enabled_option, #maxLines_option, #autoRollSize_option, #category_option {
+    margin: auto;
+    width: 30rem;
+}
+
+#title_input > input, #path_input > input, #enabled_option > select, #maxLines_option > input, #autoRollSize_option > input, #category_option > input {
+    width: 100%;
+    max-width: 100%;
+}
+
+div[data-alpaca-container-item-name="logTitle"], div[data-alpaca-container-item-name="path"], div[data-alpaca-container-item-name="enabled"],
+div[data-alpaca-container-item-name="maxLines"], div[data-alpaca-container-item-name="autoRollSize"], div[data-alpaca-container-item-name="category"] {
+    flex-basis: 33rem;
+}
+
+#logssettings > #alpaca3 > .alpaca-field-array > .alpaca-container > .alpaca-container-item > div > .alpaca-field > .alpaca-container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 2rem 0px;
+}
+.alpaca-container-item:not(:first-child){
+    margin-top: 0;
+}
+
+.logs-input-helper {
+    color: #aaa;
+}
+
 /* Category filter navigation */
-#categoryFilter {
+#categoryFilter, #horizontal-nav {
     text-align: center;
 }
 
-.category-filter-item {
+.category-filter-item, .nav-item {
     padding: 5px 10px;
     font-size: 1.5rem;
+}
+
+.toolslink {
+    font-size: 0.7rem;
+    color: white;
+}
+
+.toolslink:hover {
+    color: #ffffff;
+    text-shadow: 0 0 15px #FF0104;
+}
+
+/*** Authentication ***/
+#registration-container, #login-container, #configuration-container {
+    margin: 2rem auto;
+    width: 50%;
+    padding: 2rem;
+}
+
+#login-form {
+    width: 50%;
+    margin: auto;
+}
+
+#login-form > div {
+    margin: 1rem auto;
+    text-align: center;
+}
+
+#loginbtn > button {
+    margin: auto 0.25rem;
+}
+
+table#regmulti > tbody > tr > td {
+    vertical-align: top;
+}
+
+h5.heading {
+    color: rgb(255, 255, 255);
+    font-family: "Roboto:400", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 21px;
+    text-align: left;
+    margin-bottom: 0;
+}
+
+h2.heading {
+    text-align: left;
 }

@@ -194,7 +194,15 @@ include('../functions.php');
         <tr>
             <td><strong>Tools:</strong></td>
             <td>
+                <a href="" id="registration-link" class="toolslink" title="Registration Page">Registration</a>
             </td>
+            <script>
+                $(document).on('click', '#registration-link', function (event) {
+                    event.preventDefault();
+                    console.log('navigating to registration page');
+                    window.top.location.href = '../../../settings.php?action=register';
+                });
+            </script>
 
             <td><strong>Resources:</strong></td>
             <td><a href="https://github.com/Monitorr/logarr" target="_blank" title="Logarr GitHub Repo"> <img

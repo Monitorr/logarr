@@ -1,0 +1,30 @@
+{
+  "type": "object",
+  "required": false,
+  "properties": {
+    "registrationEnabled": {
+      "type": "string",
+      "enum": ["true", "false"],
+      "required": true,
+      "pattern": {},
+      "default": "true",
+      "properties": {}
+    },
+    "settingsEnabled": {
+      "type": "string",
+      "enum": ["true", "false"],
+      "required": true,
+      "pattern": {},
+      "default": "true",
+      "properties": {}
+    },
+    "logsEnabled": {
+      "type": "string",
+      "enum": ["true", "false"],
+      "required": true,
+      "pattern": {},
+      "default": "false",
+      "properties": {}
+    }
+  }
+}
