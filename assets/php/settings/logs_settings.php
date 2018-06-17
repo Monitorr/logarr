@@ -393,7 +393,7 @@ include('../functions.php');
                                 "name": "submit",
                                 "value": "submit",
                                 "click": function formsubmit() {
-                                    var data = $('#lgossettings').alpaca().getValue();
+                                    var data = $('#logssettings').alpaca().getValue();
                                     $.post('post-settings/post_receiver-logs.php', {
                                         data,
                                         success: function (data) {

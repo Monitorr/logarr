@@ -1,13 +1,14 @@
 {
     "settings": {
-        "autoHighlight": "true",
-        "jumpOnSearch": "true",
-        "logRefresh": "false",
-        "liveSearch": "false",
         "maxLines": "1000",
         "rfconfig": "5000",
         "rflog": "30000",
-        "rftime": "30000"
+        "rftime": "30000",
+        "customHighlightTerms": "error,warn",
+        "autoHighlight": "true",
+        "jumpOnSearch": "true",
+        "logRefresh": "false",
+        "liveSearch": "false"
     },
     "preferences": {
         "sitetitle": "Logarr",
@@ -39,12 +40,6 @@
             "path": "D:\\wamp\\logs\\php_error.log",
             "enabled": "Yes",
             "category": "Test"
-        },
-        {
-            "logTitle": "Dynamic PHP",
-            "path": "C:\\logs\\php_error-*.log",
-            "enabled": "Yes",
-            "category": "Media"
         }
     ]
 }

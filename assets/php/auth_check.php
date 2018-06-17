@@ -39,13 +39,20 @@ class OneFileLoginApplication
 	 */
 	public function __construct()
 	{
-		$str = file_get_contents(__DIR__ . "/../data/datadir.json");
-		$json = json_decode($str, true);
-		$datadir = $json['datadir'];
-		$this->datadir = $datadir;
-		$datafile = $datadir . 'users.db';
-		$db_sqlite_path = $datafile;
-		$this->db_sqlite_path = $db_sqlite_path;
+		if(is_file(__DIR__ . "/../data/datadir.json")){
+			$str = file_get_contents(__DIR__ . "/../data/datadir.json");
+			$json = json_decode($str, true);
+			$datadir = $json['datadir'];
+			$this->datadir = $datadir;
+			$datafile = $datadir . 'users.db';
+			$db_sqlite_path = $datafile;
+			$this->db_sqlite_path = $db_sqlite_path;
+		}
+		if (isset($_GET["action"]) && $_GET["action"] == "config") {
+			$this->doRegistration();
+			$this->showPageConfiguration();
+			exit();
+		}
 		if ($this->performMinimumRequirementsCheck()) {
 			$this->runApplication();
 		}
@@ -238,6 +245,16 @@ class OneFileLoginApplication
 	private function showPageRegistration()
 	{
 		include_once('authentication/register.php');
+	}
+
+	/**
+	 * Simple demo-"page" with the registration form.
+	 * In a real application you would probably include an html-template here, but for this extremely simple
+	 * demo the "echo" statements are totally okay.
+	 */
+	private function showPageConfiguration()
+	{
+		include_once('authentication/configuration.php');
 	}
 
 	/**

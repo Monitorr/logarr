@@ -1638,7 +1638,7 @@ div[data-alpaca-container-item-name="maxLines"], div[data-alpaca-container-item-
 }
 
 /*** Authentication ***/
-#registration-container, #login-container {
+#registration-container, #login-container, #configuration-container {
     margin: 2rem auto;
     width: 50%;
     padding: 2rem;
@@ -1670,4 +1670,8 @@ h5.heading {
     line-height: 21px;
     text-align: left;
     margin-bottom: 0;
+}
+
+h2.heading {
+    text-align: left;
 }

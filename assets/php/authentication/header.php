@@ -61,8 +61,6 @@
 	<script src="assets/js/logarr.main.js"></script>
 	<script src="assets/js/jquery.mark.min.js" async></script>
 
-	<script src="assets/js/logarr.main.js" async></script>
-
 	<!-- sync config with javascript -->
 	<script>
         var settings = <?php echo json_encode($GLOBALS['settings']);?>;

@@ -480,6 +480,13 @@ include('../functions.php');
                                 click: function () {
                                     let preferenceSettings = $('#preferencesettings');
                                     var data = preferenceSettings.alpaca().getValue();
+                                    var cssEditor = ace.edit("customCSSEditor");
+                                    $.post('post-settings/post_receiver_custom_css.php', {
+                                            css: cssEditor.getSession().getValue()
+                                        },
+                                        function (data) {
+                                        }
+                                    );
                                     $.post({
                                         url: 'post-settings/post_receiver-user_preferences.php',
                                         data: preferenceSettings.alpaca().getValue(),
@@ -494,13 +501,6 @@ include('../functions.php');
                                             alert("Error submitting data.");
                                         }
                                     });
-
-                                    $.post('post-settings/post_receiver_custom_css.php', {
-                                            css: cssEditor.getSession().getValue()
-                                        },
-                                        function (data) {
-                                        }
-                                    );
                                     $('.alpaca-form-button-submit').removeClass('buttonchange');
                                 }
                             },
@@ -511,7 +511,7 @@ include('../functions.php');
                     }
                 },
                 "postRender": function (control) {
-                    const cssEditor = ace.edit("customCSSEditor");
+                    var cssEditor = ace.edit("customCSSEditor");
                     cssEditor.getSession().setMode("ace/mode/css");
                     cssEditor.setTheme("ace/theme/idle_fingers");
 
