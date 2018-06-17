@@ -68,8 +68,41 @@ if (!mkdir($datadir, 0777, FALSE)) {
 
 	$default_config_file = __DIR__ . "/../../data/default.json";
 	$new_config_file = $datadir . 'config.json';
+	if (is_file(__DIR__ . "/../../config/config.php") && !is_file($new_config_file)) {
+		include_once(__DIR__ . "/../../config/config.php");
+		$new_config = json_decode(file_get_contents($default_config_file), 1);
+		$old_config_converted = array(
+			'settings' => array(
+				'rftime' => $GLOBALS['config']['rftime'],
+				'rflog' => $GLOBALS['config']['rflog'],
+				'maxLines' => $GLOBALS['config']['max-lines'],
+			),
+			'preferences' => array(
+				"title" => $GLOBALS['config']['title'],
+				"timezone" => $GLOBALS['config']['timezone'],
+				"timestandard" => ($GLOBALS['config']['timestandard'] == 0 ? "False" : "True"),
+				"updateBranch" => $GLOBALS['config']['updateBranch'],
+			),
+			"logs" => array()
+		);
+		foreach ($GLOBALS['logs'] as $logTitle => $path) {
+			array_push($old_config_converted['logs'],
+				array(
+					"logTitle" => $logTitle,
+					"path" => $path,
+					"enabled" => "Yes",
+					"category" => ""
+				)
+			);
+		}
+		$json = json_encode(array_replace_recursive($new_config, $old_config_converted), JSON_PRETTY_PRINT);
+		file_put_contents($new_config_file, $json);
+		$copyDefaults = true;
+	} else {
+		$copyDefaults = copy($default_config_file, $new_config_file);
+	}
 
-	if (!copy($default_config_file, $new_config_file)) {
+	if (!$copyDefaults) {
 		echo '<div class="reglog">';
 		echo '<div id="loginerror">';
 		echo "failed to copy $default_config_file...\n";
