@@ -22,8 +22,7 @@ https://github.com/Monitorr/Monitorr
     <meta name="description" content="Monitorr">
 
     <link type="text/css" href="assets/css/bootstrap.min.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
-          integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <link type="text/css" href="assets/css/logarr.css" rel="stylesheet">
     <link type="text/css" href="assets/css/custom.css" rel="stylesheet">
 
@@ -180,6 +179,9 @@ https://github.com/Monitorr/Monitorr
                 case "#logarr-settings":
                     load_settings();
                     break;
+                case "#logarr-authentication":
+                    load_authentication();
+                    break;
                 case "#logs-configuration":
                     load_logs();
                     break;
@@ -230,22 +232,25 @@ https://github.com/Monitorr/Monitorr
 
             <ul class="nav sidebar-nav">
 
-                <li>
+                <li class="sidebar-nav-item" data-item="info">
                     <a href="#info" onclick="load_info()"><i class="fa fa-fw fa-info"></i>Info</a>
                 </li>
-                <li>
-                    <a href="#user-preferences" onclick="load_preferences()"><i class="fa fa-fw fa-cog"></i>User Preferences</a>
+                <li class="sidebar-nav-item" data-item="user-preferences">
+                    <a href="#user-preferences" onclick="load_preferences()"><i class="fa fa-fw fa-user"></i>User Preferences</a>
                 </li>
-                <li>
+                <li class="sidebar-nav-item" data-item="logarr-settings">
                     <a href="#logarr-settings" onclick="load_settings()"><i class="fa fa-fw fa-cog"></i>Logarr Settings</a>
                 </li>
-                <li>
-                    <a href="#log-out" onclick="load_logs()"><i class="fa fa-fw fa-cog"></i>Logs Configuration</a>
+                <li class="sidebar-nav-item" data-item="logarr-authentication">
+                    <a href="#logarr-authentication" onclick="load_authentication()"><i class="fa fa-fw fa-lock"></i>Authentication</a>
                 </li>
-                <li>
+                <li class="sidebar-nav-item" data-item="logs-configuration">
+                    <a href="#logs-configuration" onclick="load_logs()"><i class="fa fa-fw fa-book"></i>Logs Configuration</a>
+                </li>
+                <li class="sidebar-nav-item" data-item="log-out">
                     <a href="settings.php?action=logout"><i class="fas fa-sign-out-alt"></i>Log Out</a>
                 </li>
-                <li>
+                <li class="sidebar-nav-item" data-item="logarr">
                     <a href="index.php"><i class="fa fa-fw fa-home"></i>Logarr</a>
                 </li>
 
@@ -296,9 +301,24 @@ https://github.com/Monitorr/Monitorr
 
 <div id="footer">
 
-    <p><a class="footer a" href="https://github.com/Monitorr/logarr" target="_blank"> Monitorr </a> | <a
-                class="footer a" href="https://github.com/Monitorr/logarr/releases"
-                target="_blank"> <?php echo file_get_contents(__DIR__ . "/assets/js/version/version.txt"); ?> </a></p>
+    <!-- Checks for Logarr application update on page load & "Check for update" click: -->
+    <script src="assets/js/update.js" async></script>
+
+    <div id="logarrid">
+        <a href="https://github.com/monitorr/logarr" title="Logarr GitHub repo" target="_blank"
+           class="footer">Logarr </a> |
+        <a href="settings.php" title="Logarr Settings" target="_blank" class="footer">Settings</a> |
+        <a href="https://github.com/Monitorr/logarr/releases" title="Logarr releases" target="_blank" class="footer">
+            Version: <?php echo file_get_contents("assets/js/version/version.txt"); ?></a>
+        <br>
+    </div>
+
+    <div id="version">
+        <a id="version_check" title="Check and execute update" style="cursor: pointer">Check for Update</a>
+        <br>
+    </div>
+
+    <div id="version_check_auto"></div>
 
 </div>
 </body>

@@ -379,7 +379,7 @@
 
 										echo '<div id="datadirnotes"> ';
 										echo "<i>";
-										echo "+ An existing data directory is detected at: " . $GLOBALS['$datadir'];
+										echo "+ An existing data directory is detected at: " . $GLOBALS['datadir'];
 										echo "<br>";
 										echo '+ By clicking "create" above, a user database will be created in the data directory specified. ';
 										echo "<br>";

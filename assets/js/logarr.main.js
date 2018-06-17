@@ -40,10 +40,16 @@ function loadLog() {
 // highlight all "error" terms:
 
 function highlightjs() {
-    $(".expand").highlight("error", {
-        element: 'em',
-        className: 'error'
-    });
+    if('customHighlightTerms' in settings && settings.customHighlightTerms != "") {
+        var array = settings.customHighlightTerms.split(",");
+        for (let i = 0; i < array.length; i++) {
+            $(".expand").highlight(array[i].trim(), {
+                element: 'em',
+                className: array[i].trim()
+            });
+            console.log("Highlighting text containing: " + array[i].trim());
+        }
+    }
 }
 
 // Search function:
@@ -281,19 +287,33 @@ function syncServerTime() {
 function load_info() {
     document.getElementById("setttings-page-title").innerHTML = 'Information';
     document.getElementById("includedContent").innerHTML = '<object  type="text/html" class="object" data="assets/php/settings/info.php" ></object>';
+    $(".sidebar-nav-item").removeClass('active');
+    $("li[data-item='info']").addClass("active");
 }
 
 function load_preferences() {
     document.getElementById("setttings-page-title").innerHTML = 'User Preferences';
     document.getElementById("includedContent").innerHTML = '<object type="text/html" class="object" data="assets/php/settings/user_preferences.php" ></object>';
+    $(".sidebar-nav-item").removeClass('active');
+    $("li[data-item='user-preferences']").addClass("active");
 }
 
 function load_settings() {
-    document.getElementById("setttings-page-title").innerHTML = 'Logarr Settings';
+   document.getElementById("setttings-page-title").innerHTML = 'Logarr Settings';
     document.getElementById("includedContent").innerHTML = '<object type="text/html" class="object" data="assets/php/settings/site_settings.php" ></object>';
+    $(".sidebar-nav-item").removeClass('active');
+    $("li[data-item='logarr-settings']").addClass("active");
+}
+function load_authentication() {
+    document.getElementById("setttings-page-title").innerHTML = 'Logarr Authentication';
+    document.getElementById("includedContent").innerHTML = '<object type="text/html" class="object" data="assets/php/settings/authentication.php" ></object>';
+    $(".sidebar-nav-item").removeClass('active');
+    $("li[data-item='logarr-authentication']").addClass("active");
 }
 
 function load_logs() {
     document.getElementById("setttings-page-title").innerHTML = 'Logs Settings';
     document.getElementById("includedContent").innerHTML = '<object type="text/html" class="object" data="assets/php/settings/logs_settings.php" ></object>';
+    $(".sidebar-nav-item").removeClass('active');
+    $("li[data-item='logs-configuration']").addClass("active");
 }

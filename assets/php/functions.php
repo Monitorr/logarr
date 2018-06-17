@@ -1,14 +1,15 @@
 <?php
 
 // Data Dir
-$authentication = json_decode(file_get_contents(__DIR__ . '../../data/datadir.json'), 1);
-$datadir = $authentication['datadir'];
+$datadir_json = json_decode(file_get_contents(__DIR__ . '../../data/datadir.json'), 1);
+$datadir = $datadir_json['datadir'];
 
 
 $config_file = $datadir . '/config.json';
 $preferences = json_decode(file_get_contents($config_file), 1)['preferences'];
 $settings = json_decode(file_get_contents($config_file), 1)['settings'];
 $logs = json_decode(file_get_contents($config_file), 1)['logs'];
+$authentication = json_decode(file_get_contents($config_file), 1)['authentication'];
 
 
 

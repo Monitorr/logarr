@@ -79,20 +79,39 @@ class OneFileLoginApplication
 	{
 		// check is user wants to see register page (etc.)
 		if (isset($_GET["action"]) && $_GET["action"] == "register") {
-			$this->doRegistration();
-			$this->showPageRegistration();
+			if(isset($GLOBALS['authentication']) && isset($GLOBALS['authentication']['registrationEnabled']) && $GLOBALS['authentication']['registrationEnabled'] == "true") {
+				$this->doRegistration();
+				$this->showPageRegistration();
+			} else {
+				$this->showPageUnauthorized();
+			}
 			exit();
 		} else {
 			// start the session, always needed!
 			$this->doStartSession();
 			// check for possible user interactions (login with session/post data or logout)
 			$this->performUserLoginAction();
-			// show "page", according to user's login status
-			if ($this->getUserLoginStatus()) {
-				return true;
+
+			//check which page we're on
+			$currentPage = basename($_SERVER["REQUEST_URI"], ".php");
+			if (($currentPage == "index" || $currentPage == "") && $GLOBALS['authentication']['logsEnabled'] == "true") {
+				// show "page", according to user's login status
+				if ($this->getUserLoginStatus()) {
+					return true;
+				} else {
+					$this->showPageLoginForm();
+					exit();
+				}
+			} else if ($currentPage == "settings" && $GLOBALS['authentication']['settingsEnabled'] == "true") {
+				// show "page", according to user's login status
+				if ($this->getUserLoginStatus()) {
+					return true;
+				} else {
+					$this->showPageLoginForm();
+					exit();
+				}
 			} else {
-				$this->showPageLoginForm();
-				exit();
+				return true;
 			}
 		}
 	}
@@ -219,6 +238,14 @@ class OneFileLoginApplication
 	private function showPageRegistration()
 	{
 		include_once('authentication/register.php');
+	}
+
+	/**
+	 * Simple unauthorized page
+	 */
+	private function showPageUnauthorized()
+	{
+		include_once('authentication/unauthorized.php');
 	}
 
 	/**

@@ -138,14 +138,15 @@ include('../functions.php');
                     "layout": {
                         "template": './templates/two-column-layout-template.html',
                         "bindings": {
-                            "autoHighlight": "leftcolumn",
-                            "jumpOnSearch": "leftcolumn",
-                            "logRefresh": "leftcolumn",
-                            "liveSearch": "leftcolumn",
-                            "maxLines": "rightcolumn",
-                            "rfconfig": "rightcolumn",
-                            "rflog": "rightcolumn",
-                            "rftime": "rightcolumn",
+                            "maxLines": "leftcolumn",
+                            "rfconfig": "leftcolumn",
+                            "rflog": "leftcolumn",
+                            "rftime": "leftcolumn",
+                            "customHiglightTerms": "leftcolumn",
+                            "autoHighlight": "rightcolumn",
+                            "jumpOnSearch": "rightcolumn",
+                            "logRefresh": "rightcolumn",
+                            "liveSearch": "rightcolumn",
                         }
                     }
                 },
@@ -159,108 +160,6 @@ include('../functions.php');
                     "collapsible": false,
                     "legendStyle": "button",
                     "fields": {
-                        "autoHighlight": {
-                            "type": "radio",
-                            "validate": true,
-                            "showMessages": true,
-                            "disabled": false,
-                            "hidden": false,
-                            "label": "Auto Highlight:",
-                            "helpers": ["Highlight errors automatically."],
-                            "hideInitValidationError": false,
-                            "focus": false,
-                            "optionLabels": [" True", " False"],
-                            "name": "autoHighlight",
-                            "typeahead": {},
-                            "allowOptionalEmpty": false,
-                            "data": {},
-                            "autocomplete": "false",
-                            "disallowEmptySpaces": true,
-                            "disallowOnlyEmptySpaces": false,
-                            "removeDefaultNone": true,
-                            "fields": {},
-                            "events": {
-                                "change": function () {
-                                    $('.alpaca-form-button-submit').addClass('buttonchange');
-                                }
-                            }
-                        },
-                        "jumpOnSearch": {
-                            "type": "radio",
-                            "validate": true,
-                            "showMessages": true,
-                            "disabled": false,
-                            "hidden": false,
-                            "label": "Jump on Search:",
-                            "helpers": ["Jump to search result when searching."],
-                            "hideInitValidationError": false,
-                            "focus": false,
-                            "optionLabels": [" True", " False"],
-                            "name": "jumpOnSearch",
-                            "typeahead": {},
-                            "allowOptionalEmpty": false,
-                            "data": {},
-                            "autocomplete": "false",
-                            "disallowEmptySpaces": true,
-                            "disallowOnlyEmptySpaces": false,
-                            "removeDefaultNone": true,
-                            "fields": {},
-                            "events": {
-                                "change": function () {
-                                    $('.alpaca-form-button-submit').addClass('buttonchange');
-                                }
-                            }
-                        },
-                        "logRefresh": {
-                            "type": "radio",
-                            "validate": true,
-                            "showMessages": true,
-                            "disabled": false,
-                            "hidden": false,
-                            "label": "Automatically Refresh Logs:",
-                            "hideInitValidationError": false,
-                            "focus": false,
-                            "optionLabels": [" True", " False"],
-                            "name": "logRefresh",
-                            "typeahead": {},
-                            "allowOptionalEmpty": false,
-                            "data": {},
-                            "autocomplete": "false",
-                            "disallowEmptySpaces": true,
-                            "disallowOnlyEmptySpaces": false,
-                            "removeDefaultNone": true,
-                            "fields": {},
-                            "events": {
-                                "change": function () {
-                                    $('.alpaca-form-button-submit').addClass('buttonchange');
-                                }
-                            }
-                        },
-                        "liveSearch": {
-                            "type": "radio",
-                            "validate": true,
-                            "showMessages": true,
-                            "disabled": false,
-                            "hidden": false,
-                            "label": "Live Search:",
-                            "hideInitValidationError": false,
-                            "focus": false,
-                            "optionLabels": [" True", " False"],
-                            "name": "liveSearch",
-                            "typeahead": {},
-                            "allowOptionalEmpty": false,
-                            "data": {},
-                            "autocomplete": "false",
-                            "disallowEmptySpaces": true,
-                            "disallowOnlyEmptySpaces": false,
-                            "removeDefaultNone": true,
-                            "fields": {},
-                            "events": {
-                                "change": function () {
-                                    $('.alpaca-form-button-submit').addClass('buttonchange');
-                                }
-                            }
-                        },
                         "maxLines": {
                             "type": "number",
                             "validate": true,
@@ -371,6 +270,137 @@ include('../functions.php');
                             "fields": {},
                             "renderButtons": true,
                             "attributes": {},
+                            "events": {
+                                "change": function () {
+                                    $('.alpaca-form-button-submit').addClass('buttonchange');
+                                }
+                            }
+                        },
+                        "customHighlightTerms": {
+                            "type": "text",
+                            "validate": true,
+                            "showMessages": true,
+                            "disabled": false,
+                            "hidden": false,
+                            "label": "Highlight Terms:",
+                            "helper": "Highlight these terms.",
+                            "hideInitValidationError": false,
+                            "focus": false,
+                            "optionLabels": [],
+                            "name": "maxLines",
+                            "placeholder": "E.g. error,warn",
+                            "typeahead": {},
+                            "size": "10",
+                            "allowOptionalEmpty": false,
+                            "data": {},
+                            "autocomplete": false,
+                            "disallowEmptySpaces": false,
+                            "disallowOnlyEmptySpaces": false,
+                            "fields": {},
+                            "renderButtons": true,
+                            "attributes": {},
+                            "events": {
+                                "change": function () {
+                                    $('.alpaca-form-button-submit').addClass('buttonchange');
+                                }
+                            }
+                        },
+                        "autoHighlight": {
+                            "type": "radio",
+                            "validate": true,
+                            "showMessages": true,
+                            "disabled": false,
+                            "hidden": false,
+                            "label": "Auto Highlight:",
+                            "helpers": ["Highlight errors automatically."],
+                            "hideInitValidationError": false,
+                            "focus": false,
+                            "optionLabels": [" True", " False"],
+                            "name": "autoHighlight",
+                            "typeahead": {},
+                            "allowOptionalEmpty": false,
+                            "data": {},
+                            "autocomplete": "false",
+                            "disallowEmptySpaces": true,
+                            "disallowOnlyEmptySpaces": false,
+                            "removeDefaultNone": true,
+                            "fields": {},
+                            "events": {
+                                "change": function () {
+                                    $('.alpaca-form-button-submit').addClass('buttonchange');
+                                }
+                            }
+                        },
+                        "jumpOnSearch": {
+                            "type": "radio",
+                            "validate": true,
+                            "showMessages": true,
+                            "disabled": false,
+                            "hidden": false,
+                            "label": "Jump on Search:",
+                            "helpers": ["Jump to search result when searching."],
+                            "hideInitValidationError": false,
+                            "focus": false,
+                            "optionLabels": [" True", " False"],
+                            "name": "jumpOnSearch",
+                            "typeahead": {},
+                            "allowOptionalEmpty": false,
+                            "data": {},
+                            "autocomplete": "false",
+                            "disallowEmptySpaces": true,
+                            "disallowOnlyEmptySpaces": false,
+                            "removeDefaultNone": true,
+                            "fields": {},
+                            "events": {
+                                "change": function () {
+                                    $('.alpaca-form-button-submit').addClass('buttonchange');
+                                }
+                            }
+                        },
+                        "logRefresh": {
+                            "type": "radio",
+                            "validate": true,
+                            "showMessages": true,
+                            "disabled": false,
+                            "hidden": false,
+                            "label": "Automatically Refresh Logs:",
+                            "hideInitValidationError": false,
+                            "focus": false,
+                            "optionLabels": [" True", " False"],
+                            "name": "logRefresh",
+                            "typeahead": {},
+                            "allowOptionalEmpty": false,
+                            "data": {},
+                            "autocomplete": "false",
+                            "disallowEmptySpaces": true,
+                            "disallowOnlyEmptySpaces": false,
+                            "removeDefaultNone": true,
+                            "fields": {},
+                            "events": {
+                                "change": function () {
+                                    $('.alpaca-form-button-submit').addClass('buttonchange');
+                                }
+                            }
+                        },
+                        "liveSearch": {
+                            "type": "radio",
+                            "validate": true,
+                            "showMessages": true,
+                            "disabled": false,
+                            "hidden": false,
+                            "label": "Live Search:",
+                            "hideInitValidationError": false,
+                            "focus": false,
+                            "optionLabels": [" True", " False"],
+                            "name": "liveSearch",
+                            "typeahead": {},
+                            "allowOptionalEmpty": false,
+                            "data": {},
+                            "autocomplete": "false",
+                            "disallowEmptySpaces": true,
+                            "disallowOnlyEmptySpaces": false,
+                            "removeDefaultNone": true,
+                            "fields": {},
                             "events": {
                                 "change": function () {
                                     $('.alpaca-form-button-submit').addClass('buttonchange');

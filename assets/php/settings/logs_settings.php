@@ -21,6 +21,7 @@ include('../functions.php');
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://code.cloudcms.com/alpaca/1.5.24/bootstrap/alpaca.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.9/ace.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 
     <style>
 
@@ -111,13 +112,13 @@ include('../functions.php');
 
 </div>
 
-<div id="serviceform">
-    <div id="servicesettings"></div>
+<div id="logsform">
+    <div id="logssettings"></div>
 
     <script type="text/javascript">
         $(document).ready(function () {
             Alpaca.registerConnectorClass("custom");
-            $("#servicesettings").alpaca({
+            $("#logssettings").alpaca({
                 "connector": "custom",
                 "dataSource": "./load-settings/logs_load.php",
                 "schemaSource": "./schemas/logs.json",
@@ -128,7 +129,7 @@ include('../functions.php');
                                 "control": "./templates/templates-logs_title.html"
                             },
                             "bindings": {
-                                "serviceTitle": "#title_input"
+                                "logTitle": "#title_input"
                             }
                         },
                         "//path": {
@@ -136,7 +137,7 @@ include('../functions.php');
                                 "control": "./templates/templates-logs_path.html"
                             },
                             "bindings": {
-                                "serviceTitle": "#path_input"
+                                "path": "#path_input"
                             }
                         },
                         "//enabled": {
@@ -152,7 +153,7 @@ include('../functions.php');
                                 "control": "./templates/templates-logs_maxLines.html"
                             },
                             "bindings": {
-                                "maxLine": "#maxLines_option"
+                                "maxLines": "#maxLines_option"
                             }
                         },
                         "//autoRollSize": {
@@ -295,13 +296,13 @@ include('../functions.php');
                                 }
                             },
                             "maxLines": {
-                                "type": "number",
+                                "type": "text",
                                 "validate": true,
                                 "showMessages": true,
                                 "disabled": false,
                                 "hidden": false,
                                 "label": "Maximum amount of lines:",
-                                "helper": "Log specific line maximum for logs.",
+                                "helper": "Maximum amount of lines to display for this log.",
                                 "hideInitValidationError": false,
                                 "focus": false,
                                 "optionLabels": [],
@@ -392,7 +393,7 @@ include('../functions.php');
                                 "name": "submit",
                                 "value": "submit",
                                 "click": function formsubmit() {
-                                    var data = $('#servicesettings').alpaca().getValue();
+                                    var data = $('#lgossettings').alpaca().getValue();
                                     $.post('post-settings/post_receiver-logs.php', {
                                         data,
                                         success: function (data) {

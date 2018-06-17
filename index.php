@@ -1,3 +1,28 @@
+<!-- // CHANGE ME - Change to new config file  -->
+
+<?php
+/*$file = 'assets/config/config.json';
+
+function convertConfig()
+{
+	include('config/config.php');
+	$new_config = json_decode(file_get_contents(__DIR__ . '/../config/config.sample-03jun2018.json'), 1);
+	$old_config = array('config' => $GLOBALS['config'], 'logs' => $GLOBALS['logs']);
+	$json = json_encode(array_merge($new_config, $old_config), JSON_PRETTY_PRINT);
+	file_put_contents(__DIR__ . '/../config/config.json', $json);
+}
+
+if (is_file('assets/config/config.php') && !is_file($file)) convertConfig();
+
+//Use the function is_file to check if the config file already exists or not.
+if (!is_file($file)) {
+	copy('assets/config/config.sample-03jun2018.json', $file);
+}*/
+include('assets/php/functions.php');
+include('assets/php/auth_check.php');
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -45,29 +70,6 @@
     <meta name="theme_color" content="#252525"/>
 
     <meta name="robots" content="NOINDEX, NOFOLLOW">
-
-    <!-- // CHANGE ME - Change to new config file  -->
-
-    <?php
-    /*$file = 'assets/config/config.json';
-
-    function convertConfig()
-    {
-        include('config/config.php');
-        $new_config = json_decode(file_get_contents(__DIR__ . '/../config/config.sample-03jun2018.json'), 1);
-        $old_config = array('config' => $GLOBALS['config'], 'logs' => $GLOBALS['logs']);
-        $json = json_encode(array_merge($new_config, $old_config), JSON_PRETTY_PRINT);
-        file_put_contents(__DIR__ . '/../config/config.json', $json);
-    }
-
-    if (is_file('assets/config/config.php') && !is_file($file)) convertConfig();
-
-    //Use the function is_file to check if the config file already exists or not.
-    if (!is_file($file)) {
-        copy('assets/config/config.sample-03jun2018.json', $file);
-    }*/
-    include('assets/php/functions.php');
-    ?>
 
     <title><?php echo $GLOBALS['preferences']['sitetitle']; ?></title>
 

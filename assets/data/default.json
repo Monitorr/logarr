@@ -4,21 +4,23 @@
         "jumpOnSearch": "true",
         "logRefresh": "false",
         "liveSearch": "false",
-        "maxLines": "250",
+        "maxLines": "1000",
         "rfconfig": "5000",
         "rflog": "30000",
         "rftime": "30000"
     },
     "preferences": {
         "sitetitle": "Logarr",
-        "siteurl": "https:\/\/dev.rob-bit.nl\/logarr",
+        "siteurl": "http:\/\/localhost\/logarr",
         "updateBranch": "develop",
-        "timezone": "Europe\/Amsterdam",
+        "timezone": "Europe\/London",
         "timestandard": "False",
         "language": "EN"
     },
     "authentication": {
-        "datadir": "C:\\logs\\"
+        "registrationEnabled": "true",
+        "settingsEnabled": "true",
+        "logsEnabled": "false"
     },
     "logs": [
         {

@@ -194,6 +194,7 @@ include('../functions.php');
         <tr>
             <td><strong>Tools:</strong></td>
             <td>
+                <a href="settings.php?action=registration" class="toolslink" title="Registration Page">Registration</a>
             </td>
 
             <td><strong>Resources:</strong></td>
