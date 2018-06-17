@@ -230,7 +230,7 @@ include('../functions.php');
                                 "type": "text",
                                 "showMessages": true,
                                 "label": "Log Path:",
-                                "helper": ["Path to your log file"],
+                                "helpers": ["Can be dynamic see <a href='https://github.com/Monitorr/logarr/wiki/(02)-Initial-configuration' target='_blank'>wiki</a>"],
                                 "name": "path",
                                 "placeholder": "C:\\path\\to.log",
                                 "events": {
@@ -244,6 +244,7 @@ include('../functions.php');
                                 "showMessages": true,
                                 "label": "Enabled:",
                                 "name": "enabled",
+                                "helpers": ["Enable or disable this log"],
                                 "events": {
                                     "change": function () {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
@@ -255,7 +256,7 @@ include('../functions.php');
                                 "validate": true,
                                 "showMessages": true,
                                 "label": "Maximum amount of lines:",
-                                "helper": "Default line maximum for logs.",
+                                "helpers": ["Default line maximum for logs."],
                                 "name": "maxLines",
                                 "placeholder": "1000",
                                 "size": "10",
@@ -270,7 +271,7 @@ include('../functions.php');
                                 "validate": true,
                                 "showMessages": true,
                                 "label": "Auto Roll Log:",
-                                "helper": "Automatically roll log when equal or bigger then this size.",
+                                "helpers": ["Automatically roll log when equal or bigger then this size."],
                                 "name": "autoRollSize",
                                 "placeholder": "E.g. 2MB or 200KB",
                                 "size": "10",

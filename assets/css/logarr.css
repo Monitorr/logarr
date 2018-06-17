@@ -1616,6 +1616,13 @@ div[data-alpaca-container-item-name="maxLines"], div[data-alpaca-container-item-
     flex-wrap: wrap;
     padding: 2rem 0px;
 }
+.alpaca-container-item:not(:first-child){
+    margin-top: 0;
+}
+
+.logs-input-helper {
+    color: #aaa;
+}
 
 /* Category filter navigation */
 #categoryFilter, #horizontal-nav {

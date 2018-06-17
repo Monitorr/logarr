@@ -11,11 +11,12 @@
         
         </label>
 
-        {{/if}} {{#control}}{{/control}} {{#if options.helper}}
+        {{/if}} {{#control}}{{/control}}
+        {{#if options.helpers}}
         
-        <p class="{{#if options.helperClass}}{{options.helperClass}}{{/if}}">
+        <p class="logs-input-helper">
             <i class="info-sign"> </i>
-            {{{options.helper}}}
+            {{{options.helpers}}}
         </p>
 
         {{/if}}

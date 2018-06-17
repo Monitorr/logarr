@@ -78,7 +78,7 @@ if (!mkdir($datadir, 0777, FALSE)) {
 				'maxLines' => $GLOBALS['config']['max-lines'],
 			),
 			'preferences' => array(
-				"title" => $GLOBALS['config']['title'],
+				"sitetitle" => $GLOBALS['config']['title'],
 				"timezone" => $GLOBALS['config']['timezone'],
 				"timestandard" => ($GLOBALS['config']['timestandard'] == 0 ? "False" : "True"),
 				"updateBranch" => $GLOBALS['config']['updateBranch'],
