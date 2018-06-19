@@ -7,8 +7,8 @@ include('assets/php/auth_check.php');
 <html lang="en">
 
 <!--
-     Monitorr | settings page
-https://github.com/Monitorr/Monitorr
+     Logarr | settings page
+https://github.com/Monitorr/Logarr
 -->
 
 <head>
