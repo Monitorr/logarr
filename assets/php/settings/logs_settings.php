@@ -11,7 +11,7 @@ include('../functions.php');
     <link type="text/css" href="../../css/alpaca.min.css" rel="stylesheet">
     <!-- <link type="text/css" href="../../css/main.css" rel="stylesheet"> -->
     <link type="text/css" href="../../css/logarr.css" rel="stylesheet">
-    <link type="text/css" href="../../css/custom.css" rel="stylesheet">
+    <link type="text/css" href="../../data/custom.css" rel="stylesheet">
 
     <meta name="theme-color" content="#464646"/>
     <meta name="theme_color" content="#464646"/>

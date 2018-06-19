@@ -24,7 +24,7 @@ https://github.com/Monitorr/Logarr
     <link type="text/css" href="assets/css/bootstrap.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <link type="text/css" href="assets/css/logarr.css" rel="stylesheet">
-    <link type="text/css" href="assets/css/custom.css" rel="stylesheet">
+    <link type="text/css" href="assets/data/custom.css" rel="stylesheet">
 
     <meta name="theme-color" content="#464646"/>
     <meta name="theme_color" content="#464646"/>
