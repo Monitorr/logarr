@@ -225,15 +225,22 @@ function refreshConfig() {
             }, settings.rfconfig); //delay is rftime
 
 
-            if (settings.logRefresh != "false" && !$('#buttonStart :checkbox').prop('checked')) {
-                console.log('log refresh true');
-                $('#autoRefreshLog').click();
-                $('#buttonStart :checkbox').prop('checked', 'true').change();
-            } else if (settings.logRefresh != "true" && $('#buttonStart :checkbox').prop('checked')) {
-                console.log('log refresh false');
-                $('#autoRefreshLog').click();
-                $('#buttonStart :checkbox').removeProp('checked');
+            $("#auto-update-status").attr("data-enabled",settings.logRefresh);
+
+            if (settings.logRefresh == "true" && (logInterval == false || settings.rflog != current_rflog)) {
+                clearInterval(nIntervId);
+                nIntervId = setInterval(refreshblockUI, settings.rflog);
+                logInterval = true;
+                current_rflog = settings.rflog;
+                console.log("Auto update: Enabled | Interval: " + settings.rflog + " ms");
+                $.growlUI("Auto update: Enabled");
+            } else if(settings.logRefresh == "false" && logInterval == true) {
+                clearInterval(nIntervId);
+                logInterval = false;
+                console.log("Auto update: Disabled");
+                $.growlUI("Auto update: Disabled");
             }
+
             document.title = preferences.sitetitle; //update page title to configured title
             console.log('Refreshed config variables');
         }

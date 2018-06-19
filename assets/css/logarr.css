@@ -1687,3 +1687,22 @@ h2.heading {
     text-align: center;
     color: red;
 }
+#auto-update-status {
+    display: block;
+    position: relative;
+    border-radius: 50%;
+    height: 1.5rem;
+    width: 1.5rem;
+    margin: 0;
+    transition: all .2s ease-in-out;
+    text-shadow: 1px 1px 1px black;
+    -webkit-filter: drop-shadow(2px 2px 2px #222);
+    filter: drop-shadow(2px 2px 2px #222);
+}
+
+#auto-update-status[data-enabled="true"] {
+    background: radial-gradient(circle at .1rem .1rem, #2dff31, rgba(20, 20, 20, 0.75));
+}
+#auto-update-status[data-enabled="false"] {
+    background: radial-gradient(circle at .1rem .1rem, #ff0000, rgba(20, 20, 20, 0.75));
+}

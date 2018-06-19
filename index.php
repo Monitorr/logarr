@@ -71,6 +71,9 @@ include('assets/php/auth_check.php');
     <script>
         var settings = <?php echo json_encode($GLOBALS['settings']);?>;
         var preferences = <?php echo json_encode($GLOBALS['preferences']);?>;
+        var current_rflog = settings.rflog;
+        var nIntervId;
+        var logInterval = false;
         refreshConfig();
     </script>
 
@@ -103,28 +106,6 @@ include('assets/php/auth_check.php');
     </script>
 
     <script src="assets/js/clock.js"></script>
-
-    <!-- Auto update function:  -->
-    <script>
-        var nIntervId;
-        var onload;
-        var logInterval = false;
-        $(document).ready(function () {
-            $('#buttonStart :checkbox').change(function () {
-                if ($(this).is(':checked') && logInterval == false) {
-                    nIntervId = setInterval(refreshblockUI, settings.rflog);
-                    logInterval = true;
-                    console.log("Auto update: Enabled | Interval: " + settings.rflog + " ms");
-                    $.growlUI("Auto update: Enabled");
-                } else {
-                    clearInterval(nIntervId);
-                    logInterval = false;
-                    console.log("Auto update: Disabled");
-                    $.growlUI("Auto update: Disabled");
-                }
-            });
-        });
-    </script>
 
 
     <!-- LOG UNLINK FUNCTION  -->
@@ -260,17 +241,18 @@ include('assets/php/auth_check.php');
         <div id="rightbottom" class="rightbottom">
 
             <table id="slidertable">
-                <tr title="Toggle log auto-update | Interval: <?php echo $settings['rflog']; ?> ms ">
+                <tr title="Auto-update logs | Interval: <?php echo $settings['rflog']; ?> ms ">
 
                     <th id="textslider">
                         Auto Update:
                     </th>
 
                     <th id="slider">
-                        <label class="switch" id="buttonStart">
+                        <div id="auto-update-status"></div>
+                        <!--<label class="switch" id="buttonStart">
                             <input id="autoRefreshLog" type="checkbox">
                             <span class="slider round"></span>
-                        </label>
+                        </label>-->
                     </th>
 
                     <th>
