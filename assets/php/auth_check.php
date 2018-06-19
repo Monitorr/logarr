@@ -93,6 +93,11 @@ class OneFileLoginApplication
 				$this->showPageUnauthorized();
 			}
 			exit();
+		} else if (isset($_GET["action"]) && $_GET["action"] == "logout") {
+			// start the session, always needed!
+			$this->doStartSession();
+			$this->doLogout();
+			exit();
 		} else {
 			// start the session, always needed!
 			$this->doStartSession();
@@ -288,9 +293,7 @@ class OneFileLoginApplication
 	 */
 	private function performUserLoginAction()
 	{
-		if (isset($_GET["action"]) && $_GET["action"] == "logout") {
-			$this->doLogout();
-		} elseif (!empty($_SESSION['user_name']) && ($_SESSION['user_is_logged_in'])) {
+		if (!empty($_SESSION['user_name']) && ($_SESSION['user_is_logged_in'])) {
 			$this->doLoginWithSessionData();
 		} elseif (isset($_POST["login"])) {
 			$this->doLoginWithPostData();
@@ -308,9 +311,9 @@ class OneFileLoginApplication
 		session_destroy();
 		$this->user_is_logged_in = false;
 		unset($_COOKIE["Logarr_AUTH"]);
-		setcookie("Logarr_AUTH",null,time()-1);
+		setcookie("Logarr_AUTH",null,time()-1, "/");
 		$this->feedback = "You were just logged out.";
-		header("location: settings.php");
+		header("location: index.php");
 	}
 
 	/**
@@ -319,6 +322,27 @@ class OneFileLoginApplication
 	private function doLoginWithSessionData()
 	{
 		$this->user_is_logged_in = true; // ?
+		if(!isset($_COOKIE['Logarr_AUTH'])) {
+			if ($this->createDatabaseConnection()) {
+				// remember: the user can log in with username or email address
+				$sql = 'SELECT user_name, user_email, auth_token
+                FROM users
+                WHERE user_name = :user_name OR user_email = :user_name
+                LIMIT 1';
+				$query = $this->db_connection->prepare($sql);
+				$query->bindValue(':user_name', $_SESSION['user_name']);
+				$query->execute();
+				$result_row = $query->fetchObject();
+				if ($result_row) {
+					$cookie_value = $result_row->auth_token;
+					setcookie("Logarr_AUTH", $cookie_value, time()+ 60*60*24*7, "/"); //store login cookie for 7 days
+					return true;
+				} else {
+					$this->feedback = "Invalid Auth Token";
+				}
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -336,12 +360,6 @@ class OneFileLoginApplication
 			$query = $this->db_connection->prepare($sql);
 			$query->bindValue(':auth_token', $_COOKIE['Logarr_AUTH']);
 			$query->execute();
-			// Btw that's the weird way to get num_rows in PDO with SQLite:
-			// if (count($query->fetchAll(PDO::FETCH_NUM)) == 1) {
-			// Holy! But that's how it is. $result->numRows() works with SQLite pure, but not with SQLite PDO.
-			// This is so crappy, but that's how PDO works.
-			// As there is no numRows() in SQLite/PDO (!!) we have to do it this way:
-			// If you meet the inventor of PDO, punch him. Seriously.
 			$result_row = $query->fetchObject();
 			if ($result_row) {
 				// write user data into PHP SESSION [a file on your server]
@@ -350,7 +368,7 @@ class OneFileLoginApplication
 				$_SESSION['user_is_logged_in'] = true;
 				$this->user_is_logged_in = true;
 				$cookie_value = $result_row->auth_token;
-				setcookie("Logarr_AUTH", $cookie_value, time() + 60 * 60 * 24 * 7); //store login cookie for 7 days
+				setcookie("Logarr_AUTH", $cookie_value, time()+ 60*60*24*7, "/"); //store login cookie for 7 days
 				return true;
 			} else {
 				$this->feedback = "Invalid Auth Token";
@@ -403,12 +421,6 @@ class OneFileLoginApplication
 		$query = $this->db_connection->prepare($sql);
 		$query->bindValue(':user_name', $_POST['user_name']);
 		$query->execute();
-		// Btw that's the weird way to get num_rows in PDO with SQLite:
-		// if (count($query->fetchAll(PDO::FETCH_NUM)) == 1) {
-		// Holy! But that's how it is. $result->numRows() works with SQLite pure, but not with SQLite PDO.
-		// This is so crappy, but that's how PDO works.
-		// As there is no numRows() in SQLite/PDO (!!) we have to do it this way:
-		// If you meet the inventor of PDO, punch him. Seriously.
 		$result_row = $query->fetchObject();
 		if ($result_row) {
 			// using PHP 5.5's password_verify() function to check password
@@ -419,7 +431,7 @@ class OneFileLoginApplication
 				$_SESSION['user_is_logged_in'] = true;
 				$this->user_is_logged_in = true;
 				$cookie_value = $result_row->auth_token;
-				setcookie("Logarr_AUTH", $cookie_value, time()+ 60*60*24*7); //store login cookie for 7 days
+				setcookie("Logarr_AUTH", $cookie_value, time()+ 60*60*24*7, "/"); //store login cookie for 7 days
 				return true;
 			} else {
 				$this->feedback = "Invalid password";
