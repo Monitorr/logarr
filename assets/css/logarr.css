@@ -1682,3 +1682,8 @@ h5.heading {
 h2.heading {
     text-align: left;
 }
+
+.login-warning > p {
+    text-align: center;
+    color: red;
+}

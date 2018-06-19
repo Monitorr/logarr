@@ -139,6 +139,7 @@ if (!mkdir($datadir, 0777, FALSE)) {
                         `user_name` varchar(64),
                         `user_password_hash` varchar(255),
                         `user_email` varchar(64));
+                        `auth_token` varchar(64));
                         CREATE UNIQUE INDEX `user_name_UNIQUE` ON `users` (`user_name` ASC);
                         CREATE UNIQUE INDEX `user_email_UNIQUE` ON `users` (`user_email` ASC);
                         ';
