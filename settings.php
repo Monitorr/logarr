@@ -247,9 +247,11 @@ https://github.com/Monitorr/Logarr
                 <li class="sidebar-nav-item" data-item="logs-configuration">
                     <a href="#logs-configuration" onclick="load_logs()"><i class="fa fa-fw fa-book"></i>Logs Configuration</a>
                 </li>
+                <?php if(isset($_SESSION['user_name']) && isset($_SESSION['user_is_logged_in']) && !empty($_SESSION['user_name']) && ($_SESSION['user_is_logged_in'])){ ?>
                 <li class="sidebar-nav-item" data-item="log-out">
                     <a href="settings.php?action=logout"><i class="fas fa-sign-out-alt"></i>Log Out</a>
                 </li>
+                <?php } ?>
                 <li class="sidebar-nav-item" data-item="logarr">
                     <a href="index.php"><i class="fa fa-fw fa-home"></i>Logarr</a>
                 </li>
@@ -309,8 +311,10 @@ https://github.com/Monitorr/Logarr
            class="footer">Logarr </a> |
         <a href="settings.php" title="Logarr Settings" target="_blank" class="footer">Settings</a> |
         <a href="https://github.com/Monitorr/logarr/releases" title="Logarr releases" target="_blank" class="footer">
-            Version: <?php echo file_get_contents("assets/js/version/version.txt"); ?></a> |
-        <a href="settings.php?action=logout" title="Log out" class="footer"></i>Logout</a>
+            Version: <?php echo file_get_contents("assets/js/version/version.txt"); ?></a>
+        <?php if(isset($_SESSION['user_name']) && isset($_SESSION['user_is_logged_in']) && !empty($_SESSION['user_name']) && ($_SESSION['user_is_logged_in'])){
+            echo " | <a href='index.php?action=logout' title='Log out' class='footer'></i>Logout</a>";
+        }?>
         <br>
     </div>
 

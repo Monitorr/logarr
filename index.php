@@ -311,8 +311,10 @@ include('assets/php/auth_check.php');
            class="footer">Logarr </a> |
         <a href="settings.php" title="Logarr Settings" target="_blank" class="footer">Settings</a> |
         <a href="https://github.com/Monitorr/logarr/releases" title="Logarr releases" target="_blank" class="footer">
-            Version: <?php echo file_get_contents("assets/js/version/version.txt"); ?></a> |
-        <a href="index.php?action=logout" title="Log out" class="footer"></i>Logout</a>
+            Version: <?php echo file_get_contents("assets/js/version/version.txt"); ?></a>
+        <?php if(isset($_SESSION['user_name']) && isset($_SESSION['user_is_logged_in']) && !empty($_SESSION['user_name']) && ($_SESSION['user_is_logged_in'])){
+            echo " | <a href='index.php?action=logout' title='Log out' class='footer'></i>Logout</a>";
+        }?>
         <br>
     </div>
 
