@@ -1,6 +1,12 @@
-<?php include(__DIR__ . "/header.php"); ?>
+<?php include(__DIR__ . "/header.php");
+?>
 
 <div id='login-container' class='flex-child'>
+    <?php
+    if(isset($this->feedback) && !empty($this->feedback)){
+        echo "<div class='login-warning'><p>".$this->feedback."</p></div>";
+    }
+    ?>
     <form method="post" id="login-form" action="" name="loginform">
         <div>
             <label for="login_input_username"><i class="fa fa-fw fa-user"></i></label>
