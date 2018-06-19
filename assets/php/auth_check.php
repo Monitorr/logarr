@@ -84,6 +84,8 @@ class OneFileLoginApplication
 	 */
 	public function runApplication()
 	{
+		// start the session, always needed!
+		$this->doStartSession();
 		// check is user wants to see register page (etc.)
 		if (isset($_GET["action"]) && $_GET["action"] == "register") {
 			if(isset($GLOBALS['authentication']) && isset($GLOBALS['authentication']['registrationEnabled']) && $GLOBALS['authentication']['registrationEnabled'] == "true") {
@@ -94,13 +96,9 @@ class OneFileLoginApplication
 			}
 			exit();
 		} else if (isset($_GET["action"]) && $_GET["action"] == "logout") {
-			// start the session, always needed!
-			$this->doStartSession();
 			$this->doLogout();
 			exit();
 		} else {
-			// start the session, always needed!
-			$this->doStartSession();
 			// check for possible user interactions (login with session/post data or logout)
 			$this->performUserLoginAction();
 
