@@ -15,4 +15,5 @@ Thumbs.db
 # Config file #
 ######################
 assets/config/config.php
-assets/config/config.json
+assets/data/datadir.json
+assets/data/custom.css
