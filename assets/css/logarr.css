@@ -37,8 +37,8 @@ body {
     margin: 1em;
     -webkit-flex: 1 0 0;
     flex: 1 0 0;
-    max-width: 1900px;
-    min-width: 800px;
+    max-width: 135rem;
+    min-width: 50rem;
     border-radius: 15px;
     background-color: #3d3d3d;
     box-shadow: 5px 5px 10px black;
@@ -455,7 +455,7 @@ mark.current {
 
 .validity {
     position: absolute;
-    margin-left: -7rem;
+    margin-left: -2.5rem;
 
 }
 
@@ -1705,4 +1705,114 @@ h2.heading {
 }
 #auto-update-status[data-enabled="false"] {
     background: radial-gradient(circle at .1rem .1rem, #ff0000, rgba(20, 20, 20, 0.75));
+}
+
+
+/*** Mobile fixes ***/
+@media only screen and (max-width: 768px) {
+    /** Start index page (logs) **/
+    .flex-child {
+        max-width: 90%;
+        min-width: 90%;
+        width: 90%;
+    }
+    .header {
+        display: block;
+        table-layout: auto;
+        margin-bottom: 1rem;
+    }
+    .Column {
+        display: block;
+    }
+    #left {
+        display: none;
+    }
+    #logo {
+        width: 100%;
+    }
+    #right {
+        width: 100%;
+        margin-top: 2rem;
+        text-align: center;
+    }
+    .rightmiddle {
+        text-align: center;
+        margin-top: 1rem;
+    }
+    #rightbottom {
+        display: inline-block;
+        float: none;
+    }
+    #markform {
+        position: relative;
+        padding: 0;
+        margin-right: 0;
+        text-align: center;
+    }
+    .input, input.form-control, select.form-control {
+        width: 100%;
+    }
+    #count {
+        margin-right: 0;
+    }
+    .validity {
+        margin-left: -3rem;
+    }
+    /** End index page (logs) **/
+
+
+    /** Start settings page**/
+    body {
+        padding: 1rem !important;
+    }
+    .settingscolumn {
+        float: none;
+        padding-top: 0;
+        text-align: center;
+        height: auto;
+    }
+    #settingsbrand {
+        width: 100%;
+    }
+    .navbar-brand {
+        font-size: 7vw;
+    }
+    .Column.left {
+        display: none;
+    }
+    #sidebar-wrapper {
+        width: 100%;
+
+    }
+    .settingstitle {
+        width: 100%;
+    }
+    #version {
+        display: none;
+    }
+    .settings-title {
+        position: relative;
+        display: block;
+        white-space: normal;
+        text-align: center;
+        direction: ltr;
+        left: auto;
+        right: auto;
+    }
+    #includedContent {
+        float: none;
+        width: 100%;
+        margin-top: 0;
+    }
+    #tdleft, #tdright {
+        width: 100%;
+        display: block;
+    }
+    #title_input, #path_input, #enabled_option, #maxLines_option, #autoRollSize_option, #category_option {
+        width: 100%;
+    }
+    .alpaca-array-actionbar.alpaca-array-actionbar-top > button {
+        margin-top: 1rem;
+    }
+    /** End settings page**/
 }

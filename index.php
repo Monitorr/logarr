@@ -212,11 +212,11 @@ include('assets/php/auth_check.php');
 
                     <input type="search" name="markinput" id="text-search2" class="input" title="Input search term"
                            placeholder=" Search & highlight . . ." required>
+                    <span id="validity" class="validity"></span>
                     <button data-search="search" name="searchBtn" id="searchBtn" value="Search"
                             class="btn marksearch btn-primary" onclick="this.blur(); return false;"
                             title="Execute search. Results will be highlighted in yellow.">Search
                     </button>
-                    <span id="validity" class="validity"></span>
                     <button data-search="next" name="nextBtn" class="btn search-button btn-primary btn-visible"
                             onclick="this.blur(); return false;" title="Focus to first search result">&darr;
                     </button>
