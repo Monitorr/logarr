@@ -230,12 +230,14 @@ function refreshConfig(updateLogs) {
                     clearInterval(nIntervId);
                     nIntervId = setInterval(refreshblockUI, settings.rflog);
                     logInterval = true;
+                    $("#autoUpdateSlider").attr("data-enabled", "true");
                     current_rflog = settings.rflog;
                     console.log("Auto update: Enabled | Interval: " + settings.rflog + " ms");
                     $.growlUI("Auto update: Enabled");
                 } else if (settings.logRefresh == "false" && logInterval == true) {
                     clearInterval(nIntervId);
                     logInterval = false;
+                    $("#autoUpdateSlider").attr("data-enabled", "false");
                     console.log("Auto update: Disabled");
                     $.growlUI("Auto update: Disabled");
                 }
@@ -245,6 +247,34 @@ function refreshConfig(updateLogs) {
             console.log('Refreshed config variables');
         }
     });
+}
+
+function overwriteLogUpdate() {
+
+    if(!autoUpdateOverwrite) {
+        console.log("Auto update setting will only be updated from config when the page is refreshed");
+    }
+
+    if($("#autoUpdateSlider").attr("data-enabled") == "false") {
+        autoUpdateOverwrite = true;
+        $("#autoUpdateSlider").attr("data-enabled", "true");
+
+        clearInterval(nIntervId);
+        nIntervId = setInterval(refreshblockUI, settings.rflog);
+        logInterval = true;
+
+        console.log("Auto update: Enabled | Interval: " + settings.rflog + " ms");
+        $.growlUI("Auto update: Enabled");
+    } else {
+        autoUpdateOverwrite = true;
+        $("#autoUpdateSlider").attr("data-enabled", "false");
+
+        clearInterval(nIntervId);
+        logInterval = false;
+
+        console.log("Auto update: Disabled");
+        $.growlUI("Auto update: Disabled");
+    }
 }
 
 function updateTime() {

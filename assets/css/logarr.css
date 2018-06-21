@@ -351,11 +351,11 @@ h6,
     background: #f2f2f2 radial-gradient(circle at .1rem .1rem, white, rgb(20, 20, 20));
 }
 
-#buttonStart.switch > input[type=checkbox] + .slider {
+#autoUpdateSlider[data-enabled="false"] {
     background-color: red;
 }
 
-#buttonStart.switch > input[type=checkbox]:checked + .slider {
+#autoUpdateSlider[data-enabled="true"] {
     background-color: green;
 }
 
@@ -363,7 +363,7 @@ input:focus + .slider {
     box-shadow: 0 0 1px green;
 }
 
-input:checked + .slider:before {
+#autoUpdateSlider[data-enabled="true"]:before {
     -webkit-transform: translateX(7px);
     -ms-transform: translateX(7px);
     transform: translateX(7px);

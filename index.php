@@ -74,7 +74,8 @@ include('assets/php/auth_check.php');
         let current_rflog = settings.rflog;
         let nIntervId;
         let logInterval = false;
-        refreshConfig(true);
+        let autoUpdateOverwrite = false;
+        refreshConfig(!autoUpdateOverwrite);
     </script>
 
 
@@ -247,11 +248,9 @@ include('assets/php/auth_check.php');
                     </th>
 
                     <th id="slider">
-                        <div id="auto-update-status"></div>
-                        <!--<label class="switch" id="buttonStart">
-                            <input id="autoRefreshLog" type="checkbox">
-                            <span class="slider round"></span>
-                        </label>-->
+                        <label class="switch" id="buttonStart">
+                            <span class="slider round" id="autoUpdateSlider" data-enabled="false" onclick="overwriteLogUpdate();"></span>
+                        </label>
                     </th>
 
                     <th>
