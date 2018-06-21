@@ -57,7 +57,7 @@ function highlightjs() {
 $(function () {
 
     // the input field
-    var $input = $("input[name='markinput']"),
+    let $input = $("input[name='markinput']"),
         // search button
         $searchBtn = $("button[data-search='search']"),
         // next button
@@ -85,14 +85,13 @@ $(function () {
 
     function jumpTo() {
         if ($results.length) {
-            var position,
+            let position,
                 $current = $results.eq(currentIndex);
             $results.removeClass(currentClass);
             if ($current.length) {
                 $current.addClass(currentClass);
                 let currentMarkResult = $('.markresults.current');
-                var currentOffset = currentMarkResult.offsetTop;
-                var parent = currentMarkResult.parent();
+                let parent = currentMarkResult.parent();
                 while (!parent.is('div')) {
                     parent = parent.parent();
                 }
@@ -119,17 +118,10 @@ $(function () {
     function mark() {
 
         // Read the keyword
-        var keyword = $("input[name='markinput']").val();
+        let keyword = $("input[name='markinput']").val();
         $content = $(".slide");
 
         // Determine selected options
-        var options = {
-            "each": function (element) {
-                setTimeout(function () {
-                    $(element).addClass("current");
-                }, 250);
-            }
-        };
 
         // Mark the keyword inside the context:
 
@@ -199,7 +191,7 @@ $(function () {
      * Searches for the entered keyword in the
      * specified context on input
      */
-    var timeoutID = null;
+    let timeoutID = null;
     $input.keyup(function (e) {
         clearTimeout(timeoutID);
         if (settings.liveSearch == "true") {
@@ -216,9 +208,9 @@ function refreshConfig() {
         type: "POST",
         success: function (response) {
 
-            var json = JSON.parse(response);
-            var settings = json.settings;
-            var preferences = json.preferences;
+            let json = JSON.parse(response);
+            let settings = json.settings;
+            let preferences = json.preferences;
 
             setTimeout(function () {
                 refreshConfig()
@@ -249,7 +241,7 @@ function refreshConfig() {
 
 function updateTime() {
     setInterval(function () {
-        var timeString = date.toLocaleString('en-US', {
+        let timeString = date.toLocaleString('en-US', {
             hour12: timeStandard,
             weekday: 'short',
             year: 'numeric',
@@ -259,10 +251,10 @@ function updateTime() {
             minute: '2-digit',
             second: '2-digit'
         }).toString();
-        var res = timeString.split(",");
-        var time = res[3];
-        var dateString = res[0] + '&nbsp; | &nbsp;' + res[1].split(" ")[2] + " " + res[1].split(" ")[1] + '<br>' + res[2];
-        var data = '<div class="dtg">' + time + ' ' + timeZone + '</div>';
+        let res = timeString.split(",");
+        let time = res[3];
+        let dateString = res[0] + '&nbsp; | &nbsp;' + res[1].split(" ")[2] + " " + res[1].split(" ")[1] + '<br>' + res[2];
+        let data = '<div class="dtg">' + time + ' ' + timeZone + '</div>';
         data += '<div id="line">__________</div>';
         data += '<div class="date">' + dateString + '</div>';
         $("#timer").html(data);

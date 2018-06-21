@@ -1,6 +1,3 @@
-var servertime;
-var servertimezone;
-
 date = servertime;
 
 // inner variables:

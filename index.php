@@ -69,11 +69,11 @@ include('assets/php/auth_check.php');
 
     <!-- sync config with javascript -->
     <script>
-        var settings = <?php echo json_encode($GLOBALS['settings']);?>;
-        var preferences = <?php echo json_encode($GLOBALS['preferences']);?>;
-        var current_rflog = settings.rflog;
-        var nIntervId;
-        var logInterval = false;
+        let settings = <?php echo json_encode($GLOBALS['settings']);?>;
+        let preferences = <?php echo json_encode($GLOBALS['preferences']);?>;
+        let current_rflog = settings.rflog;
+        let nIntervId;
+        let logInterval = false;
         refreshConfig();
     </script>
 
@@ -94,10 +94,10 @@ include('assets/php/auth_check.php');
         }
         $serverTime = $dt->format("D d M Y H:i:s");
         ?>
-        var servertime = "<?php echo $serverTime;?>";
-        var timeStandard = <?php echo $timeStandard;?>;
-        var timeZone = "<?php echo $timezone_suffix;?>";
-        var rftime = <?php echo $GLOBALS['settings']['rftime'];?>;
+        let servertime = "<?php echo $serverTime;?>";
+        let timeStandard = <?php echo $timeStandard;?>;
+        let timeZone = "<?php echo $timezone_suffix;?>";
+        let rftime = <?php echo $GLOBALS['settings']['rftime'];?>;
 
         $(document).ready(function () {
             setTimeout(syncServerTime(), settings.rftime); //delay is rftime
@@ -114,7 +114,6 @@ include('assets/php/auth_check.php');
             event.preventDefault(); // stop being refreshed
             console.log('Attempting log roll');
             $.growlUI("Attempting <br> log roll");
-            var logName = $(this).data('service');
             $.ajax({
                 type: 'POST',
                 url: 'assets/php/unlink.php',
@@ -122,8 +121,8 @@ include('assets/php/auth_check.php');
                 data: "file=" + $(".path[data-service='" + $(this).data('service') + "']").html().trim(),
                 success: function (data) {
                     $('#modalContent').html(data);
-                    var modal = $('#responseModal');
-                    var span = $('.closemodal');
+                    let modal = $('#responseModal');
+                    let span = $('.closemodal');
                     modal.fadeIn('slow');
                     span.click(function () {
                         modal.fadeOut('slow');
@@ -150,7 +149,7 @@ include('assets/php/auth_check.php');
         $(document).on('click', 'button[data-action=\'download-log\']', function (event) {
             event.preventDefault(); // stop page from being refreshed
             $.growlUI("Downloading <br> log file");
-            var logFilePath = ($(".path[data-service='" + $(this).data('service') + "']").html()).replace('file=', '').trim();
+            let logFilePath = ($(".path[data-service='" + $(this).data('service') + "']").html()).replace('file=', '').trim();
             console.log("Downloading log file: " + logFilePath);
             window.open('assets/php/download.php?file=' + logFilePath);
             return false;
