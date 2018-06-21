@@ -37,8 +37,9 @@ https://github.com/Monitorr/Logarr
 
     <!-- sync config with javascript -->
     <script>
-        var settings = <?php echo json_encode($GLOBALS['settings']);?>;
-        var preferences = <?php echo json_encode($GLOBALS['preferences']);?>;
+        let settings = <?php echo json_encode($GLOBALS['settings']);?>;
+        let preferences = <?php echo json_encode($GLOBALS['preferences']);?>;
+        let logInterval = false;
         refreshConfig();
     </script>
 
@@ -74,10 +75,10 @@ https://github.com/Monitorr/Logarr
 		}
 		$serverTime = $dt->format("D d M Y H:i:s");
 		?>
-        var servertime = "<?php echo $serverTime;?>";
-        var timeStandard = <?php echo $timeStandard;?>;
-        var timeZone = "<?php echo $timezone_suffix;?>";
-        var rftime = <?php echo $settings['rftime'];?>;
+        let servertime = "<?php echo $serverTime;?>";
+        let timeStandard = <?php echo $timeStandard;?>;
+        let timeZone = "<?php echo $timezone_suffix;?>";
+        let rftime = <?php echo $settings['rftime'];?>;
 
         $(document).ready(function () {
             setTimeout(syncServerTime(), settings.rftime); //delay is rftime
