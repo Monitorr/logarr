@@ -39,8 +39,7 @@ https://github.com/Monitorr/Logarr
     <script>
         let settings = <?php echo json_encode($GLOBALS['settings']);?>;
         let preferences = <?php echo json_encode($GLOBALS['preferences']);?>;
-        let logInterval = false;
-        refreshConfig();
+        refreshConfig(false);
     </script>
 
     <!-- // Set global timezone from config file: -->

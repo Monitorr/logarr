@@ -74,7 +74,7 @@ include('assets/php/auth_check.php');
         let current_rflog = settings.rflog;
         let nIntervId;
         let logInterval = false;
-        refreshConfig();
+        refreshConfig(true);
     </script>
 
 
@@ -216,10 +216,10 @@ include('assets/php/auth_check.php');
                             class="btn marksearch btn-primary" onclick="this.blur(); return false;"
                             title="Execute search. Results will be highlighted in yellow.">Search
                     </button>
-                    <button data-search="next" name="nextBtn" class="btn search-button btn-primary btn-visible"
+                    <button data-search="next" name="nextBtn" class="btn search-button btn-primary btn-visible btn-hidden"
                             onclick="this.blur(); return false;" title="Focus to first search result">&darr;
                     </button>
-                    <button data-search="prev" name="prevBtn" class="btn search-button btn-primary btn-visible"
+                    <button data-search="prev" name="prevBtn" class="btn search-button btn-primary btn-visible btn-hidden"
                             onclick="this.blur(); return false;" title="Focus to last search result">&uarr;
                     </button>
                     <button data-search="clear" class="btn search-button btn-primary"

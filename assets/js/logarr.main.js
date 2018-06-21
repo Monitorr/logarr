@@ -6,15 +6,21 @@
 function refreshblockUI() {
     $.growlUI('Updating logs...');
     setTimeout(function () {
-        $('.btn-visible').addClass("btn-hidden");
         refresh();
     }, 300);
 
-    //wait 3 seconds after log update to highlight error terms:
+    //wait after log update to highlight error terms:
     if (settings.autoHighlight == "true") {
         setTimeout(function () {
             highlightjs();
-        }, 3000); // CHANGE ME ??
+        }, 1500); // CHANGE ME ??
+    }
+    //wait after log update, if the searchinput field is not empty, perform search:
+    if ($("input[name='markinput']").val() != "") {
+        setTimeout(function () {
+            mark();
+            //$("button[data-search='search']").click();
+        }, 1500); // CHANGE ME ??
     }
 }
 
@@ -201,7 +207,7 @@ $(function () {
     });
 });
 
-function refreshConfig() {
+function refreshConfig(updateLogs) {
     $.ajax({
         url: "assets/php/sync-config.php",
         data: {settings: settings, preferences: preferences},
@@ -219,18 +225,20 @@ function refreshConfig() {
 
             $("#auto-update-status").attr("data-enabled",settings.logRefresh);
 
-            if (settings.logRefresh == "true" && (logInterval == false || settings.rflog != current_rflog)) {
-                clearInterval(nIntervId);
-                nIntervId = setInterval(refreshblockUI, settings.rflog);
-                logInterval = true;
-                current_rflog = settings.rflog;
-                console.log("Auto update: Enabled | Interval: " + settings.rflog + " ms");
-                $.growlUI("Auto update: Enabled");
-            } else if(settings.logRefresh == "false" && logInterval == true) {
-                clearInterval(nIntervId);
-                logInterval = false;
-                console.log("Auto update: Disabled");
-                $.growlUI("Auto update: Disabled");
+            if(updateLogs) {
+                if (settings.logRefresh == "true" && (logInterval == false || settings.rflog != current_rflog)) {
+                    clearInterval(nIntervId);
+                    nIntervId = setInterval(refreshblockUI, settings.rflog);
+                    logInterval = true;
+                    current_rflog = settings.rflog;
+                    console.log("Auto update: Enabled | Interval: " + settings.rflog + " ms");
+                    $.growlUI("Auto update: Enabled");
+                } else if (settings.logRefresh == "false" && logInterval == true) {
+                    clearInterval(nIntervId);
+                    logInterval = false;
+                    console.log("Auto update: Disabled");
+                    $.growlUI("Auto update: Disabled");
+                }
             }
 
             document.title = preferences.sitetitle; //update page title to configured title
