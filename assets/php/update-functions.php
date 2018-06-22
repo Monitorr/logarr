@@ -26,7 +26,9 @@ if ($copy == 1) {
         $zip->close();
 	    // copy config.json to safe place while we update
 	    rename($datadir . '/config.json', $extractPath . 'config.json');
-	    // copy config.json to safe place while we update
+	    // copy datadir.json to safe place while we update
+	    rename($datadir . '/datadir.json', $extractPath . 'datadir.json');
+	    // copy custom.css to safe place while we update
 	    rename(__DIR__ . '/../data/custom.css', $extractPath . 'custom.css');
         // copy files from temp to Logarr root
         $scanPath = array_diff(scandir($extractPath), array('..', '.'));
@@ -34,6 +36,8 @@ if ($copy == 1) {
         recurse_copy($fullPath, $base_path);
 	    // restore config.json file
 	    rename($extractPath . 'config.json', $datadir . '/config.json');
+	    // restore datadir.json file
+	    rename($extractPath . 'datadir.json', $datadir . '/datadir.json');
 	    // restore custom.css file
 	    rename($extractPath . 'custom.css', __DIR__ . '/../data/custom.css');
         // update users local version number file
