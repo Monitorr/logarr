@@ -1,8 +1,11 @@
 // Logarr main JS script
 // https://github.com/Monitorr
 
-// Set sytles for BlockUI overlays in /assets/js/jquery.blockUI.js
+// Variables
+let results, currentIndex = 0;
 
+
+// Set sytles for BlockUI overlays in /assets/js/jquery.blockUI.js
 function refreshblockUI() {
     $.growlUI('Updating logs...');
     setTimeout(function () {
@@ -29,6 +32,7 @@ function refresh() {
     console.log('Logarr log update START');
 }
 
+// Load logs
 function loadLog() {
     $.ajax({
         url: "assets/php/load-log.php",
@@ -44,7 +48,6 @@ function loadLog() {
 }
 
 // highlight all "error" terms:
-
 function highlightjs() {
     if('customHighlightTerms' in settings && settings.customHighlightTerms != "") {
         var array = settings.customHighlightTerms.split(",");
@@ -58,101 +61,75 @@ function highlightjs() {
     }
 }
 
-// Search function:
-
-$(function () {
-
-    // the input field
-    let $input = $("input[name='markinput']"),
-        // search button
-        $searchBtn = $("button[data-search='search']"),
-        // next button
-        $nextBtn = $("button[data-search='next']"),
-        // prev button
-        $prevBtn = $("button[data-search='prev']"),
-        // clear button
-        $clearBtn = $("button[data-search='clear']"),
-
-        // the context where to search
-
-
-        $content = $(".slide"),
-        // jQuery object to save <mark> elements
-        $results,
-        // the class that will be appended to the current
-        // focused element
-        currentClass = "current",
-        // top offset for the jump (the search bar)
-        offsetTop = 50,
-        // the current index of the focused element
-        currentIndex = 0;
-
-    //Jumps to the element matching the currentIndex
-
-    function jumpTo() {
-        if ($results.length) {
-            let position,
-                $current = $results.eq(currentIndex);
-            $results.removeClass(currentClass);
-            if ($current.length) {
-                $current.addClass(currentClass);
-                let currentMarkResult = $('.markresults.current');
-                let parent = currentMarkResult.parent();
-                while (!parent.is('div')) {
-                    parent = parent.parent();
-                }
-
-                /* not animated page scroll */
-                $('html, body').scrollTop(
-                    $(parent).offset().top
-                );
-
-                /*
-                    $('html, body').animate({
-                        scrollTop: $(parent).offset().top
-                    }, 200); //make this value bigger if you want smoother/longer scroll
-                */
-
-                /* not animated scroll */
-                parent.scrollTop(
-                    currentMarkResult.offset().top - parent.offset().top + parent.scrollTop()
-                );
+// Jumps to the element matching the currentIndex
+function jumpTo() {
+    if (results.length) {
+        let position,
+            $current = results.eq(currentIndex);
+        results.removeClass("current");
+        if ($current.length) {
+            $current.addClass("current");
+            let currentMarkResult = $('.markresults.current');
+            let parent = currentMarkResult.parent();
+            while (!parent.is('div')) {
+                parent = parent.parent();
             }
+
+            /* not animated page scroll */
+            $('html, body').scrollTop(
+                $(parent).offset().top
+            );
+
+            /*
+                $('html, body').animate({
+                    scrollTop: $(parent).offset().top
+                }, 200); //make this value bigger if you want smoother/longer scroll
+            */
+
+            /* not animated scroll */
+            parent.scrollTop(
+                currentMarkResult.offset().top - parent.offset().top + parent.scrollTop()
+            );
         }
     }
+}
 
-    function mark() {
+// Marks search results
+function mark() {
 
-        // Read the keyword
-        let keyword = $("input[name='markinput']").val();
-        $content = $(".slide");
+    // Read the keyword
+    let keyword = $("input[name='markinput']").val();
+    let content = $(".slide");
 
-        // Determine selected options
+    // Determine selected options
 
-        // Mark the keyword inside the context:
+    // Mark the keyword inside the context:
 
-        $content.unmark({
-            done: function () {
-                $content.mark(keyword, {
-                    separateWordSearch: false,
-                    done: function () {
-                        $results = $content.find("mark");
-                        let count = $(".count");
-                        count.text($results.length);
-                        count.append(" occurance(s) of: '");
-                        count.append(keyword);
-                        count.append("'");
-                        $results.addClass("markresults");
-                        count.addClass("countresults");
-                        currentIndex = 0;
-                        if (settings.jumpOnSearch) jumpTo(); // Auto focus/scroll to first searched term after search submit, if user had enabled option in config
-                    }
-                });
-            }
-        });
-    }
+    content.unmark({
+        done: function () {
+            content.mark(keyword, {
+                separateWordSearch: false,
+                done: function () {
+                    results = content.find("mark");
+                    let count = $(".count");
+                    count.text(results.length);
+                    count.append(" occurance(s) of: '");
+                    count.append(keyword);
+                    count.append("'");
+                    results.addClass("markresults");
+                    count.addClass("countresults");
+                    currentIndex = 0;
+                    if (settings.jumpOnSearch) jumpTo(); // Auto focus/scroll to first searched term after search submit, if user had enabled option in config
+                }
+            });
+        }
+    });
+}
 
-    $searchBtn.on("click", function () {
+// on page ready functions
+$(function () {
+    // Perform search action on click
+    $("button[data-search='search']").on("click", function () {
         console.log('Logarr is performing search');
         $('#buttonStart :checkbox').prop('checked', false).change(); // if auto-update is enabled, disable it after search submit
         $.blockUI({
@@ -165,45 +142,107 @@ $(function () {
         }, 300);
     });
 
-    // Clears the search
+    // Perform search action on enter
+    $("#text-search2").keyup(function (event) {
+        if (event.keyCode === 13) {
+            console.log('Logarr is performing search');
+            $('#buttonStart :checkbox').prop('checked', false).change(); // if auto-update is enabled, disable it after search submit
+            $.blockUI({
+                message: 'Searching...'
+            });
+            setTimeout(function () {
+                $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search
+                mark();
+                $.unblockUI()
+            }, 300);
+        }
+    });
 
-    $clearBtn.on("click", function () {
+    // Clears the search
+    $("button[data-search='clear']").on("click", function () {
         console.log('Logarr cleared search results');
         $.growlUI('Clearing <br> search results');
-        $content.unmark();
-        $input.val("");
+        $(".slide").unmark();
+        $("input[name='markinput']").val("");
         $('.count').removeClass("countresults");
         $('.btn-visible').addClass("btn-hidden");
     });
 
-
     // Next and previous search jump to
-
-    $nextBtn.add($prevBtn).on("click", function () {
-        if ($results.length) {
-            currentIndex += $(this).is($prevBtn) ? -1 : 1;
+    $("button[data-search='next']").add($("button[data-search='prev']")).on("click", function () {
+        if (results.length) {
+            currentIndex += $(this).is($("button[data-search='prev']")) ? -1 : 1;
             if (currentIndex < 0) {
-                currentIndex = $results.length - 1;
+                currentIndex = results.length - 1;
             }
-            if (currentIndex > $results.length - 1) {
+            if (currentIndex > results.length - 1) {
                 currentIndex = 0;
             }
             jumpTo();
         }
     });
 
-    // THIS WILL "LIVE SEARCH" as soon as user keyup in search field:
-    /**
-     * Searches for the entered keyword in the
-     * specified context on input
-     */
+    // Live search as soon as user keyup in search field:
     let timeoutID = null;
-    $input.keyup(function (e) {
+    $("input[name='markinput']").keyup(function (e) {
         clearTimeout(timeoutID);
         if (settings.liveSearch == "true") {
             $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search
             timeoutID = setTimeout(() => mark(e.target.value), 500);
         }
+    });
+
+    // unlink log action
+    $(document).on('click', "button[data-action='unlink-log']", function (event) {
+        alert('test');
+        event.preventDefault(); // stop being refreshed
+        console.log('Attempting log roll');
+        $.growlUI("Attempting <br> log roll");
+        $.ajax({
+            type: 'POST',
+            url: 'assets/php/unlink.php',
+            processData: false,
+            data: "file=" + $(".path[data-service='" + $(this).data('service') + "']").html().trim(),
+            success: function (data) {
+                $('#modalContent').html(data);
+                let modal = $('#responseModal');
+                let span = $('.closemodal');
+                modal.fadeIn('slow');
+                span.click(function () {
+                    modal.fadeOut('slow');
+                });
+                $(body).click(function (event) {
+                    if (event.target != modal) {
+                        modal.fadeOut('slow');
+                    }
+                });
+                setTimeout(function () {
+                    modal.fadeOut('slow');
+                }, 3000);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log("ERROR: unlink ajax posting failed");
+            }
+        });
+        return false;
+    });
+
+    // download log action
+    $(document).on('click', "button[data-action='download-log']", function (event) {
+        event.preventDefault(); // stop page from being refreshed
+        $.growlUI("Downloading <br> log file");
+        let logFilePath = ($(".path[data-service='" + $(this).data('service') + "']").html()).replace('file=', '').trim();
+        console.log("Downloading log file: " + logFilePath);
+        window.open('assets/php/download.php?file=' + logFilePath);
+        return false;
+    });
+
+    // filter logs
+    $(document).on('click', ".category-filter-item", function (event) {
+        refreshblockUI();
+        setTimeout(function () {
+            console.log('Filtering logs on: ' + window.location.hash);
+        }, 500);
     });
 });
 
@@ -341,6 +380,7 @@ function load_settings() {
     $(".sidebar-nav-item").removeClass('active');
     $("li[data-item='logarr-settings']").addClass("active");
 }
+
 function load_authentication() {
     document.getElementById("setttings-page-title").innerHTML = 'Logarr Authentication';
     document.getElementById("includedContent").innerHTML = '<object type="text/html" class="object" data="assets/php/settings/authentication.php" ></object>';
@@ -353,4 +393,32 @@ function load_logs() {
     document.getElementById("includedContent").innerHTML = '<object type="text/html" class="object" data="assets/php/settings/logs_settings.php" ></object>';
     $(".sidebar-nav-item").removeClass('active');
     $("li[data-item='logs-configuration']").addClass("active");
+}
+
+function scrollFunction() {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        document.getElementById("myBtn").style.display = "block";
+    } else {
+        document.getElementById("myBtn").style.display = "none";
+    }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+}
+
+function checkedAll(isChecked) {
+    var c = document.getElementsByName('slidebox');
+
+    for (var i = 0; i < c.length; i++) {
+        if (c[i].type == 'checkbox') {
+            c[i].checked = isChecked;
+        }
+    }
+}
+
+function checkAll1() {
+    checkedAll(true);
 }

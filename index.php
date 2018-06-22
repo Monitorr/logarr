@@ -56,16 +56,15 @@ include('assets/php/auth_check.php');
 
     <script src="assets/js/jquery.min.js"></script>
 
-        <script src="assets/js/pace.js" async></script>
+    <script src="assets/js/pace.js" async></script>
 
-        <script src="assets/js/jquery.blockUI.js"></script>
+    <script src="assets/js/jquery.blockUI.js"></script>
 
-        <script src="assets/js/jquery.highlight.js" async> </script>
+    <script src="assets/js/jquery.highlight.js" async> </script>
 
-        <script src="assets/js/logarr.main.js"></script>
     <script src="assets/js/jquery.mark.min.js" async></script>
 
-    <script src="assets/js/logarr.main.js" async></script>
+    <script src="assets/js/logarr.main.js"></script>
 
     <!-- sync config with javascript -->
     <script>
@@ -75,6 +74,7 @@ include('assets/php/auth_check.php');
         let nIntervId;
         let logInterval = false;
         let autoUpdateOverwrite = false;
+
         refreshConfig(!autoUpdateOverwrite);
     </script>
 
@@ -108,84 +108,9 @@ include('assets/php/auth_check.php');
 
     <script src="assets/js/clock.js"></script>
 
-
-    <!-- LOG UNLINK FUNCTION  -->
-    <script>
-        $(document).on('click', 'button[data-action=\'unlink-log\']', function (event) {
-            event.preventDefault(); // stop being refreshed
-            console.log('Attempting log roll');
-            $.growlUI("Attempting <br> log roll");
-            $.ajax({
-                type: 'POST',
-                url: 'assets/php/unlink.php',
-                processData: false,
-                data: "file=" + $(".path[data-service='" + $(this).data('service') + "']").html().trim(),
-                success: function (data) {
-                    $('#modalContent').html(data);
-                    let modal = $('#responseModal');
-                    let span = $('.closemodal');
-                    modal.fadeIn('slow');
-                    span.click(function () {
-                        modal.fadeOut('slow');
-                    });
-                    $(body).click(function (event) {
-                        if (event.target != modal) {
-                            modal.fadeOut('slow');
-                        }
-                    });
-                    setTimeout(function () {
-                        modal.fadeOut('slow');
-                    }, 3000);
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.log("ERROR: unlink ajax posting failed");
-                }
-            });
-            return false;
-        });
-    </script>
-
-    <!-- LOG DOWNLOAD FUNCTION  -->
-    <script>
-        $(document).on('click', 'button[data-action=\'download-log\']', function (event) {
-            event.preventDefault(); // stop page from being refreshed
-            $.growlUI("Downloading <br> log file");
-            let logFilePath = ($(".path[data-service='" + $(this).data('service') + "']").html()).replace('file=', '').trim();
-            console.log("Downloading log file: " + logFilePath);
-            window.open('assets/php/download.php?file=' + logFilePath);
-            return false;
-        });
-    </script>
-
-    <!-- Execute search on ENTER keyup:  -->
-    <script>
-
-        $(document).ready(function () {
-            $("#text-search2").keyup(function (event) {
-                if (event.keyCode === 13) {
-                    $("#marksearch").click();
-                }
-            });
-        });
-
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            refreshblockUI();
-        });
-
-        $(document).on('click', '.category-filter-item', function (event) {
-            refreshblockUI();
-            setTimeout(function () {
-                console.log('Filtering logs on: ' + window.location.hash);
-            }, 500);
-        });
-    </script>
-
 </head>
 
-<body id="body" style="color: #FFFFFF;">
+<body id="body" style="color: #FFFFFF;" onscroll="scrollFunction()" onload="refreshblockUI()">
 <div id="ajaxtimestamp" title="Analog clock timeout. Refresh page."></div>
 
 <div class="header">
@@ -306,49 +231,6 @@ include('assets/php/auth_check.php');
     <div id="version_check_auto"></div>
 
 </div>
-
-<!-- scroll to top   -->
-
-<script>
-
-    // When the user scrolls down 20px from the top of the document, show the button
-    window.onscroll = function () {
-        scrollFunction()
-    };
-
-    function scrollFunction() {
-        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-            document.getElementById("myBtn").style.display = "block";
-        } else {
-            document.getElementById("myBtn").style.display = "none";
-        }
-    }
-
-    // When the user clicks on the button, scroll to the top of the document
-    function topFunction() {
-        document.body.scrollTop = 0;
-        document.documentElement.scrollTop = 0;
-    }
-
-</script>
-
-<script>
-
-    function checkedAll(isChecked) {
-        var c = document.getElementsByName('slidebox');
-
-        for (var i = 0; i < c.length; i++) {
-            if (c[i].type == 'checkbox') {
-                c[i].checked = isChecked;
-            }
-        }
-    }
-
-    function checkAll1() {
-        checkedAll(true);
-    }
-
-</script>
 
 </body>
 
