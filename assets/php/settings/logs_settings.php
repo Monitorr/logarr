@@ -213,6 +213,8 @@ include('../functions.php');
                         "fields": {
                             "logTitle": {
                                 "type": "text",
+                                "fieldClass": "log-title-input",
+                                "validate": true,
                                 "showMessages": true,
                                 "label": "Log Title:",
                                 "constrainMaxLength": true,
@@ -224,6 +226,21 @@ include('../functions.php');
                                     "change": function () {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
                                     }
+                                },
+                                "validator": function(callback) {
+                                    var value = this.getValue();
+                                    $('.log-title-input input').each(function(){
+                                        if($(this).val() == value) {
+                                            callback({
+                                                "status": false,
+                                                "message": "This title has already been used for another log!"
+                                            });
+                                            return;
+                                        }
+                                    });
+                                    callback({
+                                        "status": true
+                                    });
                                 }
                             },
                             "path": {
