@@ -21,11 +21,7 @@ error_reporting(E_ALL);
                 url: "https://api.github.com/repos/Monitorr/Logarr/releases",
                 dataType: "json",
                 success: function(github) {
-                    var currentVersion = "";
-                    infoTabVersion = $('#about').find('#version');
                     infoTabVersionHistory = $('#about').find('#versionHistory');
-                    infoTabNew = $('#about').find('#whatsnew');
-                    infoTabDownload = $('#about').find('#downloadnow');
                     $.each(github, function(i,v) {
                         if(i === 0){
                             console.log(v.tag_name);
@@ -61,10 +57,7 @@ error_reporting(E_ALL);
 <body onload="checkGithub()" style="width: 100rem; margin: auto;">
 <h1>Logarr Changelog</h1>
 <div id="about">
-	<div id="version"></div>
 	<ul id="versionHistory"></ul>
-	<div id="version"></div>
-	<div id="downloadnow"></div>
 </div>
 </body>
 </html>
