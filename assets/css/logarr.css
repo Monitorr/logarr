@@ -19,6 +19,15 @@ body {
     font-size: 14px;
 }
 
+.bold {
+    font-weight: bold;
+    font-style: normal;
+}
+
+.italic {
+    font-style: italic;
+}
+
 .center {
     text-align: center;
 }
@@ -1815,4 +1824,36 @@ h2.heading {
         margin-top: 1rem;
     }
     /** End settings page**/
+}
+
+#versionHistory {
+    padding-left: 0;
+    font-size: 1rem;
+    margin: 1rem;
+    color: white;
+    text-align: left;
+}
+
+#versionHistory li {
+    list-style: none;
+}
+
+.github-item > h2 {
+    text-align: left;
+}
+
+.github-item-time {
+    display: block;
+    margin-bottom: 1rem;
+    font-style: italic;
+}
+.releaseBody {
+    padding-left: 1rem;
+    white-space: pre-wrap;
+}
+.releasehr {
+    color: #555;
+    border-color: #555;
+    background-color: #555;
+    box-shadow: 0.05rem 0.05rem black;
 }
