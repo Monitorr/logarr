@@ -228,19 +228,27 @@ include('../functions.php');
                                     }
                                 },
                                 "validator": function(callback) {
-                                    var value = this.getValue();
-                                    $('.log-title-input input').each(function(){
-                                        if($(this).val() == value) {
-                                            callback({
-                                                "status": false,
-                                                "message": "This title has already been used for another log!"
-                                            });
-                                            return;
+                                    var currentFieldValue = this.getValue();
+                                    var calledBack = false;
+                                    var results = 0;
+                                    $('.log-title-input input').each(function(index, value){
+                                        if(value.value == currentFieldValue) {
+                                            results += 1;
+                                            if(results > 1) {
+                                                callback({
+                                                    "status": false,
+                                                    "message": "This title has already been used for another log!"
+                                                });
+                                                calledBack = true;
+                                                return;
+                                            }
                                         }
                                     });
-                                    callback({
-                                        "status": true
-                                    });
+                                    if(!calledBack) {
+                                        callback({
+                                            "status": true
+                                        });
+                                    }
                                 }
                             },
                             "path": {
