@@ -1825,35 +1825,116 @@ h2.heading {
     }
     /** End settings page**/
 }
+/* Info page frames: */
+
+object {
+    width: 100%;
+    height: 100%;
+}
+
+#infoframe {
+    position: fixed;
+    height: 50%;
+    width: 95%;
+    margin-left: .5rem;
+}
+
+.frametd {
+    height: 100%;
+}
+
+.version {
+    background-color: #3d3d3d;
+    width: 100%;
+    height: 100%;
+    float: left;
+}
+
+#versioncontent {
+    width: 100%;
+    height: 100%;
+    background-color: #3d3d3d;
+}
 
 #versionHistory {
-    padding-left: 0;
-    font-size: 1rem;
     margin: 1rem;
+    padding-left: 1rem;
+    background-color: inherit;
+    font-size: 1rem;
     color: white;
     text-align: left;
 }
 
-#versionHistory li {
-    list-style: none;
+#releaseWrapper {
+    max-width: 100rem;
+    margin: auto;
+    background-color: #3d3d3d;
 }
 
-.github-item > h2 {
-    text-align: left;
+.releaseHeader {
+    text-align: center;
 }
 
-.github-item-time {
+.releaseHeader a{
+    margin: 1.5rem;
+    margin-top: 0;
+    font-size: 2rem;
+    font-weight: 700;
+    text-shadow: 0.1rem 0.1rem black;
+    cursor: default;
+    color: white;
+}
+
+.releaseName {
+    display: block;
+    font-size: 1.5rem;
+    color: white;
+    font-weight: 600;
+    cursor: default;
+}
+
+.releasetime {
     display: block;
     margin-bottom: 1rem;
     font-style: italic;
+    cursor: default;
 }
+
 .releaseBody {
     padding-left: 1rem;
-    white-space: pre-wrap;
 }
+.releaseBody > h1,.releaseBody > h2,.releaseBody > h3,.releaseBody > h4,.releaseBody > h5,.releaseBody > h6 {
+    text-align: left;
+}
+
 .releasehr {
     color: #555;
     border-color: #555;
     background-color: #555;
     box-shadow: 0.05rem 0.05rem black;
+}
+
+.releaselink {
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.releaselink:hover {
+    color: #ffffff;
+    text-shadow: 0 0 1rem #FF0104;
+}
+
+.php {
+    width: 100%;
+    height: 100%;
+    float: right;
+}
+
+#phpcontent {
+    width: 100%;
+    height: 100%;
+}
+
+.github-item > h2 {
+    text-align: left;
 }

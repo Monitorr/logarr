@@ -226,11 +226,28 @@ include('../functions.php');
 
 </div>
 
-<div class="slide">
-    <div id="phpContent"></div>
+<div>
+    <table id="infoframe">
+        <tr>
+            <td class="frametd">
+                <div class="version">
+                    <div id ="versioncontent"> </div>
+                </div>
+            </td>
+
+            <td class="frametd">
+                <div class="php">
+                    <div id ="phpcontent"> </div>
+                </div>
+            </td>
+        </tr>
+    </table>
 </div>
 
-<script>document.getElementById("phpContent").innerHTML = '<object type="text/html" class="phpobject" data="../phpinfo.php" ></object>'</script>
+<script>
+    document.getElementById("versioncontent").innerHTML='<object id="versionobject" type="text/html" data="../../../changelog.html" ></object>';
+    document.getElementById("phpcontent").innerHTML='<object id="phpobject" type="text/html" data="../phpinfo.php" ></object>';
+</script>
 
 <script src="../../js/update-settings.js" async></script>
 

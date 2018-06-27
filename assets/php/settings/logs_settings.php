@@ -9,6 +9,7 @@ include('../functions.php');
     <meta charset="utf-8">
     <link type="text/css" href="../../css/bootstrap.min.css" rel="stylesheet">
     <link type="text/css" href="../../css/alpaca.min.css" rel="stylesheet">
+    <link type="text/css" href="../../css/font-awesome.min.css" rel="stylesheet">
     <!-- <link type="text/css" href="../../css/main.css" rel="stylesheet"> -->
     <link type="text/css" href="../../css/logarr.css" rel="stylesheet">
     <link type="text/css" href="../../data/custom.css" rel="stylesheet">
@@ -21,7 +22,6 @@ include('../functions.php');
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://code.cloudcms.com/alpaca/1.5.24/bootstrap/alpaca.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.9/ace.js"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 
     <style>
 
