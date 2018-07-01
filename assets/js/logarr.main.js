@@ -194,7 +194,6 @@ $(function () {
 
     // unlink log action
     $(document).on('click', "button[data-action='unlink-log']", function (event) {
-        alert('test');
         event.preventDefault(); // stop being refreshed
         console.log('Attempting log roll');
         $.growlUI("Attempting <br> log roll");
@@ -318,20 +317,10 @@ function overwriteLogUpdate() {
 
 function updateTime() {
     setInterval(function () {
-        let timeString = date.toLocaleString('en-US', {
-            hour12: timeStandard,
-            weekday: 'short',
-            year: 'numeric',
-            day: '2-digit',
-            month: 'short',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit'
-        }).toString();
-        let res = timeString.split(",");
-        let time = res[3];
-        let dateString = res[0] + '&nbsp; | &nbsp;' + res[1].split(" ")[2] + " " + res[1].split(" ")[1] + '<br>' + res[2];
-        let data = '<div class="dtg">' + time + ' ' + timeZone + '</div>';
+        var res = date.toString().split(" ");
+        var time = res[4];
+        var dateString = res[0] + ' | ' + res[2] + " " + res[1] + '<br>' + res[3];
+        var data = '<div class="dtg">' + time + ' ' + timeZone + '</div>';
         data += '<div id="line">__________</div>';
         data += '<div class="date">' + dateString + '</div>';
         $("#timer").html(data);

@@ -11,7 +11,7 @@ $rolledLogs = "";
 foreach ($logs as $log) {
     if (isset($log['category']) && !empty($log['category']) && !in_array(strtolower($log['category']), $categories)) array_push($categories, strtolower($log['category']));
     $parsedPath = parseLogPath($log['path']);
-    if (!startsWith($parsedPath, 'Error') && is_file($parsedPath) && (empty($category) || (!empty($category) && isset($log['category']) && strtolower($log['category']) == strtolower($category)))) {
+	if (!startsWith($parsedPath, 'Error') && (empty($category) || (!empty($category) && isset($log['category']) && strtolower($log['category']) == strtolower($category)))) {
 
         //auto role check
         if (isset($log['autoRollSize']) && $log['autoRollSize'] != 0) { //check if it should be checked

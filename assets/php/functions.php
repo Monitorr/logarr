@@ -1,5 +1,5 @@
 <?php
-
+ini_set('memory_limit', '-1');
 if (!is_file(__DIR__ . '../../data/datadir.json')
 	|| file_get_contents(__DIR__ . '../../data/datadir.json') == ""
 	|| !key_exists("datadir", json_decode(file_get_contents(__DIR__ . '../../data/datadir.json'), 1))
@@ -93,15 +93,15 @@ function readExternalLog($log)
 	$settings = $GLOBALS['settings'];
 	ini_set("auto_detect_line_endings", true);
 	$result = "";
-	$log = file(parseLogPath($log['path']));
-	$log = array_reverse($log);
-	$lines = $log;
+	$logContents = file(parseLogPath($log['path']));
+	$logContents = array_reverse($logContents);
 	$maxLines = isset($log['maxLines']) ? $log['maxLines'] : $settings['maxLines'];
 
-	foreach ($lines as $line_num => $line) {
+	foreach ($logContents as $line_num => $line) {
 		$result .= "<b>Line {$line_num}</b> : " . htmlspecialchars($line) . "<br />\n";
 		if ($maxLines != 0 && $line_num == $maxLines) break;
 	}
+	unset($logContents);
 	return $result;
 }
 
