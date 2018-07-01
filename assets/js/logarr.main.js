@@ -319,7 +319,16 @@ function updateTime() {
     setInterval(function () {
         var res = date.toString().split(" ");
         var time = res[4];
-        var dateString = res[0] + ' | ' + res[2] + " " + res[1] + '<br>' + res[3];
+        var timeSplit = time.split(":");
+        if (timeStandard) {
+            time = parseInt((timeSplit[0] > 12) ? (timeSplit[0] - 12) : timeSplit[0]) + ":" + timeSplit[1] + ":" + timeSplit[2];
+            if (timeSplit[0] >= 12) {
+                time += " PM";
+            } else {
+                time += " AM";
+            }
+        }
+        var dateString = res[0] + ' | ' + res[2] + " " + res[1] + "<br>" + res[3];
         var data = '<div class="dtg">' + time + ' ' + timeZone + '</div>';
         data += '<div id="line">__________</div>';
         data += '<div class="date">' + dateString + '</div>';
