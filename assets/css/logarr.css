@@ -1509,8 +1509,8 @@ input[name="imginput"]:focus {
 /* Custom CSS */
 
 .customCSS {
-    padding: 0 15px;
-    width: 98%;
+    padding: 0 0 0 15px;
+    width: 49%;
     margin: 0 auto;
 }
 
@@ -1526,9 +1526,9 @@ input[name="imginput"]:focus {
 }
 
 .customJS {
-    padding: 0 15px;
-    width: 98%;
-    margin: 2rem auto 0;
+    padding: 0 0 0 15px;
+    margin: 0 auto;
+    width: 49%;
 }
 
 #customJSEditor {
