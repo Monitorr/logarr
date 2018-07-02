@@ -479,14 +479,24 @@ include('../functions.php');
                                 "value": "submit",
                                 click: function () {
                                     let preferenceSettings = $('#preferencesettings');
-                                    var data = preferenceSettings.alpaca().getValue();
-                                    var cssEditor = ace.edit("customCSSEditor");
+                                    let cssEditor = ace.edit("customCSSEditor");
                                     $.post('post-settings/post_receiver_custom_css.php', {
                                             css: cssEditor.getSession().getValue()
                                         },
                                         function (data) {
+                                            console.log(data);
                                         }
                                     );
+
+                                    let JSEditor = ace.edit("customJSEditor");
+                                    $.post('post-settings/post_receiver_custom_js.php', {
+                                            js: JSEditor.getSession().getValue()
+                                        },
+                                        function (data) {
+                                            console.log(data);
+                                        }
+                                    );
+
                                     $.post({
                                         url: 'post-settings/post_receiver-user_preferences.php',
                                         data: preferenceSettings.alpaca().getValue(),
@@ -511,7 +521,7 @@ include('../functions.php');
                     }
                 },
                 "postRender": function (control) {
-                    var cssEditor = ace.edit("customCSSEditor");
+                    let cssEditor = ace.edit("customCSSEditor");
                     cssEditor.getSession().setMode("ace/mode/css");
                     cssEditor.setTheme("ace/theme/idle_fingers");
 
@@ -519,6 +529,23 @@ include('../functions.php');
                     $.when($.get("../../data/custom.css"))
                         .done(function (response) {
                             cssEditor.getSession().setValue(response);
+                            cssEditor.getSession().on('change', function () {
+                                $('.alpaca-form-button-submit').addClass('buttonchange');
+                            });
+                        });
+
+
+                    let jsEditor = ace.edit("customJSEditor");
+                    jsEditor.getSession().setMode("ace/mode/javascript");
+                    jsEditor.setTheme("ace/theme/idle_fingers");
+
+                    //load the custom css file into the form
+                    $.when($.get("../../data/custom.js"))
+                        .done(function (response) {
+                            jsEditor.getSession().setValue(response);
+                            jsEditor.getSession().on('change', function () {
+                                $('.alpaca-form-button-submit').addClass('buttonchange');
+                            });
                         });
                 }
             });

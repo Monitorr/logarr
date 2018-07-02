@@ -107,6 +107,7 @@ include('assets/php/auth_check.php');
     </script>
 
     <script src="assets/js/clock.js"></script>
+    <script src="assets/data/custom.js"></script>
 
 </head>
 

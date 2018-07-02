@@ -85,7 +85,6 @@ https://github.com/Monitorr/Logarr
         });
     </script>
 
-    <script src="assets/js/clock.js" async></script>
 
     <style>
 
@@ -191,6 +190,8 @@ https://github.com/Monitorr/Logarr
         });
     </script>
 
+    <script src="assets/js/clock.js" async></script>
+    <script src="assets/data/custom.js"></script>
 </head>
 
 <body>

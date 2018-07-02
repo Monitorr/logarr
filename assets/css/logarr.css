@@ -9,10 +9,9 @@ body {
     -webkit-font-smoothing: antialiased;
     /* font-family: 'Lato', sans-serif; */
     font-family: 'Roboto:400', sans-serif;
-    padding: 10px;
     color: #FFFFFF;
     margin-bottom: 6rem;
-    padding-bottom: 0;
+    padding: 10px 10px 0;
 }
 
 :root {
@@ -526,7 +525,7 @@ input:valid {
     visibility: hidden !important;
 }
 
-.input:focus, input.form-control:focus, select.form-control: focus {
+.input:focus, input.form-control:focus, select.form-control:focus {
     border: .2rem solid #007bff;
 }
 
@@ -1526,6 +1525,23 @@ input[name="imginput"]:focus {
     font-weight: 600;
 }
 
+.customJS {
+    padding: 0 15px;
+    width: 98%;
+    margin: 2rem auto 0;
+}
+
+#customJSEditor {
+    height: 22rem;
+    max-width: 100%;
+    border: 2px solid rgb(200, 200, 200);
+}
+
+#customjslabel {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
 #tableuserprefs {
     border-collapse: separate;
     margin: auto;
@@ -1623,7 +1639,7 @@ div[data-alpaca-container-item-name="maxLines"], div[data-alpaca-container-item-
 #logssettings > #alpaca3 > .alpaca-field-array > .alpaca-container > .alpaca-container-item > div > .alpaca-field > .alpaca-container {
     display: flex;
     flex-wrap: wrap;
-    padding: 2rem 0px;
+    padding: 2rem 0;
 }
 .alpaca-container-item:not(:first-child){
     margin-top: 0;
@@ -1876,8 +1892,7 @@ object {
 }
 
 .releaseHeader a{
-    margin: 1.5rem;
-    margin-top: 0;
+    margin: 0 1.5rem 1.5rem;
     font-size: 2rem;
     font-weight: 700;
     text-shadow: 0.1rem 0.1rem black;
