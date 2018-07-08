@@ -240,7 +240,7 @@ include('../functions.php');
                                                     "message": "This title has already been used for another log!"
                                                 });
                                                 calledBack = true;
-                                                return;
+
                                             }
                                         }
                                     });
@@ -255,7 +255,7 @@ include('../functions.php');
                                 "type": "text",
                                 "showMessages": true,
                                 "label": "Log Path:",
-                                "helpers": ["Can be dynamic see <a href='https://github.com/Monitorr/logarr/wiki/(02)-Initial-configuration' target='_blank'>wiki</a>"],
+                                "helpers": ["Can be dynamic see <a href='https://github.com/Monitorr/logarr/wiki/Settings#dynamic-paths' target='_blank'>wiki</a>"],
                                 "name": "path",
                                 "placeholder": "C:\\path\\to.log",
                                 "events": {
@@ -309,7 +309,7 @@ include('../functions.php');
                             "category": {
                                 "type": "text",
                                 "label": "Category:",
-                                "helpers": ["Category of the log, unused for now"],
+                                "helpers": ["Category of the log, will create a tab on the homepage"],
                                 "hideInitValidationError": false,
                                 "name": "category",
                                 "placeholder": "E.g. Media",
