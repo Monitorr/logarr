@@ -30,7 +30,7 @@ $branch = $preferences['updateBranch'];
 // location to download new version zip
 $remote_file_url = 'https://github.com/Monitorr/logarr/zipball/' . $branch . '';
 // rename version location/name
-$local_file = '../../tmp/monitorr-' . $branch . '.zip'; #example: version/new-version.zip
+$local_file = '../../tmp/logarr-' . $branch . '.zip'; #example: version/new-version.zip
 //
 // version check information
 //
