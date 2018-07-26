@@ -1650,13 +1650,33 @@ div[data-alpaca-container-item-name="maxLines"], div[data-alpaca-container-item-
 }
 
 /* Category filter navigation */
-#categoryFilter, #horizontal-nav {
+
+ /* CHANGE ME  */
+
+#horizontal-nav {
     text-align: center;
+}
+
+#categoryFilter {
+    text-align: center;
+    vertical-align: middle;
+    /* height: 3em; */
+    height: fit-content;
+    height: -moz-fit-content;
+    width: fit-content;
+    width: -moz-fit-content;
+    margin: auto;
+    padding: .25rem;
+    border-radius: 6px;
+    background-color: #3d3d3d;
+    box-shadow: 3px 3px 3px black;
+    z-index: 2000;
 }
 
 .category-filter-item, .nav-item {
     padding: 5px 10px;
-    font-size: 1.5rem;
+    /* font-size: 1.5rem; */
+    color: #8C8C8C;
 }
 
 .toolslink {
