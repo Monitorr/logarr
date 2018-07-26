@@ -114,13 +114,57 @@ $notifications = '<script>
                     </script>';
 
 $result .= "</div>";
+
 $categoryNavigation = "<nav id='categoryFilter'>";
-$categoryNavigation .= "<a href='#' class='category-filter-item'>All</a>";
-sort($categories);
-foreach ($categories as $categoryLink) {
-    $categoryNavigation .= "<a href='#$categoryLink' class='category-filter-item'>" . ucfirst($categoryLink) . "</a>";
-}
+
+    $categoryNavigation .= "<table id='categoryTable'>";
+        $categoryNavigation .= "<tr>";
+
+            $categoryNavigation .= "<th id='categoryAll'>"; 
+                $categoryNavigation .= "<a href='#' class='category-filter-item'>All</a>";
+                // $categoryNavigation .= "<div>Toggle</div>";
+
+                    $categoryNavigation .= '<div>';
+
+                        $categoryNavigation .= '<label class="switch" id="categoryStart">';
+
+                           $categoryNavigation .= '<span class="slider round" id="categorySlider" data-enabled="false" onclick="toggletest();"></span>';
+
+                        $categoryNavigation .= '</label>';
+
+                    $categoryNavigation .= '</div>';
+                    
+
+            $categoryNavigation .= "</th>"; 
+
+            sort($categories);
+            foreach ($categories as $categoryLink) {
+
+                $categoryNavigation .= "<th id='categoryItem'>"; 
+                    $categoryNavigation .= "<a href='#$categoryLink' class='category-filter-item'>" . ucfirst($categoryLink) . "</a>";
+
+                        // CHANGE ME:
+
+                    // $categoryNavigation .= "<div>Toggle</div>";
+
+                    $categoryNavigation .= '<div>';
+
+                        $categoryNavigation .= '<label class="switch" id="itemStart">';
+
+                           $categoryNavigation .= '<span class="slider round" id="categorySlider" data-enabled="false"></span>';
+
+                        $categoryNavigation .= '</label>';
+
+                    $categoryNavigation .= '</div>';
+
+                $categoryNavigation .= "</th>"; 
+
+            }
+        $categoryNavigation .= "</tr>";
+    $categoryNavigation .= "</table>";
+
 $categoryNavigation .= "</nav>";
+
 echo $categoryNavigation;
 echo $result;
 if (!empty($rolledLogs)) echo $notifications;
