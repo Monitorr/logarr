@@ -9,7 +9,7 @@ include('assets/php/auth_check.php');
 
 <!--
                 LOGARR
-    by @seanvree, @wjbeckett, and @jonfinley
+    by @seanvree, @jonfinley, and @rob1998
         https://github.com/Monitorr
 -->
 
@@ -78,6 +78,13 @@ include('assets/php/auth_check.php');
         refreshConfig(!autoUpdateOverwrite);
     </script>
 
+    <!-- //change me: -->
+    <script>
+
+        function toggletest() {
+            alert("toggle");
+        }
+    </script>
 
     <!-- UI clock functions: -->
     <script>
