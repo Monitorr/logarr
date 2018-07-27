@@ -119,7 +119,7 @@ $categoryNavigation = "<nav id='categoryFilter'>";
         $categoryNavigation .= "<tr>";
 
 $categoryNavigation .= "<th id='categoryAll'>";
-$categoryAllFilter = (empty($categoryFilter) || $categoryFilter[0] == "") ? "true" : "false";
+$categoryAllFilter = (empty($categoryFilter) || $categoryFilter[0] == "" || !array_diff($categories, $categoryFilter)) ? "true" : "false";
                 $categoryNavigation .= "<a href='#' class='category-filter-item'>All</a>";
 
                     $categoryNavigation .= '<div>';
