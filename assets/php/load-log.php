@@ -144,8 +144,6 @@ foreach ($categories as $categoryName) {
                 $categoryNavigation .= "<th id='categoryItem'>";
 	$categoryNavigation .= "<a href='#$categoryName' class='category-filter-item'>" . ucfirst($categoryName) . "</a>";
 
-                        // CHANGE ME:
-
                     $categoryNavigation .= '<div>';
 
                         $categoryNavigation .= '<label class="switch" id="itemStart">';
