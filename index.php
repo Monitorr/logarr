@@ -78,14 +78,6 @@ include('assets/php/auth_check.php');
         refreshConfig(!autoUpdateOverwrite);
     </script>
 
-    <!-- //change me: -->
-    <script>
-
-        function toggletest() {
-            alert("toggle");
-        }
-    </script>
-
     <!-- UI clock functions: -->
     <script>
         <?php

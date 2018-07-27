@@ -43,6 +43,7 @@ function loadLog() {
             $('#logcontainer').html(response);
             $('#logwrapper').fadeIn('slow');
             console.log('Loaded logs');
+            highlightjs();
         }
     });
 }
@@ -128,6 +129,7 @@ function mark() {
 
 // on page ready functions
 $(function () {
+
     // Perform search action on click
     $("button[data-search='search']").on("click", function () {
         console.log('Logarr is performing search');
@@ -487,4 +489,24 @@ function parseGithubToHTML (result) {
     result += "</ol>";
 
     return result;
+}
+
+function toggleCategory(category, categoryList) {
+    var categories;
+    if (category == "") {
+        category = "";
+        categories = categoryList;
+    } else {
+        categories = categoryList.split(',');
+        var index = categories.indexOf(category);
+        if (index == -1) {
+            categories.push(category);
+        } else {
+            categories.splice(index, 1);
+        }
+        category = categories.join();
+    }
+    window.location.hash = category;
+    console.log('Filtering logs on: ' + category);
+    loadLog();
 }

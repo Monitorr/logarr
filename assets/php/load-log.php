@@ -1,17 +1,14 @@
 <?php
 include('functions.php');
-$hash = $_POST['hash'];
-$category = (isset($_POST['hash']) && !empty($_POST['hash'])) ? substr($_POST['hash'], 1) : '';
-echo "<!--";
-print_r($category);
-echo "-->";
+$categoryFilter = (isset($_POST['hash']) && !empty($_POST['hash'])) ? substr($_POST['hash'], 1) : '';
+$categoryFilter = explode(",", $categoryFilter);
 $categories = array();
 $result = "<div id='logwrapper' class='flex' style='display: none;'>";
 $rolledLogs = "";
 foreach ($logs as $log) {
     if (isset($log['category']) && !empty($log['category']) && !in_array(strtolower($log['category']), $categories)) array_push($categories, strtolower($log['category']));
     $parsedPath = parseLogPath($log['path']);
-	if (!startsWith($parsedPath, 'Error') && (empty($category) || (!empty($category) && isset($log['category']) && strtolower($log['category']) == strtolower($category)))) {
+	if (!startsWith($parsedPath, 'Error') && ((empty($categoryFilter) || $categoryFilter[0] == "") || (!empty($categoryFilter) && isset($log['category']) && in_array(strtolower($log['category']), $categoryFilter)))) {
 
         //auto role check
         if (isset($log['autoRollSize']) && $log['autoRollSize'] != 0) { //check if it should be checked
@@ -29,6 +26,7 @@ foreach ($logs as $log) {
                     <div class=\"row2\">
     
                         <div id=\"filedate\" class=\"left\">
+                        	 " . $log['category'] . "
                             <br>
                             Last modified: " . date(" H:i | D, d M", filemtime($parsedPath)) . "
                         </div>
@@ -120,15 +118,15 @@ $categoryNavigation = "<nav id='categoryFilter'>";
     $categoryNavigation .= "<table id='categoryTable'>";
         $categoryNavigation .= "<tr>";
 
-            $categoryNavigation .= "<th id='categoryAll'>"; 
+$categoryNavigation .= "<th id='categoryAll'>";
+$categoryAllFilter = (empty($categoryFilter) || $categoryFilter[0] == "") ? "true" : "false";
                 $categoryNavigation .= "<a href='#' class='category-filter-item'>All</a>";
-                // $categoryNavigation .= "<div>Toggle</div>";
 
                     $categoryNavigation .= '<div>';
 
                         $categoryNavigation .= '<label class="switch" id="categoryStart">';
 
-                           $categoryNavigation .= '<span class="slider round" id="categorySlider" data-enabled="false" onclick="toggletest();"></span>';
+$categoryNavigation .= '<span class="slider round" data-enabled="' . $categoryAllFilter . '" onclick="toggleCategory(\'\', \'' . implode(",", $categories) . '\');"></span>';
 
                         $categoryNavigation .= '</label>';
 
@@ -138,20 +136,21 @@ $categoryNavigation = "<nav id='categoryFilter'>";
             $categoryNavigation .= "</th>"; 
 
             sort($categories);
-            foreach ($categories as $categoryLink) {
+if ($categoryAllFilter == "true") $categoryFilter = $categories;
+foreach ($categories as $categoryName) {
 
-                $categoryNavigation .= "<th id='categoryItem'>"; 
-                    $categoryNavigation .= "<a href='#$categoryLink' class='category-filter-item'>" . ucfirst($categoryLink) . "</a>";
+	$categoryEnabled = in_array($categoryName, $categoryFilter) ? "true" : "false";
+
+                $categoryNavigation .= "<th id='categoryItem'>";
+	$categoryNavigation .= "<a href='#$categoryName' class='category-filter-item'>" . ucfirst($categoryName) . "</a>";
 
                         // CHANGE ME:
-
-                    // $categoryNavigation .= "<div>Toggle</div>";
 
                     $categoryNavigation .= '<div>';
 
                         $categoryNavigation .= '<label class="switch" id="itemStart">';
 
-                           $categoryNavigation .= '<span class="slider round" id="categorySlider" data-enabled="false"></span>';
+	$categoryNavigation .= '<span class="slider round categorySlider" data-category="' . $categoryName . '" data-enabled="' . $categoryEnabled . '" onclick="toggleCategory(\'' . $categoryName . '\', \'' . implode(",", $categoryFilter) . '\');"></span>';
 
                         $categoryNavigation .= '</label>';
 

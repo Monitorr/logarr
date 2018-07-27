@@ -221,7 +221,7 @@ h6,
 
 .dtg {
     color: #C8C8C8;
-    font-size: .95rem;
+    font-size: .9rem;
     font-weight: 600;
     margin: auto;
     text-align: center;
@@ -359,11 +359,11 @@ h6,
     background: #f2f2f2 radial-gradient(circle at .1rem .1rem, white, rgb(20, 20, 20));
 }
 
-#autoUpdateSlider[data-enabled="false"] {
+.slider[data-enabled="false"] {
     background-color: red;
 }
 
-#autoUpdateSlider[data-enabled="true"] {
+.slider[data-enabled="true"] {
     background-color: green;
 }
 
@@ -371,7 +371,7 @@ input:focus + .slider {
     box-shadow: 0 0 1px green;
 }
 
-#autoUpdateSlider[data-enabled="true"]:before {
+.slider[data-enabled="true"]:before {
     -webkit-transform: translateX(7px);
     -ms-transform: translateX(7px);
     transform: translateX(7px);
