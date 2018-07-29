@@ -21,7 +21,6 @@
 
         <div id="loginbtn">
             <button type="submit" class="btn btn-primary" name="login">Log in</button>
-            <a href="settings.php?action=register" class="btn btn-primary" name="register">Register</a>
         </div>
     </form>
 </div>

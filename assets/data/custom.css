@@ -5,3 +5,8 @@
  */
 
 /* add custom CSS below this line */
+
+/* center settings title and footer to page */
+.settings-title, .settings-footer {
+    margin: auto;
+}
