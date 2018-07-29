@@ -896,11 +896,14 @@ input[type="checkbox"] {
     left: 0;
     right: 0;
     bottom: 1rem;
-    margin: auto;
     text-align: center;
     color: #555555;
     font-size: 1rem;
     z-index: -1;
+}
+
+.settings-footer {
+    margin-left: 20rem;
 }
 
 .footer {
@@ -1614,6 +1617,7 @@ input[name="imginput"]:focus {
     left: 0;
     right: 0;
     margin: auto;
+    margin-left: 20rem;
 }
 
 .transparent-background {

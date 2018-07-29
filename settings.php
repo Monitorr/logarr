@@ -305,7 +305,7 @@ https://github.com/Monitorr/Logarr
 
 </div>
 
-<div id="footer">
+<div id="footer" class="settings-footer">
 
     <!-- Checks for Logarr application update on page load & "Check for update" click: -->
     <script src="assets/js/update.js" async></script>
