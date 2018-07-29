@@ -192,7 +192,9 @@ include('../functions.php');
         </tr>
 
         <tr>
-            <td><strong>Tools:</strong></td>
+            <td></td>
+            <td></td>
+            <!--<td><strong>Tools:</strong></td>
             <td>
                 <a href="" id="registration-link" class="toolslink" title="Registration Page">Registration</a>
             </td>
@@ -202,7 +204,7 @@ include('../functions.php');
                     console.log('navigating to registration page');
                     window.top.location.href = '../../../settings.php?action=register';
                 });
-            </script>
+            </script>-->
 
             <td><strong>Resources:</strong></td>
             <td><a href="https://github.com/Monitorr/logarr" target="_blank" title="Logarr GitHub Repo"> <img

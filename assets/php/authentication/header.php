@@ -123,9 +123,3 @@
 	<div id="right" class="Column">
 	</div>
 </div>
-
-<nav id='horizontal-nav'>
-    <a href="index.php" title="Logarr Homepage" class='nav-item'>Logarr</a>
-    <a href="settings.php" title="Settings" class='nav-item'>Settings</a>
-    <a href="settings.php?action=register" title="Register" class='nav-item'>Register</a>
-</nav>

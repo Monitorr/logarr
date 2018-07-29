@@ -248,6 +248,9 @@ https://github.com/Monitorr/Logarr
                 <li class="sidebar-nav-item" data-item="logs-configuration">
                     <a href="#logs-configuration" onclick="load_logs()"><i class="fa fa-fw fa-book"></i>Logs Configuration</a>
                 </li>
+                <li class="sidebar-nav-item" data-item="registration">
+                    <a href="settings.php?action=register"><i class="fas fa-user-plus"></i>Registration</a>
+                </li>
                 <?php if(isset($_SESSION['user_name']) && isset($_SESSION['user_is_logged_in']) && !empty($_SESSION['user_name']) && ($_SESSION['user_is_logged_in'])){ ?>
                 <li class="sidebar-nav-item" data-item="log-out">
                     <a href="settings.php?action=logout"><i class="fas fa-sign-out-alt"></i>Log Out</a>
