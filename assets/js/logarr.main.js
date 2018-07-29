@@ -120,7 +120,7 @@ function mark() {
                     results.addClass("markresults");
                     count.addClass("countresults");
                     currentIndex = 0;
-                    if (settings.jumpOnSearch) jumpTo(); // Auto focus/scroll to first searched term after search submit, if user had enabled option in config
+                    if (settings.jumpOnSearch == "true") jumpTo(); // Auto focus/scroll to first searched term after search submit, if user had enabled option in config
                 }
             });
         }
