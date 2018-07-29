@@ -2,11 +2,6 @@
 
 /* NOTE: See wiki for detailed instructions/examples.
 	+ After applying custom CSS, clearing browser cache and reloading the Logarr UI may be necessary.
- */
+*/
 
 /* add custom CSS below this line */
-
-/* center settings title and footer to page */
-.settings-title, .settings-footer {
-    margin: auto;
-}
