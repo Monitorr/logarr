@@ -16,34 +16,72 @@ function refreshblockUI() {
     if (settings.autoHighlight == "true") {
         setTimeout(function () {
             highlightjs();
-        }, 1500); // CHANGE ME ??
+        }, 1500);
     }
     //wait after log update, if the searchinput field is not empty, perform search:
     if ($("input[name='markinput']").val() != "") {
         setTimeout(function () {
             mark();
-            //$("button[data-search='search']").click();
-        }, 1500); // CHANGE ME ??
+        }, 1500);
     }
 }
 
 function refresh() {
-    loadLog();
+    loadLogs();
     console.log('Logarr log update START');
 }
 
 // Load logs
-function loadLog() {
+function loadLogs() {
+    var categories = [];
+    var html = "";
+    var filter = window.location.hash.substr(1);
+    filter = filter.split(",");
+    $("#logwrapper").html("");
+    for (let i = 0; i < logs.length; i++) {
+        if (logs[i].enabled == "Yes") {
+            if ((filter[0] == "" || filter.indexOf(logs[i].category) != -1)) {
+                $("#logwrapper").append("<div id='" + logs[i].logTitle.replace(/\s/g, "-") + "-log-container' data-category='" + logs[i].category + "' data-index='" + i + "' class='flex-child'></div>");
+                loadLog(logs[i]);
+            }
+            categories.push(logs[i].category);
+        }
+    }
+
+    var allFilter = (filter[0] == "" || arraySubset(filter, categories)) ? "true" : "false";
+    var categoryFilter = window.location.hash.substr(1);
+    if (allFilter == "true") categoryFilter = categories.join(",");
+
+    html += "<div class='category-item'>" +
+        "<a href='#' class='category-filter-item'>All</a>" +
+        "<label class=\"switch category-switch\">" +
+        "<span class=\"slider round\" data-enabled=\"" + allFilter + "\" onclick=\"toggleCategory('', '" + categoryFilter + "');\"></span>" +
+        "</label>" +
+        "</div>";
+
+    for (let i = 0; i < categories.length; i++) {
+        var catFilter = (allFilter == "true" || filter.indexOf(categories[i]) != -1) ? "true" : "false";
+        html += "<div class='category-item'>" +
+            "<a href='#" + categories[i] + "' class='category-filter-item'>" + categories[i] + "</a>" +
+            "<label class=\"switch category-switch\">" +
+            "<span class=\"slider round\" data-enabled=\"" + catFilter + "\" onclick=\"toggleCategory('" + categories[i] + "', '" + categoryFilter + "');\"></span>" +
+            "</label>" +
+            "</div>";
+    }
+
+    $('#categoryFilter').html(html);
+
+}
+
+function loadLog(log) {
+    var logTitle = log.logTitle;
     $.ajax({
         url: "assets/php/load-log.php",
-        data: {'hash': window.location.hash},
+        data: {'log': log},
         type: "POST",
         success: function (response) {
-            //$('#logcontainer').fadeOut('slow').delay(500);
-            $('#logcontainer').html(response);
-            $('#logwrapper').fadeIn('slow');
-            console.log('Loaded logs');
-            highlightjs();
+            $("#" + logTitle.replace(/\s/g, "-") + "-log-container").html(response);
+            console.log("Updated log: " + logTitle);
         }
     });
 }
@@ -238,6 +276,13 @@ $(function () {
         return false;
     });
 
+    // update log action
+    $(document).on('click', "button[data-action='update-log']", function (event) {
+        event.preventDefault(); // stop page from being refreshed
+        loadLog(logs[$(this).parent().parent().data("index")]);
+        return false;
+    });
+
     // filter logs
     $(document).on('click', ".category-filter-item", function (event) {
         refreshblockUI();
@@ -250,13 +295,13 @@ $(function () {
 function refreshConfig(updateLogs) {
     $.ajax({
         url: "assets/php/sync-config.php",
-        data: {settings: settings, preferences: preferences},
-        type: "POST",
+        type: "GET",
         success: function (response) {
 
             let json = JSON.parse(response);
             let settings = json.settings;
             let preferences = json.preferences;
+            let logs = json.logs;
 
             setTimeout(function () {
                 refreshConfig()
@@ -508,5 +553,12 @@ function toggleCategory(category, categoryList) {
     }
     window.location.hash = category;
     console.log('Filtering logs on: ' + category);
-    loadLog();
+    loadLogs();
+}
+
+function arraySubset(arr1, arr2) {
+    for (var i = arr2.length; i--;) {
+        if (arr1.indexOf(arr2[i]) == -1) return false;
+    }
+    return true;
 }

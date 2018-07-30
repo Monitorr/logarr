@@ -60,7 +60,7 @@ include('assets/php/auth_check.php');
 
     <script src="assets/js/jquery.blockUI.js"></script>
 
-    <script src="assets/js/jquery.highlight.js" async> </script>
+    <script src="assets/js/jquery.highlight.js" async></script>
 
     <script src="assets/js/jquery.mark.min.js" async></script>
 
@@ -70,6 +70,7 @@ include('assets/php/auth_check.php');
     <script>
         let settings = <?php echo json_encode($GLOBALS['settings']);?>;
         let preferences = <?php echo json_encode($GLOBALS['preferences']);?>;
+        let logs = <?php echo json_encode($GLOBALS['logs']);?>;
         let current_rflog = settings.rflog;
         let nIntervId;
         let logInterval = false;
@@ -80,20 +81,20 @@ include('assets/php/auth_check.php');
 
     <!-- UI clock functions: -->
     <script>
-        <?php
-        //initial values for clock:
-        $timezone = $GLOBALS['preferences']['timezone'];
-        $dt = new DateTime("now", new DateTimeZone("$timezone"));
-        $timeStandard = (int)($GLOBALS['preferences']['timestandard']);
-        $rftime = $GLOBALS['settings']['rftime'];
-        $timezone_suffix = '';
-        if (!$timeStandard) {
-            $dateTime = new DateTime();
-            $dateTime->setTimeZone(new DateTimeZone($timezone));
-            $timezone_suffix = $dateTime->format('T');
-        }
-        $serverTime = $dt->format("D d M Y H:i:s");
-        ?>
+	    <?php
+	    //initial values for clock:
+	    $timezone = $GLOBALS['preferences']['timezone'];
+	    $dt = new DateTime("now", new DateTimeZone("$timezone"));
+	    $timeStandard = (int)($GLOBALS['preferences']['timestandard']);
+	    $rftime = $GLOBALS['settings']['rftime'];
+	    $timezone_suffix = '';
+	    if (!$timeStandard) {
+		    $dateTime = new DateTime();
+		    $dateTime->setTimeZone(new DateTimeZone($timezone));
+		    $timezone_suffix = $dateTime->format('T');
+	    }
+	    $serverTime = $dt->format("D d M Y H:i:s");
+	    ?>
         let servertime = "<?php echo $serverTime;?>";
         let timeStandard = <?php echo $timeStandard;?>;
         let timeZone = "<?php echo $timezone_suffix;?>";
@@ -165,26 +166,17 @@ include('assets/php/auth_check.php');
 
         <div id="rightbottom" class="rightbottom">
 
-            <table id="slidertable">
-                <tr title="Auto-update logs | Interval: <?php echo $settings['rflog']; ?> ms ">
+            <div id="auto-update" title="Auto-update logs | Interval: <?php echo $settings['rflog']; ?> ms ">
 
-                    <th id="textslider">
                         Auto Update:
-                    </th>
 
-                    <th id="slider">
                         <label class="switch" id="buttonStart">
                             <span class="slider round" id="autoUpdateSlider" data-enabled="false" onclick="overwriteLogUpdate();"></span>
                         </label>
-                    </th>
 
-                    <th>
                         <input id="Update" type="button" name="updateBtn" class="button2 btn btn-primary" value="Update"
                                title="Trigger log manual update" onclick="refreshblockUI(); this.blur(); return false"/>
-                    </th>
-
-                </tr>
-            </table>
+            </div>
 
         </div>
 
@@ -192,7 +184,13 @@ include('assets/php/auth_check.php');
 
 </div>
 
-<div id="logcontainer"></div>
+<div id="logcontainer">
+
+    <nav id="categoryFilter">
+    </nav>
+
+    <div id='logwrapper' class='flex'></div>
+</div>
 
 <!-- Unlink response modal: -->
 
@@ -217,9 +215,9 @@ include('assets/php/auth_check.php');
         <a href="https://github.com/Monitorr/logarr/releases" title="Logarr releases" target="_blank" class="footer">
             Version: <?php echo file_get_contents("assets/js/version/version.txt"); ?></a> |
         <a href="settings.php" title="Logarr Settings" target="_blank" class="footer">Settings</a>
-        <?php if(isset($_SESSION['user_name']) && isset($_SESSION['user_is_logged_in']) && !empty($_SESSION['user_name']) && ($_SESSION['user_is_logged_in'])){
-            echo " | <a href='index.php?action=logout' title='Log out' class='footer'></i>Logout</a>";
-        }?>
+	    <?php if (isset($_SESSION['user_name']) && isset($_SESSION['user_is_logged_in']) && !empty($_SESSION['user_name']) && ($_SESSION['user_is_logged_in'])) {
+		    echo " | <a href='index.php?action=logout' title='Log out' class='footer'></i>Logout</a>";
+	    } ?>
         <br>
     </div>
 
