@@ -37,11 +37,12 @@ function loadLogs() {
     var html = "";
     var filter = window.location.hash.substr(1);
     filter = filter.split(",");
-    $("#logwrapper").html("");
     for (let i = 0; i < logs.length; i++) {
         if (logs[i].enabled == "Yes") {
             if ((filter[0] == "" || filter.indexOf(logs[i].category) != -1)) {
-                $("#logwrapper").append("<div id='" + logs[i].logTitle.replace(/\s/g, "-") + "-log-container' data-category='" + logs[i].category + "' data-index='" + i + "' class='flex-child'></div>");
+                if (document.getElementById(logs[i].logTitle.replace(/\s/g, "-") + "-log-container") == null) {
+                    $("#logwrapper").append("<div id='" + logs[i].logTitle.replace(/\s/g, "-") + "-log-container' data-category='" + logs[i].category + "' data-index='" + i + "' class='flex-child'></div>");
+                }
                 loadLog(logs[i]);
             }
             categories.push(logs[i].category);
