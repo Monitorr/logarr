@@ -435,7 +435,7 @@ function load_authentication() {
 }
 
 function load_logs() {
-    document.getElementById("setttings-page-title").innerHTML = 'Logs Settings';
+    document.getElementById("setttings-page-title").innerHTML = 'Log Configuration';
     document.getElementById("includedContent").innerHTML = '<object type="text/html" class="object" data="assets/php/settings/logs_settings.php" ></object>';
     $(".sidebar-nav-item").removeClass('active');
     $("li[data-item='logs-configuration']").addClass("active");
