@@ -85,79 +85,6 @@ https://github.com/Monitorr/Logarr
         });
     </script>
 
-
-    <style>
-
-        body {
-            margin: auto;
-            padding-left: 2rem;
-            padding-right: 1rem;
-            padding-bottom: 1rem;
-            /* overflow-y: scroll !important;  */
-            overflow-x: hidden !important;
-            /* color: white !important; */
-            background-color: #1F1F1F;
-        }
-
-        .navbar-brand {
-            font-weight: 500;
-        }
-
-        #summary {
-            margin-top: 0 !important;
-            width: 17rem !important;
-            position: relative !important;
-            margin-bottom: 1rem;
-            font-size: .8rem;
-            line-height: 1.5rem;
-        }
-
-        legend {
-            color: white;
-        }
-
-        body::-webkit-scrollbar {
-            width: 10px;
-            background-color: #252525;
-        }
-
-        body::-webkit-scrollbar-track {
-            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-            box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            background-color: #252525;
-        }
-
-        body::-webkit-scrollbar-thumb {
-            border-radius: 10px;
-            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
-            box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
-            background-color: #8E8B8B;
-        }
-
-        body.offline #link-bar {
-            display: none;
-        }
-
-        body.online #link-bar {
-            display: block;
-        }
-
-        #left {
-            /* padding-top: 5rem; */
-            padding-bottom: 1.5rem !important;
-        }
-
-        #footer {
-            position: fixed !important;
-        }
-
-        a:link {
-            background-color: transparent !important;
-        }
-
-    </style>
-
     <title>
 		<?php
 		echo $preferences['sitetitle'];
@@ -182,6 +109,9 @@ https://github.com/Monitorr/Logarr
                     break;
                 case "#logs-configuration":
                     load_logs();
+                    break;
+                case "#registration":
+                    load_registration();
                     break;
                 default:
                     load_info();
@@ -245,10 +175,10 @@ https://github.com/Monitorr/Logarr
                     <a href="#logarr-authentication" onclick="load_authentication()"><i class="fa fa-fw fa-lock"></i>Authentication</a>
                 </li>
                 <li class="sidebar-nav-item" data-item="logs-configuration">
-                    <a href="#logs-configuration" onclick="load_logs()"><i class="fa fa-fw fa-book"></i>Logs Configuration</a>
+                    <a href="#logs-configuration" onclick="load_logs()"><i class="fa fa-fw fa-book"></i>Log Configuration</a>
                 </li>
                 <li class="sidebar-nav-item" data-item="registration">
-                    <a href="settings.php?action=register"><i class="fas fa-user-plus"></i>Registration</a>
+                    <a href="#registration" onclick="load_registration()"><i class="fas fa-user-plus"></i>Registration</a>
                 </li>
                 <?php if(isset($_SESSION['user_name']) && isset($_SESSION['user_is_logged_in']) && !empty($_SESSION['user_name']) && ($_SESSION['user_is_logged_in'])){ ?>
                 <li class="sidebar-nav-item" data-item="log-out">

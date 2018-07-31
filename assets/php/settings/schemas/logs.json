@@ -28,7 +28,7 @@
 				"properties": {}
 			},
 			"maxLines": {
-				"type": "string",
+				"type": "number",
 				"title": "Line Limit"
 			},
 			"autoRollSize": {

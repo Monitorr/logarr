@@ -45,7 +45,7 @@ function loadLogs() {
                 }
                 loadLog(logs[i]);
             }
-            categories.push(logs[i].category);
+            if (typeof logs[i].category != "undefined") categories.push(logs[i].category);
         }
     }
 
@@ -439,6 +439,13 @@ function load_logs() {
     document.getElementById("includedContent").innerHTML = '<object type="text/html" class="object" data="assets/php/settings/logs_settings.php" ></object>';
     $(".sidebar-nav-item").removeClass('active');
     $("li[data-item='logs-configuration']").addClass("active");
+}
+
+function load_registration() {
+    document.getElementById("setttings-page-title").innerHTML = 'Registration';
+    document.getElementById("includedContent").innerHTML = '<object type="text/html" class="object" data="assets/php/settings/registration.php" ></object>';
+    $(".sidebar-nav-item").removeClass('active');
+    $("li[data-item='registration']").addClass("active");
 }
 
 function scrollFunction() {

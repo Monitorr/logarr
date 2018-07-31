@@ -2,12 +2,13 @@
 include('functions.php');
 $log = (isset($_POST['log']) && !empty($_POST['log'])) ? $_POST['log'] : '';
 $parsedPath = parseLogPath($log['path']);
+$category = isset($log['category']) ? $log['category'] : "";
 $result = "
 
         <div class=\"row2\">
 
             <div id=\"filedate\" class=\"left\">
-            	 " . $log['category'] . "
+            	 " . $category . "
                 <br>
                 Last modified: " . date(" H:i | D, d M", filemtime($parsedPath)) . "
             </div>

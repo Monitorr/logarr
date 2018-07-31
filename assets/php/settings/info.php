@@ -17,59 +17,6 @@ include('../functions.php');
     <script src="../../js/jquery.blockUI.js" async></script>
     <!-- <script type="text/javascript" src="../../js/pace.js" async></script> -->
 
-    <style>
-
-        body {
-            margin: 2vw !important;
-            overflow-y: auto;
-            overflow-x: hidden;
-            background-color: #1F1F1F;
-        }
-
-        legend {
-            color: white;
-        }
-
-        body::-webkit-scrollbar {
-            width: 10px;
-            background-color: #252525;
-        }
-
-        body::-webkit-scrollbar-track {
-            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-            box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            background-color: #252525;
-        }
-
-        body::-webkit-scrollbar-thumb {
-            border-radius: 10px;
-            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
-            box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
-            background-color: #8E8B8B;
-        }
-
-        body.offline #link-bar {
-            display: none;
-        }
-
-        body.online #link-bar {
-            display: block;
-        }
-
-        tbody {
-            cursor: default !important;
-        }
-
-        select, input {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-        }
-
-    </style>
-
-
     <title>
         <?php
         $title = $GLOBALS['preferences']['sitetitle'];
@@ -80,7 +27,7 @@ include('../functions.php');
 
 </head>
 
-<body>
+<body id="settings-frame-wrapper">
 
 <script>
     document.body.className += ' fade-out';
@@ -123,22 +70,13 @@ include('../functions.php');
 
                 echo " <strong> | Extensions: </strong> ";
 
-                if (extension_loaded('curl')) {
-                    echo " <div class='extok' title='PHP cURL extension loaded OK' >";
-                    echo "cURL";
-                    echo "</div>";
-                } else {
-                    echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP cURL extension NOT loaded'>";
-                    echo "cURL";
-                    echo "</a>";
-                }
 
                 if (extension_loaded('sqlite3')) {
-                    echo " | <div class='extok' title='PHP sqlite3 extension loaded OK'>";
+	                echo " <div class='extok' title='PHP sqlite3 extension loaded OK'>";
                     echo "php_sqlite3";
                     echo "</div>";
                 } else {
-                    echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP php_sqlite3 extension NOT loaded'>";
+	                echo " <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP php_sqlite3 extension NOT loaded'>";
                     echo "php_sqlite3";
                     echo "</a>";
                 }

@@ -22,16 +22,6 @@ echo "<div style='text-align: center; margin: auto;'>";
 
 echo " <strong> Required Extensions: </strong> ";
 
-if (extension_loaded('curl')) {
-    echo " <div class='extok' title='PHP cURL extension loaded OK' >";
-    echo "cURL";
-    echo "</div>";
-} else {
-    echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP cURL extension NOT loaded'>";
-    echo "cURL";
-    echo "</a>";
-}
-
 if (extension_loaded('sqlite3')) {
     echo " | <div class='extok' title='PHP sqlite3 extension loaded OK'>";
     echo "php_sqlite3";

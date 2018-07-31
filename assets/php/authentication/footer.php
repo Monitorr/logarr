@@ -14,13 +14,6 @@
 		<br>
 	</div>
 
-	<div id="version">
-		<a id="version_check" title="Check and execute update" style="cursor: pointer">Check for Update</a>
-		<br>
-	</div>
-
-	<div id="version_check_auto"></div>
-
 </div>
 
 </body>

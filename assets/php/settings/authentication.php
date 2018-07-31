@@ -22,58 +22,6 @@ include('../functions.php');
     <script type="text/javascript" src="https://code.cloudcms.com/alpaca/1.5.24/bootstrap/alpaca.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.9/ace.js"></script>
 
-    <style>
-
-        body {
-            margin: 2vw !important;
-            overflow-y: auto;
-            overflow-x: hidden;
-            color: white !important;
-        }
-
-        legend {
-            color: white;
-        }
-
-        body::-webkit-scrollbar {
-            width: 10px;
-            background-color: #252525;
-        }
-
-        body::-webkit-scrollbar-track {
-            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-            box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            background-color: #252525;
-        }
-
-        body::-webkit-scrollbar-thumb {
-            border-radius: 10px;
-            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
-            box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
-            background-color: #8E8B8B;
-        }
-
-        body.offline #link-bar {
-            display: none;
-        }
-
-        body.online #link-bar {
-            display: block;
-        }
-
-        label {
-            width: 100% !important;
-            max-width: 100% !important;
-        }
-
-        input[type=checkbox], input[type=radio] {
-            cursor: pointer;
-        }
-
-    </style>
-
-
     <title>
         <?php
         $title = $GLOBALS['preferences']['sitetitle'];
@@ -84,7 +32,7 @@ include('../functions.php');
 
 </head>
 
-<body class="transparent-background">
+<body id="settings-frame-wrapper" class="transparent-background">
 
 <script>
     document.body.className += ' fade-out';
