@@ -1,7 +1,7 @@
 
 <!-- ![logarr](https://i.imgur.com/BxmpBtA.png) -->
 
-![logarr](https://i.imgur.com/l2sM0Ag.png)
+<!-- ![logarr](https://i.imgur.com/l2sM0Ag.png) -->
 
 ![Imgur](https://i.imgur.com/TUvwSKq.png)
 
