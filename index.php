@@ -185,10 +185,7 @@ include('assets/php/auth_check.php');
 </div>
 
 <div id="logcontainer">
-
-    <nav id="categoryFilter">
-    </nav>
-
+    <nav id="categoryFilter" style="display: none;"></nav>
     <div id='logwrapper' class='flex'></div>
 </div>
 

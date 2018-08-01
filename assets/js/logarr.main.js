@@ -27,8 +27,9 @@ function refreshblockUI() {
 }
 
 function refresh() {
-    loadLogs();
     console.log('Logarr log update START');
+    refreshConfig(false);
+    loadLogs();
 }
 
 // Load logs
@@ -39,38 +40,52 @@ function loadLogs() {
     filter = filter.split(",");
     for (let i = 0; i < logs.length; i++) {
         if (logs[i].enabled == "Yes") {
+            if (typeof logs[i].category == "undefined") logs[i].category = "Uncategorized";
             if ((filter[0] == "" || filter.indexOf(logs[i].category) != -1)) {
                 if (document.getElementById(logs[i].logTitle.replace(/\s/g, "-") + "-log-container") == null) {
-                    $("#logwrapper").append("<div id='" + logs[i].logTitle.replace(/\s/g, "-") + "-log-container' data-category='" + logs[i].category + "' data-index='" + i + "' class='flex-child'></div>");
+                    $("#logwrapper").append("<div id='" + logs[i].logTitle.replace(/\s/g, "-") + "-log-container' data-category='" + logs[i].category + "' data-index='" + i + "' class='flex-child log-container'></div>");
                 }
+                $("#" + logs[i].logTitle.replace(/\s/g, "-") + "-log-container").data("category", logs[i].category);
+                $("#" + logs[i].logTitle.replace(/\s/g, "-") + "-log-container").data("index", i);
                 loadLog(logs[i]);
             }
-            if (typeof logs[i].category != "undefined") categories.push(logs[i].category);
+            if (typeof logs[i].category != "undefined" && categories.indexOf(logs[i].category) == -1 && logs[i].category != "All") {
+                categories.push(logs[i].category);
+            } else if (typeof logs[i].category == "undefined" && categories.indexOf("Uncategorized") == -1) {
+                categories.push("Uncategorized");
+            }
         }
     }
+    if (categories.length > 0 && !(categories.length == 1 && categories[0] == "Uncategorized")) {
+        console.log("choice 1");
+        var allFilter = (filter[0] == "" || arraySubset(filter, categories)) ? "true" : "false";
+        var categoryFilter = window.location.hash.substr(1);
+        if (allFilter == "true") categoryFilter = categories.join(",");
 
-    var allFilter = (filter[0] == "" || arraySubset(filter, categories)) ? "true" : "false";
-    var categoryFilter = window.location.hash.substr(1);
-    if (allFilter == "true") categoryFilter = categories.join(",");
-
-    html += "<div class='category-item'>" +
-        "<a href='#' class='category-filter-item'>All</a>" +
-        "<label class=\"switch category-switch\">" +
-        "<span class=\"slider round\" data-enabled=\"" + allFilter + "\" onclick=\"toggleCategory('', '" + categoryFilter + "');\"></span>" +
-        "</label>" +
-        "</div>";
-
-    for (let i = 0; i < categories.length; i++) {
-        var catFilter = (allFilter == "true" || filter.indexOf(categories[i]) != -1) ? "true" : "false";
         html += "<div class='category-item'>" +
-            "<a href='#" + categories[i] + "' class='category-filter-item'>" + categories[i] + "</a>" +
+            "<a href='#' class='category-filter-item'>All</a>" +
             "<label class=\"switch category-switch\">" +
-            "<span class=\"slider round\" data-enabled=\"" + catFilter + "\" onclick=\"toggleCategory('" + categories[i] + "', '" + categoryFilter + "');\"></span>" +
+            "<span class=\"slider round\" data-enabled=\"" + allFilter + "\" onclick=\"toggleCategory('', '" + categoryFilter + "');\"></span>" +
             "</label>" +
             "</div>";
-    }
 
-    $('#categoryFilter').html(html);
+        categories.sort();
+        for (let i = 0; i < categories.length; i++) {
+            var catFilter = (allFilter == "true" || filter.indexOf(categories[i]) != -1) ? "true" : "false";
+            html += "<div class='category-item'>" +
+                "<a href='#" + categories[i] + "' class='category-filter-item'>" + categories[i] + "</a>" +
+                "<label class=\"switch category-switch\">" +
+                "<span class=\"slider round\" data-enabled=\"" + catFilter + "\" onclick=\"toggleCategory('" + categories[i] + "', '" + categoryFilter + "');\"></span>" +
+                "</label>" +
+                "</div>";
+        }
+
+        $('#categoryFilter').html(html);
+        $('#categoryFilter').show();
+    } else {
+        console.log("choice 2");
+        $('#categoryFilter').hide();
+    }
 
 }
 
@@ -300,9 +315,11 @@ function refreshConfig(updateLogs) {
         success: function (response) {
 
             let json = JSON.parse(response);
-            let settings = json.settings;
-            let preferences = json.preferences;
-            let logs = json.logs;
+            settings = json.settings;
+            preferences = json.preferences;
+            logs = json.logs;
+
+            console.log(json.logs);
 
             setTimeout(function () {
                 refreshConfig()
@@ -546,15 +563,13 @@ function parseGithubToHTML (result) {
 
 function toggleCategory(category, categoryList) {
     var categories;
-    if (category == "") {
-        category = "";
-        categories = categoryList;
-    } else {
+    if (category != "") {
         categories = categoryList.split(',');
         var index = categories.indexOf(category);
         if (index == -1) {
             categories.push(category);
         } else {
+            $(".log-container[data-category='" + category + "']").remove();
             categories.splice(index, 1);
         }
         category = categories.join();

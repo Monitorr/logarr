@@ -138,5 +138,3 @@
 		<div id="right" class="Column">
 		</div>
 	</div>
-
-</body>
