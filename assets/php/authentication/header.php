@@ -3,7 +3,7 @@
 
 <!--
                 LOGARR
-    by @seanvree, @wjbeckett, and @jonfinley
+    by @seanvree, @jonfinley, and @rob1998
         https://github.com/Monitorr
 -->
 
@@ -45,8 +45,6 @@
 	<meta name="theme_color" content="#252525"/>
 
 	<meta name="robots" content="NOINDEX, NOFOLLOW">
-
-	<!-- // CHANGE ME - Change to new config file  -->
 
 	<title><?php echo $GLOBALS['preferences']['sitetitle']; ?></title>
 
@@ -102,24 +100,43 @@
 </head>
 
 <body id="body" style="color: #FFFFFF;">
-<div id="ajaxtimestamp" title="Analog clock timeout. Refresh page."></div>
 
-<div class="header">
+	<div id="ajaxtimestamp" title="Analog clock timeout. Refresh page."></div>
 
-	<div id="left" class="Column">
+	<div class="header">
 
-		<div id="clock">
-			<canvas id="canvas" width="120" height="120"></canvas>
-			<div class="dtg" id="timer"></div>
+		<div id="left" class="Column">
+
+			<div id="clock">
+				<canvas id="canvas" width="120" height="120"></canvas>
+				<div class="dtg" id="timer"></div>
+			</div>
+
 		</div>
 
+		<!-- 
+		<div id="logo" class="Column">
+			<img src="assets/images/log-icon.png" alt="Logarr" style="height:8em;border:0;" title="Reload Logarr"
+				onclick="window.location.reload(true);">
+		</div>
+		-->
+
+		<!-- // CHANBGE ME:  White or dark text?? -->
+
+		<div id="logo" class="Column">
+			<img src="assets/images/logarr_text_black_glow_crop.png" alt="Logarr" style="height:8em;border:0;" title="Reload Logarr"
+				onclick="window.location.reload(true);">
+		</div>
+
+		<br> <br>
+
+		<div id="logo" class="Column">
+			<img src="assets/images/monitorr_text_white_glow_crop.png" alt="Logarr" style="height:8em;border:0;" title="Reload Logarr"
+				onclick="window.location.reload(true);">
+		</div>
+
+		<div id="right" class="Column">
+		</div>
 	</div>
 
-	<div id="logo" class="Column">
-		<img src="assets/images/log-icon.png" alt="Logarr" style="height:8em;border:0;" title="Reload Logarr"
-		     onclick="window.location.reload(true);">
-	</div>
-
-	<div id="right" class="Column">
-	</div>
-</div>
+</body>
