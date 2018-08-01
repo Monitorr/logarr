@@ -1,9 +1,9 @@
 
 <!-- ![logarr](https://i.imgur.com/BxmpBtA.png) -->
 
-<!-- ![logarr](https://i.imgur.com/l2sM0Ag.png) -->
+![logarr](https://i.imgur.com/l2sM0Ag.png) 
 
-![Imgur](https://i.imgur.com/TUvwSKq.png)
+<!-- ![Imgur](https://i.imgur.com/TUvwSKq.png) -->
 
 ## - *Logarr* is a Self-hosted, single-page, log consolidation tool written in PHP 
 
