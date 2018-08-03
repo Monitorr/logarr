@@ -265,10 +265,46 @@ h6,
 #logo {
     text-align: center;
     vertical-align: middle;
-    width: 20%;
+    width: 90%;
 }
 
-#logo > img {
+#logo>img {
+    height: 8em;
+    border: 0;
+    filter: drop-shadow(.2rem .2rem .2rem black);
+    -webkit-filter: drop-shadow(.2rem .2rem .2rem black);
+    cursor: pointer;
+}
+
+#logoHeader {
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    /* height: 9rem; */
+    width: 17rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+}
+
+#logoHeader > img {
+    height: 8em;
+    border: 0;
+    margin: auto;
+    filter: drop-shadow(.2rem .2rem .2rem black);
+    -webkit-filter: drop-shadow(.2rem .2rem .2rem black);
+    cursor: pointer;
+}
+
+#logoHeaderSettings {
+    display: flex;
+    position: relative;
+    flex-direction: row;
+}
+
+#logoHeaderSettings > img {
+    height: 8em;
+    border: 0;
+    margin: auto;
     filter: drop-shadow(.2rem .2rem .2rem black);
     -webkit-filter: drop-shadow(.2rem .2rem .2rem black);
     cursor: pointer;
@@ -1365,7 +1401,8 @@ input[name="imginput"]:focus {
     float: left;
     width: min-content;
     height: 100%;
-    padding-top: 5rem;
+    /* padding-top: 5rem; */
+    padding-top: 1rem; 
     background-color: transparent;
 }
 
