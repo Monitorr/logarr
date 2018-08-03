@@ -107,6 +107,10 @@
 
 		<div id="left" class="Column">
 
+			<div id="logoHeader" class="Column">
+				<img src="assets/images/logo_white_glow_crop.png" alt="Logarr" title="Reload Logarr" onclick="window.location.reload(true);">
+			</div>
+
 			<div id="clock">
 				<canvas id="canvas" width="120" height="120"></canvas>
 				<div class="dtg" id="timer"></div>
@@ -114,27 +118,13 @@
 
 		</div>
 
-		<!-- 
-		<div id="logo" class="Column">
-			<img src="assets/images/log-icon.png" alt="Logarr" style="height:8em;border:0;" title="Reload Logarr"
-				onclick="window.location.reload(true);">
-		</div>
-		-->
-
-		<!-- // CHANBGE ME:  White or dark text?? -->
+			<!-- CHANGE ME // REMOVE "ON CLICK"? -->
 
 		<div id="logo" class="Column">
-			<img src="assets/images/logarr_text_black_glow_crop.png" alt="Logarr" style="height:8em;border:0;" title="Reload Logarr"
-				onclick="window.location.reload(true);">
-		</div>
-
-		<br> <br>
-
-		<div id="logo" class="Column">
-			<img src="assets/images/monitorr_text_white_glow_crop.png" alt="Logarr" style="height:8em;border:0;" title="Reload Logarr"
-				onclick="window.location.reload(true);">
+			<img src="assets/images/logarr_white_text_crop.png" alt="Logarr" title="Reload Logarr" onclick="window.location.reload(true);">
 		</div>
 
 		<div id="right" class="Column">
 		</div>
+		
 	</div>
