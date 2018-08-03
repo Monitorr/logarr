@@ -6,11 +6,11 @@ mkdir('../../tmp');
 $copy = copy($remote_file_url, $local_file);
 // check for success or fail
 if (!$copy) {
-    // data message if failed to copy from external server
+	// data message if failed to copy from external server
 	$data = array("copy" => 0);
 } else {
 	// success message, continue to unzip
-    $copy = 1;
+	$copy = 1;
 }
 // check for verification
 if ($copy == 1) {
@@ -20,7 +20,7 @@ if ($copy == 1) {
 
 	// unzip update
 	$zip = new ZipArchive;
-    $res = $zip->open($local_file);
+	$res = $zip->open($local_file);
 	if ($res === TRUE) {
 		$zip->extractTo($extractPath);
 		$zip->close();

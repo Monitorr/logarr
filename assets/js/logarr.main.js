@@ -104,7 +104,7 @@ function loadLog(log) {
 
 // highlight all "error" terms:
 function highlightjs() {
-    if('customHighlightTerms' in settings && settings.customHighlightTerms != "") {
+    if ('customHighlightTerms' in settings && settings.customHighlightTerms != "") {
         var array = settings.customHighlightTerms.split(",");
         for (let i = 0; i < array.length; i++) {
             $(".expand").highlight(array[i].trim(), {
@@ -326,9 +326,9 @@ function refreshConfig(updateLogs) {
             }, settings.rfconfig); //delay is rftime
 
 
-            $("#auto-update-status").attr("data-enabled",settings.logRefresh);
+            $("#auto-update-status").attr("data-enabled", settings.logRefresh);
 
-            if(updateLogs) {
+            if (updateLogs) {
                 if (settings.logRefresh == "true" && (logInterval == false || settings.rflog != current_rflog)) {
                     clearInterval(nIntervId);
                     nIntervId = setInterval(refreshblockUI, settings.rflog);
@@ -354,11 +354,11 @@ function refreshConfig(updateLogs) {
 
 function overwriteLogUpdate() {
 
-    if(!autoUpdateOverwrite) {
+    if (!autoUpdateOverwrite) {
         console.log("Auto update setting will only be updated from config when the page is refreshed");
     }
 
-    if($("#autoUpdateSlider").attr("data-enabled") == "false") {
+    if ($("#autoUpdateSlider").attr("data-enabled") == "false") {
         autoUpdateOverwrite = true;
         $("#autoUpdateSlider").attr("data-enabled", "true");
 
@@ -438,7 +438,7 @@ function load_preferences() {
 }
 
 function load_settings() {
-   document.getElementById("setttings-page-title").innerHTML = 'Logarr Settings';
+    document.getElementById("setttings-page-title").innerHTML = 'Logarr Settings';
     document.getElementById("includedContent").innerHTML = '<object type="text/html" class="object" data="assets/php/settings/site_settings.php" ></object>';
     $(".sidebar-nav-item").removeClass('active');
     $("li[data-item='logarr-settings']").addClass("active");
@@ -493,7 +493,7 @@ function checkAll1() {
     checkedAll(true);
 }
 
-function parseGithubToHTML (result) {
+function parseGithubToHTML(result) {
 
     result = result.replace(/\n/g, '<br />'); //convert line breaks
 
@@ -516,15 +516,15 @@ function parseGithubToHTML (result) {
     var changeItems = [];
 
 
-    result = result.replace(/(?:<br \/>)*\d+\.\s*ADD: (.*)/gi, function(s, match) {
+    result = result.replace(/(?:<br \/>)*\d+\.\s*ADD: (.*)/gi, function (s, match) {
         addItems.push(match);
         return "";
     });
-    result = result.replace(/(?:<br \/>)*\d+\.\s*FIX: (.*)/gi, function(s, match) {
+    result = result.replace(/(?:<br \/>)*\d+\.\s*FIX: (.*)/gi, function (s, match) {
         fixItems.push(match);
         return "";
     });
-    result = result.replace(/(?:<br \/>)*\d+\.\s*CHANGE: (.*)/gi, function(s, match) {
+    result = result.replace(/(?:<br \/>)*\d+\.\s*CHANGE: (.*)/gi, function (s, match) {
         changeItems.push(match);
         return "";
     });
@@ -535,23 +535,23 @@ function parseGithubToHTML (result) {
         return "";
     });
 
-    if((addItems.length > 0) || (fixItems.length > 0) || (changeItems.length > 0)) {
+    if ((addItems.length > 0) || (fixItems.length > 0) || (changeItems.length > 0)) {
         result += "<h3> - CHANGE LOG:</h3><ol>";
     }
 
-    var i =0;
+    var i = 0;
     for (i = 0; i < addItems.length; i++) {
         result += "<li><i class='fa fa-plus'></i> ADD: " + addItems[i] + "</li>";
-        if(i==addItems.length-1 && i!=0) result += "<br>";
+        if (i == addItems.length - 1 && i != 0) result += "<br>";
     }
 
-    var i =0;
+    var i = 0;
     for (i = 0; i < fixItems.length; i++) {
         result += "<li><i class='fa fa-wrench'></i> FIX: " + fixItems[i] + "</li>";
-        if(i==fixItems.length-1 && i!=0) result += "<br>";
+        if (i == fixItems.length - 1 && i != 0) result += "<br>";
     }
 
-    var i =0;
+    var i = 0;
     for (i = 0; i < changeItems.length; i++) {
         result += "<li><i class='fa fa-lightbulb'></i> CHANGE: " + changeItems[i] + "</li>";
     }

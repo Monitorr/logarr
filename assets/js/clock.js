@@ -92,6 +92,7 @@ function drawScene() { // main drawScene function
     ctx.restore();
     ctx.restore();
 }
+
 // initialization
 $(function () {
     canvas = document.getElementById('canvas');

@@ -23,10 +23,10 @@ include('../functions.php');
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.9/ace.js"></script>
 
     <title>
-        <?php
-        $title = $GLOBALS['preferences']['sitetitle'];
-        echo $title . PHP_EOL;
-        ?>
+	    <?php
+	    $title = $GLOBALS['preferences']['sitetitle'];
+	    echo $title . PHP_EOL;
+	    ?>
         | User Preferences
     </title>
 

@@ -4,7 +4,10 @@
   "properties": {
     "registrationEnabled": {
       "type": "string",
-      "enum": ["true", "false"],
+      "enum": [
+        "true",
+        "false"
+      ],
       "required": true,
       "pattern": {},
       "default": "true",
@@ -12,7 +15,10 @@
     },
     "settingsEnabled": {
       "type": "string",
-      "enum": ["true", "false"],
+      "enum": [
+        "true",
+        "false"
+      ],
       "required": true,
       "pattern": {},
       "default": "true",
@@ -20,7 +26,10 @@
     },
     "logsEnabled": {
       "type": "string",
-      "enum": ["true", "false"],
+      "enum": [
+        "true",
+        "false"
+      ],
       "required": true,
       "pattern": {},
       "default": "false",

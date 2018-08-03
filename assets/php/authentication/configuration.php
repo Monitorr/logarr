@@ -105,7 +105,7 @@ $datadir_file = __DIR__ . '/../../data/datadir.json';
                 .fail(function () {
                     alert("Posting failed (ajax)");
                     console.log("Posting failed (ajax)");
-                })
+                });
 
             return false;
         });
@@ -162,14 +162,14 @@ $datadir_file = __DIR__ . '/../../data/datadir.json';
         </div>
 
 		<?php
-        if(is_file($datadir_file)) {
-	        echo '<div id="loginerror">';
-	        echo '<i class="fa fa-fw fa-exclamation-triangle"> </i><b> WARNING: An existing data directory is detected at: ';
-	        echo json_decode(file_get_contents($datadir_file), 1)['datadir'];
-	        echo ' <br> If an additional data directory is created, the current data directory will NOT be altered, however, Logarr will use all default resources from the newly created data directory. </b> <br>';
+		if (is_file($datadir_file)) {
+			echo '<div id="loginerror">';
+			echo '<i class="fa fa-fw fa-exclamation-triangle"> </i><b> WARNING: An existing data directory is detected at: ';
+			echo json_decode(file_get_contents($datadir_file), 1)['datadir'];
+			echo ' <br> If an additional data directory is created, the current data directory will NOT be altered, however, Logarr will use all default resources from the newly created data directory. </b> <br>';
 
-	        echo '</div>';
-        }
+			echo '</div>';
+		}
 		?>
 
         <form id="datadirform">
@@ -227,14 +227,14 @@ $datadir_file = __DIR__ . '/../../data/datadir.json';
 
     <!-- START user create form -->
     <div id="userwrapper">
-	<?php
+	    <?php
 
-	if (is_file($datadir_file)) {
-        $dbfile = json_decode(file_get_contents($datadir_file),1)['datadir'] . 'users.db';
+	    if (is_file($datadir_file)) {
+	    $dbfile = json_decode(file_get_contents($datadir_file), 1)['datadir'] . 'users.db';
 
-        if (is_file($dbfile)) {
+	    if (is_file($dbfile)) {
 
-        ?>
+	    ?>
         <!--  START multi form -->
 
         <div id="multiform">
@@ -243,7 +243,7 @@ $datadir_file = __DIR__ . '/../../data/datadir.json';
             <div id="loginmessage">
                 <h2 class="heading">Create a new user:</h2>
                 in the user database:
-                <?php echo $dbfile; ?>
+	            <?php echo $dbfile; ?>
                 <br>
 
             </div>
@@ -262,7 +262,6 @@ $datadir_file = __DIR__ . '/../../data/datadir.json';
                     </tr>
 
 
-
                     <tr id="useremail">
                         <td><i class='fa fa-fw fa-envelope'> </i> <input id='login_input_email' type='email' name='user_email' placeholder=' User e-mail'/></td>
                         <td><label for="login_input_email"> <i> Not required </i></label></td>
@@ -277,17 +276,17 @@ $datadir_file = __DIR__ . '/../../data/datadir.json';
                                    fv-invalid-func='$( "#registerbtn" ).prop( "disabled", true )' required autocomplete='off'
                                    placeholder=' Repeat password' title='Repeat password'/><i> Minimum 6 characters </i></td>
 
-                        <?php
+	                    <?php
 
-                        echo '</tr>';
+	                    echo '</tr>';
 
-                        echo ' </tbody>';
+	                    echo ' </tbody>';
 
-                        echo '</table>';
+	                    echo '</table>';
 
-                        echo '<div id="loginerror">';
-                        if (property_exists($this, 'feedbackerror') && $this->feedbackerror) {
-                            echo "<script>
+	                    echo '<div id="loginerror">';
+	                    if (property_exists($this, 'feedbackerror') && $this->feedbackerror) {
+		                    echo "<script>
                             $(document).ready(function () {
                                 $('#modalContent').html('$this->feedbackerror');
                                 var modal = $('#responseModal');
@@ -303,19 +302,19 @@ $datadir_file = __DIR__ . '/../../data/datadir.json';
                                 });
                             });
                         </script>";
-                        };
+	                    };
 
-                        echo '</div>';
+	                    echo '</div>';
 
-                        echo '<input id="registerbtn" type="submit" class="btn btn-primary" name="register" value="Register" />';
-                        echo '<br>';
+	                    echo '<input id="registerbtn" type="submit" class="btn btn-primary" name="register" value="Register" />';
+	                    echo '<br>';
 
-                        echo '<div id="loginsuccess">';
+	                    echo '<div id="loginsuccess">';
 
-                        // $this->feedback = "This user does not exist.";
+	                    // $this->feedback = "This user does not exist.";
 
-                        if (property_exists($this, 'feedbacksuccess') && $this->feedbacksuccess) {
-                            echo "<script>
+	                    if (property_exists($this, 'feedbacksuccess') && $this->feedbacksuccess) {
+		                    echo "<script>
                             $(document).ready(function () {
                                 $('#modalContent').html('$this->feedbacksuccess');
                                 var modal = $('#responseModal');
@@ -332,43 +331,43 @@ $datadir_file = __DIR__ . '/../../data/datadir.json';
                             });
                         </script>";
 
-                            echo '<div id="myModal" class="modalreg">';
+		                    echo '<div id="myModal" class="modalreg">';
 
-                            echo '<div id="mymodal2" class="modal-content">';
+		                    echo '<div id="mymodal2" class="modal-content">';
 
-                            echo $this->feedbacksuccess;
+		                    echo $this->feedbacksuccess;
 
-                            echo '</div>';
-                            echo '<span class="close closereg"  aria-hidden="true" title="close">&times;</span>';
+		                    echo '</div>';
+		                    echo '<span class="close closereg"  aria-hidden="true" title="close">&times;</span>';
 
-                            echo '</div>';
-                        };
+		                    echo '</div>';
+	                    };
 
-                        echo '</div>';
+	                    echo '</div>';
 
-                        echo '</form>';
+	                    echo '</form>';
 
-                        echo ' <div id="loginerror">';
-                        echo '<i class="fa fa-fw fa-exclamation-triangle"> </i><b> NOTE: </b> <br> ';
-                        echo ' </div>';
+	                    echo ' <div id="loginerror">';
+	                    echo '<i class="fa fa-fw fa-exclamation-triangle"> </i><b> NOTE: </b> <br> ';
+	                    echo ' </div>';
 
-                        echo ' <div id="usernotes">';
-                        echo "<i> + It is NOT possible to change a user's credentials after creation. ";
-                        echo '<br>';
-                        echo ' + If credentials need to be changed or reset, rename the file in your data directory ';
-                        echo  $dbfile;
-                        echo ' to "users.old". Once that file is renamed, browse to this page again to recreate desired credentials. </i> ';
-                        echo ' </div>';
+	                    echo ' <div id="usernotes">';
+	                    echo "<i> + It is NOT possible to change a user's credentials after creation. ";
+	                    echo '<br>';
+	                    echo ' + If credentials need to be changed or reset, rename the file in your data directory ';
+	                    echo $dbfile;
+	                    echo ' to "users.old". Once that file is renamed, browse to this page again to recreate desired credentials. </i> ';
+	                    echo ' </div>';
 
 
-                        }
+	                    }
 
-	}
+	                    }
 
-	?>
-    </tr>
-    <div id='response' class='dbmessage'></div>
-    </div>
+	                    ?>
+                    </tr>
+                    <div id='response' class='dbmessage'></div>
+        </div>
 
 </body>
 

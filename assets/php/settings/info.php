@@ -18,10 +18,10 @@ include('../functions.php');
     <!-- <script type="text/javascript" src="../../js/pace.js" async></script> -->
 
     <title>
-        <?php
-        $title = $GLOBALS['preferences']['sitetitle'];
-        echo $title . PHP_EOL;
-        ?>
+	    <?php
+	    $title = $GLOBALS['preferences']['sitetitle'];
+	    echo $title . PHP_EOL;
+	    ?>
         | Info
     </title>
 
@@ -66,42 +66,42 @@ include('../functions.php');
 
             <td>
 
-                <?php echo phpversion();
+	            <?php echo phpversion();
 
-                echo " <strong> | Extensions: </strong> ";
+	            echo " <strong> | Extensions: </strong> ";
 
 
-                if (extension_loaded('sqlite3')) {
-	                echo " <div class='extok' title='PHP sqlite3 extension loaded OK'>";
-                    echo "php_sqlite3";
-                    echo "</div>";
-                } else {
-	                echo " <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP php_sqlite3 extension NOT loaded'>";
-                    echo "php_sqlite3";
-                    echo "</a>";
-                }
+	            if (extension_loaded('sqlite3')) {
+		            echo " <div class='extok' title='PHP sqlite3 extension loaded OK'>";
+		            echo "php_sqlite3";
+		            echo "</div>";
+	            } else {
+		            echo " <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP php_sqlite3 extension NOT loaded'>";
+		            echo "php_sqlite3";
+		            echo "</a>";
+	            }
 
-                if (extension_loaded('pdo_sqlite')) {
-                    echo " | <div class='extok' title='PHP pdo_sqlite extension loaded OK'>";
-                    echo "pdo_sqlite";
-                    echo "</div>";
-                } else {
-                    echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP pdo_sqlite extension NOT loaded'>";
-                    echo "pdo_sqlite";
-                    echo "</a>";
-                }
+	            if (extension_loaded('pdo_sqlite')) {
+		            echo " | <div class='extok' title='PHP pdo_sqlite extension loaded OK'>";
+		            echo "pdo_sqlite";
+		            echo "</div>";
+	            } else {
+		            echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP pdo_sqlite extension NOT loaded'>";
+		            echo "pdo_sqlite";
+		            echo "</a>";
+	            }
 
-                if (extension_loaded('zip')) {
-                    echo " | <div class='extok' title='PHP ZIP extension loaded OK'>";
-                    echo "php7-zip";
-                    echo "</div>";
-                } else {
-                    echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='php7-zip extension NOT loaded'>";
-                    echo "php7-zip";
-                    echo "</a>";
-                }
+	            if (extension_loaded('zip')) {
+		            echo " | <div class='extok' title='PHP ZIP extension loaded OK'>";
+		            echo "php7-zip";
+		            echo "</div>";
+	            } else {
+		            echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='php7-zip extension NOT loaded'>";
+		            echo "php7-zip";
+		            echo "</a>";
+	            }
 
-                ?>
+	            ?>
 
             </td>
 
@@ -111,20 +111,20 @@ include('../functions.php');
             <td>
                 Update branch selected:
                 <strong>
-                    <?php
-                    $updateBranch = $GLOBALS['preferences']['updateBranch'];
-                    echo '| ' . $updateBranch . ' | ' . PHP_EOL;
-                    ?>
+	                <?php
+	                $updateBranch = $GLOBALS['preferences']['updateBranch'];
+	                echo '| ' . $updateBranch . ' | ' . PHP_EOL;
+	                ?>
                 </strong>
 
                 <a id="version_check" class="btn" style="cursor: pointer" title="Execute Update">Check for Update</a>
             </td>
             <td><strong>Install Path: </strong></td>
             <td>
-                <?php
-                $vnum_loc = "../../";
-                echo realpath($vnum_loc), PHP_EOL;
-                ?>
+	            <?php
+	            $vnum_loc = "../../";
+	            echo realpath($vnum_loc), PHP_EOL;
+	            ?>
 
             </td>
         </tr>
@@ -171,13 +171,13 @@ include('../functions.php');
         <tr>
             <td class="frametd">
                 <div class="version">
-                    <div id ="versioncontent"> </div>
+                    <div id="versioncontent"></div>
                 </div>
             </td>
 
             <td class="frametd">
                 <div class="php">
-                    <div id ="phpcontent"> </div>
+                    <div id="phpcontent"></div>
                 </div>
             </td>
         </tr>
@@ -185,8 +185,8 @@ include('../functions.php');
 </div>
 
 <script>
-    document.getElementById("versioncontent").innerHTML='<object id="versionobject" type="text/html" data="../../../changelog.html" ></object>';
-    document.getElementById("phpcontent").innerHTML='<object id="phpobject" type="text/html" data="../phpinfo.php" ></object>';
+    document.getElementById("versioncontent").innerHTML = '<object id="versionobject" type="text/html" data="../../../changelog.html" ></object>';
+    document.getElementById("phpcontent").innerHTML = '<object id="phpobject" type="text/html" data="../phpinfo.php" ></object>';
 </script>
 
 <script src="../../js/update-settings.js" async></script>

@@ -40,7 +40,10 @@
     },
     "autoHighlight": {
       "type": "string",
-      "enum": ["true", "false"],
+      "enum": [
+        "true",
+        "false"
+      ],
       "required": true,
       "pattern": {},
       "default": "true",
@@ -48,7 +51,10 @@
     },
     "jumpOnSearch": {
       "type": "string",
-      "enum": ["true", "false"],
+      "enum": [
+        "true",
+        "false"
+      ],
       "required": true,
       "pattern": {},
       "default": "true",
@@ -56,7 +62,10 @@
     },
     "logRefresh": {
       "type": "string",
-      "enum": ["true", "false"],
+      "enum": [
+        "true",
+        "false"
+      ],
       "required": true,
       "pattern": {},
       "default": "true",
@@ -64,7 +73,10 @@
     },
     "liveSearch": {
       "type": "string",
-      "enum": ["true", "false"],
+      "enum": [
+        "true",
+        "false"
+      ],
       "required": true,
       "pattern": {},
       "default": "true",

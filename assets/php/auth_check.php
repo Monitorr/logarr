@@ -39,7 +39,7 @@ class OneFileLoginApplication
 	 */
 	public function __construct()
 	{
-		if(is_file(__DIR__ . "/../data/datadir.json")){
+		if (is_file(__DIR__ . "/../data/datadir.json")) {
 			$str = file_get_contents(__DIR__ . "/../data/datadir.json");
 			$json = json_decode($str, true);
 			$datadir = $json['datadir'];
@@ -55,75 +55,6 @@ class OneFileLoginApplication
 		}
 		if ($this->performMinimumRequirementsCheck()) {
 			$this->runApplication();
-		}
-	}
-
-	/**
-	 * Performs a check for minimum requirements to run this application.
-	 * Does not run the further application when PHP version is lower than 5.3.7
-	 * Does include the PHP password compatibility library when PHP version lower than 5.5.0
-	 * (this library adds the PHP 5.5 password hashing functions to older versions of PHP)
-	 * @return bool Success status of minimum requirements check, default is false
-	 */
-	private function performMinimumRequirementsCheck()
-	{
-		if (version_compare(PHP_VERSION, '5.3.7', '<')) {
-			echo "Sorry, Simple PHP Login does not run on a PHP version older than 5.3.7 !";
-		} elseif (version_compare(PHP_VERSION, '5.5.0', '<')) {
-			require_once(__DIR__ . "/../libraries/password_compatibility_library.php");
-			return true;
-		} elseif (version_compare(PHP_VERSION, '5.5.0', '>=')) {
-			return true;
-		}
-		// default return
-		return false;
-	}
-
-	/**
-	 * This is basically the controller that handles the entire flow of the application.
-	 */
-	public function runApplication()
-	{
-		// start the session, always needed!
-		$this->doStartSession();
-		// check is user wants to see register page (etc.)
-		if (isset($_GET["action"]) && $_GET["action"] == "register") {
-			if(isset($GLOBALS['authentication']) && isset($GLOBALS['authentication']['registrationEnabled']) && $GLOBALS['authentication']['registrationEnabled'] == "true") {
-				$this->doRegistration();
-				$this->showPageRegistration();
-			} else {
-				$this->showPageUnauthorized();
-			}
-			exit();
-		} else if (isset($_GET["action"]) && $_GET["action"] == "logout") {
-			$this->doLogout();
-			exit();
-		} else {
-			// check for possible user interactions (login with session/post data or logout)
-			$this->performUserLoginAction();
-
-			//check which page we're on
-			$urlParts = explode("/",strtok($_SERVER["REQUEST_URI"],'?'));
-			$currentPage = strtok(end($urlParts), ".");
-			if (($currentPage == "index" || $currentPage == "") && $GLOBALS['authentication']['logsEnabled'] == "true") {
-				// show "page", according to user's login status
-				if ($this->getUserLoginStatus()) {
-					return true;
-				} else {
-					$this->showPageLoginForm();
-					exit();
-				}
-			} else if ($currentPage == "settings" && $GLOBALS['authentication']['settingsEnabled'] == "true") {
-				// show "page", according to user's login status
-				if ($this->getUserLoginStatus()) {
-					return true;
-				} else {
-					$this->showPageLoginForm();
-					exit();
-				}
-			} else {
-				return true;
-			}
 		}
 	}
 
@@ -253,9 +184,87 @@ class OneFileLoginApplication
 	 * In a real application you would probably include an html-template here, but for this extremely simple
 	 * demo the "echo" statements are totally okay.
 	 */
-	private function showPageRegistration()
+	private function showPageConfiguration()
 	{
-		include_once('authentication/register.php');
+		include_once('authentication/configuration.php');
+	}
+
+	/**
+	 * Performs a check for minimum requirements to run this application.
+	 * Does not run the further application when PHP version is lower than 5.3.7
+	 * Does include the PHP password compatibility library when PHP version lower than 5.5.0
+	 * (this library adds the PHP 5.5 password hashing functions to older versions of PHP)
+	 * @return bool Success status of minimum requirements check, default is false
+	 */
+	private function performMinimumRequirementsCheck()
+	{
+		if (version_compare(PHP_VERSION, '5.3.7', '<')) {
+			echo "Sorry, Simple PHP Login does not run on a PHP version older than 5.3.7 !";
+		} elseif (version_compare(PHP_VERSION, '5.5.0', '<')) {
+			require_once(__DIR__ . "/../libraries/password_compatibility_library.php");
+			return true;
+		} elseif (version_compare(PHP_VERSION, '5.5.0', '>=')) {
+			return true;
+		}
+		// default return
+		return false;
+	}
+
+	/**
+	 * This is basically the controller that handles the entire flow of the application.
+	 */
+	public function runApplication()
+	{
+		// start the session, always needed!
+		$this->doStartSession();
+		// check is user wants to see register page (etc.)
+		if (isset($_GET["action"]) && $_GET["action"] == "register") {
+			if (isset($GLOBALS['authentication']) && isset($GLOBALS['authentication']['registrationEnabled']) && $GLOBALS['authentication']['registrationEnabled'] == "true") {
+				$this->doRegistration();
+				$this->showPageRegistration();
+			} else {
+				$this->showPageUnauthorized();
+			}
+			exit();
+		} else if (isset($_GET["action"]) && $_GET["action"] == "logout") {
+			$this->doLogout();
+			exit();
+		} else {
+			// check for possible user interactions (login with session/post data or logout)
+			$this->performUserLoginAction();
+
+			//check which page we're on
+			$urlParts = explode("/", strtok($_SERVER["REQUEST_URI"], '?'));
+			$currentPage = strtok(end($urlParts), ".");
+			if (($currentPage == "index" || $currentPage == "") && $GLOBALS['authentication']['logsEnabled'] == "true") {
+				// show "page", according to user's login status
+				if ($this->getUserLoginStatus()) {
+					return true;
+				} else {
+					$this->showPageLoginForm();
+					exit();
+				}
+			} else if ($currentPage == "settings" && $GLOBALS['authentication']['settingsEnabled'] == "true") {
+				// show "page", according to user's login status
+				if ($this->getUserLoginStatus()) {
+					return true;
+				} else {
+					$this->showPageLoginForm();
+					exit();
+				}
+			} else {
+				return true;
+			}
+		}
+	}
+
+	/**
+	 * Simply starts the session.
+	 * It's cleaner to put this into a method than writing it directly into runApplication()
+	 */
+	private function doStartSession()
+	{
+		if (session_status() == PHP_SESSION_NONE) session_start();
 	}
 
 	/**
@@ -263,9 +272,9 @@ class OneFileLoginApplication
 	 * In a real application you would probably include an html-template here, but for this extremely simple
 	 * demo the "echo" statements are totally okay.
 	 */
-	private function showPageConfiguration()
+	private function showPageRegistration()
 	{
-		include_once('authentication/configuration.php');
+		include_once('authentication/register.php');
 	}
 
 	/**
@@ -277,12 +286,17 @@ class OneFileLoginApplication
 	}
 
 	/**
-	 * Simply starts the session.
-	 * It's cleaner to put this into a method than writing it directly into runApplication()
+	 * Logs the user out
 	 */
-	private function doStartSession()
+	private function doLogout()
 	{
-		if (session_status() == PHP_SESSION_NONE) session_start();
+		$_SESSION = array();
+		session_destroy();
+		$this->user_is_logged_in = false;
+		unset($_COOKIE["Logarr_AUTH"]);
+		setcookie("Logarr_AUTH", null, time() - 1, "/");
+		$this->feedback = "You were just logged out.";
+		header("location: index.php");
 	}
 
 	/**
@@ -301,26 +315,12 @@ class OneFileLoginApplication
 	}
 
 	/**
-	 * Logs the user out
-	 */
-	private function doLogout()
-	{
-		$_SESSION = array();
-		session_destroy();
-		$this->user_is_logged_in = false;
-		unset($_COOKIE["Logarr_AUTH"]);
-		setcookie("Logarr_AUTH",null,time()-1, "/");
-		$this->feedback = "You were just logged out.";
-		header("location: index.php");
-	}
-
-	/**
 	 * Set a marker (NOTE: is this method necessary ?)
 	 */
 	private function doLoginWithSessionData()
 	{
 		$this->user_is_logged_in = true; // ?
-		if(!isset($_COOKIE['Logarr_AUTH'])) {
+		if (!isset($_COOKIE['Logarr_AUTH'])) {
 			if ($this->createDatabaseConnection()) {
 				// remember: the user can log in with username or email address
 				$sql = 'SELECT user_name, user_email, auth_token
@@ -333,7 +333,7 @@ class OneFileLoginApplication
 				$result_row = $query->fetchObject();
 				if ($result_row) {
 					$cookie_value = $result_row->auth_token;
-					setcookie("Logarr_AUTH", $cookie_value, time()+ 60*60*24*7, "/"); //store login cookie for 7 days
+					setcookie("Logarr_AUTH", $cookie_value, time() + 60 * 60 * 24 * 7, "/"); //store login cookie for 7 days
 					return true;
 				} else {
 					$this->feedback = "Invalid Auth Token";
@@ -341,39 +341,6 @@ class OneFileLoginApplication
 			}
 		}
 		return true;
-	}
-
-	/**
-	 * Checks if user exits, if so: check if provided password matches the one in the database
-	 * @return bool User login success status
-	 */
-	private function doLoginWithCookieData()
-	{
-		if ($this->createDatabaseConnection()) {
-			// remember: the user can log in with username or email address
-			$sql = 'SELECT user_name, user_email, auth_token
-                FROM users
-                WHERE auth_token = :auth_token
-                LIMIT 1';
-			$query = $this->db_connection->prepare($sql);
-			$query->bindValue(':auth_token', $_COOKIE['Logarr_AUTH']);
-			$query->execute();
-			$result_row = $query->fetchObject();
-			if ($result_row) {
-				// write user data into PHP SESSION [a file on your server]
-				$_SESSION['user_name'] = $result_row->user_name;
-				$_SESSION['user_email'] = $result_row->user_email;
-				$_SESSION['user_is_logged_in'] = true;
-				$this->user_is_logged_in = true;
-				$cookie_value = $result_row->auth_token;
-				setcookie("Logarr_AUTH", $cookie_value, time()+ 60*60*24*7, "/"); //store login cookie for 7 days
-				return true;
-			} else {
-				$this->feedback = "Invalid Auth Token";
-			}
-		}
-		// default return
-		return false;
 	}
 
 	/**
@@ -429,13 +396,46 @@ class OneFileLoginApplication
 				$_SESSION['user_is_logged_in'] = true;
 				$this->user_is_logged_in = true;
 				$cookie_value = $result_row->auth_token;
-				setcookie("Logarr_AUTH", $cookie_value, time()+ 60*60*24*7, "/"); //store login cookie for 7 days
+				setcookie("Logarr_AUTH", $cookie_value, time() + 60 * 60 * 24 * 7, "/"); //store login cookie for 7 days
 				return true;
 			} else {
 				$this->feedback = "Invalid password";
 			}
 		} else {
 			$this->feedback = "User does not exist";
+		}
+		// default return
+		return false;
+	}
+
+	/**
+	 * Checks if user exits, if so: check if provided password matches the one in the database
+	 * @return bool User login success status
+	 */
+	private function doLoginWithCookieData()
+	{
+		if ($this->createDatabaseConnection()) {
+			// remember: the user can log in with username or email address
+			$sql = 'SELECT user_name, user_email, auth_token
+                FROM users
+                WHERE auth_token = :auth_token
+                LIMIT 1';
+			$query = $this->db_connection->prepare($sql);
+			$query->bindValue(':auth_token', $_COOKIE['Logarr_AUTH']);
+			$query->execute();
+			$result_row = $query->fetchObject();
+			if ($result_row) {
+				// write user data into PHP SESSION [a file on your server]
+				$_SESSION['user_name'] = $result_row->user_name;
+				$_SESSION['user_email'] = $result_row->user_email;
+				$_SESSION['user_is_logged_in'] = true;
+				$this->user_is_logged_in = true;
+				$cookie_value = $result_row->auth_token;
+				setcookie("Logarr_AUTH", $cookie_value, time() + 60 * 60 * 24 * 7, "/"); //store login cookie for 7 days
+				return true;
+			} else {
+				$this->feedback = "Invalid Auth Token";
+			}
 		}
 		// default return
 		return false;

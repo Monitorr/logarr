@@ -24,10 +24,10 @@ include('../functions.php');
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.9/ace.js"></script>
 
     <title>
-        <?php
-        $title = $GLOBALS['preferences']['sitetitle'];
-        echo $title . PHP_EOL;
-        ?>
+	    <?php
+	    $title = $GLOBALS['preferences']['sitetitle'];
+	    echo $title . PHP_EOL;
+	    ?>
         | User Preferences
     </title>
 
@@ -175,14 +175,14 @@ include('../functions.php');
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
                                     }
                                 },
-                                "validator": function(callback) {
+                                "validator": function (callback) {
                                     var currentFieldValue = this.getValue();
                                     var calledBack = false;
                                     var results = 0;
-                                    $('.log-title-input input').each(function(index, value){
-                                        if(value.value == currentFieldValue) {
+                                    $('.log-title-input input').each(function (index, value) {
+                                        if (value.value == currentFieldValue) {
                                             results += 1;
-                                            if(results > 1) {
+                                            if (results > 1) {
                                                 callback({
                                                     "status": false,
                                                     "message": "This title has already been used for another log!"
@@ -192,7 +192,7 @@ include('../functions.php');
                                             }
                                         }
                                     });
-                                    if(!calledBack) {
+                                    if (!calledBack) {
                                         callback({
                                             "status": true
                                         });

@@ -19,7 +19,10 @@
     },
     "updateBranch": {
       "type": "string",
-      "enum": ["master", "develop"],
+      "enum": [
+        "master",
+        "develop"
+      ],
       "required": true,
       "pattern": {},
       "default": "master",
@@ -157,7 +160,7 @@
     "language": {
       "type": "string",
       "required": false,
-      "default":"EN",
+      "default": "EN",
       "properties": {}
     }
   }

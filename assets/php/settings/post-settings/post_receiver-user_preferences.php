@@ -1,5 +1,5 @@
 <?php
-if(isset($_POST) && !empty($_POST)) {
+if (isset($_POST) && !empty($_POST)) {
 	include(__DIR__ . '/../../functions.php');
 	$str = file_get_contents($config_file);
 
