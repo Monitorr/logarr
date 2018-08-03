@@ -85,7 +85,7 @@
 - [wjbeckett](https://github.com/wjbeckett)
 - [rob1998](https://github.com/rob1998)
 
-### Credits:
+## Credits:
 
 [ - Causefx](https://github.com/Causefx) - [christronyxyocum](https://github.com/christronyxyocum) - [Roxedux](https://github.com/si0972) - [Corry](https://github.com/endoflineservice) -
 
