@@ -92,9 +92,6 @@ https://github.com/Monitorr/Logarr
         | Settings
     </title>
 
-    <!-- <?php include('./assets/php/gitinfo.php'); ?> -->
-
-
     <script>
         $(function () {
             switch (window.location.hash) {
@@ -133,6 +130,10 @@ https://github.com/Monitorr/Logarr
 </script>
 
 <div id="settingscolumn" class="settingscolumn">
+
+    <div id="logoHeaderSettings">
+        <img src="assets/images/logo_white_glow_crop.png" alt="Logarr" title="Reload Logarr" onclick="window.location.reload(true);">
+    </div>
 
     <div id="settingsbrand">
         <div class="navbar-brand">
