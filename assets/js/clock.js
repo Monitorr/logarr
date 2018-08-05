@@ -1,6 +1,3 @@
-var servertime
-var servertimezone;
-
 date = servertime;
 
 // inner variables:
@@ -95,6 +92,7 @@ function drawScene() { // main drawScene function
     ctx.restore();
     ctx.restore();
 }
+
 // initialization
 $(function () {
     canvas = document.getElementById('canvas');

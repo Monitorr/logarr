@@ -1,0 +1,318 @@
+<?php
+include('../functions.php');
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <link type="text/css" href="../../css/bootstrap.min.css" rel="stylesheet">
+    <link type="text/css" href="../../css/alpaca.min.css" rel="stylesheet">
+    <link type="text/css" href="../../css/font-awesome.min.css" rel="stylesheet">
+    <!-- <link type="text/css" href="../../css/main.css" rel="stylesheet"> -->
+    <link type="text/css" href="../../css/logarr.css" rel="stylesheet">
+    <link type="text/css" href="../../data/custom.css" rel="stylesheet">
+
+    <meta name="theme-color" content="#464646"/>
+    <meta name="theme_color" content="#464646"/>
+
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/handlebars.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://code.cloudcms.com/alpaca/1.5.24/bootstrap/alpaca.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.9/ace.js"></script>
+
+    <title>
+	    <?php
+	    $title = $GLOBALS['preferences']['sitetitle'];
+	    echo $title . PHP_EOL;
+	    ?>
+        | User Preferences
+    </title>
+
+</head>
+
+<body id="settings-frame-wrapper" class="transparent-background">
+
+<script>
+    document.body.className += ' fade-out';
+    $(function () {
+        $('body').removeClass('fade-out');
+    });
+</script>
+
+<p id="response"></p>
+
+
+<div id="modalloading" title="Monitorr logs are populating.">
+
+    <div id="modalloadingspinner" style="transform:translateZ(0);"></div>
+
+    <script>
+        window.paceOptions = {
+            target: "#modalloadingspinner",
+            ajax: false
+        };
+    </script>
+
+    <p class="modaltextloading">Loading logs ...</p>
+
+</div>
+
+<div id="logsform">
+    <div id="logssettings"></div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            Alpaca.registerConnectorClass("custom");
+            $("#logssettings").alpaca({
+                "connector": "custom",
+                "dataSource": "./load-settings/logs_load.php",
+                "schemaSource": "./schemas/logs.json",
+                "view": {
+                    "fields": {
+                        "//logTitle": {
+                            "templates": {
+                                "control": "./templates/templates-logs_title.html"
+                            },
+                            "bindings": {
+                                "logTitle": "#title_input"
+                            }
+                        },
+                        "//path": {
+                            "templates": {
+                                "control": "./templates/templates-logs_path.html"
+                            },
+                            "bindings": {
+                                "path": "#path_input"
+                            }
+                        },
+                        "//enabled": {
+                            "templates": {
+                                "control": "./templates/templates-logs_enabled.html"
+                            },
+                            "bindings": {
+                                "enabled": "#enabled_option"
+                            }
+                        },
+                        "//maxLines": {
+                            "templates": {
+                                "control": "./templates/templates-logs_maxLines.html"
+                            },
+                            "bindings": {
+                                "maxLines": "#maxLines_option"
+                            }
+                        },
+                        "//autoRollSize": {
+                            "templates": {
+                                "control": "./templates/templates-logs_autoRollSize.html"
+                            },
+                            "bindings": {
+                                "autoRoleSize": "#autoRollSize_option"
+                            }
+                        },
+                        "//category": {
+                            "templates": {
+                                "control": "./templates/templates-logs_category.html"
+                            },
+                            "bindings": {
+                                "category": "#category_option"
+                            }
+                        }
+                    }
+                },
+                "options": {
+                    "toolbarSticky": true,
+                    "focus": false,
+                    "collapsible": true,
+                    "actionbar": {
+                        "showLabels": true,
+                        "actions": [{
+                            "label": "Add Log",
+                            "action": "add",
+                            "iconClass": "fa fa-plus"
+                        }, {
+                            "label": "Remove Log",
+                            "action": "remove",
+                            "iconClass": "fa fa-trash"
+                        }, {
+                            "label": "Move Up",
+                            "action": "up",
+                            "iconClass": "fa fa-arrow-up",
+                            "enabled": true
+                        }, {
+                            "label": "Move Down",
+                            "action": "down",
+                            "iconClass": "fa fa-arrow-down",
+                            "enabled": true
+                        }, {
+                            "label": "Clear",
+                            "action": "clear",
+                            "iconClass": "fa fa-eraser",
+                            "click": function (key, action, itemIndex) {
+                                var item = this.children[itemIndex];
+                                item.setValue("");
+                            }
+                        }
+                        ]
+                    },
+                    "items": {
+                        "fields": {
+                            "logTitle": {
+                                "type": "text",
+                                "fieldClass": "log-title-input",
+                                "validate": true,
+                                "showMessages": true,
+                                "label": "Log Title:",
+                                "constrainMaxLength": true,
+                                "showMaxLengthIndicator": true,
+                                "name": "logTitle",
+                                "size": 20,
+                                "placeholder": "Log Name",
+                                "events": {
+                                    "change": function () {
+                                        $('.alpaca-form-button-submit').addClass('buttonchange');
+                                    }
+                                },
+                                "validator": function (callback) {
+                                    var currentFieldValue = this.getValue();
+                                    var calledBack = false;
+                                    var results = 0;
+                                    $('.log-title-input input').each(function (index, value) {
+                                        if (value.value == currentFieldValue) {
+                                            results += 1;
+                                            if (results > 1) {
+                                                callback({
+                                                    "status": false,
+                                                    "message": "This title has already been used for another log!"
+                                                });
+                                                calledBack = true;
+
+                                            }
+                                        }
+                                    });
+                                    if (!calledBack) {
+                                        callback({
+                                            "status": true
+                                        });
+                                    }
+                                }
+                            },
+                            "path": {
+                                "type": "text",
+                                "showMessages": true,
+                                "label": "Log Path:",
+                                "helpers": ["Can be dynamic see <a href='https://github.com/Monitorr/logarr/wiki/Settings#dynamic-paths' target='_blank'>wiki</a>"],
+                                "name": "path",
+                                "placeholder": "C:\\path\\to.log",
+                                "events": {
+                                    "change": function () {
+                                        $('.alpaca-form-button-submit').addClass('buttonchange');
+                                    }
+                                }
+                            },
+                            "enabled": {
+                                "type": "select",
+                                "showMessages": true,
+                                "label": "Enabled:",
+                                "name": "enabled",
+                                "helpers": ["Enable or disable this log"],
+                                "events": {
+                                    "change": function () {
+                                        $('.alpaca-form-button-submit').addClass('buttonchange');
+                                    }
+                                }
+                            },
+                            "maxLines": {
+                                "type": "number",
+                                "validate": true,
+                                "showMessages": true,
+                                "label": "Maximum amount of lines:",
+                                "helpers": ["Default line maximum for logs."],
+                                "name": "maxLines",
+                                "placeholder": "1000",
+                                "size": "10",
+                                "events": {
+                                    "change": function () {
+                                        $('.alpaca-form-button-submit').addClass('buttonchange');
+                                    }
+                                }
+                            },
+                            "autoRollSize": {
+                                "type": "text",
+                                "validate": true,
+                                "showMessages": true,
+                                "label": "Auto Roll Log:",
+                                "helpers": ["Automatically roll log when equal or bigger then this size."],
+                                "name": "autoRollSize",
+                                "placeholder": "E.g. 2MB or 200KB",
+                                "size": "10",
+                                "events": {
+                                    "change": function () {
+                                        $('.alpaca-form-button-submit').addClass('buttonchange');
+                                    }
+                                }
+                            },
+                            "category": {
+                                "type": "text",
+                                "label": "Category:",
+                                "helpers": ["Category of the log, will create a tab on the homepage"],
+                                "hideInitValidationError": false,
+                                "name": "category",
+                                "placeholder": "E.g. Media",
+                                "events": {
+                                    "change": function () {
+                                        $('.alpaca-form-button-submit').addClass('buttonchange');
+                                    }
+                                }
+                            }
+                        },
+                    },
+                    "form": {
+                        "buttons": {
+                            "submit": {
+                                "type": "button",
+                                "label": "Submit",
+                                "name": "submit",
+                                "value": "submit",
+                                "click": function formsubmit() {
+                                    var data = $('#logssettings').alpaca().getValue();
+                                    $.post('post-settings/post_receiver-logs.php', {
+                                        data,
+                                        success: function (data) {
+                                            alert("Settings saved! Applying changes...");
+                                            // Refresh form after submit:
+                                            setTimeout(location.reload.bind(location), 1000)
+                                        },
+                                        error: function (errorThrown) {
+                                            console.log(errorThrown);
+                                        }
+                                    },);
+                                    $('.alpaca-form-button-submit').removeClass('buttonchange');
+                                }
+                            },
+                            "reset": {
+                                "label": "Clear Values"
+                            }
+                        }
+                    }
+                },
+                "postRender": function (control) {
+                    if (control.form) {
+                        control.form.registerSubmitHandler(function (e) {
+                            control.form.getButtonEl('submit').click();
+                            return false;
+                        });
+                    }
+                    document.getElementById("modalloading").remove();
+                }
+            });
+        });
+    </script>
+</div>
+
+
+</body>
+
+</html>

@@ -1,5 +1,9 @@
 
-![logarr](https://i.imgur.com/BxmpBtA.png)
+<!-- ![logarr](https://i.imgur.com/BxmpBtA.png) -->
+
+![logarr](https://i.imgur.com/l2sM0Ag.png) 
+
+![Imgur](https://i.imgur.com/TUvwSKq.png)
 
 ## - *Logarr* is a Self-hosted, single-page, log consolidation tool written in PHP 
 
@@ -79,12 +83,11 @@
 - [seanvree](https://github.com/seanvree) (Windows Wizard)
 - [jonfinley](https://github.com/jonfinley) (Linux Dude)
 - [wjbeckett](https://github.com/wjbeckett)
-
-### Credits:
-- [Causefx](https://github.com/Causefx)
-- [Roxedux](https://github.com/si0972)
-- [christronyxyocum](https://github.com/christronyxyocum)
 - [rob1998](https://github.com/rob1998)
+
+## Credits:
+
+[ - Causefx](https://github.com/Causefx) - [christronyxyocum](https://github.com/christronyxyocum) - [Roxedux](https://github.com/si0972) - [Corry](https://github.com/endoflineservice) -
 
 
 [![CSS](https://jigsaw.w3.org/css-validator/images/vcss)](https://jigsaw.w3.org/css-validator/check/refererr/)

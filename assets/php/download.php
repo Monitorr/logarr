@@ -1,52 +1,43 @@
 <?php
 
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-    include ('../config/config.php');
+include('functions.php');
 
-    $file = $_GET['file'];
+$file = $_GET['file'];
 
 
-        // check if log file exists in config.php:
+// check if log file exists in config.json:
 
-    if(in_array($file, $logs)){ 
-        if (file_exists($file)) {
-            header('Content-Description: File Transfer');
-            header('Content-Type: application/octet-stream');
-            header('Content-Disposition: attachment; filename="'.basename($file).'"');
-            header('Expires: 0');
-            header('Cache-Control: must-revalidate');
-            header('Pragma: public');
-            header('Content-Length: ' . filesize($file));
-            //ob_clean();
-            flush();
-            readfile($file);
-            exit;
+if (in_array_recursive($file, $logs)) {
+	if (file_exists($file)) {
+		header('Content-Description: File Transfer');
+		header('Content-Type: application/octet-stream');
+		header('Content-Disposition: attachment; filename="' . basename($file) . '"');
+		header('Expires: 0');
+		header('Cache-Control: must-revalidate');
+		header('Pragma: public');
+		header('Content-Length: ' . filesize($file));
+		//ob_clean();
+		flush();
+		readfile($file);
+		exit;
+	} else {
+		echo 'file: ' . $file . ' does not exist.';
 
-            echo "<script type='text/javascript'>";
-                echo "console.log('Downloading log file: $file');";
-            echo "</script>";
-        } 
-        
-        else {
-            echo 'file: ' . $file . ' does not exist.';
+		echo "<script type='text/javascript'>";
+		echo "console.log('ERROR: file: '" . $file . "' does not exist.');";
+		echo "</script>";
+	}
+} // Deny access if log file does NOT exist in config.json:
 
-            echo "<script type='text/javascript'>";
-                echo "console.log('ERROR: file: '" . $file . "' does not exist.');";
-            echo "</script>";
-        }
-    } 
+else {
+	echo 'ERROR: Illegal File';
 
-        // Deny access if log file does NOT exist in config.php:
-    
-    else {
-        echo 'ERROR: Illegal File';
+	echo "<script type='text/javascript'>";
+	echo "console.log('ERROR:  Illegal File');";
+	echo "</script>";
+}
 
-        echo "<script type='text/javascript'>";
-            echo "console.log('ERROR:  Illegal File');";
-        echo "</script>";
-    }
-
-?>

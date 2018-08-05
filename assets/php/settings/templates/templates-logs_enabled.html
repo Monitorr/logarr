@@ -1,0 +1,26 @@
+<script type="text/x-handlebars-template">
+
+    <div id="enabled_option">
+    
+        {{#if options.label}}
+        <label class="{{#if options.labelClass}}{{options.labelClass}}{{/if}} alpaca-control-label" for="{{id}}">
+
+            {{{options.label}}} 
+
+            <i class="fa fa-fw fa-question-circle input_icon" id="enabled_option_icon" title="If disabled, log will NOT be checked or displayed in the UI."> </i>
+        
+        </label>
+
+        {{/if}} {{#control}}{{/control}}
+        {{#if options.helpers}}
+        
+        <p class="logs-input-helper">
+            <i class="info-sign"> </i>
+            {{{options.helpers}}}
+        </p>
+
+        {{/if}}
+
+    </div>
+
+</script>

@@ -1,0 +1,46 @@
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "logTitle": {
+        "type": "string",
+        "title": "Log Title",
+        "maxLength": 20,
+        "required": true,
+        "default": "Log Title"
+      },
+      "path": {
+        "type": "string",
+        "required": true,
+        "title": "Log Path"
+      },
+      "enabled": {
+        "type": "string",
+        "title": "enabled",
+        "enum": [
+          "Yes",
+          "No"
+        ],
+        "required": true,
+        "pattern": {},
+        "default": "Yes",
+        "properties": {}
+      },
+      "maxLines": {
+        "type": "number",
+        "title": "Line Limit"
+      },
+      "autoRollSize": {
+        "type": "string",
+        "title": "Auto Roll File Size"
+      },
+      "category": {
+        "required": false,
+        "type": "string",
+        "title": "Category",
+        "default": ""
+      }
+    }
+  }
+}
