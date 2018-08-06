@@ -21,7 +21,8 @@
       "type": "string",
       "enum": [
         "master",
-        "develop"
+        "develop",
+        "alpha"
       ],
       "required": true,
       "pattern": {},

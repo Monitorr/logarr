@@ -208,7 +208,7 @@ include('../functions.php');
                             "helpers": ["Monitorr repo branch to use when updating."],
                             "hideInitValidationError": false,
                             "focus": false,
-                            "optionLabels": [" Master", " Develop"],
+                            "optionLabels": [" Master", " Develop", " Alpha"],
                             "name": "updateBranch",
                             "typeahead": {},
                             "allowOptionalEmpty": false,
