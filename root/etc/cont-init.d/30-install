@@ -21,7 +21,6 @@ if [[ ! -d /app/userdata/ ]]; then
   echo '-----------------------------------'
   echo '| No User Data Directory Detected |'
   echo '-----------------------------------'
-  mkdir /app/data/
   mv /config/www/logarr/assets/data/ /app/data/
 elif [[ -d /app/data/ ]]; then
   echo '--------------------------------'
