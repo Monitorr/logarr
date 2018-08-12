@@ -60,4 +60,4 @@ sleep 1
 chown -R abc:abc /config
 chown -R abc:abc /app
 chmod -R 777 /app
-chmod -R 777 /config/www/monitorr/assets/data/
+chmod -R 777 /config/www/logarr/assets/data/
