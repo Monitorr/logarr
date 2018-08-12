@@ -21,12 +21,12 @@ if [[ ! -d /app/userdata/ ]]; then
   echo '-----------------------------------'
   echo '| No User Data Directory Detected |'
   echo '-----------------------------------'
-  mv /config/www/logarr/assets/data/ /app/data/
+  #mv /config/www/logarr/assets/data/ /app/data/
 elif [[ -d /app/data/ ]]; then
   echo '--------------------------------'
   echo '| User Data Directory Detected |'
   echo '--------------------------------'
-  rm -rf /config/www/logarr/assets/data/
+  #rm -rf /config/www/logarr/assets/data/
 else
   :
 fi
@@ -51,7 +51,7 @@ echo '------------------------------'
 echo '| Linking Data Dir to Logarr |'
 echo '------------------------------'
 sleep 3
-ln -s  /app/data/ /config/www/logarr/assets/data/
+#ln -s  /app/data/ /config/www/logarr/assets/data/
 echo 'Installation Complete. Thanks for using Logarr!'
 sleep 1
 
