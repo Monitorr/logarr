@@ -15,6 +15,7 @@ include('../functions.php');
 
     <script src="../../js/jquery.min.js"></script>
     <script src="../../js/jquery.blockUI.js" async></script>
+    <script src="assets/js/jquery.blockUI.js"></script>
     <!-- <script type="text/javascript" src="../../js/pace.js" async></script> -->
 
     <title>

@@ -31,6 +31,7 @@ https://github.com/Monitorr/Logarr
 
     <script type="text/javascript" src="assets/js/jquery.min.js"></script>
     <script type="text/javascript" src="assets/js/pace.js" async></script>
+    <script src="assets/js/jquery.blockUI.js"></script>
     <script src="assets/js/logarr.main.js"></script>
     <!-- <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script> -->
 
