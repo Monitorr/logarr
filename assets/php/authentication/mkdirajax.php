@@ -43,7 +43,7 @@ if (!mkdir($datadir, 0777, FALSE)) {
 	echo '</div>';
 
 	rename($datadir_file, $datadir_file_fail);
-	file_put_contents($datadir_file_fail, $json_encode($_POST));
+	file_put_contents($datadir_file_fail, json_encode($_POST));
 	die;
 } else {
 
