@@ -244,7 +244,7 @@ class OneFileLoginApplication
 					$this->showPageLoginForm();
 					exit();
 				}
-			} else if ($currentPage == "settings" && $GLOBALS['authentication']['settingsEnabled'] == "true") {
+			} else if (strpos(strtolower($currentPage), 'settings') !== false && $GLOBALS['authentication']['settingsEnabled'] == "true") {
 				// show "page", according to user's login status
 				if ($this->getUserLoginStatus()) {
 					return true;
