@@ -32,7 +32,7 @@ include('../functions.php');
 
 </head>
 
-<body id="settings-frame-wrapper" class="transparent-background">
+<body id="settings-frame-wrapper">
 
 <script>
     document.body.className += ' fade-out';

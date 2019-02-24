@@ -1,4 +1,9 @@
 <?php
+
+// CHANGE ME:
+
+ini_set('error_reporting', E_ERROR);
+
 ini_set('memory_limit', '-1');
 if (!is_file(__DIR__ . '../../data/datadir.json')
 	|| file_get_contents(__DIR__ . '../../data/datadir.json') == ""

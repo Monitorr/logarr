@@ -8,7 +8,7 @@ $result = "
         <div class=\"row2\">
 
             <div id=\"filedate\" class=\"left\">
-            	 " . $category . "
+            	 Category: " . $category . "
                 <br>
                 Last modified: " . date(" H:i | D, d M", filemtime($parsedPath)) . "
             </div>

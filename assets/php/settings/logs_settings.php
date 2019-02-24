@@ -10,7 +10,6 @@ include('../functions.php');
     <link type="text/css" href="../../css/bootstrap.min.css" rel="stylesheet">
     <link type="text/css" href="../../css/alpaca.min.css" rel="stylesheet">
     <link type="text/css" href="../../css/font-awesome.min.css" rel="stylesheet">
-    <!-- <link type="text/css" href="../../css/main.css" rel="stylesheet"> -->
     <link type="text/css" href="../../css/logarr.css" rel="stylesheet">
     <link type="text/css" href="../../data/custom.css" rel="stylesheet">
 
@@ -33,7 +32,7 @@ include('../functions.php');
 
 </head>
 
-<body id="settings-frame-wrapper" class="transparent-background">
+<body id="settings-frame-wrapper">
 
 <script>
     document.body.className += ' fade-out';

@@ -32,7 +32,7 @@ include('../functions.php');
 
 </head>
 
-<body id="settings-frame-wrapper" class="transparent-background">
+<body id="settings-frame-wrapper">
 
 <script>
     document.body.className += ' fade-out';
@@ -209,18 +209,7 @@ include('../functions.php');
                                     });
                                     $('.alpaca-form-button-submit').removeClass('buttonchange');
                                 }
-                            },
-                            "reset": {
-                                "label": "Clear Values"
                             }
-                            // "view": {
-                            //     "type": "button",
-                            //     "label": "View JSON",
-                            //     "value": "View JSON",
-                            //     "click": function() {
-                            //         alert(JSON.stringify(this.getValue(), null, "  "));
-                            //     }
-                            // }
                         },
                     }
                 },
