@@ -63,7 +63,9 @@ function loadLogs() {
         if (allFilter == "true") categoryFilter = categories.join(",");
 
         html += "<div class='category-item'>" +
-            "<a href='#' class='category-filter-item'>All</a>" +
+            // CHANGE ME:
+            //"<a href='#' class='category-filter-item'>All</a>" +
+            "<div class='category-filter-item'>All</div>" +
             "<label class=\"switch category-switch\">" +
             "<span class=\"slider round\" data-enabled=\"" + allFilter + "\" onclick=\"toggleCategory('', '" + categoryFilter + "');\"></span>" +
             "</label>" +
@@ -73,7 +75,9 @@ function loadLogs() {
         for (let i = 0; i < categories.length; i++) {
             var catFilter = (allFilter == "true" || filter.indexOf(categories[i]) != -1) ? "true" : "false";
             html += "<div class='category-item'>" +
-                "<a href='#" + categories[i] + "' class='category-filter-item'>" + categories[i] + "</a>" +
+                // CHANGE ME:
+                //"<a href='#" + categories[i] + "' class='category-filter-item'>" + categories[i] + "</a>" +
+                "<div class='category-filter-item'>" + categories[i] + "</div>" +
                 "<label class=\"switch category-switch\">" +
                 "<span class=\"slider round\" data-enabled=\"" + catFilter + "\" onclick=\"toggleCategory('" + categories[i] + "', '" + categoryFilter + "');\"></span>" +
                 "</label>" +
