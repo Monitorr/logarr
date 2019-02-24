@@ -137,7 +137,7 @@ include('assets/php/auth_check.php');
                 <div id="markform">
 
                     <input type="search" name="markinput" id="text-search2" class="input" title="Input search term"
-                           placeholder=" Search & highlight . . ." required>
+                           placeholder=" Search & highlight . . ." required spellcheck="false">
                     <span id="validity" class="validity"></span>
                     <button data-search="search" name="searchBtn" id="searchBtn" value="Search"
                             class="btn marksearch btn-primary" onclick="this.blur(); return false;"
@@ -159,8 +159,7 @@ include('assets/php/auth_check.php');
 
         <div id="rightmiddle" class="rightmiddle">
 
-            <div id="count" class="count"
-                 title="Search results have been highlighted in yellow. NOTE: Search results will be cleared if a log update is triggered."></div>
+            <div id="count" class="count" title="Search results have been highlighted in yellow. NOTE: Search results will be cleared if a log update is triggered."></div>
 
         </div>
 
