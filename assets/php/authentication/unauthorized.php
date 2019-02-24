@@ -1,3 +1,5 @@
 <?php include(__DIR__ . "/header.php"); ?>
-UNAUTHORIZED
+<div id="registration-container" class="flex-child">
+    UNAUTHORIZED
+</div>
 <?php include(__DIR__ . "/footer.php"); ?>
