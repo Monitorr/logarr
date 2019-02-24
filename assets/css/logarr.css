@@ -71,6 +71,15 @@ body::-webkit-scrollbar-thumb {
     box-shadow: 5px 5px 10px black;
 }
 
+
+input[type=text]::-webkit-search-cancel-button {
+    -webkit-appearance: searchfield-cancel-button;
+}
+
+input[type=radio] {
+    cursor: pointer;
+}
+
 /* SCROLL BARS */
 
 body::-webkit-scrollbar {
@@ -448,7 +457,11 @@ input:focus + .slider {
     background-color: #8E8B8B;
     border: .2rem solid rgb(90, 90, 90);
     outline: none;
-    transition: all ease 0.3s;
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    transition: all .3s ease;
     box-shadow: none !important;
 }
 
@@ -457,6 +470,7 @@ input:focus + .slider {
 }
 
 /* SEARCH */
+
 
 #markform {
     position: fixed;
@@ -484,7 +498,6 @@ mark.current {
 }
 
 .search-button {
-    /* margin-top: 1.75rem; */
     background-color: #8E8B8B;
     border: .15rem solid rgb(90, 90, 90);
     font-size: .75rem;
@@ -675,6 +688,11 @@ input[type=search]::-webkit-search-cancel-button {
     border: .2rem solid rgb(90, 90, 90);
     box-shadow: none !important;
     cursor: pointer;
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    transition: all .3s ease;
 }
 
 .button:active {
@@ -1150,9 +1168,21 @@ a {
 
 #settings-frame-wrapper {
     margin: 2vw;
+    margin-bottom: 0;
     overflow-y: auto;
     overflow-x: hidden;
     color: white;
+    display: flex;
+    justify-content: center;
+}
+
+#info-frame-wrapper {
+    margin: 2vw;
+    margin-bottom: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    color: white;
+    justify-content: center;
 }
 
 /*     Sidebar nav styles        */
@@ -1369,8 +1399,51 @@ input[name="imginput"]:focus {
     z-index: 1;
 }
 
-.buttonchange {
+/* change me: */
+
+.alpaca-form-button {
+    color: white;
+    background-color: #8E8B8B;
+    border: .2rem solid rgb(90, 90, 90);
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    transition: all .3s ease;
+}
+
+.alpaca-form-button:hover {
+    color: white;
+    font-weight: 700;
+    background-color: #8E8B8B;
+    /* border: .2rem solid rgb(90, 90, 90); */
+}
+
+.alpaca-form-buttons-container {
+    text-align: left;
+}
+
+.alpaca-form-button-submit {
+    width: 5.5em;
+}
+
+.alpaca-form-button-submit:hover {
     background-color: green;
+    border: .2rem solid darkgreen;
+}
+
+.alpaca-form-button-reset {
+    width: 8em;
+}
+
+.buttonchange {
+    color: white;
+    background-color: green !important;
+    border: .2rem solid darkgreen;
+}
+
+.alpaca-array-actionbar.alpaca-array-actionbar-top {
+    margin-top: 1em;
 }
 
 .btn-group > .btn:first-child {
@@ -1395,6 +1468,23 @@ input[name="imginput"]:focus {
 .btn-group > .btn:not(:first-child):hover {
     background-color: rgb(150, 150, 150);
     color: white;
+}
+
+.btn:disabled {
+    opacity: .65;
+    background-color: rgb(150, 150, 150) !important;
+    color: black !important;
+    border: .2rem solid rgb(90, 90, 90) !important;
+    cursor: not-allowed;
+}
+
+.btn:disabled:hover {
+    opacity: .65;
+    background-color: rgb(150, 150, 150) !important;
+    color: black !important;
+    font-weight: 500 !important;
+    border: .2rem solid rgb(90, 90, 90) !important;
+    cursor: not-allowed;
 }
 
 .settingscolumn {
@@ -1449,7 +1539,7 @@ input[name="imginput"]:focus {
     float: right;
     width: calc(100% - 20rem);
     margin-top: 5rem;
-    margin-bottom: 3rem;
+    /* margin-bottom: 3rem; */
     height: 100%;
 }
 
@@ -1479,12 +1569,18 @@ input[name="imginput"]:focus {
     border-bottom: 1px solid #dee2e6;;
 }
 
+#extensions {
+    text-align: center; 
+    margin: auto;
+    font-size: 1.5em;
+}
+
 .extok {
     color: white;
     background-color: green;
     display: inline-block;
     text-align: center;
-    font-size: .50rem;
+    font-size: .5em;
     white-space: nowrap;
     vertical-align: middle;
     user-select: none;
@@ -1498,7 +1594,7 @@ input[name="imginput"]:focus {
     color: white !important;
     background-color: red !important;
     display: inline-block;
-    font-size: .50rem;
+    font-size: .5em;
     text-align: center;
     white-space: nowrap;
     vertical-align: middle;
@@ -1525,9 +1621,20 @@ input[name="imginput"]:focus {
     height: 40rem;
 }
 
-#serviceform, #siteform {
+#siteform {
+    width: 100%;
+    margin-left: 5vw;
+    /* margin-right: 5vw; */
     background-color: inherit;
 }
+
+#authenticationform {
+    width: 100%;
+    margin-left: 5vw;
+    /* margin-right: 5vw; */
+    background-color: inherit;
+}
+
 
 #modalloading {
     position: fixed;
@@ -1556,6 +1663,7 @@ input[name="imginput"]:focus {
 
 #preferenceform {
     background-color: inherit;
+    width: 95%;
 }
 
 /* Custom CSS */
@@ -1634,10 +1742,7 @@ input[name="imginput"]:focus {
 .alpaca-control-label {
     font-size: 1.1rem;
     font-weight: 600;
-}
-
-.alpaca-form-buttons-container {
-    text-align: left;
+    max-width: 100%;
 }
 
 .radio {
@@ -1650,6 +1755,23 @@ input[name="imginput"]:focus {
     padding-left: 1.5rem;
     cursor: default;
 }
+
+.alpaca-message-stringValueTooSmall {
+    color: red;
+}
+
+.alpaca-message-stringNotANumber {
+    color: red;
+}
+
+.alpaca-message-notOptional {
+    color: red;
+}
+
+.alpaca-message-invalidPattern {
+    color: red;
+}
+
 
 #reginfo {
     width: 85%;
@@ -1718,13 +1840,13 @@ div[data-alpaca-container-item-name="maxLines"], div[data-alpaca-container-item-
 #categoryFilter {
     text-align: center;
     vertical-align: middle;
-    /* height: 3em; */
     height: fit-content;
     height: -moz-fit-content;
     width: fit-content;
     width: -moz-fit-content;
     margin: auto;
     padding: .5rem;
+    padding-top: 0;
     border-radius: 6px;
     background-color: #3d3d3d;
     box-shadow: 3px 3px 3px black;
@@ -1745,6 +1867,7 @@ div[data-alpaca-container-item-name="maxLines"], div[data-alpaca-container-item-
     padding: 5px 10px;
     /* font-size: 1.5rem; */
     color: #8C8C8C;
+    cursor: default;
 }
 
 .toolslink {
@@ -1757,7 +1880,9 @@ div[data-alpaca-container-item-name="maxLines"], div[data-alpaca-container-item-
     text-shadow: 0 0 15px #FF0104;
 }
 
+
 /*** Authentication ***/
+
 #registration-container, #login-container, #configuration-container {
     margin: 2rem auto;
     width: 50%;
@@ -1806,6 +1931,7 @@ h2.heading {
 .login-warning > p {
     text-align: center;
     color: red;
+    cursor: default;
 }
 
 #auto-update-status {
@@ -1939,11 +2065,6 @@ h2.heading {
         right: auto;
     }
 
-    #includedContent {
-        float: none;
-        width: 100%;
-        margin-top: 0;
-    }
 
     #tdleft, #tdright {
         width: 100%;
@@ -1970,9 +2091,11 @@ object {
 
 #infoframe {
     position: fixed;
-    height: 50%;
+    /* CHANGE ME: */
+    /* height: 50%; */
     width: 95%;
-    margin-left: .5rem;
+    height: 60vh;
+    /* margin-left: .5rem; */
 }
 
 .frametd {
