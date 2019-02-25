@@ -107,7 +107,7 @@ $(document).ready(function () {
                 setTimeout(15000);
 
                 versionCheckAuto.html(
-                    '<div class="footer a" style="cursor: pointer"> <a href="https://github.com/Monitorr/logarr/releases" target = "_blank"> <b> An update is available</b></a> </div> <div class="notification">Click <strong>"check for update"</strong> above to update Logarr.</div>'
+                    '<div class="footer a" style="cursor: pointer"> <a class="updatelink" href="https://github.com/Monitorr/logarr/releases" target = "_blank" title="Logarr Releases"> <b> An update is available</b></a> </div> <div class="notification">Click <strong>"check for update"</strong> above to update Logarr.</div>'
                 );
             }
 

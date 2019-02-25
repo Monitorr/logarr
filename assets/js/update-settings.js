@@ -20,7 +20,7 @@ $(document).ready(function () {
 
                 versionCheckAuto.html(
                     //TODO: replace this with a link to start the updating process?
-                    '<a class="links" href = "https://github.com/Monitorr/Logarr/releases" target = "_blank" title="Logarr releases" style = "cursor: pointer"> <b> An update is available</b></a>'
+                    '<a class="updatelink" href = "https://github.com/Monitorr/Logarr/releases" target = "_blank" title="Logarr releases" style = "cursor: pointer"> <b> An update is available</b></a>'
                 );
             }
 

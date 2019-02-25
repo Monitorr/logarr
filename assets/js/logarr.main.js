@@ -57,7 +57,7 @@ function loadLogs() {
         }
     }
     if (categories.length > 0 && !(categories.length == 1 && categories[0] == "Uncategorized")) {
-        console.log("choice 1");
+        //console.log("choice 1");
         var allFilter = (filter[0] == "" || arraySubset(filter, categories)) ? "true" : "false";
         var categoryFilter = window.location.hash.substr(1);
         if (allFilter == "true") categoryFilter = categories.join(",");
@@ -66,7 +66,7 @@ function loadLogs() {
             // CHANGE ME:
             //"<a href='#' class='category-filter-item'>All</a>" +
             "<div class='category-filter-item'>All</div>" +
-            "<label class=\"switch category-switch\">" +
+            "<label class=\"switch category-switch\" title=\"Display All\">" +
             "<span class=\"slider round\" data-enabled=\"" + allFilter + "\" onclick=\"toggleCategory('', '" + categoryFilter + "');\"></span>" +
             "</label>" +
             "</div>";
@@ -78,7 +78,7 @@ function loadLogs() {
                 // CHANGE ME:
                 //"<a href='#" + categories[i] + "' class='category-filter-item'>" + categories[i] + "</a>" +
                 "<div class='category-filter-item'>" + categories[i] + "</div>" +
-                "<label class=\"switch category-switch\">" +
+                "<label class=\"switch category-switch\" title=\"Hide/display Category\">" +
                 "<span class=\"slider round\" data-enabled=\"" + catFilter + "\" onclick=\"toggleCategory('" + categories[i] + "', '" + categoryFilter + "');\"></span>" +
                 "</label>" +
                 "</div>";
@@ -87,7 +87,7 @@ function loadLogs() {
         $('#categoryFilter').html(html);
         $('#categoryFilter').show();
     } else {
-        console.log("choice 2");
+        //console.log("choice 2");
         $('#categoryFilter').hide();
     }
 
