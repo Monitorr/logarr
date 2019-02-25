@@ -236,24 +236,37 @@ class OneFileLoginApplication
 			//check which page we're on
 			$urlParts = explode("/", strtok($_SERVER["REQUEST_URI"], '?'));
 			$currentPage = strtok(end($urlParts), ".");
-			if (($currentPage == "index" || $currentPage == "") && $GLOBALS['authentication']['logsEnabled'] == "true") {
-				// show "page", according to user's login status
-				if ($this->getUserLoginStatus()) {
-					return true;
+			if (($currentPage == "index" || $currentPage == "")) {
+				if($GLOBALS['authentication']['logsEnabled'] == "true") {
+					// show "page", according to user's login status
+					if ($this->getUserLoginStatus()) {
+						return true;
+					} else {
+						$this->showPageLoginForm();
+						exit();
+					}
 				} else {
-					$this->showPageLoginForm();
-					exit();
+					return true;
 				}
-			} else if (strpos(strtolower($currentPage), 'settings') !== false && $GLOBALS['authentication']['settingsEnabled'] == "true") {
-				// show "page", according to user's login status
-				if ($this->getUserLoginStatus()) {
-					return true;
+			} else if (strpos(strtolower($_SERVER["REQUEST_URI"]), 'settings') !== false) {
+				if($GLOBALS['authentication']['settingsEnabled'] == "true") {
+					// show "page", according to user's login status
+					if ($this->getUserLoginStatus()) {
+						return true;
+					} else {
+						$this->showPageLoginForm();
+						exit();
+					}
 				} else {
-					$this->showPageLoginForm();
-					exit();
+					return true;
 				}
 			} else {
-				return true;
+				if ($this->getUserLoginStatus()) {
+					return true;
+				} else {
+					$this->showPageLoginForm();
+					exit();
+				}
 			}
 		}
 	}

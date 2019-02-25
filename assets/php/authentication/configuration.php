@@ -1,5 +1,18 @@
 <?php
 $datadir_file = __DIR__ . '/../../data/datadir.json';
+if(file_exists($datadir_file)) {
+	$datadir_contents = json_decode(file_get_contents($datadir_file), 1);
+	if(isset($datadir_contents["datadir"])) {
+		$datadir = $datadir_contents["datadir"];
+		$datadir = rtrim(rtrim($datadir, '/'), "\\") . DIRECTORY_SEPARATOR;
+		if(file_exists($datadir)
+			&& file_exists($datadir . "config.json")
+			&& file_exists($datadir . "users.db")){
+			include(__DIR__ . '/../functions.php');
+			include(__DIR__ . '/../auth_check.php');
+		}
+	}
+}
 ?>
 
 <!DOCTYPE html>
