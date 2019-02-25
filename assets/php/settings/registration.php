@@ -5,39 +5,43 @@ include(__DIR__ . '/../auth_check.php');
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="utf-8">
-    <link type="text/css" href="../../css/bootstrap.min.css" rel="stylesheet">
-    <link type="text/css" href="../../css/logarr.css" rel="stylesheet">
-    <link type="text/css" href="../../data/custom.css" rel="stylesheet">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <meta name="theme-color" content="#464646"/>
-    <meta name="theme_color" content="#464646"/>
+        <link type="text/css" href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link type="text/css" href="../../css/logarr.css" rel="stylesheet">
+        <link type="text/css" href="../../data/custom.css" rel="stylesheet">
 
-    <script src="../../js/jquery.min.js"></script>
-    <script src="../../js/jquery.blockUI.js" async></script>
-    <!-- <script type="text/javascript" src="../../js/pace.js" async></script> -->
+        <meta name="theme-color" content="#464646"/>
+        <meta name="theme_color" content="#464646"/>
 
-    <title>
-		<?php
-		$title = $GLOBALS['preferences']['sitetitle'];
-		echo $title . PHP_EOL;
-		?>
-        | Registration
-    </title>
+        <link rel="icon" type="image/png" href="../../../favicon.png">
 
-</head>
+        <script src="../../js/jquery.min.js"></script>
+        <script src="../../js/jquery.blockUI.js" async></script>
 
-<body>
+        <title>
+            <?php
+            $title = $GLOBALS['preferences']['sitetitle'];
+            echo $title . PHP_EOL;
+            ?>
+            | Registration
+        </title>
 
-<div id="registration-content"></div>
-<script>
-    $(function () {
-        $('#registration-content').load('../../../settings.php?action=register #registration-container');
-    });
-</script>
-<script src="../../js/update-settings.js" async></script>
+    </head>
 
-</body>
+    <body>
+
+        <div id="registration-content"></div>
+        <script>
+            $(function () {
+                $('#registration-content').load('../../../settings.php?action=register #registration-container');
+            });
+        </script>
+        <script src="../../js/update-settings.js" async></script>
+
+    </body>
 
 </html>

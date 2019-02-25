@@ -4,8 +4,8 @@
   "properties": {
     "sitetitle": {
       "type": "string",
-      "required": false,
-      "maxLength": 15,
+      "required": true,
+      "maxLength": 12,
       "default": "Logarr",
       "properties": {}
     },

@@ -1,4 +1,5 @@
 <?php include(__DIR__ . "/header.php"); ?>
+
     <!-- datadir create button: -->
     <script>
 
@@ -204,7 +205,7 @@
 						echo '<div id="loginmessage">';
 						echo '<i class="fa fa-fw fa-exclamation-triangle"> </i><b> NOTE: </b> An existing data directory is detected at: ';
 						echo $GLOBALS['datadir'];
-						echo ' <br> By clicking "create" below, a user database will be created in the data directory specified below while leaving the JSON setting files in tact. <br> After the user database is created you will be able to create a user, log in, and edit the Logarr settings. <br>';
+						echo ' <br> By clicking "create" below, a user database will be created in the data directory specified below while leaving the config.json file in tact. <br> After the user database is created you will be able to create a user, log in, and edit the Logarr settings. <br>';
 						echo '<br>';
 						echo '</div>';
 					} else {
@@ -287,15 +288,17 @@
                                     <form id="datadirform">
 
                                         <div>
-                                            <i class='fa fa-fw fa-folder-open'> </i> <input type='text' name='datadir'
-                                                                                            id="datadir"
-                                                                                            fv-not-empty=" This field can't be empty"
-                                                                                            fv-advanced='{"regex": "\\s", "regex_reverse": true, "message": "  Value cannot contain spaces"}'
-                                                                                            fv-valid-func="$( '#datadirbtn' ).prop( 'disabled', false )"
-                                                                                            fv-invalid-func="$( '#datadirbtn' ).prop( 'disabled', true )"
-                                                                                            autocomplete="off"
-                                                                                            placeholder=' Data dir path'
-                                                                                            required>
+                                            <i class='fa fa-fw fa-folder-open'> </i> 
+                                            <input type='text' name='datadir'
+                                                id="datadir"
+                                                fv-not-empty=" This field can't be empty"
+                                                fv-advanced='{"regex": "\\s", "regex_reverse": true, "message": "  Value cannot contain spaces"}'
+                                                fv-valid-func="$( '#datadirbtn' ).prop( 'disabled', false )"
+                                                fv-invalid-func="$( '#datadirbtn' ).prop( 'disabled', true )"
+                                                autocomplete="off"
+                                                placeholder=' Data dir path'
+                                                required
+                                                spellcheck='false'>
                                             <br>
                                             <i class="fa fa-fw fa-info-circle"> </i>
                                             <i><?php echo "The current absolute path is: " . getcwd() ?> </i>
@@ -346,15 +349,17 @@
                                     <form id="dbform">
 
                                         <div>
-                                            <i class='fa fa-fw fa-folder-open'> </i> <input type='text' name='dbfilemulti'
-                                                                                            id="dbfile"
-                                                                                            fv-not-empty=" This field can't be empty"
-                                                                                            fv-advanced='{"regex": "\\s", "regex_reverse": true, "message": "  Value cannot contain spaces"}'
-                                                                                            fv-valid-func="$( '#dbbtn' ).prop( 'disabled', false )"
-                                                                                            fv-invalid-func="$( '#dbbtn' ).prop( 'disabled', true )"
-                                                                                            autocomplete="off"
-                                                                                            value=" <?php echo $GLOBALS['datadir']; ?>"
-                                                                                            required>
+                                            <i class='fa fa-fw fa-folder-open'> </i> 
+                                            <input type='text' name='dbfilemulti'
+                                                id="dbfile"
+                                                fv-not-empty=" This field can't be empty"
+                                                fv-advanced='{"regex": "\\s", "regex_reverse": true, "message": "  Value cannot contain spaces"}'
+                                                fv-valid-func="$( '#dbbtn' ).prop( 'disabled', false )"
+                                                fv-invalid-func="$( '#dbbtn' ).prop( 'disabled', true )"
+                                                autocomplete="off"
+                                                value=" <?php echo $GLOBALS['datadir']; ?>"
+                                                required
+                                                spellcheck='false'>
                                             <br>
                                             <i class="fa fa-fw fa-info-circle"> </i>
                                             <i><?php echo "The current data directory path is: " . $GLOBALS['datadir']; ?> </i>
@@ -387,7 +392,7 @@
 										echo "<br>";
 										echo '+ If there is an existing user database in this directory, it will be renamed to "users.db.old" and a new user database will be created.';
 										echo "<br>";
-										echo '+ All setting JSON files in the current data directory will be left in tact.';
+										echo '+ The config.json file will be left in tact which will preserve all of the current Logarr settings.';
 										echo "<br>";
 										echo '+ After the new user database is created, you will be prompted to create new user credentials.';
 										echo "<br>";
@@ -444,12 +449,12 @@
 				echo '<tbody id="registrationform">';
 
 				echo '<tr id="usernameinput">';
-				echo '<td><i class="fa fa-fw fa-user"> </i> <input id="login_input_username" type="text" pattern="[a-zA-Z0-9]{2,64}" name="user_name" placeholder=" Username" title="Enter a username" required autocomplete="off" /> </td>';
+				echo '<td><i class="fa fa-fw fa-user"> </i> <input id="login_input_username" type="text" pattern="[a-zA-Z0-9]{2,64}" name="user_name" placeholder=" Username" title="Enter a username" required autocomplete="off" spellcheck="false" /> </td>';
 				echo '<td><label for="login_input_username"><i> Letters and numbers only, 2 to 64 characters </i></label></td>';
 				echo '</tr>';
 
 				echo '<tr id="useremail">';
-				echo "<td><i class='fa fa-fw fa-envelope'> </i> <input id='login_input_email' type='email' name='user_email' placeholder=' User e-mail' /></td>";
+				echo "<td><i class='fa fa-fw fa-envelope'> </i> <input id='login_input_email' type='email' name='user_email' placeholder=' User e-mail' spellcheck='false' /></td>";
 				echo '<td><label for="login_input_email"> <i> Not required </i></label></td>';
 				echo ' </tr>';
 
@@ -494,7 +499,7 @@
 
 				echo '</div>';
 
-				echo '<input id="registerbtn" type="submit" class="btn btn-primary" name="register" value="Register" />';
+				echo '<input id="registerbtn" type="submit" class="btn btn-primary" name="register" value="Register" title="Register" />';
 				echo '<br>';
 
 				echo '<div id="loginsuccess">';

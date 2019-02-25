@@ -9,20 +9,22 @@ include(__DIR__ . '/../auth_check.php');
 <head>
 
     <meta charset="utf-8">
-    <link type="text/css" href="../../css/bootstrap.min.css" rel="stylesheet">
-    <link type="text/css" href="../../css/alpaca.min.css" rel="stylesheet">
-    <!-- <link type="text/css" href="../../css/main.css" rel="stylesheet"> -->
-    <link type="text/css" href="../../css/logarr.css" rel="stylesheet">
-    <link type="text/css" href="../../data/custom.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/alpaca.min.css">
+    <!-- <link rel="stylesheet" href="../../css/font-awesome.min.css"> -->
+    <link rel="stylesheet" href="../../css/logarr.css">
+    <link rel="stylesheet" href="../../data/custom.css">
 
     <meta name="theme-color" content="#464646" />
     <meta name="theme_color" content="#464646" />
 
     <script type="text/javascript" src="../../js/jquery.min.js"></script>
     <script type="text/javascript" src="../../js/handlebars.js"></script>
-    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="https://code.cloudcms.com/alpaca/1.5.24/bootstrap/alpaca.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.9/ace.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../js/alpaca.min.js"></script>
 
     <title>
         <?php
@@ -390,14 +392,6 @@ include(__DIR__ . '/../auth_check.php');
                                 "reset": {
                                     "label": "Clear Values"
                                 }
-                                // "view": {
-                                //     "type": "button",
-                                //     "label": "View JSON",
-                                //     "value": "View JSON",
-                                //     "click": function() {
-                                //         alert(JSON.stringify(this.getValue(), null, "  "));
-                                //     }
-                                // }
                             },
                         }
                     },
