@@ -13,6 +13,7 @@ include(__DIR__ . '/../auth_check.php');
 
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
     <link rel="stylesheet" href="../../css/alpaca.min.css">
+    <link rel="stylesheet" href="../../css/font-awesome.min.css">
     <link rel="stylesheet" href="../../css/logarr.css">
     <link rel="stylesheet" href="../../data/custom.css">
 
@@ -24,7 +25,6 @@ include(__DIR__ . '/../auth_check.php');
     <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../js/alpaca.min.js"></script>
     <script type="text/javascript" src="../../js/vendor/ace.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.9/ace.js"></script> -->
 
     <title>
         <?php
@@ -129,6 +129,14 @@ include(__DIR__ . '/../auth_check.php');
                                 "bindings": {
                                     "timzone": "#timezone"
                                 }
+                            },
+                            "/timestandard": {
+                                "templates": {
+                                    "control": "./templates/templates-user-preferences_timestandard.html"
+                                },
+                                "bindings": {
+                                    "timzone": "#timestandard"
+                                }
                             }
                         }
                     },
@@ -169,22 +177,23 @@ include(__DIR__ . '/../auth_check.php');
                                 "events": {
                                     "change": function() {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
+                                        $('.sitetitlelabel').addClass('settingslabelchanged');
                                     }
                                 }
                             },
                             "siteurl": {
                                 "type": "url",
-                                "validate": true,
+                                "validate": false,
                                 "showMessages": true,
                                 "disabled": false,
                                 "hidden": false,
                                 "label": "Site URL:",
-                                "helpers": ["URL of the Monitorr UI."],
+                                "helpers": ["URL of the Logarr UI."],
                                 "hideInitValidationError": false,
                                 "focus": false,
                                 "optionLabels": [],
                                 "name": "siteurl",
-                                "placeholder": "http://localhost/monitorr",
+                                "placeholder": "http://localhost/logarr",
                                 "typeahead": {},
                                 "allowOptionalEmpty": false,
                                 "data": {},
@@ -196,6 +205,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "events": {
                                     "change": function() {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
+                                        $('.siteurllabel').addClass('settingslabelchanged');
                                     }
                                 }
                             },
@@ -222,6 +232,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "events": {
                                     "change": function() {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
+                                        $('.updatebranchlabel').addClass('settingslabelchanged');
                                     }
                                 }
                             },
@@ -358,6 +369,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "events": {
                                     "change": function() {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
+                                        $('.timezonelabel').addClass('settingslabelchanged');
                                     }
                                 }
                             },
@@ -383,6 +395,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "events": {
                                     "change": function() {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
+                                        $('.timestandardlabel').addClass('settingslabelchanged');
                                     }
                                 }
                             },
@@ -450,17 +463,18 @@ include(__DIR__ . '/../auth_check.php');
                                             url: 'post-settings/post_receiver-user_preferences.php',
                                             data: preferenceSettings.alpaca().getValue(),
                                             success: function(data) {
+                                                console.log("Settings Saved! Applying changes...");
                                                 alert("Settings saved! Applying changes...");
                                                 setTimeout(function() {
                                                     window.top.location.reload(true);
                                                 }, 3000);
+                                                $('.alpaca-form-button-submit').removeClass('buttonchange');
                                             },
                                             error: function(errorThrown) {
                                                 console.log(errorThrown);
                                                 alert("Error submitting data.");
                                             }
                                         });
-                                        $('.alpaca-form-button-submit').removeClass('buttonchange');
                                     }
                                 },
                                 "reset": {
@@ -482,7 +496,6 @@ include(__DIR__ . '/../auth_check.php');
                                     $('.alpaca-form-button-submit').addClass('buttonchange');
                                 });
                             });
-
 
                         let jsEditor = ace.edit("customJSEditor");
                         jsEditor.getSession().setMode("ace/mode/javascript");

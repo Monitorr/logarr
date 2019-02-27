@@ -26,6 +26,12 @@ include('assets/php/auth_check.php');
     <script src="assets/js/pace.js" async></script>
 
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+
+
+    <!-- CHANGE ME: -->
+    <link rel="stylesheet" href="assets/css/vendor/sweetalert2.min.css">
+
+
     <link rel="stylesheet" href="assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/logarr.css">
     <link rel="stylesheet" href="assets/data/custom.css">
@@ -62,6 +68,10 @@ include('assets/php/auth_check.php');
 
     <script src="assets/js/jquery.min.js"></script>
 
+    <!-- CHANGE ME: -->
+
+    <script src="assets/js/vendor/sweetalert2.min.js" async></script>
+
     <script src="assets/js/jquery.blockUI.js"></script>
 
     <script src="assets/js/jquery.highlight.js" async></script>
@@ -75,9 +85,8 @@ include('assets/php/auth_check.php');
         let settings = <?php echo json_encode($GLOBALS['settings']); ?>;
         let preferences = <?php echo json_encode($GLOBALS['preferences']); ?>;
         let logs = <?php echo json_encode($GLOBALS['logs']); ?>;
-        let autoUpdateOverwrite = false;
 
-        refreshConfig(!autoUpdateOverwrite);
+        refreshConfig();
     </script>
 
     <!-- UI clock functions: -->
@@ -116,10 +125,20 @@ include('assets/php/auth_check.php');
 
     <script>
         document.body.className += ' fade-out';
-            $(function () {
-                $('body').removeClass('fade-out');
-            });
-        </script>
+        $(function () {
+            $('body').removeClass('fade-out');
+        });
+    </script>
+
+    <!--     <script>
+        console.log("Sweet Alert");
+        Swal.fire({
+            title: 'Error!',
+            text: 'Do you want to continue',
+            type: 'error',
+            confirmButtonText: 'Cool'
+        })
+    </script> -->
 
     <div id="ajaxtimestamp" title="Analog clock timeout. Refresh page."></div>
 

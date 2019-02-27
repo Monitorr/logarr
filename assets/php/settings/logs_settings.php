@@ -24,16 +24,6 @@ include(__DIR__ . '/../auth_check.php');
     <script type="text/javascript" src="../../js/handlebars.js"></script>
     <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../js/alpaca.min.js"></script>
-    <!-- <script type="text/javascript" src="../../js/ace.js"></script> -->
-
-
-    <!--     
-    <script type="text/javascript" src="../../js/jquery.min.js"></script>
-    <script type="text/javascript" src="../../js/handlebars.js"></script>
-    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="https://code.cloudcms.com/alpaca/1.5.24/bootstrap/alpaca.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.9/ace.js"></script> 
-    -->
 
     <title>
         <?php
@@ -223,7 +213,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "type": "text",
                                     "showMessages": true,
                                     "label": "Log Path:",
-                                    "helpers": ["Can be dynamic see <a href='https://github.com/Monitorr/logarr/wiki/Settings#dynamic-paths' target='_blank'>wiki</a>"],
+                                    //"helpers": ["Can be dynamic - see <a class='footer' href='https://github.com/Monitorr/logarr/wiki/Settings#dynamic-paths' target='_blank'>wiki</a>"],
                                     "name": "path",
                                     "placeholder": "C:\\path\\to.log",
                                     "events": {
@@ -237,7 +227,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "showMessages": true,
                                     "label": "Enabled:",
                                     "name": "enabled",
-                                    "helpers": ["Enable or disable this log"],
+                                    // "helpers": ["Enable or disable this log"],
                                     "events": {
                                         "change": function() {
                                             $('.alpaca-form-button-submit').addClass('buttonchange');
@@ -248,8 +238,8 @@ include(__DIR__ . '/../auth_check.php');
                                     "type": "number",
                                     "validate": true,
                                     "showMessages": true,
-                                    "label": "Maximum amount of lines:",
-                                    "helpers": ["Default line maximum for logs."],
+                                    "label": "Maximum lines:",
+                                    //"helpers": ["Default line maximum for logs."],
                                     "name": "maxLines",
                                     "placeholder": "1000",
                                     "size": "10",
@@ -264,7 +254,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "validate": true,
                                     "showMessages": true,
                                     "label": "Auto Roll Log:",
-                                    "helpers": ["Automatically roll log when equal or bigger then this size."],
+                                    //"helpers": ["Automatically roll log when equal or bigger then this size."],
                                     "name": "autoRollSize",
                                     "placeholder": "E.g. 2MB or 200KB",
                                     "size": "10",
@@ -277,7 +267,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "category": {
                                     "type": "text",
                                     "label": "Category:",
-                                    "helpers": ["Category of the log, will create a tab on the homepage"],
+                                    //"helpers": ["Category of the log, will create a tab on the homepage"],
                                     "hideInitValidationError": false,
                                     "name": "category",
                                     "placeholder": "E.g. Media",

@@ -11,6 +11,18 @@ let nIntervId = [];
 let rfconfig = (typeof settings !== "undefined") ? settings.rfconfig : 1000;
 nIntervId["refreshConfig"] = setInterval(refreshConfig, rfconfig);
 
+function notify(title, text, type, confirmButtonText) {
+    //CHANGE ME:
+     $(function () {
+       Swal.fire({
+           title: title,
+           text: text,
+           type: type,
+           confirmButtonText: confirmButtonText
+       });
+     });
+}
+
 // Set sytles for BlockUI overlays in /assets/js/jquery.blockUI.js
 function refreshblockUI() {
     $.growlUI('Updating logs...');
@@ -103,6 +115,8 @@ function loadLog(log) {
         success: function (response) {
             $("#" + logTitle.replace(/\s/g, "-") + "-log-container").html(response);
             console.log("Updated log: " + logTitle);
+            //TODO CHANGE ME:
+            //notify("Error!", "Updated log: " + logTitle, "error", "Cool");
         }
     });
 }
@@ -324,8 +338,6 @@ function refreshConfig() {
             preferences = json.preferences;
             logs = json.logs;
 
-            console.log(json.logs);
-
             if (settings.rfconfig !== rfconfig) {
                 rfconfig = settings.rfconfig;
                 clearInterval(nIntervId["refreshConfig"]);
@@ -359,7 +371,7 @@ function refreshConfig() {
 function overwriteLogUpdate() {
 
     if (!autoUpdateOverwrite) {
-        console.log("Auto update setting will only be updated from config when the page is refreshed");
+        console.log("Auto update will apply after the setting is changed and this page is refreshed");
     }
 
     if ($("#autoUpdateSlider").attr("data-enabled") === "false") {

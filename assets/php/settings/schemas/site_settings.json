@@ -2,6 +2,30 @@
   "type": "object",
   "required": false,
   "properties": {
+    "rfconfig": {
+      "type": "integer",
+      "required": true,
+      "default": 5000,
+      "minimum": 1000,
+      "exclusiveMinimum": true,
+      "properties": {}
+    },
+	"rftime": {
+      "type": "integer",
+      "required": true,
+      "default": 5000,
+      "minimum": 1000,
+      "exclusiveMinimum": true,
+      "properties": {}
+    },
+	"rflog": {
+      "type": "integer",
+      "required": true,
+      "default": 30000,
+      "minimum": 3000,
+      "exclusiveMinimum": true,
+      "properties": {}
+    },
     "maxLines": {
       "type": "integer",
       "required": true,
@@ -10,33 +34,20 @@
       "exclusiveMinimum": true,
       "properties": {}
     },
-    "rfconfig": {
-      "type": "integer",
-      "required": true,
-      "default": 3000,
-      "minimum": 1000,
-      "exclusiveMinimum": true,
-      "properties": {}
-    },
-    "rflog": {
-      "type": "integer",
-      "required": true,
-      "default": 30000,
-      "minimum": 1000,
-      "exclusiveMinimum": true,
-      "properties": {}
-    },
-    "rftime": {
-      "type": "integer",
-      "required": true,
-      "default": 5000,
-      "minimum": 1000,
-      "exclusiveMinimum": true,
-      "properties": {}
-    },
     "customHighlightTerms": {
       "type": "string",
       "default": "error"
+    },
+	"logRefresh": {
+      "type": "string",
+      "enum": [
+        "true",
+        "false"
+      ],
+      "required": true,
+      "pattern": {},
+      "default": "true",
+      "properties": {}
     },
     "autoHighlight": {
       "type": "string",
@@ -50,17 +61,6 @@
       "properties": {}
     },
     "jumpOnSearch": {
-      "type": "string",
-      "enum": [
-        "true",
-        "false"
-      ],
-      "required": true,
-      "pattern": {},
-      "default": "true",
-      "properties": {}
-    },
-    "logRefresh": {
       "type": "string",
       "enum": [
         "true",
