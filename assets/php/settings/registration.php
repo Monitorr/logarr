@@ -10,17 +10,17 @@ include(__DIR__ . '/../auth_check.php');
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-        <link type="text/css" href="/assets/css/bootstrap.min.css" rel="stylesheet">
-        <link type="text/css" href="/assets/css/logarr.css" rel="stylesheet">
-        <link type="text/css" href="/assets/data/custom.css" rel="stylesheet">
+        <link type="text/css" href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link type="text/css" href="../../css/logarr.css" rel="stylesheet">
+        <link type="text/css" href="../../data/custom.css" rel="stylesheet">
 
         <meta name="theme-color" content="#464646"/>
         <meta name="theme_color" content="#464646"/>
 
-        <link rel="icon" type="image/png" href="/favicon.png">
+        <link rel="icon" type="image/png" href="../../../favicon.png">
 
-        <script src="/assets/js/jquery.min.js"></script>
-        <script src="/assets/js/jquery.blockUI.js" async></script>
+        <script src="../../js/jquery.min.js"></script>
+        <script src="../../js/jquery.blockUI.js" async></script>
 
         <title>
             <?php

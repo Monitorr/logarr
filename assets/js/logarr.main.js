@@ -12,7 +12,7 @@ let rfconfig = (typeof settings !== "undefined") ? settings.rfconfig : 1000;
 nIntervId["refreshConfig"] = setInterval(refreshConfig, rfconfig);
 
 function notify(title, text, type, confirmButtonText) {
-    //CHANGE ME:
+    //TODO: check this
      $(function () {
        Swal.fire({
            title: title,
