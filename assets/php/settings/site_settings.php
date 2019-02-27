@@ -14,7 +14,7 @@ include(__DIR__ . '/../auth_check.php');
 
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
     <link rel="stylesheet" href="../../css/alpaca.min.css">
-    <!-- <link rel="stylesheet" href="../../css/font-awesome.min.css"> -->
+    <link rel="stylesheet" href="../../css/font-awesome.min.css">
     <link rel="stylesheet" href="../../css/logarr.css">
     <link rel="stylesheet" href="../../data/custom.css">
 
@@ -100,6 +100,80 @@ include(__DIR__ . '/../auth_check.php');
                                 "logRefresh": "rightcolumn",
                                 "liveSearch": "rightcolumn",
                             }
+                        },
+                        "fields": {
+                            "/rfconfig": {
+                                "templates": {
+                                    "control": "./templates/settings/templates-settings_rfconfig.html"
+                                },
+                                "bindings": {
+                                    "rfconfig": "#rfconfig_input"
+                                }
+                            },
+                            "/maxLines": {
+                                "templates": {
+                                    "control": "./templates/settings/templates-settings_maxlines.html"
+                                },
+                                "bindings": {
+                                    "maxLines": "#maxlines_input"
+                                }
+                            },
+                            "/rflog": {
+                                "templates": {
+                                    "control": "./templates/settings/templates-settings_rflog.html"
+                                },
+                                "bindings": {
+                                    "rflog": "#rflog_input"
+                                }
+                            },
+                            "/rftime": {
+                                "templates": {
+                                    "control": "./templates/settings/templates-settings_rftime.html"
+                                },
+                                "bindings": {
+                                    "rftime": "#rftime_input"
+                                }
+                            },
+                            "/customHighlightTerms": {
+                                "templates": {
+                                    "control": "./templates/settings/templates-settings_customhighlighterms.html"
+                                },
+                                "bindings": {
+                                    "customHighlightTerms": "#customhighlighterms_input"
+                                }
+                            },
+                            "/autoHighlight": {
+                                "templates": {
+                                    "control": "./templates/settings/templates-settings_autohighlight.html"
+                                },
+                                "bindings": {
+                                    "autoHighlight": "#autohighlight_input"
+                                }
+                            },
+                            "/jumpOnSearch": {
+                                "templates": {
+                                    "control": "./templates/settings/templates-settings_jumponsearch.html"
+                                },
+                                "bindings": {
+                                    "jumpOnSearch": "#jumponsearch"
+                                }
+                            },
+                            "/logRefresh": {
+                                "templates": {
+                                    "control": "./templates/settings/templates-settings_logrefresh.html"
+                                },
+                                "bindings": {
+                                    "logRefresh": "#logrefresh"
+                                }
+                            },
+                            "/liveSearch": {
+                                "templates": {
+                                    "control": "./templates/settings/templates-settings_livesearch.html"
+                                },
+                                "bindings": {
+                                    "liveSearch": "#livesearch"
+                                }
+                            }
                         }
                     },
                     "options": {
@@ -112,6 +186,36 @@ include(__DIR__ . '/../auth_check.php');
                         "collapsible": false,
                         "legendStyle": "button",
                         "fields": {
+                            "rfconfig": {
+                                "type": "number",
+                                "validate": true,
+                                "showMessages": true,
+                                "disabled": false,
+                                "hidden": false,
+                                "label": "Config refresh interval:",
+                                "helper": "Time (in milliseconds) the main Logarr UI will check for and apply newly configured settings.",
+                                "hideInitValidationError": false,
+                                "focus": false,
+                                "optionLabels": [],
+                                "name": "rfconfig",
+                                "placeholder": "5000",
+                                "typeahead": {},
+                                "size": "10",
+                                "allowOptionalEmpty": false,
+                                "data": {},
+                                "autocomplete": false,
+                                "disallowEmptySpaces": false,
+                                "disallowOnlyEmptySpaces": false,
+                                "fields": {},
+                                "renderButtons": true,
+                                "attributes": {},
+                                "events": {
+                                    "change": function() {
+                                        $('.alpaca-form-button-submit').addClass('buttonchange');
+                                        $('.rfconfiglabel').addClass('settingslabelchanged');
+                                    }
+                                }
+                            },
                             "maxLines": {
                                 "type": "number",
                                 "validate": true,
@@ -138,35 +242,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "events": {
                                     "change": function() {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
-                                    }
-                                }
-                            },
-                            "rfconfig": {
-                                "type": "number",
-                                "validate": true,
-                                "showMessages": true,
-                                "disabled": false,
-                                "hidden": false,
-                                "label": "Config refresh interval:",
-                                "helper": "Config refresh interval in milliseconds.",
-                                "hideInitValidationError": false,
-                                "focus": false,
-                                "optionLabels": [],
-                                "name": "rfconfig",
-                                "placeholder": "5000",
-                                "typeahead": {},
-                                "size": "10",
-                                "allowOptionalEmpty": false,
-                                "data": {},
-                                "autocomplete": false,
-                                "disallowEmptySpaces": false,
-                                "disallowOnlyEmptySpaces": false,
-                                "fields": {},
-                                "renderButtons": true,
-                                "attributes": {},
-                                "events": {
-                                    "change": function() {
-                                        $('.alpaca-form-button-submit').addClass('buttonchange');
+                                        $('.maxlineslabel').addClass('settingslabelchanged');
                                     }
                                 }
                             },
@@ -196,6 +272,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "events": {
                                     "change": function() {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
+                                        $('.rflog_inputlabel').addClass('settingslabelchanged');
                                     }
                                 }
                             },
@@ -225,6 +302,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "events": {
                                     "change": function() {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
+                                        $('.rftime_inputlabel').addClass('settingslabelchanged');
                                     }
                                 }
                             },
@@ -235,11 +313,11 @@ include(__DIR__ . '/../auth_check.php');
                                 "disabled": false,
                                 "hidden": false,
                                 "label": "Highlight Terms:",
-                                "helper": "Highlight these terms.",
+                                "helper": "Highlight these terms. ('Auto Highlight' must be set to TRUE)",
                                 "hideInitValidationError": false,
                                 "focus": false,
                                 "optionLabels": [],
-                                "name": "maxLines",
+                                "name": "customHighlightTerms",
                                 "placeholder": "E.g. error,warn",
                                 "typeahead": {},
                                 "size": "10",
@@ -254,6 +332,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "events": {
                                     "change": function() {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
+                                        $('.customhighlighterms_inputlabel').addClass('settingslabelchanged');
                                     }
                                 }
                             },
@@ -264,7 +343,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "disabled": false,
                                 "hidden": false,
                                 "label": "Auto Highlight:",
-                                "helpers": ["Highlight errors automatically."],
+                                "helpers": ["Highlight terms automatically."],
                                 "hideInitValidationError": false,
                                 "focus": false,
                                 "optionLabels": [" True", " False"],
@@ -280,6 +359,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "events": {
                                     "change": function() {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
+                                        $('.autohighlightlabel').addClass('settingslabelchanged');
                                     }
                                 }
                             },
@@ -290,7 +370,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "disabled": false,
                                 "hidden": false,
                                 "label": "Jump on Search:",
-                                "helpers": ["Jump to search result when searching."],
+                                "helpers": ["Jump to 1st search result when a search is performed."],
                                 "hideInitValidationError": false,
                                 "focus": false,
                                 "optionLabels": [" True", " False"],
@@ -306,6 +386,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "events": {
                                     "change": function() {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
+                                        $('.jumponsearchlabel').addClass('settingslabelchanged');
                                     }
                                 }
                             },
@@ -316,6 +397,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "disabled": false,
                                 "hidden": false,
                                 "label": "Automatically Refresh Logs:",
+                                "helpers": ["Automatically Refresh Logs."],
                                 "hideInitValidationError": false,
                                 "focus": false,
                                 "optionLabels": [" True", " False"],
@@ -331,6 +413,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "events": {
                                     "change": function() {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
+                                        $('.logrefreshlabel').addClass('settingslabelchanged');
                                     }
                                 }
                             },
@@ -341,6 +424,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "disabled": false,
                                 "hidden": false,
                                 "label": "Live Search:",
+                                "helpers": ["Automatically highlight terms when typing in the Search input field."],
                                 "hideInitValidationError": false,
                                 "focus": false,
                                 "optionLabels": [" True", " False"],
@@ -356,6 +440,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "events": {
                                     "change": function() {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
+                                        $('.livesearchlabel').addClass('settingslabelchanged');
                                     }
                                 }
                             },
@@ -379,14 +464,24 @@ include(__DIR__ . '/../auth_check.php');
                                             data: siteSettings.alpaca().getValue(),
                                             success: function(data) {
                                                 alert("Settings saved!");
+                                                console.log("Settings Saved!");
                                                 // setTimeout(location.reload.bind(location), 500)
+                                                $('.alpaca-form-button-submit').removeClass('buttonchange');
+                                                $('.livesearchlabel').removeClass('settingslabelchanged');
+                                                $('.logrefreshlabel').removeClass('settingslabelchanged');
+                                                $('.jumponsearchlabel').removeClass('settingslabelchanged');
+                                                $('.autohighlightlabel').removeClass('settingslabelchanged');
+                                                $('.customhighlighterms_inputlabel').removeClass('settingslabelchanged');
+                                                $('.rftime_inputlabel').removeClass('settingslabelchanged');
+                                                $('.rflog_inputlabel').removeClass('settingslabelchanged');
+                                                $('.maxlineslabel').removeClass('settingslabelchanged');
+                                                $('.rfconfiglabel').removeClass('settingslabelchanged');
                                             },
                                             error: function(errorThrown) {
                                                 console.log(errorThrown);
                                                 alert("Error submitting data.");
                                             }
                                         });
-                                        $('.alpaca-form-button-submit').removeClass('buttonchange');
                                     }
                                 },
                                 "reset": {

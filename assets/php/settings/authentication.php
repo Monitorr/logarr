@@ -24,7 +24,7 @@ include(__DIR__ . '/../auth_check.php');
     <script type="text/javascript" src="../../js/handlebars.js"></script>
     <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../js/alpaca.min.js"></script>
-    
+
     <title>
         <?php
         $title = $GLOBALS['preferences']['sitetitle'];
@@ -88,9 +88,35 @@ include(__DIR__ . '/../auth_check.php');
                         "layout": {
                             "template": './templates/two-column-layout-template.html',
                             "bindings": {
-                                "registrationEnabled": "leftcolumn",
+                                "registrationEnabled": "rightcolumn",
                                 "settingsEnabled": "leftcolumn",
-                                "logsEnabled": "rightcolumn"
+                                "logsEnabled": "leftcolumn"
+                            }
+                        },
+                        "fields": {
+                            "/registrationEnabled": {
+                                "templates": {
+                                    "control": "./templates/authentication/templates-authentication_registrationenabled.html"
+                                },
+                                "bindings": {
+                                    "registrationEnabled": "#registrationenabled"
+                                }
+                            },
+                            "/settingsEnabled": {
+                                "templates": {
+                                    "control": "./templates/authentication/templates-authentication_settingsenabled.html"
+                                },
+                                "bindings": {
+                                    "settingsEnabled": "#settingsenabled"
+                                }
+                            },
+                            "/logsEnabled": {
+                                "templates": {
+                                    "control": "./templates/authentication/templates-authentication_logsenabled.html"
+                                },
+                                "bindings": {
+                                    "logsEnabled": "#logsenabled"
+                                }
                             }
                         }
                     },
@@ -111,7 +137,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "disabled": false,
                                 "hidden": false,
                                 "label": "Enable Registration:",
-                                "helpers": ["Enable registration page."],
+                                "helpers": ["Enable access to the registration page. (NOTE: For security purposes, this should be DISABLED ('false') after initial configuration.)"],
                                 "hideInitValidationError": false,
                                 "focus": false,
                                 "optionLabels": [" True", " False"],
@@ -127,6 +153,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "events": {
                                     "change": function() {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
+                                        $('.registrationenabledlabel').addClass('settingslabelchanged');
                                     }
                                 }
                             },
@@ -136,8 +163,8 @@ include(__DIR__ . '/../auth_check.php');
                                 "showMessages": true,
                                 "disabled": false,
                                 "hidden": false,
-                                "label": "Enable Settings Authentication:",
-                                "helpers": ["Enable authentication for the settingspage."],
+                                "label": "Enable Settings authentication:",
+                                "helpers": ["Enable authentication for the settings page."],
                                 "hideInitValidationError": false,
                                 "focus": false,
                                 "optionLabels": [" True", " False"],
@@ -153,6 +180,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "events": {
                                     "change": function() {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
+                                        $('.settingsenabledlabel').addClass('settingslabelchanged');
                                     }
                                 }
                             },
@@ -162,8 +190,8 @@ include(__DIR__ . '/../auth_check.php');
                                 "showMessages": true,
                                 "disabled": false,
                                 "hidden": false,
-                                "label": "Enable authentication for the logs page:",
-                                "helpers": ["Enable authentication for the homepage showing the logs."],
+                                "label": "Enable Logarr authentication:",
+                                "helpers": ["Enable authentication for the main Logarr UI."],
                                 "hideInitValidationError": false,
                                 "focus": false,
                                 "optionLabels": [" True", " False"],
@@ -179,6 +207,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "events": {
                                     "change": function() {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
+                                        $('.logsenabledlabel').addClass('settingslabelchanged');
                                     }
                                 }
                             }
@@ -202,14 +231,15 @@ include(__DIR__ . '/../auth_check.php');
                                             data: authenticationsettings.alpaca().getValue(),
                                             success: function(data) {
                                                 alert("Settings saved!");
-                                                setTimeout(window.top.location.reload.bind(window.top.location), 500)
+                                                console.log("Settings saved!");
+                                                setTimeout(window.top.location.reload.bind(window.top.location), 500);
+                                                $('.alpaca-form-button-submit').removeClass('buttonchange');
                                             },
                                             error: function(errorThrown) {
                                                 console.log(errorThrown);
                                                 alert("Error submitting data.");
                                             }
                                         });
-                                        $('.alpaca-form-button-submit').removeClass('buttonchange');
                                     }
                                 }
                             },

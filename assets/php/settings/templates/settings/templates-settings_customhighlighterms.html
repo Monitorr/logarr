@@ -1,13 +1,13 @@
 <script type="text/x-handlebars-template">
 
-    <div id="updatebranch" class="form-group">
+    <div id="customhighlighterms_input" class="form-group">
 
         {{#if options.label}}
-        <label class="{{#if options.labelClass}}{{options.labelClass}}{{/if}} alpaca-control-label updatebranchlabel" for="{{id}}">
+        <label class="{{#if options.labelClass}}{{options.labelClass}}{{/if}} alpaca-control-label customhighlighterms_inputlabel" for="{{id}}">
 
             {{{options.label}}}
 
-            <i class="fa fa-fw fa-question-circle input_icon" id="updatebranch_icon" title="Logarr repo branch to use when updating."> </i>
+            <i class="fa fa-fw fa-question-circle input_icon" id="customhighlighterms_input_icon" title="Highlight these terms. ('Auto Highlight' must be set to TRUE)."> </i>
 
         </label>
 
@@ -23,4 +23,5 @@
         {{/if}}
 
     </div>
+
 </script>

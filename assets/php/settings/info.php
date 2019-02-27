@@ -55,7 +55,7 @@ include(__DIR__ . '/../auth_check.php');
                     <td><strong>Logarr Installed Version:</strong></td>
                     <td>
                         <?php echo file_get_contents("../../js/version/version.txt") ?>
-                        <p id="version_check_auto"></p>
+                        <p id="version_check_auto" class="version_check_info"></p>
                     </td>
                     <td><strong>OS / Version:</strong></td>
                     <td>
@@ -151,7 +151,7 @@ include(__DIR__ . '/../auth_check.php');
                         Update branch selected:
                         <strong>
                             <?php
-                            $updateBranch = $GLOBALS['preferences']['updateBranch'];
+                            $updateBranch = strtoupper($GLOBALS['preferences']['updateBranch']);
                             echo '| ' . $updateBranch . ' | ' . PHP_EOL;
                             ?>
                         </strong>
@@ -161,10 +161,9 @@ include(__DIR__ . '/../auth_check.php');
                     <td><strong>Install Path: </strong></td>
                     <td>
                         <?php
-                        $vnum_loc = "../../";
+                        $vnum_loc = "../../../";
                         echo realpath($vnum_loc), PHP_EOL;
                         ?>
-
                     </td>
                 </tr>
 
