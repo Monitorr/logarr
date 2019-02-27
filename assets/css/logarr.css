@@ -1480,12 +1480,14 @@ input[name="imginput"]:focus {
 #infodata > .table {
     margin-bottom: auto;
     border-bottom: 1px solid #dee2e6;;
+    cursor: default;
 }
 
 #extensions {
     text-align: center; 
     margin: auto;
     font-size: 1.5em;
+    cursor: default;
 }
 
 .extok {
@@ -1493,11 +1495,10 @@ input[name="imginput"]:focus {
     background-color: green;
     display: inline-block;
     text-align: center;
-    font-size: .5em;
+    font-size: .75rem;
     white-space: nowrap;
     vertical-align: middle;
     user-select: none;
-    border: 1px solid transparent;
     padding: .1rem .5rem;
     border-radius: .25rem;
     cursor: help;
@@ -1507,7 +1508,7 @@ input[name="imginput"]:focus {
     color: white !important;
     background-color: red !important;
     display: inline-block;
-    font-size: .5em;
+    font-size: .75rem;
     text-align: center;
     white-space: nowrap;
     vertical-align: middle;
@@ -1544,7 +1545,7 @@ input[name="imginput"]:focus {
 #authenticationform {
     width: 100%;
     margin-left: 5vw;
-    /* margin-right: 5vw; */
+    margin-top: 10vh;
     background-color: inherit;
 }
 
@@ -1638,6 +1639,8 @@ input[name="imginput"]:focus {
     text-align: left;
 }
 
+
+
 #rightcolumn {
     margin: auto;
     text-align: left;
@@ -1685,6 +1688,44 @@ input[name="imginput"]:focus {
     color: red;
 }
 
+.alpaca-message-custom {
+    color: red;
+}
+
+.settingslabelchanged {
+    color: orange !important;
+}
+
+.alpaca-message-notOptional {
+    color: red;
+}
+
+.alpaca-field-text-max-length-indicator {
+    font-style: italic;
+    cursor: default;
+}
+
+#regsettingnote {
+    color: red !important;
+    font-style: italic;
+}
+
+#pathsettingnote {
+    color: #aaa !important;
+    font-style: italic;
+    cursor: default;
+    font-size: 1rem !important;
+}
+
+.pathsettingnotelink {
+    color: #aaa;
+    font-size: 1rem !important;
+    cursor: pointer;
+}
+
+.pathsettingnotelink:hover {
+    font-size: 1rem !important;
+}
 
 #reginfo {
     width: 85%;
@@ -2177,6 +2218,7 @@ object {
 
 .releaseBody > h1, .releaseBody > h2, .releaseBody > h3, .releaseBody > h4, .releaseBody > h5, .releaseBody > h6 {
     text-align: left;
+    font-size: 1.5em;
 }
 
 .releasehr {
@@ -2194,6 +2236,8 @@ object {
 .releaselink:hover {
     color: #ffffff;
     text-shadow: 0 0 1rem #FF0104;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .php {
@@ -2212,12 +2256,10 @@ object {
 }
 
 .updatelink {
-
-        text-align: center;
-        font-size: 1rem;
-        text-decoration: none;
-        color: yellow;
-
+    text-align: center;
+    font-size: 1rem;
+    text-decoration: none;
+    color: yellow;
 }
 
 .updatelink:hover {
@@ -2229,13 +2271,19 @@ object {
     -o-transition: all .2s ease;
     -ms-transition: all .2s ease;
     transition: all .2s ease;
-
 }
 
 /* Footer */
 
 #version_check_auto {
     cursor: default;
+}
+
+.version_check_info {
+    display: inline-flex;
+    padding: 0;
+    margin: 0 auto;
+    margin-left: 1em;
 }
 
 .loginversion {
