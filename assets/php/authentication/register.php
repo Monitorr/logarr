@@ -63,7 +63,7 @@ include_once(__DIR__ . "/../auth_check.php");
                 let form = $(this);
                 $.ajax({
                     type: "POST",
-                    url: "/?action=register&debug=1",
+                    url: "?action=register&debug=1",
                     data: form.serialize(), // serializes the form's elements.
                     success: function (response) {
                         $("#feedback").html(response);
