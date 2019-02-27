@@ -263,11 +263,16 @@ class OneFileLoginApplication
 	{
 		// start the session, always needed!
 		$this->doStartSession();
+		$urlParts = explode("/", strtok($_SERVER["REQUEST_URI"], '?'));
+		$currentPage = strtok(end($urlParts), ".");
+
 		// check is user wants to see register page (etc.)
-		if (isset($_GET["action"]) && $_GET["action"] == "register") {
+		if (isset($_GET["action"]) && $_GET["action"] == "register" || $currentPage == "register") {
 			if (isset($GLOBALS['authentication']) && isset($GLOBALS['authentication']['registrationEnabled']) && $GLOBALS['authentication']['registrationEnabled'] == "true") {
 				$this->doRegistration();
-				//$this->showPageRegistration();
+				if(!isset($_GET["debug"]) || $_GET["debug"] != 1) {
+					$this->showPageRegistration();
+				}
 			} else {
 				$this->showPageUnauthorized();
 			}
@@ -280,8 +285,6 @@ class OneFileLoginApplication
 			$this->performUserLoginAction();
 
 			//check which page we're on
-			$urlParts = explode("/", strtok($_SERVER["REQUEST_URI"], '?'));
-			$currentPage = strtok(end($urlParts), ".");
 
 			$homePageURLs = array("index", "", "load-log", "version_check", "sync-config", "time", "download", "unlink");
 			if (in_array($currentPage, $homePageURLs)) {
