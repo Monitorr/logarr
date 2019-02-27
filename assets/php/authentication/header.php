@@ -116,7 +116,7 @@ include_once(__DIR__ . "/../auth_check.php");
         <div id="left" class="Column">
 
             <div id="logoHeader" class="Column">
-                <img src="images/logo_white_glow_crop.png" alt="Logarr">
+                <img src="assets/images/logo_white_glow_crop.png" alt="Logarr">
             </div>
 
             <div id="loginbrand">
@@ -137,7 +137,7 @@ include_once(__DIR__ . "/../auth_check.php");
         </div>
 
         <div id="logo-login" class="Column">
-            <img src="images/logarr_white_text_crop.png" alt="Logarr">
+            <img src="assets/images/logarr_white_text_crop.png" alt="Logarr">
         </div>
 
         <div id="right" class="Column">
