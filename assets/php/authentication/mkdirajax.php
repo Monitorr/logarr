@@ -7,41 +7,27 @@ error_reporting(E_ALL);
 
 if (!isset($_POST['datadir'])) exit();
 
+$datadir = rtrim($_POST["datadir"], "\\/" . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 $datadir_file = __DIR__ . '/../../data/datadir.json';
 $datadir_file_fail = __DIR__ . '/../../data/datadir.fail.txt';
-
-if(file_exists($datadir_file)) {
-	$datadir_contents = json_decode(file_get_contents($datadir_file), 1);
-	if(isset($datadir_contents["datadir"])) {
-		$datadir = $datadir_contents["datadir"];
-		$datadir = rtrim(rtrim($datadir, '/'), "\\") . DIRECTORY_SEPARATOR;
-		if(file_exists($datadir)
-			&& file_exists($datadir . "config.json")
-			&& file_exists($datadir . "users.db")){
-			include(__DIR__ . '/../functions.php');
-			include(__DIR__ . '/../auth_check.php');
-		}
-	}
-}
 
 echo '<div class="reglog">';
 echo '<div id="loginmessage">';
 echo '<br>';
 
 print_r('Form submitted: create data directory: ');
-var_dump($_POST['datadir']);
+var_dump($datadir);
 echo "<br>";
 print_r('Server received: create data directory:  ');
-var_dump($_POST['datadir']);
+var_dump($datadir);
 echo "<br>";
 print_r('Server attempting to create data directory:  ');
-var_dump($_POST['datadir']);
+var_dump($datadir);
 
 echo '</div>';
 echo '</div>';
 
-$datadir = $_POST['datadir'];
-file_put_contents($datadir_file, json_encode($_POST));
+file_put_contents($datadir_file, json_encode(array("datadir" => $datadir)));
 
 // To create the nested structure, the $recursive parameter
 // to mkdir() must be specified.

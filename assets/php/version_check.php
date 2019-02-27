@@ -1,6 +1,7 @@
 <?php
 // check current version number
 require("functions.php");
+include("auth_check.php");
 // open version file on external server
 $file = fopen($ext_version_loc, "r");
 $vnum = fgets($file);

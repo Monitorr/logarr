@@ -1,5 +1,6 @@
 <?php
 include('functions.php');
+include("auth_check.php");
 $timezone = $GLOBALS['preferences']['timezone'];
 $dt = new DateTime("now", new DateTimeZone("$timezone"));
 $timeStandard = (int)($GLOBALS['preferences']['timestandard'] === "True" ? true : false);

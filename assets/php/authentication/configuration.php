@@ -1,18 +1,9 @@
 <?php
-$datadir_file = __DIR__ . '/../../data/datadir.json';
-if(file_exists($datadir_file)) {
-	$datadir_contents = json_decode(file_get_contents($datadir_file), 1);
-	if(isset($datadir_contents["datadir"])) {
-		$datadir = $datadir_contents["datadir"];
-		$datadir = rtrim(rtrim($datadir, '/'), "\\") . DIRECTORY_SEPARATOR;
-		if(file_exists($datadir)
-			&& file_exists($datadir . "config.json")
-			&& file_exists($datadir . "users.db")){
-			include(__DIR__ . '/../functions.php');
-			include(__DIR__ . '/../auth_check.php');
-		}
-	}
-}
+include_once(__DIR__ . "/../auth_check.php");
+
+$str = file_get_contents(__DIR__ . "/../../data/datadir.json");
+$json = json_decode($str, true);
+$datadir = $json['datadir'];
 ?>
 
 <!DOCTYPE html>
@@ -30,17 +21,17 @@ if(file_exists($datadir_file)) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <link rel="manifest" href="webmanifest.json">
+    <link rel="manifest" href="/webmanifest.json">
 
     <meta name="Logarr" content="Logarr: Self-hosted, single-page, log consolidation tool." />
     <meta name="application-name" content="Logarr" />
 
-    <script src="assets/js/pace.js" async></script>
+    <script src="/assets/js/pace.js" async></script>
 
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/logarr.css">
-    <link rel="stylesheet" href="assets/data/custom.css">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/logarr.css">
+    <link rel="stylesheet" href="/assets/data/custom.css">
 
     <link rel="icon" type="image/png" href="favicon.png">
 
@@ -51,15 +42,15 @@ if(file_exists($datadir_file)) {
 
     <title>Logarr | Configuration</title>
 
-    <script src="assets/js/jquery.min.js"></script>
+    <script src="/assets/js/jquery.min.js"></script>
 
-    <script src="assets/js/jquery.blockUI.js"></script>
+    <script src="/assets/js/jquery.blockUI.js"></script>
 
-    <script src="assets/js/jquery.highlight.js" async></script>
+    <script src="/assets/js/jquery.highlight.js" async></script>
 
-    <script src="assets/js/logarr.main.js"></script>
+    <script src="/assets/js/logarr.main.js"></script>
 
-    <script src="assets/js/jquery.mark.min.js" async></script>
+    <script src="/assets/js/jquery.mark.min.js" async></script>
 
 </head>
 
@@ -69,7 +60,7 @@ if(file_exists($datadir_file)) {
         <div id="left" class="Column"></div>
 
         <div id="logo" class="Column">
-            <img id="logoconfig" src="assets/images/logarr_white_text_crop.png" alt="Logarr" style="height:8em;border:0;">
+            <img id="logoconfig" src="/assets/images/logarr_white_text_crop.png" alt="Logarr" style="height:8em;border:0;">
         </div>
 
         <div id="right" class="Column"></div>
@@ -87,13 +78,13 @@ if(file_exists($datadir_file)) {
 
             var datadir = $("#datadir").val();
             console.log('submitted: ' + datadir);
-            var url = "assets/php/authentication/mkdirajax.php";
+            var url = "/assets/php/authentication/mkdirajax.php";
 
             $.post(url, {datadir: datadir}, function (data) {
                 console.log('mkdirajax: ' + data);
                 $('#response').html(data);
                 console.log(document.URL);
-                $('#userwrapper').load(document.URL + '?action=config #userwrapper');
+                $('#userwrapper').load('/?action=config #userwrapper');
             })
 
                 .fail(function () {
@@ -166,7 +157,7 @@ if(file_exists($datadir_file)) {
             }
             ?>
 
-            <form id="datadirform">
+            <form id="datadirform" action="/?action=config">
 
                 <div>
                     <i class='fa fa-fw fa-folder-open'> </i> <input type='text' name='datadir' id="datadir" fv-not-empty=" This field can't be empty" fv-advanced='{"regex": "\\s", "regex_reverse": true, "message": "  Value cannot contain spaces"}' fv-valid-func="$( '#datadirbtn' ).prop( 'disabled', false )" fv-invalid-func="$( '#datadirbtn' ).prop( 'disabled', true )" autocomplete="off" placeholder=' Data dir path' required>
@@ -216,10 +207,9 @@ if(file_exists($datadir_file)) {
         <!-- START user create form -->
         <div id="userwrapper">
             <?php
-
-            if (is_file($datadir_file)) {
-                $dbfile = json_decode(file_get_contents($datadir_file), 1)['datadir'] . 'users.db';
-
+            echo $datadir;
+            if (is_dir($datadir)) {
+                $dbfile = $datadir . 'users.db';
                 if (is_file($dbfile)) {
 
                     ?>
@@ -236,7 +226,7 @@ if(file_exists($datadir_file)) {
 
                 </div>
 
-                <form id="userform" method="post" action="?action=config" name="registerform">
+                <form id="userform" method="post" action="/?action=config" name="registerform">
 
                     <table id="registrationtable">
 
@@ -267,11 +257,11 @@ if(file_exists($datadir_file)) {
 
                                 echo '</table>';
 
-                                echo '<div id="loginerror">';
-                                if (property_exists($this, 'feedbackerror') && $this->feedbackerror) {
+                                echo '<div id="feedback">';
+                                if (property_exists($this, 'feedback') && $this->feedback) {
                                     echo "<script>
                             $(document).ready(function () {
-                                $('#modalContent').html('$this->feedbackerror');
+                                $('#modalContent').html('$this->feedback');
                                 var modal = $('#responseModal');
                                 var span = $('.closemodal');
                                 modal.fadeIn('slow');
@@ -291,39 +281,6 @@ if(file_exists($datadir_file)) {
 
                                 echo '<input id="registerbtn" type="submit" class="btn btn-primary" name="register" value="Register" />';
                                 echo '<br>';
-
-                                echo '<div id="loginsuccess">';
-
-                                // $this->feedback = "This user does not exist.";
-
-                                if (property_exists($this, 'feedbacksuccess') && $this->feedbacksuccess) {
-                                    echo "<script>
-                            $(document).ready(function () {
-                                $('#modalContent').html('$this->feedbacksuccess');
-                                var modal = $('#responseModal');
-                                var span = $('.closemodal');
-                                modal.fadeIn('slow');
-                                span.click(function () {
-                                    modal.fadeOut('slow');
-                                });
-                                $(body).click(function (event) {
-                                    if (event.target != modal) {
-                                        modal.fadeOut('slow');
-                                    }
-                                });
-                            });
-                        </script>";
-
-                                    echo '<div id="myModal" class="modalreg">';
-
-                                    echo '<div id="mymodal2" class="modal-content">';
-
-                                    echo $this->feedbacksuccess;
-
-                                    echo '</div>';
-                                    echo '<span class="close closereg"  aria-hidden="true" title="close">&times;</span>';
-
-                                    echo '</div>';
                                 };
 
                                 echo '</div>';
@@ -342,7 +299,6 @@ if(file_exists($datadir_file)) {
                                 echo ' to "users.old". Once that file is renamed, browse to this page again to recreate desired credentials. </i> ';
                                 echo ' </div>';
                             }
-                        }
 
                         ?>
                             </tr>

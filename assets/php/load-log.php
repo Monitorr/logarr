@@ -1,5 +1,6 @@
 <?php
 include('functions.php');
+include("auth_check.php");
 $log = (isset($_POST['log']) && !empty($_POST['log'])) ? $_POST['log'] : '';
 $parsedPath = parseLogPath($log['path']);
 $category = isset($log['category']) ? $log['category'] : "";

@@ -1,6 +1,7 @@
 <?php
 
 require("functions.php");
+include("auth_check.php");
 // copy the file from source server
 mkdir('../../tmp');
 $copy = copy($remote_file_url, $local_file);

@@ -8,13 +8,7 @@
         cursor: pointer;
     }
 
-    /* // CHANGE ME: */
-
-    .validity {
-        margin: 0 !important;
-        top: .5em;
-        position: relative;
-    }
+    /* // TODO CHANGE ME: */
 
     input:invalid~span:after {
         content: '✖';

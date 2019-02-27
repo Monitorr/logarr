@@ -33,6 +33,10 @@ class OneFileLoginApplication
 	 * @var bool Login status of user
 	 */
 	private $user_is_logged_in = false;
+	/**
+	 * @var bool Configured status.
+	 */
+	private $is_configured = false;
 
 	/**
 	 * Does necessary checks for PHP version and PHP password compatibility library and runs the application
@@ -47,15 +51,54 @@ class OneFileLoginApplication
 			$datafile = $datadir . 'users.db';
 			$db_sqlite_path = $datafile;
 			$this->db_sqlite_path = $db_sqlite_path;
+			$this->is_configured = $this->IsConfigured();
+		} else {
+			$this->is_configured = false;
 		}
-		if (isset($_GET["action"]) && $_GET["action"] == "config") {
+
+		if($this->is_configured) {
+			if ($this->performMinimumRequirementsCheck()) {
+				$this->runApplication();
+			}
+		} else {
 			$this->doRegistration();
 			$this->showPageConfiguration();
 			exit();
 		}
-		if ($this->performMinimumRequirementsCheck()) {
-			$this->runApplication();
+	}
+
+	public function IsConfigured(){
+		if(file_exists($this->datadir)) {
+			$datadir = rtrim($this->datadir, "\\/" . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+			if(file_exists($datadir)
+				&& file_exists($datadir . "config.json")
+				&& file_exists($datadir . "users.db")){
+				if($this->ConfigIsComplete() && $this->UserExists()) {
+					return true;
+				}
+			}
 		}
+		return false;
+	}
+
+	public function ConfigIsComplete(){
+		//TODO: write implementation
+		return true;
+	}
+
+	public function UserExists(){
+		if ($this->createDatabaseConnection()) {
+			$sql = "SELECT COUNT(*) as count FROM users;";
+			$query = $this->db_connection->prepare($sql);
+
+			$query->execute();
+			$result = $query->fetch();
+			$rows = $result["count"];
+			if ($rows > 0) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -68,6 +111,9 @@ class OneFileLoginApplication
 			if ($this->createDatabaseConnection()) {
 				$this->createNewUser();
 			}
+		}
+		if(isset($_GET["debug"]) && $_GET["debug"] == 1) {
+			echo $this->feedback;
 		}
 		// default return
 		return false;
@@ -136,7 +182,7 @@ class OneFileLoginApplication
 	{
 		// remove html code etc. from username and email
 		$user_name = htmlentities($_POST['user_name'], ENT_QUOTES);
-		$user_email = htmlentities($_POST['user_email'], ENT_QUOTES);
+		$user_email = isset($_POST['user_email']) ? htmlentities($_POST['user_email'], ENT_QUOTES) : "";
 		$user_password = $_POST['user_password_new'];
 		// crypt the user's password with the PHP 5.5's password_hash() function, results in a 60 char hash string.
 		// the constant PASSWORD_DEFAULT comes from PHP 5.5 or the password_compatibility_library
@@ -150,7 +196,7 @@ class OneFileLoginApplication
 		// If you meet the inventor of PDO, punch him. Seriously.
 		$result_row = $query->fetchObject();
 		if ($result_row) {
-			$this->feedbackerror = "Sorry, that username / email is already taken. Please choose another one.";
+			$this->feedback = "Sorry, that username / email is already taken. Please choose another one.";
 		} else {
 			if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
 				$token = bin2hex(random_bytes(32));
@@ -169,10 +215,10 @@ class OneFileLoginApplication
 			// @link http://stackoverflow.com/q/1661863/1114320
 			$registration_success_state = $query->execute();
 			if ($registration_success_state) {
-				$this->feedbacksuccess = '<b>User credentials have been created successfully.</b><br><b><a href="settings.php" class="btn btn-primary" title="Logarr Settings">Log in here</a> </b>';
+				$this->feedback = '<b>User credentials have been created successfully.</b><br><b><a href="/settings.php" class="btn btn-primary" title="Logarr Settings">Log in here</a> </b>';
 				return true;
 			} else {
-				$this->feedbackerror = "ERROR: registration failed. Please check the webserver PHP logs and try again.";
+				$this->feedback = "ERROR: registration failed. Please check the webserver PHP logs and try again.";
 			}
 		}
 		// default return
@@ -221,7 +267,7 @@ class OneFileLoginApplication
 		if (isset($_GET["action"]) && $_GET["action"] == "register") {
 			if (isset($GLOBALS['authentication']) && isset($GLOBALS['authentication']['registrationEnabled']) && $GLOBALS['authentication']['registrationEnabled'] == "true") {
 				$this->doRegistration();
-				$this->showPageRegistration();
+				//$this->showPageRegistration();
 			} else {
 				$this->showPageUnauthorized();
 			}
@@ -236,7 +282,9 @@ class OneFileLoginApplication
 			//check which page we're on
 			$urlParts = explode("/", strtok($_SERVER["REQUEST_URI"], '?'));
 			$currentPage = strtok(end($urlParts), ".");
-			if (($currentPage == "index" || $currentPage == "")) {
+
+			$homePageURLs = array("index", "", "load-log", "version_check", "sync-config", "time", "download", "unlink");
+			if (in_array($currentPage, $homePageURLs)) {
 				if($GLOBALS['authentication']['logsEnabled'] == "true") {
 					// show "page", according to user's login status
 					if ($this->getUserLoginStatus()) {

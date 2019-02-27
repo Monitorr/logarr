@@ -1,6 +1,12 @@
 <?php
 include('assets/php/functions.php');
 include('assets/php/auth_check.php');
+if(isset($_GET["action"]) && $_GET["action"] == "register") {
+	if(isset($_POST["user_name"]) && isset($_POST["user_password"]) && isset($_POST["user_password_repeat"])
+		&& !empty($_POST["user_name"]) && !empty($_POST["user_password"]) && !empty($_POST["user_password_repeat"])){
+		echo "true";
+	}
+}
 ?>
 
 <!DOCTYPE html>
