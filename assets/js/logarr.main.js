@@ -3,37 +3,38 @@
 
 // Variables
 let results, currentIndex = 0;
+let logInterval = false;
+let current_rflog = 600000;
+let nIntervId = [];
 
+
+let rfconfig = (typeof settings !== "undefined") ? settings.rfconfig : 1000;
+nIntervId["refreshConfig"] = setInterval(refreshConfig, rfconfig);
 
 // Set sytles for BlockUI overlays in /assets/js/jquery.blockUI.js
 function refreshblockUI() {
     $.growlUI('Updating logs...');
     setTimeout(function () {
-        refresh();
+        loadLogs();
     }, 300);
 
     //wait after log update to highlight error terms:
-    if (settings.autoHighlight == "true") {
+    if (settings.autoHighlight === "true") {
         setTimeout(function () {
             highlightjs();
         }, 1500);
     }
     //wait after log update, if the searchinput field is not empty, perform search:
-    if ($("input[name='markinput']").val() != "") {
+    if ($("input[name='markinput']").val() !== "") {
         setTimeout(function () {
             mark();
         }, 1500);
     }
 }
 
-function refresh() {
-    console.log('Logarr log update START');
-    refreshConfig(false);
-    loadLogs();
-}
-
 // Load logs
 function loadLogs() {
+    console.log('Logarr log update START');
     var categories = [];
     var html = "";
     var filter = window.location.hash.substr(1);
@@ -108,7 +109,7 @@ function loadLog(log) {
 
 // highlight all "error" terms:
 function highlightjs() {
-    if ('customHighlightTerms' in settings && settings.customHighlightTerms != "") {
+    if ('customHighlightTerms' in settings && settings.customHighlightTerms !== "") {
         var array = settings.customHighlightTerms.split(",");
         for (let i = 0; i < array.length; i++) {
             $(".expand").highlight(array[i].trim(), {
@@ -178,7 +179,7 @@ function mark() {
                     results.addClass("markresults");
                     count.addClass("countresults");
                     currentIndex = 0;
-                    if (settings.jumpOnSearch == "true") jumpTo(); // Auto focus/scroll to first searched term after search submit, if user had enabled option in config
+                    if (settings.jumpOnSearch === "true") jumpTo(); // Auto focus/scroll to first searched term after search submit, if user had enabled option in config
                 }
             });
         }
@@ -246,7 +247,7 @@ $(function () {
     let timeoutID = null;
     $("input[name='markinput']").keyup(function (e) {
         clearTimeout(timeoutID);
-        if (settings.liveSearch == "true") {
+        if (settings.liveSearch === "true") {
             $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search
             timeoutID = setTimeout(() => mark(e.target.value), 500);
         }
@@ -271,7 +272,7 @@ $(function () {
                     modal.fadeOut('slow');
                 });
                 $(body).click(function (event) {
-                    if (event.target != modal) {
+                    if (event.target !== modal) {
                         modal.fadeOut('slow');
                     }
                 });
@@ -312,7 +313,7 @@ $(function () {
     });
 });
 
-function refreshConfig(updateLogs) {
+function refreshConfig() {
     $.ajax({
         url: "assets/php/sync-config.php",
         type: "GET",
@@ -325,29 +326,28 @@ function refreshConfig(updateLogs) {
 
             console.log(json.logs);
 
-            setTimeout(function () {
-                refreshConfig()
-            }, settings.rfconfig); //delay is rftime
-
+            if (settings.rfconfig !== rfconfig) {
+                rfconfig = settings.rfconfig;
+                clearInterval(nIntervId["refreshConfig"]);
+                nIntervId["refreshConfig"] = setInterval(refreshConfig, rfconfig);
+            }
 
             $("#auto-update-status").attr("data-enabled", settings.logRefresh);
 
-            if (updateLogs) {
-                if (settings.logRefresh == "true" && (logInterval == false || settings.rflog != current_rflog)) {
-                    clearInterval(nIntervId);
-                    nIntervId = setInterval(refreshblockUI, settings.rflog);
-                    logInterval = true;
-                    $("#autoUpdateSlider").attr("data-enabled", "true");
-                    current_rflog = settings.rflog;
-                    console.log("Auto update: Enabled | Interval: " + settings.rflog + " ms");
-                    $.growlUI("Auto update: Enabled");
-                } else if (settings.logRefresh == "false" && logInterval == true) {
-                    clearInterval(nIntervId);
-                    logInterval = false;
-                    $("#autoUpdateSlider").attr("data-enabled", "false");
-                    console.log("Auto update: Disabled");
-                    $.growlUI("Auto update: Disabled");
-                }
+            if (settings.logRefresh === "true" && (logInterval === false || settings.rflog !== current_rflog)) {
+                clearInterval(nIntervId["logRefresh"]);
+                nIntervId["logRefresh"] = setInterval(refreshblockUI, settings.rflog);
+                logInterval = true;
+                $("#autoUpdateSlider").attr("data-enabled", "true");
+                current_rflog = settings.rflog;
+                console.log("Auto update: Enabled | Interval: " + settings.rflog + " ms");
+                $.growlUI("Auto update: Enabled");
+            } else if (settings.logRefresh === "false" && logInterval === true) {
+                clearInterval(nIntervId["logRefresh"]);
+                logInterval = false;
+                $("#autoUpdateSlider").attr("data-enabled", "false");
+                console.log("Auto update: Disabled");
+                $.growlUI("Auto update: Disabled");
             }
 
             document.title = preferences.sitetitle; //update page title to configured title
@@ -362,7 +362,7 @@ function overwriteLogUpdate() {
         console.log("Auto update setting will only be updated from config when the page is refreshed");
     }
 
-    if ($("#autoUpdateSlider").attr("data-enabled") == "false") {
+    if ($("#autoUpdateSlider").attr("data-enabled") === "false") {
         autoUpdateOverwrite = true;
         $("#autoUpdateSlider").attr("data-enabled", "true");
 
