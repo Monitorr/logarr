@@ -102,6 +102,17 @@ function loadLog(log) {
         success: function (response) {
             $("#" + logTitle.replace(/\s/g, "-") + "-log-container").html(response);
             console.log("Updated log: " + logTitle);
+            //CHANGE ME:
+            // $(function () {
+             //    console.log("Sweet Alert");
+              //   Swal.fire({
+              //       title: 'Error!',
+                     //text: 'Do you want to continue',
+              //       text: ("Updated log: " + logTitle),
+              //       type: 'error',
+              //       confirmButtonText: 'Cool'
+              //   });
+            // });
         }
     });
 }
@@ -323,7 +334,8 @@ function refreshConfig(updateLogs) {
             preferences = json.preferences;
             logs = json.logs;
 
-            console.log(json.logs);
+            //Change me // DO WE NEED THIS:
+            //console.log(json.logs);
 
             setTimeout(function () {
                 refreshConfig()
@@ -359,7 +371,7 @@ function refreshConfig(updateLogs) {
 function overwriteLogUpdate() {
 
     if (!autoUpdateOverwrite) {
-        console.log("Auto update setting will only be updated from config when the page is refreshed");
+        console.log("Auto update will apply after the setting is changed and this page is refreshed");
     }
 
     if ($("#autoUpdateSlider").attr("data-enabled") == "false") {
@@ -589,3 +601,15 @@ function arraySubset(arr1, arr2) {
     }
     return true;
 }
+
+
+// CHANGE ME:
+//  $(function () {
+//     console.log("Sweet Alert");
+//     Swal.fire({
+//         title: 'Error!',
+//         text: 'Do you want to continue',
+//         type: 'error',
+//         confirmButtonText: 'Cool'
+//     })
+// });
