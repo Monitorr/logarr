@@ -1,24 +1,30 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
     <meta charset="utf-8">
-    <title> Logarr | Releases </title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-    <link type="text/css" href="assets/css/bootstrap.min.css" rel="stylesheet">
-    <link type="text/css" href="assets/css/font-awesome.min.css" rel="stylesheet">
-    <link type="text/css" href="assets/css/logarr.css" rel="stylesheet">
-    <link type="text/css" href="assets/data/custom.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/logarr.css">
+    <link rel="stylesheet" href="assets/data/custom.css">
 
     <meta name="theme-color" content="#464646"/>
     <meta name="theme_color" content="#464646"/>
 
+    <title> Logarr | Releases </title>
+
     <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/jquery.blockUI.js" async></script>
+    <!-- <script src="assets/js/jquery.blockUI.js" async></script> -->
     <script src="assets/js/logarr.main.js" async></script>
+
     <script>
         function checkGithub() {
-            console.log("Retrieving Monitorr release info from GH.");
+            console.log("Retrieving Logarr release info from GitHub.");
             $.ajax({
                 type: "GET",
                 url: "https://api.github.com/repos/Monitorr/Logarr/releases",
@@ -55,21 +61,34 @@
             });
         }
     </script>
+
 </head>
+
 <body onload="checkGithub()" style="background-color: #3d3d3d;">
-<div id="releaseWrapper">
 
-    <h4 class="releaseHeader">
-        <a class="releaselink" href="https://github.com/Monitorr/Logarr/releases" target="_blank"
-           title="Monitorr Releases">
-            Logarr Release Log:
-        </a>
-    </h4>
+    <div id="releaseWrapper">
 
-    <div id="about">
-        <ul id="versionHistory"></ul>
+        <h4 class="releaseHeader">
+            <a class="releaselink" href="https://github.com/Monitorr/Logarr/releases" target="_blank"
+            title="Logarr Releases">
+                Logarr Release Log:
+            </a>
+        </h4>
+
+        <div id="about">
+            <ul id="versionHistory"></ul>
+        </div>
+
     </div>
 
-</div>
+    <div id="footer">
+        <div id="logarrid">
+            <a href="https://github.com/monitorr/logarr" title="Logarr GitHub repo" target="_blank" class="footer">Logarr
+            </a> |
+            <a href="https://github.com/Monitorr/logarr/releases" title="Logarr releases" target="_blank" class="footer"> Releases </a>
+            <br>
+        </div>
+    </div>
+
 </body>
 </html>

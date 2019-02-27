@@ -26,9 +26,16 @@ include('assets/php/auth_check.php');
     <script src="assets/js/pace.js" async></script>
 
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+
+
+    <!-- CHANGE ME: -->
+    <link rel="stylesheet" href="assets/css/vendor/sweetalert2.min.css">
+
+
     <link rel="stylesheet" href="assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/logarr.css">
     <link rel="stylesheet" href="assets/data/custom.css">
+
 
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon-precomposed" sizes="57x57" href="assets/images/favicon/apple-touch-icon-57x57.png" />
@@ -62,6 +69,10 @@ include('assets/php/auth_check.php');
 
     <script src="assets/js/jquery.min.js"></script>
 
+    <!-- CHANGE ME: -->
+
+    <script src="assets/js/vendor/sweetalert2.min.js" async></script>
+
     <script src="assets/js/jquery.blockUI.js"></script>
 
     <script src="assets/js/jquery.highlight.js" async></script>
@@ -69,6 +80,8 @@ include('assets/php/auth_check.php');
     <script src="assets/js/jquery.mark.min.js" async></script>
 
     <script src="assets/js/logarr.main.js"></script>
+
+
 
     <!-- sync config with javascript -->
     <script>
@@ -119,10 +132,20 @@ include('assets/php/auth_check.php');
 
     <script>
         document.body.className += ' fade-out';
-            $(function () {
-                $('body').removeClass('fade-out');
-            });
-        </script>
+        $(function () {
+            $('body').removeClass('fade-out');
+        });
+    </script>
+
+    <!--     <script>
+        console.log("Sweet Alert");
+        Swal.fire({
+            title: 'Error!',
+            text: 'Do you want to continue',
+            type: 'error',
+            confirmButtonText: 'Cool'
+        })
+    </script> -->
 
     <div id="ajaxtimestamp" title="Analog clock timeout. Refresh page."></div>
 
