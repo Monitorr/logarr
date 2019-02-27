@@ -85,7 +85,7 @@ include('assets/php/auth_check.php');
         let settings = <?php echo json_encode($GLOBALS['settings']); ?>;
         let preferences = <?php echo json_encode($GLOBALS['preferences']); ?>;
         let logs = <?php echo json_encode($GLOBALS['logs']); ?>;
-
+        home = true;
         refreshConfig();
     </script>
 

@@ -55,9 +55,7 @@ include_once(__DIR__ . "/../auth_check.php");
 <div id="userwrapper">
 
 	<script>
-        console.log("test");
         $(function () {
-            console.log("test2");
             $("#userform").submit(function (e) {
                 e.preventDefault();
                 let form = $(this);
@@ -97,12 +95,12 @@ include_once(__DIR__ . "/../auth_check.php");
 
 		echo '<tr id="usernameinput">';
 		echo '<td><i class="fa fa-fw fa-user"> </i> <input id="login_input_username" type="text" pattern="[a-zA-Z0-9]{2,64}" name="user_name" placeholder=" Username" title="Enter a username" required autocomplete="off" spellcheck="false" /> </td>';
-		echo '<td><label for="login_input_username"><i> Letters and numbers only, 2 to 64 characters </i></label></td>';
+		echo '<td><label for="user_name"><i> Letters and numbers only, 2 to 64 characters </i></label></td>';
 		echo '</tr>';
 
 		echo '<tr id="useremail">';
 		echo "<td><i class='fa fa-fw fa-envelope'> </i> <input id='login_input_email' type='email' name='user_email' placeholder=' User e-mail' spellcheck='false' /></td>";
-		echo '<td><label for="login_input_email"> <i> Not required </i></label></td>';
+		echo '<td><label for="user_email"> <i> Not required </i></label></td>';
 		echo ' </tr>';
 
 		echo '<tr id="userpassword">';

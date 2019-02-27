@@ -6,6 +6,7 @@ let results, currentIndex = 0;
 let logInterval = false;
 let current_rflog = 600000;
 let nIntervId = [];
+let home = false;
 
 
 let rfconfig = (typeof settings !== "undefined") ? settings.rfconfig : 1000;
@@ -346,20 +347,23 @@ function refreshConfig() {
 
             $("#auto-update-status").attr("data-enabled", settings.logRefresh);
 
-            if (settings.logRefresh === "true" && (logInterval === false || settings.rflog !== current_rflog)) {
-                clearInterval(nIntervId["logRefresh"]);
-                nIntervId["logRefresh"] = setInterval(refreshblockUI, settings.rflog);
-                logInterval = true;
-                $("#autoUpdateSlider").attr("data-enabled", "true");
-                current_rflog = settings.rflog;
-                console.log("Auto update: Enabled | Interval: " + settings.rflog + " ms");
-                $.growlUI("Auto update: Enabled");
-            } else if (settings.logRefresh === "false" && logInterval === true) {
-                clearInterval(nIntervId["logRefresh"]);
-                logInterval = false;
-                $("#autoUpdateSlider").attr("data-enabled", "false");
-                console.log("Auto update: Disabled");
-                $.growlUI("Auto update: Disabled");
+            //TODO: this can probably be handled better
+            if(home) {
+                if (settings.logRefresh === "true" && (logInterval === false || settings.rflog !== current_rflog)) {
+                    clearInterval(nIntervId["logRefresh"]);
+                    nIntervId["logRefresh"] = setInterval(refreshblockUI, settings.rflog);
+                    logInterval = true;
+                    $("#autoUpdateSlider").attr("data-enabled", "true");
+                    current_rflog = settings.rflog;
+                    console.log("Auto update: Enabled | Interval: " + settings.rflog + " ms");
+                    $.growlUI("Auto update: Enabled");
+                } else if (settings.logRefresh === "false" && logInterval === true) {
+                    clearInterval(nIntervId["logRefresh"]);
+                    logInterval = false;
+                    $("#autoUpdateSlider").attr("data-enabled", "false");
+                    console.log("Auto update: Disabled");
+                    $.growlUI("Auto update: Disabled");
+                }
             }
 
             document.title = preferences.sitetitle; //update page title to configured title
@@ -370,12 +374,7 @@ function refreshConfig() {
 
 function overwriteLogUpdate() {
 
-    if (!autoUpdateOverwrite) {
-        console.log("Auto update will apply after the setting is changed and this page is refreshed");
-    }
-
     if ($("#autoUpdateSlider").attr("data-enabled") === "false") {
-        autoUpdateOverwrite = true;
         $("#autoUpdateSlider").attr("data-enabled", "true");
 
         clearInterval(nIntervId);
@@ -385,7 +384,6 @@ function overwriteLogUpdate() {
         console.log("Auto update: Enabled | Interval: " + settings.rflog + " ms");
         $.growlUI("Auto update: Enabled");
     } else {
-        autoUpdateOverwrite = true;
         $("#autoUpdateSlider").attr("data-enabled", "false");
 
         clearInterval(nIntervId);
