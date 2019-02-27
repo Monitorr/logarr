@@ -30,20 +30,20 @@ include_once(__DIR__ . "/../auth_check.php");
 
     <meta name="robots" content="NOINDEX, NOFOLLOW">
 
-    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/assets/css/logarr.css">
-    <link rel="stylesheet" href="/assets/data/custom.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/logarr.css">
+    <link rel="stylesheet" href="assets/data/custom.css">
 
-    <script src="/assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.min.js"></script>
 
-    <script src="/assets/js/jquery.blockUI.js"></script>
+    <script src="assets/js/jquery.blockUI.js"></script>
 
-    <script src="/assets/js/jquery.highlight.js" async></script>
+    <script src="assets/js/jquery.highlight.js" async></script>
 
-    <script src="/assets/js/logarr.main.js"></script>
+    <script src="assets/js/logarr.main.js"></script>
 
-    <script src="/assets/js/jquery.mark.min.js" async></script>
+    <script src="assets/js/jquery.mark.min.js" async></script>
 
     <!-- // CHANGE ME: -->
     <?php
@@ -93,7 +93,7 @@ include_once(__DIR__ . "/../auth_check.php");
         });
     </script>
 
-    <script src="/assets/js/clock.js"></script>
+    <script src="assets/js/clock.js"></script>
 
     <style>
         .notification {
@@ -116,7 +116,7 @@ include_once(__DIR__ . "/../auth_check.php");
         <div id="left" class="Column">
 
             <div id="logoHeader" class="Column">
-                <img src="/assets/images/logo_white_glow_crop.png" alt="Logarr">
+                <img src="images/logo_white_glow_crop.png" alt="Logarr">
             </div>
 
             <div id="loginbrand">
@@ -137,7 +137,7 @@ include_once(__DIR__ . "/../auth_check.php");
         </div>
 
         <div id="logo-login" class="Column">
-            <img src="/assets/images/logarr_white_text_crop.png" alt="Logarr">
+            <img src="images/logarr_white_text_crop.png" alt="Logarr">
         </div>
 
         <div id="right" class="Column">

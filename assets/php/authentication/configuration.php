@@ -21,17 +21,17 @@ $datadir = $json['datadir'];
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <link rel="manifest" href="/webmanifest.json">
+    <link rel="manifest" href="webmanifest.json">
 
     <meta name="Logarr" content="Logarr: Self-hosted, single-page, log consolidation tool." />
     <meta name="application-name" content="Logarr" />
 
-    <script src="/assets/js/pace.js" async></script>
+    <script src="assets/js/pace.js" async></script>
 
-    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/assets/css/logarr.css">
-    <link rel="stylesheet" href="/assets/data/custom.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/logarr.css">
+    <link rel="stylesheet" href="assets/data/custom.css">
 
     <link rel="icon" type="image/png" href="favicon.png">
 
@@ -42,15 +42,15 @@ $datadir = $json['datadir'];
 
     <title>Logarr | Configuration</title>
 
-    <script src="/assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.min.js"></script>
 
-    <script src="/assets/js/jquery.blockUI.js"></script>
+    <script src="assets/js/jquery.blockUI.js"></script>
 
-    <script src="/assets/js/jquery.highlight.js" async></script>
+    <script src="assets/js/jquery.highlight.js" async></script>
 
-    <script src="/assets/js/logarr.main.js"></script>
+    <script src="assets/js/logarr.main.js"></script>
 
-    <script src="/assets/js/jquery.mark.min.js" async></script>
+    <script src="assets/js/jquery.mark.min.js" async></script>
 
 </head>
 
@@ -60,7 +60,7 @@ $datadir = $json['datadir'];
         <div id="left" class="Column"></div>
 
         <div id="logo" class="Column">
-            <img id="logoconfig" src="/assets/images/logarr_white_text_crop.png" alt="Logarr" style="height:8em;border:0;">
+            <img id="logoconfig" src="assets/images/logarr_white_text_crop.png" alt="Logarr" style="height:8em;border:0;">
         </div>
 
         <div id="right" class="Column"></div>
@@ -72,19 +72,19 @@ $datadir = $json['datadir'];
 
         $(document).ready(function () {
 
-        $('#datadirbtn').click(function () {
-
+        $('#datadirform').submit(function (e) {
+            e.preventDefault();
             $('#response').html("<font color='yellow'><b>Creating data directory...</b></font>");
 
             var datadir = $("#datadir").val();
             console.log('submitted: ' + datadir);
-            var url = "/assets/php/authentication/mkdirajax.php";
+            var url = "assets/php/authentication/mkdirajax.php";
 
             $.post(url, {datadir: datadir}, function (data) {
                 console.log('mkdirajax: ' + data);
                 $('#response').html(data);
                 console.log(document.URL);
-                $('#userwrapper').load('/?action=config #userwrapper');
+                $('#userwrapper').load('?action=config #userwrapper');
             })
 
                 .fail(function () {
@@ -157,7 +157,7 @@ $datadir = $json['datadir'];
             }
             ?>
 
-            <form id="datadirform" action="/?action=config">
+            <form id="datadirform" action="?action=config">
 
                 <div>
                     <i class='fa fa-fw fa-folder-open'> </i> <input type='text' name='datadir' id="datadir" fv-not-empty=" This field can't be empty" fv-advanced='{"regex": "\\s", "regex_reverse": true, "message": "  Value cannot contain spaces"}' fv-valid-func="$( '#datadirbtn' ).prop( 'disabled', false )" fv-invalid-func="$( '#datadirbtn' ).prop( 'disabled', true )" autocomplete="off" placeholder=' Data dir path' required>
@@ -168,7 +168,7 @@ $datadir = $json['datadir'];
                 </div>
                 <br>
                 <div>
-                    <input type='input' id="datadirbtn" class="btn btn-primary" title="Create data directory" value='Create' />
+                    <input type='submit' id="datadirbtn" class="btn btn-primary" title="Create data directory" value='Create' />
                 </div>
 
             </form>
@@ -226,7 +226,7 @@ $datadir = $json['datadir'];
 
                 </div>
 
-                <form id="userform" method="post" action="/?action=config" name="registerform">
+                <form id="userform" method="post" action="?action=config" name="registerform">
 
                     <table id="registrationtable">
 
@@ -260,21 +260,21 @@ $datadir = $json['datadir'];
                                 echo '<div id="feedback">';
                                 if (property_exists($this, 'feedback') && $this->feedback) {
                                     echo "<script>
-                            $(document).ready(function () {
-                                $('#modalContent').html('$this->feedback');
-                                var modal = $('#responseModal');
-                                var span = $('.closemodal');
-                                modal.fadeIn('slow');
-                                span.click(function () {
-                                    modal.fadeOut('slow');
-                                });
-                                $(body).click(function (event) {
-                                    if (event.target != modal) {
-                                        modal.fadeOut('slow');
-                                    }
-                                });
-                            });
-                        </script>";
+                                            $(document).ready(function () {
+                                                $('#modalContent').html('$this->feedback');
+                                                var modal = $('#responseModal');
+                                                var span = $('.closemodal');
+                                                modal.fadeIn('slow');
+                                                span.click(function () {
+                                                    modal.fadeOut('slow');
+                                                });
+                                                $(body).click(function (event) {
+                                                    if (event.target != modal) {
+                                                        modal.fadeOut('slow');
+                                                    }
+                                                });
+                                            });
+                                        </script>";
                                 };
 
                                 echo '</div>';

@@ -14,11 +14,11 @@
     </div>
 
     <div id="regbody">
-        + If you are the administrator and are trying to access the Logarr registration tool, change the 'Enable Registration' setting to 'True' in the <a class="footer reglink" href='../../php/settings/authentication.php' title="Authentication Settings" > Authentication settings page </a>.
+        + If you are the administrator and are trying to access the Logarr registration tool, change the 'Enable Registration' setting to 'True' in the <a class="footer reglink" href='settings.php#authentication' title="Authentication Settings" > Authentication settings page </a>.
         <br><br>
         + If you cannot access the Logarr settings page, rename the database file "<strong> <i> <?php echo $db_sqlite_path; ?> </i> </strong>" and browse to this page again.
         <br><br>
-        + <a class="footer reglink" href='../../../index.php' title="Logarr" target='_blank'> Return to the Logarr UI. </a>
+        + <a class="footer reglink" href='index.php' title="Logarr" target='_blank'> Return to the Logarr UI. </a>
     </div>
 </div>
 
