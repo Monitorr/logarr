@@ -8,7 +8,7 @@ body {
     transition: 1s opacity;
     background-color: #252525;
     -webkit-font-smoothing: antialiased;
-    font-family: 'Roboto:400', sans-serif;
+    font-family: 'Roboto:400', sans-serif !important;
     color: #FFFFFF;
     margin-bottom: 6rem;
     padding: 10px 10px 0;
@@ -194,6 +194,36 @@ h6,
     margin-top: 1vw;
 }
 
+.header-brand {
+    display: inline-block;
+    white-space: nowrap;
+    vertical-align: middle;
+    margin: 0;
+    padding: 0;
+    font-size: 3vw;
+    color: #ffffff;
+    text-shadow: 0 0 15px #FF0104;
+    outline: 0;
+    cursor: pointer;
+}
+
+.header-brand:hover,
+.header-brand:focus {
+    color: #ffffff;
+    text-shadow: 0 0 20px #FF0104;
+    text-decoration: none;
+    outline: 0;
+}
+
+.header-brand:before,
+.header-brand:after {
+    -webkit-transition: all .2s ease-in;
+    -moz-transition: all .2s ease-in;
+    -ms-transition: all .2s ease-in;
+    -o-transition: all .2s ease-in;
+    transition: all .2s ease-in;
+}
+
 .Column {
     display: table-cell;
 }
@@ -299,9 +329,7 @@ h6,
     cursor: default !important;
 }
 
-#navbar-brand-index {
-    cursor: pointer;
-}
+
 
 #logoHeader {
     display: flex;
@@ -371,12 +399,13 @@ h6,
 
 #auto-update {
     vertical-align: middle;
+    white-space: nowrap;
     margin-right: .5rem;
     border-radius: 6px;
     background-color: #3d3d3d;
     box-shadow: 3px 3px 3px black;
-    z-index: 2000;
     padding: 0.5rem 1rem;
+    z-index: 2000;
 }
 
 #buttonStart {
@@ -490,7 +519,6 @@ input:focus + .slider {
 
 /* SEARCH */
 
-
 #markform {
     position: fixed;
     right: 0;
@@ -508,6 +536,7 @@ mark {
 
 mark.current {
     background: orange;
+    text-shadow: none;
 }
 
 .marksearch {
@@ -652,6 +681,15 @@ input[type=search]::-webkit-search-cancel-button {
     /* Opera 10.5+, IE 9.0 */
 }
 
+/* CHANGE ME: */
+
+.highlightterms {
+    color: red;
+    text-shadow: 0.05em 0.05em black;
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
 .error {
     padding: .1rem;
     background-color: red;
@@ -765,16 +803,17 @@ input[type=search]::-webkit-search-cancel-button {
 }
 
 .logheader {
+    color: #EEEBEC;
+    font-size: 2em;
+    font-weight: 300;
+    text-shadow: 0 0 20px #FF0104;
     width: auto;
     width: -webkit-fill-available;
     width: -moz-available;
+    white-space: nowrap;
     margin: 0;
     text-align: center;
     vertical-align: middle;
-    font-size: 2em;
-    font-weight: 300;
-    color: #EEEBEC;
-    text-shadow: 0 0 20px #FF0104;
     cursor: default;
 }
 
@@ -874,6 +913,7 @@ input[type="checkbox"] {
     -webkit-transition: .5s;
     -moz-transition: .5s;
     transition: .5s;
+    cursor: pointer;
 }
 
 .expandtoggle:hover {
@@ -882,6 +922,7 @@ input[type="checkbox"] {
     -webkit-transition: .3s;
     -moz-transition: .3s;
     transition: .3s;
+    cursor: pointer;
 }
 
 .expandtoggle::before {
@@ -919,6 +960,13 @@ input[type="checkbox"] {
     width: 2em;
     height: 2em;
     cursor: pointer;
+}
+
+#logmissing {
+    color: red;
+    float: right;
+    margin-top: -3em;
+    margin-right: 2em;
 }
 
 /* Unlink response modal: */
@@ -977,7 +1025,6 @@ input[type="checkbox"] {
 .navbar-brand {
     vertical-align: middle;
     margin: 0;
-    /* background-color: rgba(31, 31, 31, 0.500); */
     padding: 0;
     color: #ffffff;
     text-shadow: 0 0 15px #FF0104;
@@ -988,7 +1035,9 @@ input[type="checkbox"] {
 
 @media screen and (min-width: 1024px) {
     .navbar-brand {
-        font-size: 48px;
+        /* CHANGE ME: */
+        /* font-size: 48px; */
+        font-size: 2.5rem;
     }
 }
 
@@ -1220,7 +1269,8 @@ ul.nav.sidebar-nav > li > a > i {
     text-decoration: none;
 }
 
-/* Service Image Modal */
+
+/* Modals: */
 
 .modal {
     display: none;
@@ -1238,6 +1288,45 @@ ul.nav.sidebar-nav > li > a > i {
     border: 1px solid #888;
     border-radius: 4px;
     z-index: 2000;
+}
+
+.swal2-close {
+    color: #8C8C8C !important;
+}
+
+.logupdatetoast {
+    color: #C8C8C8;
+}
+
+.settingchange {
+    color: orange !important;
+    border-color: orange !important;
+}
+
+.swal2-icon.swal2-info {
+    color: rgba(255, 255, 0, 0.5) !important;
+    border-color: rgba(255, 255, 0, 0.5) !important;
+}
+
+.swal2-icon.swal2-warning {
+    color: orange;
+    border-color: orange;
+}
+
+.toastlink {
+    color: white;
+}
+
+.toastlink:hover {
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 700;
+    text-shadow: 2px 2px 15px #FF0104;
+    -webkit-transition: all .2s ease;
+    -moz-transition: all .2s ease;
+    -o-transition: all .2s ease;
+    -ms-transition: all .2s ease;
+    transition: all .2s ease;
 }
 
 /* Modal Content/Box */
@@ -1306,8 +1395,6 @@ input[name="imginput"]:focus {
     cursor: default;
     z-index: 1;
 }
-
-/* change me: */
 
 .alpaca-form-button {
     color: white;
@@ -1408,11 +1495,11 @@ input[name="imginput"]:focus {
 }
 
 #settingsbrand {
-    max-width: 17em;
+    /* max-width: 17em; */
     width: 100%;
     /* margin-bottom: 1rem; */
     padding: .5rem 0 0;
-    font-size: 1.5vw;
+    /* font-size: 1.5em !important; */
     text-align: center;
     cursor: default;
 }
@@ -1661,6 +1748,10 @@ input[name="imginput"]:focus {
     max-width: 100%;
 }
 
+.settingslabelerror {
+    color: red !important;
+}
+
 .radio {
     width: 10rem;
 }
@@ -1692,8 +1783,12 @@ input[name="imginput"]:focus {
     color: red;
 }
 
+.alpaca-message-invalidValueOfEnum {
+    color: red;
+}
+
 .settingslabelchanged {
-    color: orange !important;
+    color: orange;
 }
 
 .alpaca-message-notOptional {
@@ -1786,8 +1881,6 @@ div[data-alpaca-container-item-name="maxLines"], div[data-alpaca-container-item-
 
 /* Category filter navigation */
 
-/* CHANGE ME  */
-
 #horizontal-nav {
     text-align: center;
 }
@@ -1797,7 +1890,7 @@ div[data-alpaca-container-item-name="maxLines"], div[data-alpaca-container-item-
     vertical-align: middle;
     height: fit-content;
     height: -moz-fit-content;
-    width: 14em;
+    width: 20em;
     width: fit-content;
     width: -moz-fit-content;
     width: -webkit-fit-content;
@@ -1863,11 +1956,10 @@ div[data-alpaca-container-item-name="maxLines"], div[data-alpaca-container-item-
     margin: 0;
     margin-top: -1rem;
     margin-bottom: 1rem;
-    /* padding: .5rem 0 0; */
     font-size: 1.5vw;
     text-align: center;
     justify-content: center;
-    cursor: default;
+    cursor: pointer;
 }
 
 #logoconfig {
@@ -2085,12 +2177,12 @@ h2.heading {
         height: auto;
     }
 
-    #settingsbrand {
-        width: 100%;
+    #settings-page-title {
+        cursor: default !important;
     }
 
-    .navbar-brand {
-        font-size: 7vw;
+    #settingsbrand {
+        width: 100%;
     }
 
     .Column.left {
@@ -2145,11 +2237,8 @@ object {
 
 #infoframe {
     position: fixed;
-    /* CHANGE ME: */
-    /* height: 50%; */
     width: 95%;
     height: 60vh;
-    /* margin-left: .5rem; */
 }
 
 .frametd {
@@ -2290,6 +2379,7 @@ object {
     /* display: flex; */
     position: fixed;
     /* flex-direction: row; */
+    width: 100%;
     max-width: 17rem;
     margin: 0;
     margin-top: 1rem;
