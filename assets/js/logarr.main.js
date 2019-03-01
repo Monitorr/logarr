@@ -1,6 +1,13 @@
 // Logarr main JS script
 // https://github.com/Monitorr
 
+
+//CHANGE ME - NOT WORKING:
+
+//import Swal from "./vendor/sweetalert2.min.js";
+//import Swal from 'sweetalert2'
+//const Swal = require('sweetalert2')
+
 // Variables
 let results, currentIndex = 0;
 let logInterval = false;
@@ -8,25 +15,74 @@ let current_rflog = 600000;
 let nIntervId = [];
 let home = false;
 
-
 let rfconfig = (typeof settings !== "undefined") ? settings.rfconfig : 1000;
 nIntervId["refreshConfig"] = setInterval(refreshConfig, rfconfig);
 
-function notify(title, text, type, confirmButtonText) {
-    //TODO: check this
-     $(function () {
-       Swal.fire({
-           title: title,
-           text: text,
-           type: type,
-           confirmButtonText: confirmButtonText
-       });
-     });
-}
+
+
+///Swal.fire('Logarr is loading ...');
+
+Toast = Swal.mixin({
+    toast: true,
+    showConfirmButton: false,
+    showCloseButton: true,
+    position: 'bottom-start',
+    background: '#3201199d'
+    //timer: 10000
+});
+
+function logupdatetoast() {
+    Toast.fire({
+        type: 'info',
+        background: '#3201199d',
+        title: '<p class="logupdatetoast">Updating Logs</p>'
+    })
+};
+
+function udtoast() {
+    Toast.fire({
+        type: 'info',
+        title: 'Auto-update disabled',
+        background: '#3201199d',
+        timer: 2000
+    })
+};
+
+function uetoast() {
+    Toast.fire({
+        type: 'info',
+        title: 'Auto-update enabled',
+        background: '#3201199d',
+        timer: 2000
+    })
+};
+
+function logerror() {
+    Toast.fire({
+        type: 'error',
+        title: 'Error Loading Log!',
+        background: 'rgba(207, 0, 0, 0.75)',
+        timer: 10000
+    })
+};
+
+function updateavailtoast() {
+    Toast.fire({
+        type: 'warning',
+        title: '<a class="toastlink swal2-title" href="https://github.com/Monitorr/logarr/releases" title="Logarr releases" target="_blank">A Logarr udpate is available!</a>',
+        background: '#3201199d', 
+        customClass: 'updateavailtoast',
+        timer: 10000
+    })
+};
+
+
+//CHANGE ME // CONVERT TO Sweetalert:
 
 // Set sytles for BlockUI overlays in /assets/js/jquery.blockUI.js
 function refreshblockUI() {
-    $.growlUI('Updating logs...');
+    //$.growlUI('Updating logs...');
+    logupdatetoast();
     setTimeout(function () {
         loadLogs();
     }, 300);
@@ -77,8 +133,6 @@ function loadLogs() {
         if (allFilter == "true") categoryFilter = categories.join(",");
 
         html += "<div class='category-item'>" +
-            // CHANGE ME:
-            //"<a href='#' class='category-filter-item'>All</a>" +
             "<div class='category-filter-item'>All</div>" +
             "<label class=\"switch category-switch\" title=\"Display All\">" +
             "<span class=\"slider round\" data-enabled=\"" + allFilter + "\" onclick=\"toggleCategory('', '" + categoryFilter + "');\"></span>" +
@@ -89,8 +143,6 @@ function loadLogs() {
         for (let i = 0; i < categories.length; i++) {
             var catFilter = (allFilter == "true" || filter.indexOf(categories[i]) != -1) ? "true" : "false";
             html += "<div class='category-item'>" +
-                // CHANGE ME:
-                //"<a href='#" + categories[i] + "' class='category-filter-item'>" + categories[i] + "</a>" +
                 "<div class='category-filter-item'>" + categories[i] + "</div>" +
                 "<label class=\"switch category-switch\" title=\"Hide/display Category\">" +
                 "<span class=\"slider round\" data-enabled=\"" + catFilter + "\" onclick=\"toggleCategory('" + categories[i] + "', '" + categoryFilter + "');\"></span>" +
@@ -105,10 +157,14 @@ function loadLogs() {
         $('#categoryFilter').hide();
     }
 
+    setTimeout(function () {
+        Toast.close();
+    }, 2000);
 }
 
 function loadLog(log) {
     var logTitle = log.logTitle;
+
     $.ajax({
         url: "assets/php/load-log.php",
         data: {'log': log},
@@ -116,24 +172,29 @@ function loadLog(log) {
         success: function (response) {
             $("#" + logTitle.replace(/\s/g, "-") + "-log-container").html(response);
             console.log("Updated log: " + logTitle);
-            //TODO CHANGE ME:
-            //notify("Error!", "Updated log: " + logTitle, "error", "Cool");
-        }
-    });
+        },
+    })
 }
 
 // highlight all "error" terms:
 function highlightjs() {
+    
     if ('customHighlightTerms' in settings && settings.customHighlightTerms !== "") {
         var array = settings.customHighlightTerms.split(",");
         for (let i = 0; i < array.length; i++) {
             $(".expand").highlight(array[i].trim(), {
                 element: 'em',
-                className: array[i].trim()
+                //CHANGE ME:
+                //className: array[i].trim()
+                className: 'highlightterms',
             });
             console.log("Highlighting text containing: " + array[i].trim());
         }
-    }
+        setTimeout(function () {
+            Toast.close();
+        },  2000);
+    };
+    
 }
 
 // Jumps to the element matching the currentIndex
@@ -345,7 +406,7 @@ function refreshConfig() {
                 nIntervId["refreshConfig"] = setInterval(refreshConfig, rfconfig);
             }
 
-            $("#auto-update-status").attr("data-enabled", settings.logRefresh);
+           $("#auto-update-status").attr("data-enabled", settings.logRefresh);
 
             //TODO: this can probably be handled better
             if(home) {
@@ -356,13 +417,15 @@ function refreshConfig() {
                     $("#autoUpdateSlider").attr("data-enabled", "true");
                     current_rflog = settings.rflog;
                     console.log("Auto update: Enabled | Interval: " + settings.rflog + " ms");
-                    $.growlUI("Auto update: Enabled");
+                    //$.growlUI("Auto update: Enabled");
+                    uetoast();
                 } else if (settings.logRefresh === "false" && logInterval === true) {
                     clearInterval(nIntervId["logRefresh"]);
                     logInterval = false;
                     $("#autoUpdateSlider").attr("data-enabled", "false");
                     console.log("Auto update: Disabled");
-                    $.growlUI("Auto update: Disabled");
+                    //$.growlUI("Auto update: Disabled");
+                    udtoast();
                 }
             }
 
@@ -382,7 +445,8 @@ function overwriteLogUpdate() {
         logInterval = true;
 
         console.log("Auto update: Enabled | Interval: " + settings.rflog + " ms");
-        $.growlUI("Auto update: Enabled");
+        //$.growlUI("Auto update: Enabled");
+        uetoast();
     } else {
         $("#autoUpdateSlider").attr("data-enabled", "false");
 
@@ -390,7 +454,8 @@ function overwriteLogUpdate() {
         logInterval = false;
 
         console.log("Auto update: Disabled");
-        $.growlUI("Auto update: Disabled");
+        //$.growlUI("Auto update: Disabled");
+        udtoast();
     }
 }
 
@@ -438,42 +503,42 @@ function syncServerTime() {
 }
 
 function load_info() {
-    document.getElementById("setttings-page-title").innerHTML = 'Information';
+    document.getElementById("settings-page-title").innerHTML = 'Information';
     document.getElementById("includedContent").innerHTML = '<object  type="text/html" class="object" data="assets/php/settings/info.php" ></object>';
     $(".sidebar-nav-item").removeClass('active');
     $("li[data-item='info']").addClass("active");
 }
 
 function load_preferences() {
-    document.getElementById("setttings-page-title").innerHTML = 'User Preferences';
+    document.getElementById("settings-page-title").innerHTML = 'User Preferences';
     document.getElementById("includedContent").innerHTML = '<object type="text/html" class="object" data="assets/php/settings/user_preferences.php" ></object>';
     $(".sidebar-nav-item").removeClass('active');
     $("li[data-item='user-preferences']").addClass("active");
 }
 
 function load_settings() {
-    document.getElementById("setttings-page-title").innerHTML = 'Logarr Settings';
+    document.getElementById("settings-page-title").innerHTML = 'Logarr Settings';
     document.getElementById("includedContent").innerHTML = '<object type="text/html" class="object" data="assets/php/settings/site_settings.php" ></object>';
     $(".sidebar-nav-item").removeClass('active');
     $("li[data-item='logarr-settings']").addClass("active");
 }
 
 function load_authentication() {
-    document.getElementById("setttings-page-title").innerHTML = 'Logarr Authentication';
+    document.getElementById("settings-page-title").innerHTML = 'Logarr Authentication';
     document.getElementById("includedContent").innerHTML = '<object type="text/html" class="object" data="assets/php/settings/authentication.php" ></object>';
     $(".sidebar-nav-item").removeClass('active');
     $("li[data-item='logarr-authentication']").addClass("active");
 }
 
 function load_logs() {
-    document.getElementById("setttings-page-title").innerHTML = 'Log Configuration';
+    document.getElementById("settings-page-title").innerHTML = 'Log Configuration';
     document.getElementById("includedContent").innerHTML = '<object type="text/html" class="object" data="assets/php/settings/logs_settings.php" ></object>';
     $(".sidebar-nav-item").removeClass('active');
     $("li[data-item='logs-configuration']").addClass("active");
 }
 
 function load_registration() {
-    document.getElementById("setttings-page-title").innerHTML = 'Registration';
+    document.getElementById("settings-page-title").innerHTML = 'Registration';
     document.getElementById("includedContent").innerHTML = '<object type="text/html" class="object" data="assets/php/settings/registration.php" ></object>';
     $(".sidebar-nav-item").removeClass('active');
     $("li[data-item='registration']").addClass("active");

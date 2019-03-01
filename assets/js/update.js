@@ -102,18 +102,24 @@ $(document).ready(function () {
             // check for version verification
             if (data.version != 0) {
                 var uInfo = "uid=" + uid + "&version=" + data.version;
-                console.log('Logarr version ' + data.version.trim() + ' is available. Click "check for update" in the footer to update Logarr.');
-                $.growlUI('An update is available');
+                console.log('Logarr version ' + data.version.trim() + ' is available. Click "check for update" on the Info page to update Logarr.');
+                
+                //CHANGE ME / convert to sweetalert
+                //$.growlUI('An update is available');
+
+                updateavailtoast();
+
                 setTimeout(15000);
 
                 versionCheckAuto.html(
-                    '<div class="footer a" style="cursor: pointer"> <a class="updatelink" href="https://github.com/Monitorr/logarr/releases" target = "_blank" title="Logarr Releases"> <b> An update is available</b></a> </div> <div class="notification">Click <strong>"check for update"</strong> above to update Logarr.</div>'
+                    '<div class="footer a" style="cursor: pointer"> <a class="updatelink" href="https://github.com/Monitorr/logarr/releases" target = "_blank" title="Logarr Releases"> <b> A Logarr udpate is available </b></a> </div>'
                 );
             }
 
             else {
                 // user has the latest version already installed
                 versionCheckAuto.html("");
+                console.log('Logarr update: You have the latest version.');
             }
         },
         error: function () {

@@ -19,19 +19,20 @@ $(document).ready(function () {
                 var uInfo = "uid=" + uid + "&version=" + data.version;
 
                 versionCheckAuto.html(
-                    //TODO: replace this with a link to start the updating process?
-                    '<a class="updatelink" href = "https://github.com/Monitorr/Logarr/releases" target = "_blank" title="Logarr releases" style = "cursor: pointer"> <b> An update is available</b></a>'
+                    '<a class="updatelink" href="https://github.com/Monitorr/Logarr/releases" target="_blank" title="Click CHECK FOR UPDATE below to update Logarr" style="cursor: pointer;"> <b>An update is available </b></a>',
                 );
             }
 
             else {
                 // user has the latest version already installed
                 versionCheckAuto.html("");
+                console.log('Logarr update: You have the latest version.');
             }
         },
         error: function () {
             // error
             versionCheckAuto.html('<strong> An error occured while checking your Logarr version </strong>');
+            console.log('ERROR: An error occured while checking your Logarr version');
         }
     });
 
@@ -88,6 +89,7 @@ $(document).ready(function () {
                                     // error during update/unzip
                                     console.log('Logarr update: An error occured while extracting the files.');
                                     versionCheck.html("<strong>An error occured while extracting the files.</strong>");
+                                    // CHANGE ME:  Convert to Sweetalert:
                                     $.growlUI('An error occured while extracting the files.');
                                     setTimeout(5000);
                                 }
