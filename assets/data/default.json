@@ -1,14 +1,14 @@
 {
     "settings": {
-        "maxLines": "1000",
-        "rfconfig": "5000",
+        "rfconfig": "15000",
+        "rftime": "45000",
         "rflog": "30000",
-        "rftime": "30000",
-        "customHighlightTerms": "error,warn",
-        "autoHighlight": "true",
-        "jumpOnSearch": "true",
+        "maxLines": "10000",
+        "customHighlightTerms": "error",
         "logRefresh": "false",
-        "liveSearch": "false"
+        "autoHighlight": "true",
+        "jumpOnSearch": "false",
+        "liveSearch": "true"
     },
     "preferences": {
         "sitetitle": "Logarr",
@@ -25,21 +25,10 @@
     },
     "logs": [
         {
-            "logTitle": "Error",
-            "path": "D:\\wamp\\logs\\error.log",
-            "enabled": "Yes"
-        },
-        {
-            "logTitle": "Apache Errors",
-            "path": "D:\\wamp\\logs\\apache_error.log",
+            "logTitle": "Sample Log",
+            "path": "..\\data\\samplelog.log",
             "enabled": "Yes",
-            "category": "Web"
-        },
-        {
-            "logTitle": "PHP",
-            "path": "D:\\wamp\\logs\\php_error.log",
-            "enabled": "Yes",
-            "category": "Test"
+            "category": "sample"
         }
     ]
 }
