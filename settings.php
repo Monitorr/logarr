@@ -1,11 +1,13 @@
 <?php
 include('assets/php/functions.php');
 include('assets/php/auth_check.php');
-if(isset($_GET["action"]) && $_GET["action"] == "register") {
-	if(isset($_POST["user_name"]) && isset($_POST["user_password"]) && isset($_POST["user_password_repeat"])
-		&& !empty($_POST["user_name"]) && !empty($_POST["user_password"]) && !empty($_POST["user_password_repeat"])){
-		echo "true";
-	}
+if (isset($_GET["action"]) && $_GET["action"] == "register") {
+    if (
+        isset($_POST["user_name"]) && isset($_POST["user_password"]) && isset($_POST["user_password_repeat"])
+        && !empty($_POST["user_name"]) && !empty($_POST["user_password"]) && !empty($_POST["user_password_repeat"])
+    ) {
+        echo "true";
+    }
 }
 ?>
 
@@ -33,7 +35,7 @@ https://github.com/Monitorr/Logarr
     <script type="text/javascript" src="assets/js/pace.js" async></script>
 
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="assets/css/vendor/sweetalert2.min.css">
     <link rel="stylesheet" href="assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/logarr.css">
     <link rel="stylesheet" href="assets/data/custom.css">
@@ -42,11 +44,61 @@ https://github.com/Monitorr/Logarr
     <meta name="theme-color" content="#464646" />
     <meta name="theme_color" content="#464646" />
 
-    <script type="text/javascript" src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/vendor/sweetalert2.min.js"></script>
     <script src="assets/js/jquery.blockUI.js"></script>
     <script src="assets/js/logarr.main.js"></script>
-    <!-- <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script> -->
 
+
+    <style>
+        .header-brand {
+            cursor: default;
+        }
+
+        #settingsbrand {
+            cursor: pointer;
+        }
+
+        .swal2-bottom-start {
+            margin-left: .5rem !important;
+            bottom: 5em !important;
+            /* position: unset !important; */
+            cursor: default;
+        }
+
+        .swal2-icon.swal2-warning {
+            color: yellow !important;
+            border-color: yellow !important;
+        }
+    </style>
+
+    <!-- CHANGE ME  - Use welcome modal on login.php or settings.php ?? -->
+
+    <script>
+        // const Toast = Swal.mixin({
+        //     toast: true,
+        //     showConfirmButton: false,
+        //     showCloseButton: true,
+        //     position: 'bottom-start',
+        //     background: 'rgba(0, 0, 0, 0.8)'
+        // });
+
+        function toastwelcome() {
+            Toast.fire({
+                type: 'success',
+                title: 'Welcome to Logarr!',
+                position: 'bottom-start',
+                timer: 5000
+            })
+            console.log("Welcome to Logarr!");
+        };
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            toastwelcome();
+        });
+    </script>
 
     <!-- sync config with javascript -->
     <script>
@@ -57,7 +109,7 @@ https://github.com/Monitorr/Logarr
 
     <!-- // Set global timezone from config file: -->
     <?php
-    //Why is this necessary? - rob1998
+    //Why is this necessary? - rob1998  // CHANGE ME
     if ($GLOBALS['preferences']['timezone'] == "") {
 
         date_default_timezone_set('UTC');
@@ -148,7 +200,7 @@ https://github.com/Monitorr/Logarr
         </div>
 
         <div id="settingsbrand">
-            <div class="navbar-brand">
+            <div class="navbar-brand" onclick='window.location.href="index.php";' title="Return to Logarr">
                 <?php
                 echo $preferences['sitetitle'];
                 ?>
@@ -214,32 +266,18 @@ https://github.com/Monitorr/Logarr
             <script src="assets/js/update.js" async></script>
 
             <p><a class="footer a" href="https://github.com/monitorr/Logarr" target="_blank" title="Logarr Repo">
-                    Logarr </a> | <a class="footer a" href="https://github.com/Monitorr/logarr/releases" target="_blank" title="Logarr Releases">
+                    Logarr | </a> <a class="footer a" href="https://github.com/Monitorr/logarr/releases" target="_blank" title="Logarr Releases">
                     <?php echo file_get_contents("assets/js/version/version.txt"); ?> </a>
             </p>
 
             <div id="version_check_auto"></div>
-
-            <div id="reginfo">
-
-                <?php
-
-                if (!configExists()) {
-                    echo "Config file NOT present";
-                } else {
-                    echo 'Config file present';
-                }
-
-                ?>
-
-            </div>
 
         </div>
 
     </div>
 
     <div class="settings-title">
-        <div id="setttings-page-title" class="navbar-brand">
+        <div id="settings-page-title" class="header-brand">
         </div>
     </div>
 
@@ -253,7 +291,7 @@ https://github.com/Monitorr/Logarr
     <div id="footer" class="settings-footer">
 
         <!-- Checks for Logarr application update on page load & "Check for update" click: -->
-        <script src="assets/js/update.js" async></script>
+        <!-- <script src="assets/js/update.js" async></script> -->
 
         <div id="logarrid">
             <a href="https://github.com/monitorr/logarr" title="Logarr GitHub repo" target="_blank" class="footer">Logarr </a> |

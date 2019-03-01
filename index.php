@@ -26,12 +26,7 @@ include('assets/php/auth_check.php');
     <script src="assets/js/pace.js" async></script>
 
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-
-
-    <!-- CHANGE ME: -->
     <link rel="stylesheet" href="assets/css/vendor/sweetalert2.min.css">
-
-
     <link rel="stylesheet" href="assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/logarr.css">
     <link rel="stylesheet" href="assets/data/custom.css">
@@ -66,11 +61,16 @@ include('assets/php/auth_check.php');
         <?php echo $GLOBALS['preferences']['sitetitle']; ?>
     </title>
 
+    <style>
+        .swal2-icon.swal2-warning {
+            color: yellow;
+            border-color: yellow;
+        }
+    </style>
+
     <script src="assets/js/jquery.min.js"></script>
 
-    <!-- CHANGE ME: -->
-
-    <script src="assets/js/vendor/sweetalert2.min.js" async></script>
+    <script src="assets/js/vendor/sweetalert2.min.js"></script>
 
     <script src="assets/js/jquery.blockUI.js"></script>
 
@@ -79,6 +79,7 @@ include('assets/php/auth_check.php');
     <script src="assets/js/jquery.mark.min.js" async></script>
 
     <script src="assets/js/logarr.main.js"></script>
+
 
     <!-- sync config with javascript -->
     <script>
@@ -121,7 +122,7 @@ include('assets/php/auth_check.php');
 
 </head>
 
-<body id="body" onscroll="scrollFunction()" onload="refreshblockUI()">
+<body id="body" onscroll="scrollFunction()" onload="refreshblockUI();">
 
     <script>
         document.body.className += ' fade-out';
@@ -129,16 +130,6 @@ include('assets/php/auth_check.php');
             $('body').removeClass('fade-out');
         });
     </script>
-
-    <!--     <script>
-        console.log("Sweet Alert");
-        Swal.fire({
-            title: 'Error!',
-            text: 'Do you want to continue',
-            type: 'error',
-            confirmButtonText: 'Cool'
-        })
-    </script> -->
 
     <div id="ajaxtimestamp" title="Analog clock timeout. Refresh page."></div>
 
@@ -155,9 +146,9 @@ include('assets/php/auth_check.php');
 
         <div id="logo" class="Column">
             <img id="logo-icon" src="assets/images/logo_white_glow_text_logarr-crop.png" alt="Logarr">
-            <div id="navbar-brand-index" class="navbar-brand" title="Reload Logarr" onclick="window.location.reload(true);">
+            <div id="index-brand" class="header-brand" title="Reload Logarr" onclick="window.location.reload(true);">
                 <?php
-                echo $preferences['sitetitle'];
+                    echo $preferences['sitetitle'];
                 ?>
             </div>
         </div>
@@ -168,8 +159,8 @@ include('assets/php/auth_check.php');
                 <form method="POST">
                     <div id="markform">
 
-                        <input type="search" name="markinput" id="text-search2" class="input" title="Input search term" placeholder=" Search & highlight . . ." required spellcheck="false">
-                        <span id="validity" class="validity"></span>
+                        <input type="search" name="markinput" id="text-search2" class="input" title="Input search query" placeholder=" Search & highlight . . ." required spellcheck="false">
+                        <!-- <span id="validity" class="validity"></span> -->
                         <button data-search="search" name="searchBtn" id="searchBtn" value="Search" class="btn marksearch btn-primary" onclick="this.blur(); return false;" title="Execute search. Results will be highlighted in yellow.">Search
                         </button>
                         <button data-search="next" name="nextBtn" class="btn search-button btn-primary btn-visible btn-hidden" onclick="this.blur(); return false;" title="Focus to first search result">&darr;
