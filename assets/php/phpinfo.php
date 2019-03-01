@@ -130,7 +130,7 @@
 			echo "OpenSSL";
 			echo "</div>";
 		} else {
-			echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='php7-zip extension NOT loaded'>";
+			echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP openssl extension NOT loaded'>";
 			echo "OpenSSL";
 			echo "</a>";
 			echo "<script>console.log( 'ERROR: PHP openssl extension NOT loaded' );</script>";

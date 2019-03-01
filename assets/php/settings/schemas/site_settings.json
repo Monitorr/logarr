@@ -5,7 +5,7 @@
     "rfconfig": {
       "type": "integer",
       "required": true,
-      "default": 5000,
+      "default": 15000,
       "minimum": 1000,
       "exclusiveMinimum": true,
       "properties": {}
@@ -13,7 +13,7 @@
 	"rftime": {
       "type": "integer",
       "required": true,
-      "default": 5000,
+      "default": 30000,
       "minimum": 1000,
       "exclusiveMinimum": true,
       "properties": {}
@@ -29,14 +29,15 @@
     "maxLines": {
       "type": "integer",
       "required": true,
-      "default": 1000,
+      "default": 5000,
       "minimum": 1,
       "exclusiveMinimum": true,
       "properties": {}
     },
     "customHighlightTerms": {
       "type": "string",
-      "default": "error"
+      "default": "error",
+      "properties": {}
     },
 	"logRefresh": {
       "type": "string",
@@ -46,7 +47,7 @@
       ],
       "required": true,
       "pattern": {},
-      "default": "true",
+      "default": "false",
       "properties": {}
     },
     "autoHighlight": {
@@ -79,7 +80,7 @@
       ],
       "required": true,
       "pattern": {},
-      "default": "true",
+      "default": "false",
       "properties": {}
     }
   }

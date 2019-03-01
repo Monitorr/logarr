@@ -12,9 +12,9 @@ include(__DIR__ . '/../auth_check.php');
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/vendor/sweetalert2.min.css">
     <link rel="stylesheet" href="../../css/logarr.css">
     <link rel="stylesheet" href="../../data/custom.css">
-
 
     <meta name="theme-color" content="#464646" />
     <meta name="theme_color" content="#464646" />
@@ -23,10 +23,11 @@ include(__DIR__ . '/../auth_check.php');
         table {
             color: white !important;
         }
-    </style>
 
-    <script src="../../js/jquery.min.js"></script>
-    <script src="../../js/jquery.blockUI.js" async></script>
+        .swal2-popup.swal2-toast {
+            cursor: default !important;
+        }
+    </style>
 
     <title>
         <?php
@@ -35,6 +36,46 @@ include(__DIR__ . '/../auth_check.php');
         ?>
         | Info
     </title>
+
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/vendor/sweetalert2.min.js"></script>
+    <!-- // CHANGE ME:  REMOVE: -->
+    <script src="../../js/jquery.blockUI.js" async></script>
+
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            showConfirmButton: false,
+            showCloseButton: true,
+            position: 'bottom-start',
+            background: 'rgba(0, 0, 0, 0.8)'
+        });
+
+        // function toastwelcome() {
+        //     Toast.fire({
+        //         type: 'success',
+        //         title: 'Welcome to Logarr!',
+        //         position: 'bottom-start',
+        //         timer: 5000
+        //     })
+        //     console.log("Welcome to Logarr!");
+        // };
+
+        function exterror() {
+            Toast.fire({
+                type: 'error',
+                title: 'PHP extension not loaded!',
+                background: 'rgba(207, 0, 0, 0.75)',
+                timer: 5000
+            })
+        };
+    </script>
+
+    <!-- <script>
+        $(document).ready(function() {
+            toastwelcome();
+        });
+    </script> -->
 
 </head>
 
@@ -91,6 +132,7 @@ include(__DIR__ . '/../auth_check.php');
                             echo "Perms";
                             echo "</a>";
                             echo "<script>console.log( 'ERROR: PHP Write permissions FAIL' );</script>";
+                            echo "<script>exterror();</script>";
                         } else {
                             echo " <div class='extok' title='PHP write permissions OK' >";
                             echo "Perms";
@@ -107,6 +149,7 @@ include(__DIR__ . '/../auth_check.php');
                             echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP php_sqlite3 extension NOT loaded'>";
                             echo "php_sqlite3";
                             echo "</a>";
+                            echo "<script>exterror();</script>";
                         }
 
                         if (extension_loaded('pdo_sqlite')) {
@@ -117,6 +160,7 @@ include(__DIR__ . '/../auth_check.php');
                             echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP pdo_sqlite extension NOT loaded'>";
                             echo "pdo_sqlite";
                             echo "</a>";
+                            echo "<script>exterror();</script>";
                         }
 
                         if (extension_loaded('zip')) {
@@ -127,6 +171,7 @@ include(__DIR__ . '/../auth_check.php');
                             echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='php7-zip extension NOT loaded'>";
                             echo "php7-zip";
                             echo "</a>";
+                            echo "<script>exterror();</script>";
                         }
 
                         if (extension_loaded('openssl')) {
@@ -134,10 +179,11 @@ include(__DIR__ . '/../auth_check.php');
                             echo "OpenSSL";
                             echo "</div>";
                         } else {
-                            echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='php7-zip extension NOT loaded'>";
+                            echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP openssl extension NOT loaded'>";
                             echo "OpenSSL";
                             echo "</a>";
                             echo "<script>console.log( 'ERROR: PHP openssl extension NOT loaded' );</script>";
+                            echo "<script>exterror();</script>";
                         }
 
                         ?>

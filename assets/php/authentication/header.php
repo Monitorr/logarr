@@ -45,6 +45,23 @@ include_once(__DIR__ . "/../auth_check.php");
 
     <script src="assets/js/jquery.mark.min.js" async></script>
 
+    <style>
+        .notification {
+            visibility: hidden;
+        }
+
+        .footer:hover {
+            font-size: 1rem !important;
+        }
+
+        /* // CHANGE ME: */
+        .swal2-icon.swal2-warning {
+            color: yellow !important;
+            border-color: yellow !important;
+        }
+
+    </style>
+
     <!-- // CHANGE ME: -->
     <?php
     //ini_set('error_reporting', E_ERROR);
@@ -95,16 +112,6 @@ include_once(__DIR__ . "/../auth_check.php");
 
     <script src="assets/js/clock.js"></script>
 
-    <style>
-        .notification {
-            visibility: hidden;
-        }
-
-        .footer:hover {
-            font-size: 1rem !important;
-        }
-    </style>
-
 </head>
 
 <body id="body" style="color: #FFFFFF;">
@@ -120,7 +127,7 @@ include_once(__DIR__ . "/../auth_check.php");
             </div>
 
             <div id="loginbrand">
-                <div class="navbar-brand">
+                <div class="navbar-brand" onclick='window.location.href="index.php";' title="Return to Logarr">
                     <?php
                     echo $GLOBALS['preferences']['sitetitle'];
                     ?>

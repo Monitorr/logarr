@@ -36,12 +36,10 @@ $result = "
                    title=\"Increase/decrease log view\"></label>
 
             <div id=\"expand\" class=\"expand\">
-                <p id=\"" . $log['logTitle'] . "-log\">
-                   " . readExternalLog($log) . "
-                </p>
+                <p id=\"" . $log['logTitle'] . "-log\"> " . readExternalLog($log) . " </p>
             </div>
-
         </div>
+        
 		<div class='log-buttons'>
 	       <button type=\"button\" class=\"log-action-button slidebutton btn btn-primary\"
 	               data-action=\"unlink-log\" data-service=\"" . $log['logTitle'] . "\"
@@ -54,7 +52,15 @@ $result = "
 	       </button>
 	       <button type=\"button\" class=\"log-action-button slidebutton btn btn-primary\"
 	               data-action=\"update-log\" data-index=\"" . $log['logTitle'] . "\"
-	               title=\"Update individual log\">Update
+                   title=\"Update individual log\">Update
+                   <!-- CHANGE ME: -->
+                    <!-- title=\"Update individual log\" onclick=\"refreshblockUI();\">Update -->
 	       </button>
-       </div>";
+        </div>";
 echo $result;
+
+if (!readExternalLog($log)) {
+    echo ( '<div id="logmissing"> <i class="fas fa-exclamation-triangle"> </i> Log not found </div>');
+    echo "<script>console.log('ERROR: Log not found');</script>";
+    echo "<script>logerror();</script>";
+};

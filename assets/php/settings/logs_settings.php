@@ -14,6 +14,7 @@ include(__DIR__ . '/../auth_check.php');
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
     <link rel="stylesheet" href="../../css/alpaca.min.css">
     <link rel="stylesheet" href="../../css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../css/vendor/sweetalert2.min.css">
     <link rel="stylesheet" href="../../css/logarr.css">
     <link rel="stylesheet" href="../../data/custom.css">
 
@@ -21,9 +22,11 @@ include(__DIR__ . '/../auth_check.php');
     <meta name="theme_color" content="#464646" />
 
     <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script src="../../js/vendor/sweetalert2.min.js"></script>
     <script type="text/javascript" src="../../js/handlebars.js"></script>
     <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../js/alpaca.min.js"></script>
+    <!-- <script src="../../js/logarr.main.js"></script> -->
 
     <title>
         <?php
@@ -42,6 +45,37 @@ include(__DIR__ . '/../auth_check.php');
         }
 
     </style>
+
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            showConfirmButton: false,
+            showCloseButton: true,
+            position: 'bottom-end',
+            background: 'rgba(0, 0, 0, 0.8)'
+        });
+
+        function sweetalert() {
+            Toast.fire({
+                type: 'info',
+                title: 'Updating Logs'
+            })
+        };
+
+        function udtoast() {
+            Toast.fire({
+                type: 'info',
+                title: 'Auto-update disabled'
+            })
+        };
+
+        function settingchange() {
+            Toast.fire({
+                type: 'info',
+                title: 'Settings change pending'
+            })
+        };
+    </script>
 
 </head>
 
@@ -246,6 +280,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "events": {
                                         "change": function() {
                                             $('.alpaca-form-button-submit').addClass('buttonchange');
+                                            settingchange();
                                         }
                                     }
                                 },

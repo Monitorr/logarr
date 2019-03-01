@@ -15,6 +15,7 @@ include(__DIR__ . '/../auth_check.php');
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
     <link rel="stylesheet" href="../../css/alpaca.min.css">
     <link rel="stylesheet" href="../../css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../css/vendor/sweetalert2.min.css">
     <link rel="stylesheet" href="../../css/logarr.css">
     <link rel="stylesheet" href="../../data/custom.css">
 
@@ -22,6 +23,7 @@ include(__DIR__ . '/../auth_check.php');
     <meta name="theme_color" content="#464646" />
 
     <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script src="../../js/vendor/sweetalert2.min.js"></script>
     <script type="text/javascript" src="../../js/handlebars.js"></script>
     <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../js/alpaca.min.js"></script>
@@ -33,6 +35,64 @@ include(__DIR__ . '/../auth_check.php');
         ?>
         | User Preferences
     </title>
+
+    <style>
+        .swal2-popup.swal2-toast {
+            cursor: default !important;
+        } 
+    </style>
+
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            showConfirmButton: false,
+            showCloseButton: true,
+            position: 'bottom-end',
+            background: 'rgba(0, 0, 0, 0.8)'
+        });
+
+        function settingchange() {
+            Toast.fire({
+                type: 'warning',
+                title: 'Settings change pending',
+                background: '#3201199d',
+                customClass: "settingchange"
+            })
+        };
+
+        function settingapply() {
+            Toast.fire({
+                type: 'success',
+                title: 'Settings Saved!',
+                timer: 3000,
+                background: 'rgba(0, 184, 0, 0.75)'
+            })
+        };
+
+        function settingserror() {
+            Toast.fire({
+                type: 'error',
+                title: 'Error saving settings!',
+                background: 'rgba(207, 0, 0, 0.75)'
+            })
+        };
+
+        function ajaxerror() {
+            Toast.fire({
+                type: 'error',
+                title: 'Error loading settings!',
+                background: 'rgba(207, 0, 0, 0.75)'
+            })
+        };
+
+        function validerror() {
+            Toast.fire({
+                type: 'error',
+                title: 'Invalid value!',
+                background: 'rgba(207, 0, 0, 0.75)'
+            })
+        };
+    </script>
 
 </head>
 
@@ -76,7 +136,8 @@ include(__DIR__ . '/../auth_check.php');
                     error: function(errorThrown) {
                         console.log(errorThrown);
                         document.getElementById("response").innerHTML = "GET failed (ajax)";
-                        alert("GET failed (ajax)");
+                        //alert("GET failed (ajax)");
+                        ajaxerror();
                     },
                 });
 
@@ -94,7 +155,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "rfconfig": "leftcolumn",
                                 "rflog": "leftcolumn",
                                 "rftime": "leftcolumn",
-                                "customHiglightTerms": "leftcolumn",
+                                "customHighlightTerms": "leftcolumn",
                                 "autoHighlight": "rightcolumn",
                                 "jumpOnSearch": "rightcolumn",
                                 "logRefresh": "rightcolumn",
@@ -198,7 +259,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "focus": false,
                                 "optionLabels": [],
                                 "name": "rfconfig",
-                                "placeholder": "5000",
+                                "placeholder": "15000",
                                 "typeahead": {},
                                 "size": "10",
                                 "allowOptionalEmpty": false,
@@ -211,8 +272,42 @@ include(__DIR__ . '/../auth_check.php');
                                 "attributes": {},
                                 "events": {
                                     "change": function() {
-                                        $('.alpaca-form-button-submit').addClass('buttonchange');
-                                        $('.rfconfiglabel').addClass('settingslabelchanged');
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            console.log("ERROR: Invalid value for Config refresh interval.");
+                                            $('.rfconfiglabel').addClass('settingslabelerror');
+                                            validerror();
+                                            this.focus();
+                                        } else {
+                                            Toast.close();
+                                            $('.alpaca-form-button-submit').addClass('buttonchange');
+                                            $('.rfconfiglabel').addClass('settingslabelchanged');
+                                            $('.rfconfiglabel').removeClass('settingslabelerror');
+                                            settingchange();
+                                        }
+                                    },
+                                    "blur": function() {
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            $('.rfconfiglabel').addClass('settingslabelerror');
+                                            validerror();
+                                        }
+                                    },
+                                    "focus": function() {
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            $('.rfconfiglabel').addClass('settingslabelerror');
+                                            validerror();
+                                        }
+                                    },
+                                    "ready": function() {
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            console.log("ERROR: Invalid value for Config refresh interval.");
+                                            $('.rfconfiglabel').addClass('settingslabelerror');
+                                            validerror();
+                                            this.focus();
+                                        }
                                     }
                                 }
                             },
@@ -241,8 +336,42 @@ include(__DIR__ . '/../auth_check.php');
                                 "attributes": {},
                                 "events": {
                                     "change": function() {
-                                        $('.alpaca-form-button-submit').addClass('buttonchange');
-                                        $('.maxlineslabel').addClass('settingslabelchanged');
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            console.log("ERROR: Invalid value for Maximum amount of lines.");
+                                            $('.maxlineslabel').addClass('settingslabelerror');
+                                            validerror();
+                                            this.focus();
+                                        } else {
+                                            Toast.close();
+                                            $('.alpaca-form-button-submit').addClass('buttonchange');
+                                            $('.maxlineslabel').addClass('settingslabelchanged');
+                                            $('.maxlineslabel').removeClass('settingslabelerror');
+                                            settingchange();
+                                        }
+                                    },
+                                    "blur": function() {
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            $('.maxlineslabel').addClass('settingslabelerror');
+                                            validerror();
+                                        }
+                                    },
+                                    "focus": function() {
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            $('.maxlineslabel').addClass('settingslabelerror');
+                                            validerror();
+                                        }
+                                    },
+                                    "ready": function() {
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            console.log("ERROR: Invalid value for Maximum amount of lines.");
+                                            $('.maxlineslabel').addClass('settingslabelerror');
+                                            validerror();
+                                            this.focus();
+                                        }
                                     }
                                 }
                             },
@@ -258,7 +387,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "focus": false,
                                 "optionLabels": [],
                                 "name": "rflog",
-                                "placeholder": "5000",
+                                "placeholder": "30000",
                                 "typeahead": {},
                                 "size": "10",
                                 "allowOptionalEmpty": false,
@@ -271,8 +400,42 @@ include(__DIR__ . '/../auth_check.php');
                                 "attributes": {},
                                 "events": {
                                     "change": function() {
-                                        $('.alpaca-form-button-submit').addClass('buttonchange');
-                                        $('.rflog_inputlabel').addClass('settingslabelchanged');
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            console.log("ERROR: Invalid value for Log regresh interval.");
+                                            $('.rflog_inputlabel').addClass('settingslabelerror');
+                                            validerror();
+                                            this.focus();
+                                        } else {
+                                            Toast.close();
+                                            $('.alpaca-form-button-submit').addClass('buttonchange');
+                                            $('.rflog_inputlabel').addClass('settingslabelchanged');
+                                            $('.rflog_inputlabel').removeClass('settingslabelerror');
+                                            settingchange();
+                                        }
+                                    },
+                                    "blur": function() {
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            $('.rflog_inputlabel').addClass('settingslabelerror');
+                                            validerror();
+                                        }
+                                    },
+                                    "focus": function() {
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            $('.rflog_inputlabel').addClass('settingslabelerror');
+                                            validerror();
+                                        }
+                                    },
+                                    "ready": function() {
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            console.log("ERROR: Invalid value for Log regresh interval.");
+                                            $('.rflog_inputlabel').addClass('settingslabelerror');
+                                            validerror();
+                                            this.focus();
+                                        }
                                     }
                                 }
                             },
@@ -288,7 +451,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "focus": false,
                                 "optionLabels": [],
                                 "name": "rftime",
-                                "placeholder": "5000",
+                                "placeholder": "30000",
                                 "typeahead": {},
                                 "size": "10",
                                 "allowOptionalEmpty": false,
@@ -301,8 +464,42 @@ include(__DIR__ . '/../auth_check.php');
                                 "attributes": {},
                                 "events": {
                                     "change": function() {
-                                        $('.alpaca-form-button-submit').addClass('buttonchange');
-                                        $('.rftime_inputlabel').addClass('settingslabelchanged');
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            console.log("ERROR: Invalid value for Time refresh interval.");
+                                            $('.rftime_inputlabel').addClass('settingslabelerror');
+                                            validerror();
+                                            this.focus();
+                                        } else {
+                                            Toast.close();
+                                            $('.alpaca-form-button-submit').addClass('buttonchange');
+                                            $('.rftime_inputlabel').addClass('settingslabelchanged');
+                                            $('.rftime_inputlabel').removeClass('settingslabelerror');
+                                            settingchange();
+                                        }
+                                    },
+                                    "blur": function() {
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            $('.rftime_inputlabel').addClass('settingslabelerror');
+                                            validerror();
+                                        }
+                                    },
+                                    "focus": function() {
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            $('.rftime_inputlabel').addClass('settingslabelerror');
+                                            validerror();
+                                        }
+                                    },
+                                    "ready": function() {
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            console.log("ERROR: Invalid value for Time refresh interval.");
+                                            $('.rftime_inputlabel').addClass('settingslabelerror');
+                                            validerror();
+                                            this.focus();
+                                        }
                                     }
                                 }
                             },
@@ -333,6 +530,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "change": function() {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
                                         $('.customhighlighterms_inputlabel').addClass('settingslabelchanged');
+                                        settingchange();
                                     }
                                 }
                             },
@@ -359,7 +557,17 @@ include(__DIR__ . '/../auth_check.php');
                                 "events": {
                                     "change": function() {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
+                                        $('.autohighlightlabel').removeClass('settingslabelerror');
                                         $('.autohighlightlabel').addClass('settingslabelchanged');
+                                        settingchange();
+                                    },
+                                    "ready": function() {
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            console.log("ERROR: Invalid value for Auto Highlight.");
+                                            $('.autohighlightlabel').addClass('settingslabelerror');
+                                            validerror();
+                                        }
                                     }
                                 }
                             },
@@ -386,7 +594,17 @@ include(__DIR__ . '/../auth_check.php');
                                 "events": {
                                     "change": function() {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
+                                        $('.jumponsearchlabel').removeClass('settingslabelerror');
                                         $('.jumponsearchlabel').addClass('settingslabelchanged');
+                                        settingchange();
+                                    },
+                                    "ready": function() {
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            console.log("ERROR: Invalid value for Jump on Search.");
+                                            $('.jumponsearchlabel').addClass('settingslabelerror');
+                                            validerror();
+                                        }
                                     }
                                 }
                             },
@@ -413,7 +631,17 @@ include(__DIR__ . '/../auth_check.php');
                                 "events": {
                                     "change": function() {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
+                                        $('.logrefreshlabel').removeClass('settingslabelerror');
                                         $('.logrefreshlabel').addClass('settingslabelchanged');
+                                        settingchange();
+                                    },
+                                    "ready": function() {
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            console.log("ERROR: Invalid value for Auto Refresh Logs");
+                                            $('.logrefreshlabel').addClass('settingslabelerror');
+                                            validerror();
+                                        }
                                     }
                                 }
                             },
@@ -440,7 +668,17 @@ include(__DIR__ . '/../auth_check.php');
                                 "events": {
                                     "change": function() {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
+                                        $('.livesearchlabel').removeClass('settingslabelerror');
                                         $('.livesearchlabel').addClass('settingslabelchanged');
+                                        settingchange();
+                                    },
+                                    "ready": function() {
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            console.log("ERROR: Invalid value for Live Search.");
+                                            $('.livesearchlabel').addClass('settingslabelerror');
+                                            validerror();
+                                        }
                                     }
                                 }
                             },
@@ -463,7 +701,7 @@ include(__DIR__ . '/../auth_check.php');
                                             url: 'post-settings/post_receiver-site_settings.php',
                                             data: siteSettings.alpaca().getValue(),
                                             success: function(data) {
-                                                alert("Settings saved!");
+                                                settingapply();
                                                 console.log("Settings Saved!");
                                                 // setTimeout(location.reload.bind(location), 500)
                                                 $('.alpaca-form-button-submit').removeClass('buttonchange');
@@ -479,7 +717,7 @@ include(__DIR__ . '/../auth_check.php');
                                             },
                                             error: function(errorThrown) {
                                                 console.log(errorThrown);
-                                                alert("Error submitting data.");
+                                                settingserror();
                                             }
                                         });
                                     }
@@ -491,7 +729,6 @@ include(__DIR__ . '/../auth_check.php');
                         }
                     },
                 });
-
             });
         </script>
 

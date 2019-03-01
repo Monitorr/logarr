@@ -14,6 +14,7 @@ include(__DIR__ . '/../auth_check.php');
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
     <link rel="stylesheet" href="../../css/font-awesome.min.css">
     <link rel="stylesheet" href="../../css/alpaca.min.css">
+    <link rel="stylesheet" href="../../css/vendor/sweetalert2.min.css">
     <link rel="stylesheet" href="../../css/logarr.css">
     <link rel="stylesheet" href="../../data/custom.css">
 
@@ -21,6 +22,7 @@ include(__DIR__ . '/../auth_check.php');
     <meta name="theme_color" content="#464646" />
 
     <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script src="../../js/vendor/sweetalert2.min.js"></script>
     <script type="text/javascript" src="../../js/handlebars.js"></script>
     <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../js/alpaca.min.js"></script>
@@ -32,6 +34,54 @@ include(__DIR__ . '/../auth_check.php');
         ?>
         | User Preferences
     </title>
+
+    <style>
+        .swal2-popup.swal2-toast {
+            cursor: default !important;
+        } 
+    </style>
+
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            showConfirmButton: false,
+            showCloseButton: true,
+            position: 'bottom-end',
+            background: 'rgba(0, 0, 0, 0.8)'
+        });
+
+        function settingchange() {
+            Toast.fire({
+                type: 'warning',
+                title: 'Settings change pending'
+            })
+        };
+
+        function settingapply() {
+            Toast.fire({
+                type: 'success',
+                title: 'Settings Saved! Logarr will now reload.',
+                //timer: 3000,
+                background: 'rgba(0, 184, 0, 0.75)'
+            })
+        };
+
+        function settingserror() {
+            Toast.fire({
+                type: 'error',
+                title: 'Error saving settings!',
+                background: 'rgba(207, 0, 0, 0.75)'
+            })
+        };
+
+        function ajaxerror() {
+            Toast.fire({
+                type: 'error',
+                title: 'Error loading settings!',
+                background: 'rgba(207, 0, 0, 0.75)'
+            })
+        };
+    </script>
 
 </head>
 
@@ -74,7 +124,8 @@ include(__DIR__ . '/../auth_check.php');
                     error: function(errorThrown) {
                         console.log(errorThrown);
                         document.getElementById("response").innerHTML = "GET failed (ajax)";
-                        alert("GET failed (ajax)");
+                        //alert("GET failed (ajax)");
+                        ajaxerror();
                     },
                 });
 
@@ -154,6 +205,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "change": function() {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
                                         $('.registrationenabledlabel').addClass('settingslabelchanged');
+                                        settingchange();
                                     }
                                 }
                             },
@@ -181,6 +233,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "change": function() {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
                                         $('.settingsenabledlabel').addClass('settingslabelchanged');
+                                        settingchange();
                                     }
                                 }
                             },
@@ -208,6 +261,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "change": function() {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
                                         $('.logsenabledlabel').addClass('settingslabelchanged');
+                                        settingchange();
                                     }
                                 }
                             }
@@ -230,14 +284,15 @@ include(__DIR__ . '/../auth_check.php');
                                             url: 'post-settings/post_receiver-authentication.php',
                                             data: authenticationsettings.alpaca().getValue(),
                                             success: function(data) {
-                                                alert("Settings saved!");
+                                                settingapply();
                                                 console.log("Settings saved!");
-                                                setTimeout(window.top.location.reload.bind(window.top.location), 500);
+                                                setTimeout(window.top.location.reload.bind(window.top.location), 1000);
                                                 $('.alpaca-form-button-submit').removeClass('buttonchange');
                                             },
                                             error: function(errorThrown) {
                                                 console.log(errorThrown);
-                                                alert("Error submitting data.");
+                                                // alert("Error submitting data.");
+                                                settingserror();
                                             }
                                         });
                                     }

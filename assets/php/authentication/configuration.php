@@ -110,7 +110,7 @@ $datadir = $json['datadir'];
 
 
         <div class="center">
-            <h1 class="navbar-brand">Logarr | Configuration</h1>
+            <h1 class="header-brand">Logarr | Configuration</h1>
         </div>
 
         <div id="loginmessage">
