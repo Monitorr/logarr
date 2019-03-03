@@ -4,7 +4,7 @@
 
 //CHANGE ME - NOT WORKING:
 
-//import Swal from "./vendor/sweetalert2.min.js";
+//import Swal from "vendor/sweetalert2.js";
 //import Swal from 'sweetalert2'
 //const Swal = require('sweetalert2')
 
@@ -19,46 +19,64 @@ let rfconfig = (typeof settings !== "undefined") ? settings.rfconfig : 1000;
 nIntervId["refreshConfig"] = setInterval(refreshConfig, rfconfig);
 
 
-
 ///Swal.fire('Logarr is loading ...');
 
-Toast = Swal.mixin({
+
+const Toast = Swal.mixin({
     toast: true,
+    position: 'bottom-start',
     showConfirmButton: false,
     showCloseButton: true,
-    position: 'bottom-start',
-    background: '#3201199d'
+    background: 'rgba(50, 1, 25, 0.75)'
     //timer: 10000
 });
 
 function logupdatetoast() {
     Toast.fire({
-        type: 'info',
-        background: '#3201199d',
-        title: '<p class="logupdatetoast">Updating Logs</p>'
+        toast: true,
+        //type: 'info',
+        title: '<p class="logupdatetoast">Updating Logs</p>',
+        showCloseButton: false,
+        background: 'rgba(50, 1, 25, 0.75)',
+        onBeforeOpen: () => {
+            Swal.showLoading()
+        }
+    })
+};
+
+function logsingleupdatetoast() {
+    Toast.fire({
+        toast: true,
+        //type: 'info',
+        title: 'Updating Log',
+        showCloseButton: false,
+        onBeforeOpen: () => {
+            Swal.showLoading()
+        }
     })
 };
 
 function udtoast() {
     Toast.fire({
-        type: 'info',
+        toast: true,
+        type: 'warning',
         title: 'Auto-update disabled',
-        background: '#3201199d',
-        timer: 2000
+        timer: 3000
     })
 };
 
 function uetoast() {
     Toast.fire({
-        type: 'info',
+        toast: true,
+        type: 'warning',
         title: 'Auto-update enabled',
-        background: '#3201199d',
-        timer: 2000
+        timer: 3000
     })
 };
 
 function logerror() {
     Toast.fire({
+        toast: true,
         type: 'error',
         title: 'Error Loading Log!',
         background: 'rgba(207, 0, 0, 0.75)',
@@ -68,11 +86,67 @@ function logerror() {
 
 function updateavailtoast() {
     Toast.fire({
+        toast: true,
         type: 'warning',
-        title: '<a class="toastlink swal2-title" href="https://github.com/Monitorr/logarr/releases" title="Logarr releases" target="_blank">A Logarr udpate is available!</a>',
-        background: '#3201199d', 
+        title: '<a class="toastlink swal2-title" href="https://github.com/Monitorr/logarr/releases" title="Logarr releases" target="_blank">A Logarr update is available!</a>',
         customClass: 'updateavailtoast',
         timer: 10000
+    })
+};
+
+function clearsearch() {
+    Toast.fire({
+        toast: true,
+        type: 'warning',
+        title: 'Clearing search results',
+        timer: 3000
+    })
+};
+
+function logroll() {
+    Toast.fire({
+        toast: true,
+        type: 'warning',
+        title: 'Attempting log roll',
+        timer: 5000
+    })
+};
+
+function logrollerror() {
+    Toast.fire({
+        toast: true,
+        type: 'error',
+        title: 'An error occurred while attempting log roll!',
+        background: 'rgba(207, 0, 0, 0.75)'
+    })
+};
+
+function dllog() {
+    Toast.fire({
+        toast: true,
+        type: 'success',
+        title: 'Downloading log',
+        timer: 5000
+    })
+};
+
+function filtertoast() {
+    Toast.fire({
+        toast: true,
+        type: 'warning',
+        title: 'Filtering logs'
+    })
+};
+
+function searchtoast() {
+    Toast.fire({
+        toast: true,
+        //type: 'warning',
+        title: 'Searching ...',
+        showCloseButton: false,
+        onBeforeOpen: () => {
+            Swal.showLoading()
+        }
     })
 };
 
@@ -83,11 +157,12 @@ function updateavailtoast() {
 function refreshblockUI() {
     //$.growlUI('Updating logs...');
     logupdatetoast();
+    $('#body').addClass("cursorwait");
     setTimeout(function () {
         loadLogs();
     }, 300);
 
-    //wait after log update to highlight error terms:
+    //wait after log update to highlight terms:
     if (settings.autoHighlight === "true") {
         setTimeout(function () {
             highlightjs();
@@ -158,6 +233,7 @@ function loadLogs() {
     }
 
     setTimeout(function () {
+        $('#body').removeClass("cursorwait");
         Toast.close();
     }, 2000);
 }
@@ -176,7 +252,7 @@ function loadLog(log) {
     })
 }
 
-// highlight all "error" terms:
+// highlight terms:
 function highlightjs() {
     
     if ('customHighlightTerms' in settings && settings.customHighlightTerms !== "") {
@@ -190,9 +266,11 @@ function highlightjs() {
             });
             console.log("Highlighting text containing: " + array[i].trim());
         }
-        setTimeout(function () {
-            Toast.close();
-        },  2000);
+
+        //todo: do we need this: 
+        // setTimeout(function () {
+        //     Toast.close();
+        // },  2000);
     };
     
 }
@@ -268,14 +346,18 @@ $(function () {
     // Perform search action on click
     $("button[data-search='search']").on("click", function () {
         console.log('Logarr is performing search');
+        searchtoast();
+        $('#body').addClass("cursorwait");
         $('#buttonStart :checkbox').prop('checked', false).change(); // if auto-update is enabled, disable it after search submit
-        $.blockUI({
-            message: 'Searching...'
-        });
+        //$.blockUI({
+        //    message: 'Searching...'
+        //});
         setTimeout(function () {
             $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search
             mark();
-            $.unblockUI()
+            $('#body').removeClass("cursorwait");
+            Toast.close();
+            //$.unblockUI()
         }, 300);
     });
 
@@ -283,14 +365,18 @@ $(function () {
     $("#text-search2").keyup(function (event) {
         if (event.keyCode === 13) {
             console.log('Logarr is performing search');
+            searchtoast();
+            $('#body').addClass("cursorwait");
             $('#buttonStart :checkbox').prop('checked', false).change(); // if auto-update is enabled, disable it after search submit
-            $.blockUI({
-                message: 'Searching...'
-            });
+            // $.blockUI({
+            //     message: 'Searching...'
+            // });
             setTimeout(function () {
                 $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search
                 mark();
-                $.unblockUI()
+                $('#body').removeClass("cursorwait");
+                //$.unblockUI()
+                //Toast.close();
             }, 300);
         }
     });
@@ -298,7 +384,7 @@ $(function () {
     // Clears the search
     $("button[data-search='clear']").on("click", function () {
         console.log('Logarr cleared search results');
-        $.growlUI('Clearing <br> search results');
+        clearsearch();
         $(".slide").unmark();
         $("input[name='markinput']").val("");
         $('.count').removeClass("countresults");
@@ -333,13 +419,16 @@ $(function () {
     $(document).on('click', "button[data-action='unlink-log']", function (event) {
         event.preventDefault(); // stop being refreshed
         console.log('Attempting log roll');
-        $.growlUI("Attempting <br> log roll");
+        //$.growlUI("Attempting <br> log roll");
+        logroll();
         $.ajax({
             type: 'POST',
             url: 'assets/php/unlink.php',
             processData: false,
             data: "file=" + $(".path[data-service='" + $(this).data('service') + "']").html().trim(),
             success: function (data) {
+                //TODO can we use sweetalert with this?
+
                 $('#modalContent').html(data);
                 let modal = $('#responseModal');
                 let span = $('.closemodal');
@@ -358,6 +447,7 @@ $(function () {
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log("ERROR: unlink ajax posting failed");
+                logrollerror();
             }
         });
         return false;
@@ -366,7 +456,8 @@ $(function () {
     // download log action
     $(document).on('click', "button[data-action='download-log']", function (event) {
         event.preventDefault(); // stop page from being refreshed
-        $.growlUI("Downloading <br> log file");
+        //$.growlUI("Downloading <br> log file");
+        dllog();
         let logFilePath = ($(".path[data-service='" + $(this).data('service') + "']").html()).replace('file=', '').trim();
         console.log("Downloading log file: " + logFilePath);
         window.open('assets/php/download.php?file=' + logFilePath);
@@ -376,12 +467,17 @@ $(function () {
     // update log action
     $(document).on('click', "button[data-action='update-log']", function (event) {
         event.preventDefault(); // stop page from being refreshed
+        logsingleupdatetoast();
         loadLog(logs[$(this).parent().parent().data("index")]);
+        setTimeout(function () {
+            Toast.close();
+        }, 2000);
         return false;
     });
 
     // filter logs
     $(document).on('click', ".category-filter-item", function (event) {
+        //TODO why refresh blockUI on log filter ??
         refreshblockUI();
         setTimeout(function () {
             console.log('Filtering logs on: ' + window.location.hash);
@@ -497,7 +593,7 @@ function syncServerTime() {
             }, settings.rftime); //delay is rftime
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            console.log('Logarr time update START');
+            console.log('ERROR: Time update');
         }
     });
 }
@@ -641,6 +737,7 @@ function parseGithubToHTML(result) {
 }
 
 function toggleCategory(category, categoryList) {
+    filtertoast();
     var categories;
     if (category != "") {
         categories = categoryList.split(',');

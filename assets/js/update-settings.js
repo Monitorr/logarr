@@ -1,4 +1,7 @@
 // function to reorder
+
+// TODO:  Add sweet alert to all values:
+
 $(document).ready(function () {
     var uid = $(this).attr("id");
     var info = "uid=" + uid + "&vcheck=1";
@@ -31,8 +34,10 @@ $(document).ready(function () {
         },
         error: function () {
             // error
-            versionCheckAuto.html('<strong> An error occured while checking your Logarr version </strong>');
-            console.log('ERROR: An error occured while checking your Logarr version');
+            //TODO:
+            //versionCheckAuto.html('<strong> An error occured while checking your Logarr version </strong>');
+            versionCheckAuto.html('<p id="vcheckerror" class="vcheckerror">An error occurred while checking your Logarr version </p>');
+            console.log('ERROR: An error occurred while checking your Logarr version');
         }
     });
 
@@ -87,26 +92,26 @@ $(document).ready(function () {
                                     // location.reload();
                                 } else {
                                     // error during update/unzip
-                                    console.log('Logarr update: An error occured while extracting the files.');
-                                    versionCheck.html("<strong>An error occured while extracting the files.</strong>");
+                                    console.log('Logarr update: An error occurred while extracting the files.');
+                                    versionCheck.html("<strong>An error occurred while extracting the files.</strong>");
                                     // CHANGE ME:  Convert to Sweetalert:
-                                    $.growlUI('An error occured while extracting the files.');
+                                    $.growlUI('An error occurred while extracting the files.');
                                     setTimeout(5000);
                                 }
 
                             } else {
-                                console.log('Logarr update: An error occured while copying the files.');
-                                versionCheck.html("<strong>An error occured while copying the files.</strong>");
-                                $.growlUI('An error occured while copying the files.');
+                                console.log('Logarr update: An error occurred while copying the files.');
+                                versionCheck.html("<strong>An error occurred while copying the files.</strong>");
+                                $.growlUI('An error occurred while copying the files.');
                                 setTimeout(5000);
 
                             }
                         },
                         error: function () {
                             // error
-                            console.log('Logarr update: An error occured while updating your files.');
-                            versionCheck.html('<strong>An error occured while updating your files.</strong>');
-                            $.growlUI('An error occured while updating your files.');
+                            console.log('Logarr update: An error occurred while updating your files.');
+                            versionCheck.html('<strong>An error occurred while updating your files.</strong>');
+                            $.growlUI('An error occurred while updating your files.');
                             setTimeout(5000);
                         }
                     });
@@ -121,9 +126,10 @@ $(document).ready(function () {
             },
             error: function () {
                 // error
-                console.log('Logarr update: An error occured while checking your Logarr version.');
-                versionCheck.html('<strong>An error occured while checking your Logarr version.</strong>');
-                $.growlUI('An error occured while checking your Logarr version.');
+                console.log('Logarr update: An error occurred while checking your Logarr version.');
+                //versionCheck.html('<strong>An error occured while checking your Logarr version.</strong>');
+                versionCheck.html('<p id="vcheckerror" class="vcheckerror"> An error occurred while checking your Logarr version.</p>');
+                $.growlUI('An error occurred while checking your Logarr version.');
                 setTimeout(5000);
             }
         });
