@@ -2546,6 +2546,127 @@ a {
     animation: pace-spinner 400ms linear infinite;
 }
 
+/*** Begin Steppers ***/
+ul.stepper {
+    counter-reset: section;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin: 1em -1.5rem;
+    padding: 1.5rem;
+}
+.stepper-horizontal {
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
+ul.stepper > li:not(:last-of-type) {
+    margin-bottom: .625rem;
+    -webkit-transition: margin-bottom .4s;
+    -o-transition: margin-bottom .4s;
+    transition: margin-bottom .4s;
+}
+.stepper-horizontal > li:not(:last-of-type) {
+    margin-bottom: 0 !important;
+}
+.stepper-horizontal li:not(:last-child)::after {
+    content: "";
+    position: relative;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    margin: .5rem 0 0 0;
+    height: 1px;
+    background-color: rgba(255,255,255,0.65);
+}
+.stepper-horizontal li:not(:first-child)::before {
+    content: "";
+    position: relative;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    margin: .5rem 0 0 0;
+    height: 1px;
+    background-color: rgba(255,255,255,0.65);
+}
+.stepper-horizontal li {
+    -webkit-transition: .5s;
+    -o-transition: .5s;
+    transition: .5s;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    position: relative;
+}
+.stepper-horizontal li:hover {
+    background-color: rgba(0,0,0,.06);
+    cursor: pointer;
+}
+.stepper-horizontal li a:hover {
+    text-decoration: none;
+}
+ul.stepper li a {
+    padding: 1.5rem;
+    text-align: center;
+}
+.primary-color, li.active a .circle, ul.stepper li.completed a .circle {
+    background-color: #4285f4 !important;
+}
+ul.stepper li a .circle {
+    display: inline-block;
+    color: #fff;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    background: rgba(0,0,0,.38);
+    width: 1.75rem;
+    height: 1.75rem;
+    text-align: center;
+    line-height: 1.7rem;
+    margin-right: .5rem;
+}
+ul.stepper li.active {
+    background-color: rgba(0,0,0,.06);
+}
+ul.stepper li.active a .label, ul.stepper li.completed a .label {
+    font-weight: 600;
+    color: rgba(255,255,255,.6);
+}
+ul.stepper li a .label {
+    display: inline-block;
+    color: rgba(255,255,255,.6);
+}
+.stepper-horizontal li a .label {
+    margin-top: .63rem;
+}
+.danger-color, ul.stepper li.warning a .circle {
+    background-color: #ff3547 !important;
+}
+ul.stepper li.success a .circle {
+    background-color: #43A047 !important;
+}
+
+.stepper-target {
+    display: none;
+}
+
+/*** End Steppers ***/
+
 @-webkit-keyframes pace-spinner {
     0% {
         -webkit-transform: rotate(0deg);
