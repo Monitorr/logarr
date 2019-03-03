@@ -45,7 +45,8 @@ https://github.com/Monitorr/Logarr
     <meta name="theme_color" content="#464646" />
 
     <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/vendor/sweetalert2.min.js"></script>
+    <!-- <script src="assets/js/vendor/sweetalert2.min.js"></script> -->
+    <script src="assets/js/vendor/sweetalert2.js"></script>
     <script src="assets/js/jquery.blockUI.js"></script>
     <script src="assets/js/logarr.main.js"></script>
 
@@ -80,14 +81,16 @@ https://github.com/Monitorr/Logarr
         //     showConfirmButton: false,
         //     showCloseButton: true,
         //     position: 'bottom-start',
-        //     background: 'rgba(0, 0, 0, 0.8)'
+        //     background: '#3201199d'
         // });
 
         function toastwelcome() {
             Toast.fire({
+                toast: true,
                 type: 'success',
                 title: 'Welcome to Logarr!',
                 position: 'bottom-start',
+                background: 'rgba(50, 1, 25, 0.75)',
                 timer: 5000
             })
             console.log("Welcome to Logarr!");

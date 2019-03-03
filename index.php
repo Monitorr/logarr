@@ -62,6 +62,9 @@ include('assets/php/auth_check.php');
     </title>
 
     <style>
+        body {
+            margin-bottom: 3rem;
+        }
         .swal2-icon.swal2-warning {
             color: yellow;
             border-color: yellow;
