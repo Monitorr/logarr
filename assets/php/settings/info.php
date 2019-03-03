@@ -37,10 +37,12 @@ include(__DIR__ . '/../auth_check.php');
         | Info
     </title>
 
+    <!-- ToDO: SA min ?? -->
     <script src="../../js/jquery.min.js"></script>
-    <script src="../../js/vendor/sweetalert2.min.js"></script>
+    <!-- <script src="../../js/vendor/sweetalert2.min.js"></script> -->
+    <script src="../../js/vendor/sweetalert2.js"></script>
     <!-- // CHANGE ME:  REMOVE: -->
-    <script src="../../js/jquery.blockUI.js" async></script>
+    <!-- <script src="../../js/jquery.blockUI.js" async></script> -->
 
     <script>
         const Toast = Swal.mixin({
@@ -48,18 +50,8 @@ include(__DIR__ . '/../auth_check.php');
             showConfirmButton: false,
             showCloseButton: true,
             position: 'bottom-start',
-            background: 'rgba(0, 0, 0, 0.8)'
+            background: 'rgba(50, 1, 25, 0.75)'
         });
-
-        // function toastwelcome() {
-        //     Toast.fire({
-        //         type: 'success',
-        //         title: 'Welcome to Logarr!',
-        //         position: 'bottom-start',
-        //         timer: 5000
-        //     })
-        //     console.log("Welcome to Logarr!");
-        // };
 
         function exterror() {
             Toast.fire({
@@ -70,12 +62,6 @@ include(__DIR__ . '/../auth_check.php');
             })
         };
     </script>
-
-    <!-- <script>
-        $(document).ready(function() {
-            toastwelcome();
-        });
-    </script> -->
 
 </head>
 

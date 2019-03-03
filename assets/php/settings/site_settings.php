@@ -40,6 +40,10 @@ include(__DIR__ . '/../auth_check.php');
         .swal2-popup.swal2-toast {
             cursor: default !important;
         } 
+
+        #settings-frame-wrapper {
+            margin-top: 10vh;
+        }
     </style>
 
     <script>
@@ -48,14 +52,13 @@ include(__DIR__ . '/../auth_check.php');
             showConfirmButton: false,
             showCloseButton: true,
             position: 'bottom-end',
-            background: 'rgba(0, 0, 0, 0.8)'
+            background: 'rgba(50, 1, 25, 0.75)'
         });
 
         function settingchange() {
             Toast.fire({
                 type: 'warning',
                 title: 'Settings change pending',
-                background: '#3201199d',
                 customClass: "settingchange"
             })
         };

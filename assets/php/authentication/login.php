@@ -59,10 +59,9 @@ include_once(__DIR__ . "/../auth_check.php");
             position: relative;
             cursor: pointer;
         }
-        .swal2-center-start {
-            margin-left: .5rem !important;
-            margin-top: -10em;
-            position: unset !important;
+        .swal2-bottom-start {
+            margin-left: 1rem !important;
+            bottom: 5vh !important;
             cursor: default;
         }
         .swal2-icon.swal2-warning {
@@ -77,7 +76,7 @@ include_once(__DIR__ . "/../auth_check.php");
             Toast.fire({
                 type: 'success',
                 title: 'Welcome to Logarr!',
-                position: 'center-start',
+                position: 'bottom-start',
                 timer: 5000
             })
             console.log("Welcome to Logarr!");
@@ -108,7 +107,6 @@ include_once(__DIR__ . "/../auth_check.php");
     <script>
         var settings = <?php echo json_encode($GLOBALS['settings']); ?>;
         var preferences = <?php echo json_encode($GLOBALS['preferences']); ?>;
-
         refreshConfig();
     </script>
 
@@ -155,40 +153,34 @@ include_once(__DIR__ . "/../auth_check.php");
 
     <div id="ajaxtimestamp" title="Analog clock timeout. Refresh page."></div>
 
-    <div class="header">
-
-        <div id="left" class="Column">
-
-            <div id="logoHeader" class="Column">
-                <img src="assets/images/logo_white_glow_crop.png" alt="Logarr">
-            </div>
-
-            <div id="loginbrand">
-                <div class="navbar-brand" onclick='window.location.href="index.php";' title="Return to Logarr">
-                    <?php
-                    echo $GLOBALS['preferences']['sitetitle'];
-                    ?>
-                </div>
-            </div>
-
-            <div id="clock">
-                <canvas id="canvas" width="120" height="120"></canvas>
-                <div class="dtg" id="timer"></div>
-            </div>
-
-            <div id="version_check_auto" class="loginversion"></div>
-
-        </div>
-
+    <div class="header-login">
         <div id="logo-login" class="Column">
             <img src="assets/images/logarr_white_text_crop.png" alt="Logarr">
         </div>
-
-        <div id="right" class="Column">
-        </div>
-
     </div>
 
+    <div id="logincolumn" class="Column">
+
+        <div id="logoHeader" class="Column">
+            <img src="assets/images/logo_white_glow_crop.png" alt="Logarr">
+        </div>
+
+        <div id="loginbrand">
+            <div class="navbar-brand" onclick='window.location.href="index.php";' title="Return to Logarr">
+                <?php
+                echo $GLOBALS['preferences']['sitetitle'];
+                ?>
+            </div>
+        </div>
+
+        <div id="clock">
+            <canvas id="canvas" width="120" height="120"></canvas>
+            <div class="dtg" id="timer"></div>
+        </div>
+
+        <div id="version_check_auto" class="loginversion"></div>
+
+    </div>
 
     <div id='login-container' class='flex-child'>
 

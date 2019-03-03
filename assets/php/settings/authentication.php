@@ -47,7 +47,7 @@ include(__DIR__ . '/../auth_check.php');
             showConfirmButton: false,
             showCloseButton: true,
             position: 'bottom-end',
-            background: 'rgba(0, 0, 0, 0.8)'
+            background: 'rgba(50, 1, 25, 0.75)'
         });
 
         function settingchange() {
@@ -61,7 +61,6 @@ include(__DIR__ . '/../auth_check.php');
             Toast.fire({
                 type: 'success',
                 title: 'Settings Saved! Logarr will now reload.',
-                //timer: 3000,
                 background: 'rgba(0, 184, 0, 0.75)'
             })
         };

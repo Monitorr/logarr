@@ -52,7 +52,7 @@ include(__DIR__ . '/../auth_check.php');
             showConfirmButton: false,
             showCloseButton: true,
             position: 'bottom-end',
-            background: 'rgba(0, 0, 0, 0.8)'
+            background: 'rgba(50, 1, 25, 0.75)'
         });
 
         function sweetalert() {
