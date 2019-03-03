@@ -400,7 +400,7 @@ body.swal2-toast-shown .swal2-container.swal2-bottom-right {
     top: auto;
     right: 0;
     bottom: 0;
-    left: auto
+    left: auto;
 }
 
 body.swal2-toast-column .swal2-toast {
@@ -1082,8 +1082,8 @@ body.swal2-no-backdrop .swal2-shown.swal2-bottom-right {
 }
 
 .swal2-popup .swal2-actions.swal2-loading .swal2-styled.swal2-confirm {
-    width: 2.5em;
-    height: 2.5em;
+    width: 2em;
+    height: 2em;
     margin: .46875em;
     padding: 0;
     border: .25em solid transparent;
@@ -1098,7 +1098,9 @@ body.swal2-no-backdrop .swal2-shown.swal2-bottom-right {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    user-select: none
+    user-select: none;
+    border-left-color: rgba(255, 255, 0, 0.5) !important;
+    border-right-color: rgba(255, 255, 0, 0.5) !important;
 }
 
 .swal2-popup .swal2-actions.swal2-loading .swal2-styled.swal2-cancel {
