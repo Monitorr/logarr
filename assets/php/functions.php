@@ -113,11 +113,9 @@ function readExternalLog($log)
 function unlinkLog($file, $print)
 {
 
-
-	if ($print) echo('Form submitted:  unlink file:<br>' . $file);
-	if ($print) echo('Server received: unlink file:<br>' . $file);
-	if ($print) echo('Server attempting to unlink:<br>' . $file);
-
+	if ($print) echo('Unlink file: ' . $file  . '<br>');
+	if ($print) echo('Server received unlink file: ' . $file . '<br>');
+	if ($print) echo('Server attempting to unlink: ' . $file . '<br>');
 
 	$today = date("D d M Y | H:i:s");
 	if ($print) echo "<br><br>";
@@ -136,17 +134,17 @@ function unlinkLog($file, $print)
 				if ($print) echo "console.log('ERROR: Logarr was unable to copy log file:  $file');";
 				if ($print) echo "</script>";
 			} else {  // copy log file success:
-				if ($print) echo "Copy log file: success: $newfile<br>";
+				if ($print) echo "Copy log file: SUCCESS: $newfile<br>";
 				if ($print) echo "<script type='text/javascript'>";
-				if ($print) echo "console.log('Copy log file: success: $newfile');";
+				if ($print) echo "console.log('Copy log file: SUCCESS: $newfile');";
 				if ($print) echo "</script>";
 
 				$delete = unlink($file);    // delete orginal log file:
 
 				if ($delete == true) {
-					if ($print) echo "Delete original log file: success: $file <br>";
+					if ($print) echo "Delete original log file: SUCCESS: $file <br>";
 					if ($print) echo "<script type='text/javascript'>";
-					if ($print) echo "console.log('Delete original log file: success: $file');";
+					if ($print) echo "console.log('Delete original log file: SUCCESS: $file');";
 					if ($print) echo "</script>";
 					$newlogfile = $file;
 
@@ -155,11 +153,17 @@ function unlinkLog($file, $print)
 					$createfile = file_put_contents($newlogfile, $current);
 
 					if ($createfile == true) {
-						if ($print) echo "Create new log file: success: " . $newlogfile . "<br>";
+						if ($print) echo "Create new log file: SUCCESS: " . $newlogfile . "<br>";
 						if ($print) echo "<script type='text/javascript'>";
-						if ($print) echo "console.log('Create new log file: success:  $newlogfile');";
-						if ($print) echo "refreshblockUI();";
+						if ($print) echo "console.log('Create new log file: SUCCESS:  $newlogfile');";
 						if ($print) echo "</script>";
+
+                        echo "<script type='text/javascript'>";
+                        echo "console.log('Roll log file SUCCESS: $file');";
+                        echo "</script>";
+
+						if ($print) echo('<br> <p class="rolllogsuccess">Roll log file SUCCESS: ' . $file  . '</p>');
+						
 					} else {
 						if ($print) echo "Create new log file: FAIL: " . $newlogfile . "<br>";
 						if ($print) echo "<script type='text/javascript'>";
@@ -181,29 +185,37 @@ function unlinkLog($file, $print)
 					$deletefail = unlink($newfile);
 
 					if ($deletefail == true) {
-						if ($print) echo "Delete log file backup: Success: $newfile";
+						if ($print) echo "Delete log file backup: SUCCESS: $newfile";
 						if ($print) echo "<script type='text/javascript'>";
-						if ($print) echo "console.log('Delete log file backup: Success: $newfile');";
+						if ($print) echo "console.log('Delete log file backup: SUCCESS: $newfile');";
 						if ($print) echo "</script>";
 					} else {
 						if ($print) echo "Delete log file backup: FAIL: $newfile";
 						if ($print) echo "<script type='text/javascript'>";
 						if ($print) echo "console.log('ERROR: Delete log file backup: FAIL: $newfile');";
 						if ($print) echo "</script>";
-					}
+					};
+
+                    echo "<script type='text/javascript'>";
+                    echo "console.log('ERROR: Roll log FAILED: $file');";
+					echo "</script>";
+					
+					if ($print) echo('<br> <p class="rolllogfail"> Roll log file FAIL: ' . $file  . '</p>');
 				}
 			}
 		} else {
 			if ($print) echo 'file: ' . $file . ' does not exist.';
 			if ($print) echo "<script type='text/javascript'>";
-			if ($print) echo "console.log('ERROR: file: '" . $file . "' does not exist.');";
+			if ($print) echo "console.log('ERROR: file: $file does not exist.');";
 			if ($print) echo "</script>";
+			if ($print) echo("<br> <p class='rolllogfail'> ERROR: file: ' " . $file . " ' does not exist. </p>");
 		}
-	} else {  // Deny access if log file does NOT exist in config.php:
+	} else {  // Deny access if log file does NOT exist:
 		if ($print) echo 'ERROR:  Illegal File';
 		if ($print) echo "<script type='text/javascript'>";
 		if ($print) echo "console.log('ERROR:  Illegal File');";
 		if ($print) echo "</script>";
+		if ($print) echo("<br> <p class='rolllogfail'> ERROR:  Illegal File </p>");
 	}
 }
 
