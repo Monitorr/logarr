@@ -2,12 +2,6 @@
 // https://github.com/Monitorr
 
 
-//CHANGE ME - NOT WORKING:
-
-//import Swal from "vendor/sweetalert2.js";
-//import Swal from 'sweetalert2'
-//const Swal = require('sweetalert2')
-
 // Variables
 let results, currentIndex = 0;
 let logInterval = false;
@@ -112,6 +106,45 @@ function logroll() {
     })
 };
 
+
+function logrollmodal() {
+    Swal.fire({
+        toast: false,
+        position: 'center',
+        title: '<div id="rolllogtitle">Roll Log results:</div>',
+        html: 
+            '<div id="responseModal">' +
+            '<div id="modalContent"></div>' +
+            '</div>',
+        width: "auto",
+        background: 'rgba(50, 1, 25, 0.9)',
+        allowOutsideClick: true,
+        showCloseButton: true,
+        showCancelButton: false,
+        showConfirmButton: false,
+        animation: false,
+        customClass: 'logrollmodal',
+        onBeforeOpen: () => {
+
+            //TODO: //Turn OFF autorefresh IF on
+
+            //$("#autoUpdateSlider").attr("data-enabled", "false");
+
+            //clearInterval(nIntervId);
+
+            //logInterval = false;
+
+        },
+        onClose: () => {
+
+            refreshblockUI();
+            //TODO:
+            //Turn ON autorefresh IF ON
+        }
+    })
+};
+
+
 function logrollerror() {
     Toast.fire({
         toast: true,
@@ -141,7 +174,6 @@ function filtertoast() {
 function searchtoast() {
     Toast.fire({
         toast: true,
-        //type: 'warning',
         title: 'Searching ...',
         showCloseButton: false,
         onBeforeOpen: () => {
@@ -150,12 +182,24 @@ function searchtoast() {
     })
 };
 
+//Search box expand:
+
+ $(document).ready(function () {
+    $('#text-search2').focus(function () {
+        $('#text-search2').addClass('text-search2-expand');
+    });
+    $('#text-search2').blur(function () {
+        $('#text-search2').removeClass('text-search2-expand');
+    });
+})
 
 //CHANGE ME // CONVERT TO Sweetalert:
 
 // Set sytles for BlockUI overlays in /assets/js/jquery.blockUI.js
 function refreshblockUI() {
     //$.growlUI('Updating logs...');
+
+    //CHANGE ME:
     logupdatetoast();
     $('#body').addClass("cursorwait");
     setTimeout(function () {
@@ -199,6 +243,11 @@ function loadLogs() {
             } else if (typeof logs[i].category == "undefined" && categories.indexOf("Uncategorized") == -1) {
                 categories.push("Uncategorized");
             }
+        }
+        if (logs[i].enabled == "No") {
+            // TODO / bug :  Remove log from display if disabled
+            var logTitle = logs[i].logTitle;
+            console.log("Log disabled: " + logTitle);
         }
     }
     if (categories.length > 0 && !(categories.length == 1 && categories[0] == "Uncategorized")) {
@@ -266,13 +315,7 @@ function highlightjs() {
             });
             console.log("Highlighting text containing: " + array[i].trim());
         }
-
-        //todo: do we need this: 
-        // setTimeout(function () {
-        //     Toast.close();
-        // },  2000);
     };
-    
 }
 
 // Jumps to the element matching the currentIndex
@@ -376,7 +419,6 @@ $(function () {
                 mark();
                 $('#body').removeClass("cursorwait");
                 //$.unblockUI()
-                //Toast.close();
             }, 300);
         }
     });
@@ -420,7 +462,7 @@ $(function () {
         event.preventDefault(); // stop being refreshed
         console.log('Attempting log roll');
         //$.growlUI("Attempting <br> log roll");
-        logroll();
+        logrollmodal();
         $.ajax({
             type: 'POST',
             url: 'assets/php/unlink.php',
@@ -431,19 +473,24 @@ $(function () {
 
                 $('#modalContent').html(data);
                 let modal = $('#responseModal');
-                let span = $('.closemodal');
+
+                //let span = $('.closemodal');
                 modal.fadeIn('slow');
-                span.click(function () {
-                    modal.fadeOut('slow');
-                });
-                $(body).click(function (event) {
-                    if (event.target !== modal) {
-                        modal.fadeOut('slow');
-                    }
-                });
-                setTimeout(function () {
-                    modal.fadeOut('slow');
-                }, 3000);
+
+                // span.click(function () {
+                //     modal.fadeOut('slow');
+                // });
+
+                // TODO Remove?? :
+                // $(body).click(function (event) {
+                //     if (event.target !== modal) {
+                //         modal.fadeOut('slow');
+                //     }
+                // });
+
+                // setTimeout(function () {
+                //     modal.fadeOut('slow');
+                // }, 3000);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log("ERROR: unlink ajax posting failed");
@@ -526,7 +573,7 @@ function refreshConfig() {
             }
 
             document.title = preferences.sitetitle; //update page title to configured title
-            console.log('Refreshed config variables');
+            console.log("Refreshed config variables | Interval: " + settings.rfconfig + " ms");
         }
     });
 }
@@ -551,6 +598,9 @@ function overwriteLogUpdate() {
 
         console.log("Auto update: Disabled");
         //$.growlUI("Auto update: Disabled");
+
+        //TODO:  Change me:
+
         udtoast();
     }
 }

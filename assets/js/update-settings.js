@@ -22,8 +22,9 @@ $(document).ready(function () {
                 var uInfo = "uid=" + uid + "&version=" + data.version;
 
                 versionCheckAuto.html(
-                    '<a class="updatelink" href="https://github.com/Monitorr/Logarr/releases" target="_blank" title="Click CHECK FOR UPDATE below to update Logarr" style="cursor: pointer;"> <b>An update is available </b></a>',
+                    '<a class="updatelink" href="https://github.com/Monitorr/Logarr/releases" target="_blank" title="test Click CHECK FOR UPDATE below to update Logarr" style="cursor: pointer;"> <b>An update is available </b></a>',
                 );
+                $('#version_check').addClass('version_check-update');
             }
 
             else {
