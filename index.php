@@ -75,6 +75,8 @@ include('assets/php/auth_check.php');
 
     <script src="assets/js/vendor/sweetalert2.min.js"></script>
 
+    <!-- Chang me / remove -->
+
     <script src="assets/js/jquery.blockUI.js"></script>
 
     <script src="assets/js/jquery.highlight.js" async></script>
@@ -151,7 +153,7 @@ include('assets/php/auth_check.php');
             <img id="logo-icon" src="assets/images/logo_white_glow_text_logarr-crop.png" alt="Logarr">
             <div id="index-brand" class="header-brand" title="Reload Logarr" onclick="window.location.reload(true);">
                 <?php
-                    echo $preferences['sitetitle'];
+                echo $preferences['sitetitle'];
                 ?>
             </div>
         </div>
@@ -163,7 +165,6 @@ include('assets/php/auth_check.php');
                     <div id="markform">
 
                         <input type="search" name="markinput" id="text-search2" class="input" title="Input search query" placeholder=" Search & highlight . . ." required spellcheck="false">
-                        <!-- <span id="validity" class="validity"></span> -->
                         <button data-search="search" name="searchBtn" id="searchBtn" value="Search" class="btn marksearch btn-primary" onclick="this.blur(); return false;" title="Execute search. Results will be highlighted in yellow.">Search
                         </button>
                         <button data-search="next" name="nextBtn" class="btn search-button btn-primary btn-visible btn-hidden" onclick="this.blur(); return false;" title="Focus to first search result">&darr;
@@ -205,16 +206,6 @@ include('assets/php/auth_check.php');
     <div id="logcontainer">
         <nav id="categoryFilter" style="display: none;"></nav>
         <div id='logwrapper' class='flex'></div>
-    </div>
-
-    <!-- Unlink response modal: -->
-
-    <div id='responseModal'>
-
-        <span class="closemodal" aria-hidden="true" title="Close">&times;</span>
-
-        <div id='modalContent'></div>
-
     </div>
 
     <button onclick="topFunction();checkAll1();" id="myBtn" title="Go to top"></button>

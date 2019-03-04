@@ -45,8 +45,7 @@ https://github.com/Monitorr/Logarr
     <meta name="theme_color" content="#464646" />
 
     <script src="assets/js/jquery.min.js"></script>
-    <!-- <script src="assets/js/vendor/sweetalert2.min.js"></script> -->
-    <script src="assets/js/vendor/sweetalert2.js"></script>
+    <script src="assets/js/vendor/sweetalert2.min.js"></script>
     <script src="assets/js/jquery.blockUI.js"></script>
     <script src="assets/js/logarr.main.js"></script>
 
