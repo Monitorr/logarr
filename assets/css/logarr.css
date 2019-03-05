@@ -905,6 +905,12 @@ input[type=search]::-webkit-search-cancel-button {
     height: 600px !important;
 }
 
+.logline {
+    display: inline-flex;
+    color: white;
+    text-shadow: 1px 1px black;
+}
+
 .log-action-button {
     margin-top: 1rem;
     background-color: #8E8B8B;
@@ -985,11 +991,12 @@ input[type="checkbox"] {
 
 .expand {
     height: 43rem;
+    width: auto;
     overflow: auto;
     transition: height 0.5s;
+    color: rgb(220, 220, 220);
     background-color: #606060;
     word-wrap: break-word;
-    width: auto;
     padding: 0 10px 0 10px;
 }
 
