@@ -137,7 +137,12 @@ $(document).ready(function () {
                                     console.log('Logarr update successful! Reloading Logarr in 5 seconds...');
                                     versionCheck.html("<strong>SUCCESSFUL!</strong>");
                                     updatesuccess();
-                                    setTimeout(location.reload.bind(location), 5000);
+                                    
+                                    //reload DOM after successful update:
+                                    setTimeout(function() {
+                                        window.top.location.reload(true);
+                                    }, 5000);
+
                                 } else {
                                     // error during update/unzip
                                     console.log('Logarr update: An error occurred while extracting the update files!');
