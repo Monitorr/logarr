@@ -28,7 +28,6 @@ const Toast = Swal.mixin({
 function logupdatetoast() {
     Toast.fire({
         toast: true,
-        //type: 'info',
         title: '<p class="logupdatetoast">Updating Logs</p>',
         showCloseButton: false,
         background: 'rgba(50, 1, 25, 0.75)',
@@ -41,7 +40,6 @@ function logupdatetoast() {
 function logsingleupdatetoast() {
     Toast.fire({
         toast: true,
-        //type: 'info',
         title: 'Updating Log',
         showCloseButton: false,
         onBeforeOpen: () => {
@@ -74,16 +72,6 @@ function logerror() {
         type: 'error',
         title: 'Error Loading Log!',
         background: 'rgba(207, 0, 0, 0.75)',
-        timer: 10000
-    })
-};
-
-function updateavailtoast() {
-    Toast.fire({
-        toast: true,
-        type: 'warning',
-        title: '<a class="toastlink swal2-title" href="https://github.com/Monitorr/logarr/releases" title="Logarr releases" target="_blank">A Logarr update is available!</a>',
-        customClass: 'updateavailtoast',
         timer: 10000
     })
 };
@@ -179,6 +167,34 @@ function searchtoast() {
         onBeforeOpen: () => {
             Swal.showLoading()
         }
+    })
+};
+
+function updateavailtoast() {
+    Toast.fire({
+        toast: true,
+        type: 'warning',
+        title: '<a class="toastlink swal2-title" href="https://github.com/Monitorr/logarr/releases" title="Logarr releases" target="_blank">A Logarr update is available!</a>',
+        customClass: 'updateavailtoast',
+        timer: 10000
+    })
+};
+
+function updatechecklatest() {
+    Toast.fire({
+        toast: true,
+        type: 'success',
+        title: 'You have the latest Logarr version',
+        timer: 5000
+    })
+};
+
+function updatecheckerror() {
+    Toast.fire({
+        toast: true,
+        type: 'error',
+        title: 'An error occurred <br> while checking your Logarr version!',
+        background: 'rgba(207, 0, 0, 0.75)'
     })
 };
 
@@ -451,10 +467,15 @@ $(function () {
     let timeoutID = null;
     $("input[name='markinput']").keyup(function (e) {
         clearTimeout(timeoutID);
+        searchtoast();
         if (settings.liveSearch === "true") {
             $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search
             timeoutID = setTimeout(() => mark(e.target.value), 500);
         }
+    });
+
+    $("input[name='markinput']").blur(function (e) {
+        Toast.close();
     });
 
     // unlink log action
@@ -469,7 +490,6 @@ $(function () {
             processData: false,
             data: "file=" + $(".path[data-service='" + $(this).data('service') + "']").html().trim(),
             success: function (data) {
-                //TODO can we use sweetalert with this?
 
                 $('#modalContent').html(data);
                 let modal = $('#responseModal');
