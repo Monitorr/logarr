@@ -1984,6 +1984,7 @@ input[name="imginput"]:focus {
     right: 0;
     margin: auto;
     margin-left: 20rem;
+    background-color: inherit;
     cursor: default;
 }
 
@@ -2136,7 +2137,7 @@ div[data-alpaca-container-item-name="maxLines"], div[data-alpaca-container-item-
 }
 
 #login-form {
-    width: 50%;
+    /* width: 50%; */
     margin: auto;
 }
 
