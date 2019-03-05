@@ -103,7 +103,8 @@ function readExternalLog($log)
 	$maxLines = isset($log['maxLines']) ? $log['maxLines'] : $settings['maxLines'];
 
 	foreach ($logContents as $line_num => $line) {
-		$result .= "<b>Line {$line_num}</b> : " . htmlspecialchars($line) . "<br />\n";
+		//$result .= "<p class='logline'><b>Line {$line_num}</b></p> : " . htmlspecialchars($line) . "<br />\n";
+		$result .= "<p class='logline'><b>Line {$line_num}</b></p>: " . htmlspecialchars($line) . "<br />\n";
 		if ($maxLines != 0 && $line_num == $maxLines) break;
 	}
 	unset($logContents);
