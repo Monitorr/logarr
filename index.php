@@ -65,6 +65,7 @@ include('assets/php/auth_check.php');
         body {
             margin-bottom: 3rem;
         }
+
         .swal2-icon.swal2-warning {
             color: yellow;
             border-color: yellow;
@@ -76,7 +77,6 @@ include('assets/php/auth_check.php');
     <script src="assets/js/vendor/sweetalert2.min.js"></script>
 
     <!-- Chang me / remove -->
-
     <script src="assets/js/jquery.blockUI.js"></script>
 
     <script src="assets/js/jquery.highlight.js" async></script>
@@ -84,7 +84,6 @@ include('assets/php/auth_check.php');
     <script src="assets/js/jquery.mark.min.js" async></script>
 
     <script src="assets/js/logarr.main.js"></script>
-
 
     <!-- sync config with javascript -->
     <script>
@@ -116,7 +115,7 @@ include('assets/php/auth_check.php');
         let timeZone = "<?php echo $timezone_suffix; ?>";
         let rftime = <?php echo $GLOBALS['settings']['rftime']; ?>;
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             setTimeout(syncServerTime(), settings.rftime); //delay is rftime
             updateTime();
         });
@@ -131,7 +130,7 @@ include('assets/php/auth_check.php');
 
     <script>
         document.body.className += ' fade-out';
-        $(function () {
+        $(function() {
             $('body').removeClass('fade-out');
         });
     </script>
@@ -212,9 +211,9 @@ include('assets/php/auth_check.php');
 
     <div id="footer">
 
-        <!-- Checks for Logarr application update on page load & "Check for update" click: -->
+        <!-- Checks for Logarr application update on page load-->
         <script src="assets/js/update.js" async></script>
-
+  
         <div id="logarrid">
             <a href="https://github.com/monitorr/logarr" title="Logarr GitHub repo" target="_blank" class="footer">Logarr </a> |
             <a href="https://github.com/Monitorr/logarr/releases" title="Logarr releases" target="_blank" class="footer">

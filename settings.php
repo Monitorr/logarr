@@ -46,7 +46,10 @@ https://github.com/Monitorr/Logarr
 
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/js/vendor/sweetalert2.min.js"></script>
-    <script src="assets/js/jquery.blockUI.js"></script>
+
+    <!-- TODO / Remove: -->
+    <!-- <script src="assets/js/jquery.blockUI.js"></script> -->
+
     <script src="assets/js/logarr.main.js"></script>
 
 
@@ -292,9 +295,6 @@ https://github.com/Monitorr/Logarr
 
     <div id="footer" class="settings-footer">
 
-        <!-- Checks for Logarr application update on page load & "Check for update" click: -->
-        <!-- <script src="assets/js/update.js" async></script> -->
-
         <div id="logarrid">
             <a href="https://github.com/monitorr/logarr" title="Logarr GitHub repo" target="_blank" class="footer">Logarr </a> |
             <a href="https://github.com/Monitorr/logarr/releases" title="Logarr releases" target="_blank" class="footer">
@@ -308,6 +308,7 @@ https://github.com/Monitorr/Logarr
         </div>
 
     </div>
+
 </body>
 
 </html> 
