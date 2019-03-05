@@ -133,6 +133,9 @@ function unlinkLog($file, $print)
 				if ($print) echo "<script type='text/javascript'>";
 				if ($print) echo "console.log('ERROR: Logarr was unable to copy log file:  $file');";
 				if ($print) echo "</script>";
+
+				if ($print) echo('<br> <p class="rolllogfail"> Roll log file FAIL: ' . $file  . '</p>');
+
 			} else {  // copy log file success:
 				if ($print) echo "Copy log file: SUCCESS: $newfile<br>";
 				if ($print) echo "<script type='text/javascript'>";
@@ -169,6 +172,8 @@ function unlinkLog($file, $print)
 						if ($print) echo "<script type='text/javascript'>";
 						if ($print) echo "console.log('ERROR: Create new log file: FAIL:  $newlogfile');";
 						if ($print) echo "</script>";
+
+						if ($print) echo('<br> <p class="rolllogfail"> Roll log file FAIL: ' . $file  . '</p>');
 					}
 				} else {
 					if ($print) echo "Delete original log file: FAIL: $file<br>";

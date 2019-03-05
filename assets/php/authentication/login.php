@@ -42,28 +42,28 @@ include_once(__DIR__ . "/../auth_check.php");
 
     <script src="assets/js/jquery.blockUI.js"></script>
 
-    <!-- <script src="assets/js/jquery.highlight.js" async></script> -->
-
     <script src="assets/js/logarr.main.js"></script>
-
-    <!-- <script src="assets/js/jquery.mark.min.js" async></script> -->
 
     <style>
         .notification {
             visibility: hidden;
         }
+
         .footer:hover {
             font-size: 1rem !important;
         }
+
         #login_input_username::-webkit-search-cancel-button {
             position: relative;
             cursor: pointer;
         }
+
         .swal2-bottom-start {
             margin-left: 1rem !important;
             bottom: 5vh !important;
             cursor: default;
         }
+
         .swal2-icon.swal2-warning {
             color: yellow !important;
             border-color: yellow !important;
@@ -71,7 +71,6 @@ include_once(__DIR__ . "/../auth_check.php");
     </style>
 
     <script>
-
         function toastwelcome() {
             Toast.fire({
                 type: 'success',
@@ -81,7 +80,6 @@ include_once(__DIR__ . "/../auth_check.php");
             })
             console.log("Welcome to Logarr!");
         };
-
     </script>
 
     <script>
@@ -94,7 +92,7 @@ include_once(__DIR__ . "/../auth_check.php");
     <!-- // CHANGE ME: -->
     <?php
         //ini_set('error_reporting', E_ERROR);
-    error_reporting(0);
+        error_reporting(0);
     ?>
 
     <title>
@@ -107,7 +105,10 @@ include_once(__DIR__ . "/../auth_check.php");
     <script>
         var settings = <?php echo json_encode($GLOBALS['settings']); ?>;
         var preferences = <?php echo json_encode($GLOBALS['preferences']); ?>;
-        refreshConfig();
+
+        //to do / change me  do we need this on login page?  
+        // refreshConfig();
+
     </script>
 
 
@@ -133,7 +134,11 @@ include_once(__DIR__ . "/../auth_check.php");
         var rftime = <?php echo $GLOBALS['settings']['rftime']; ?>;
 
         $(document).ready(function() {
-            setTimeout(syncServerTime(), settings.rftime); //delay is rftime
+
+            //to do / change me  do we need this on login page?  
+
+            // setTimeout(syncServerTime(), settings.rftime); //delay is rftime
+
             updateTime();
         });
     </script>
@@ -182,7 +187,8 @@ include_once(__DIR__ . "/../auth_check.php");
 
     </div>
 
-    <div id='login-container' class='flex-child'>
+    <!-- <div id='login-container' class='flex-child'> -->
+    <div id='login-container'>
 
         <?php
         if (isset($this->feedback) && !empty($this->feedback)) {
@@ -194,13 +200,11 @@ include_once(__DIR__ . "/../auth_check.php");
             <div>
                 <label for="login_input_username"><i class="fa fa-fw fa-user"></i></label>
                 <input id="login_input_username" class="input" type="search" placeholder="Username" name="user_name" autofocus required autocomplete="off" spellcheck="false" />
-                <!-- <span class="validity"></span> -->
             </div>
 
             <div>
                 <label for="login_input_password"><i class="fa fa-fw fa-key"></i></label>
                 <input id="login_input_password" class="input" type="password" placeholder="Password" name="user_password" required autocomplete="off" />
-                <!-- <span class="validity"></span> -->
             </div>
 
             <div id="loginbtn">

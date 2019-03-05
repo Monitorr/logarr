@@ -14,6 +14,7 @@ include(__DIR__ . '/../auth_check.php');
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
     <link rel="stylesheet" href="../../css/alpaca.min.css">
     <link rel="stylesheet" href="../../css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../css/vendor/sweetalert2.min.css">
     <link rel="stylesheet" href="../../css/logarr.css">
     <link rel="stylesheet" href="../../data/custom.css">
 
@@ -21,6 +22,7 @@ include(__DIR__ . '/../auth_check.php');
     <meta name="theme_color" content="#464646" />
 
     <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script src="../../js/vendor/sweetalert2.min.js"></script>
     <script type="text/javascript" src="../../js/handlebars.js"></script>
     <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../js/alpaca.min.js"></script>
@@ -33,6 +35,57 @@ include(__DIR__ . '/../auth_check.php');
         ?>
         | User Preferences
     </title>
+
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            showConfirmButton: false,
+            showCloseButton: true,
+            position: 'bottom-end',
+            background: 'rgba(50, 1, 25, 0.75)'
+        });
+
+        function settingchange() {
+            Toast.fire({
+                type: 'warning',
+                title: 'Settings change pending',
+                customClass: "settingchange"
+            })
+        };
+
+        function settingapply() {
+            Toast.fire({
+                type: 'success',
+                title: 'Settings Saved! <br> Logarr is reloading',
+                timer: 3000,
+                background: 'rgba(0, 184, 0, 0.75)'
+            })
+        };
+
+        function settingserror() {
+            Toast.fire({
+                type: 'error',
+                title: 'Error saving settings!',
+                background: 'rgba(207, 0, 0, 0.75)'
+            })
+        };
+
+        function ajaxerror() {
+            Toast.fire({
+                type: 'error',
+                title: 'Error loading settings!',
+                background: 'rgba(207, 0, 0, 0.75)'
+            })
+        };
+
+        function validerror() {
+            Toast.fire({
+                type: 'error',
+                title: 'Invalid value!',
+                background: 'rgba(207, 0, 0, 0.75)'
+            })
+        };
+    </script>
 
 </head>
 
@@ -76,7 +129,8 @@ include(__DIR__ . '/../auth_check.php');
                     error: function(errorThrown) {
                         console.log(errorThrown);
                         document.getElementById("response").innerHTML = "GET failed (ajax)";
-                        alert("GET failed (ajax)");
+                        //alert("GET failed (ajax)");
+                        ajaxerror();
                     },
                 });
 
@@ -176,8 +230,42 @@ include(__DIR__ . '/../auth_check.php');
                                 "attributes": {},
                                 "events": {
                                     "change": function() {
-                                        $('.alpaca-form-button-submit').addClass('buttonchange');
-                                        $('.sitetitlelabel').addClass('settingslabelchanged');
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            console.log("ERROR: Invalid value for Site Title.");
+                                            $('.sitetitlelabel').addClass('settingslabelerror');
+                                            validerror();
+                                            this.focus();
+                                        } else {
+                                            Toast.close();
+                                            $('.alpaca-form-button-submit').addClass('buttonchange');
+                                            $('.sitetitlelabel').addClass('settingslabelchanged');
+                                            $('.sitetitlelabel').removeClass('settingslabelerror');
+                                            settingchange();
+                                        }
+                                    },
+                                    "blur": function() {
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            $('.sitetitlelabel').addClass('settingslabelerror');
+                                            validerror();
+                                        }
+                                    },
+                                    "focus": function() {
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            $('.sitetitlelabel').addClass('settingslabelerror');
+                                            validerror();
+                                        }
+                                    },
+                                    "ready": function() {
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            console.log("ERROR: Invalid value for Site Title.");
+                                            $('.sitetitlelabel').addClass('settingslabelerror');
+                                            validerror();
+                                            this.focus();
+                                        }
                                     }
                                 }
                             },
@@ -204,8 +292,42 @@ include(__DIR__ . '/../auth_check.php');
                                 "fields": {},
                                 "events": {
                                     "change": function() {
-                                        $('.alpaca-form-button-submit').addClass('buttonchange');
-                                        $('.siteurllabel').addClass('settingslabelchanged');
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            console.log("ERROR: Invalid value for Site URL.");
+                                            $('.siteurllabel').addClass('settingslabelerror');
+                                            validerror();
+                                            this.focus();
+                                        } else {
+                                            Toast.close();
+                                            $('.alpaca-form-button-submit').addClass('buttonchange');
+                                            $('.siteurllabel').addClass('settingslabelchanged');
+                                            $('.siteurllabel').removeClass('settingslabelerror');
+                                            settingchange();
+                                        }
+                                    },
+                                    "blur": function() {
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            $('.siteurllabel').addClass('settingslabelerror');
+                                            validerror();
+                                        }
+                                    },
+                                    "focus": function() {
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            $('.siteurllabel').addClass('settingslabelerror');
+                                            validerror();
+                                        }
+                                    },
+                                    "ready": function() {
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            console.log("ERROR: Invalid value for Site URL.");
+                                            $('.siteurllabel').addClass('settingslabelerror');
+                                            validerror();
+                                            this.focus();
+                                        }
                                     }
                                 }
                             },
@@ -232,7 +354,17 @@ include(__DIR__ . '/../auth_check.php');
                                 "events": {
                                     "change": function() {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
+                                        $('.updatebranchlabel').removeClass('settingslabelerror');
                                         $('.updatebranchlabel').addClass('settingslabelchanged');
+                                        settingchange();
+                                    },
+                                    "ready": function() {
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            console.log("ERROR: Invalid value for Update Branch.");
+                                            $('.updatebranchlabel').addClass('settingslabelerror');
+                                            validerror();
+                                        }
                                     }
                                 }
                             },
@@ -369,7 +501,17 @@ include(__DIR__ . '/../auth_check.php');
                                 "events": {
                                     "change": function() {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
+                                        $('.timezonelabel').removeClass('settingslabelerror');
                                         $('.timezonelabel').addClass('settingslabelchanged');
+                                        settingchange();
+                                    },
+                                    "ready": function() {
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            console.log("ERROR: Invalid value for Timezone.");
+                                            $('.timezonelabel').addClass('settingslabelerror');
+                                            validerror();
+                                        }
                                     }
                                 }
                             },
@@ -395,7 +537,17 @@ include(__DIR__ . '/../auth_check.php');
                                 "events": {
                                     "change": function() {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
+                                        $('.timestandardlabel').removeClass('settingslabelerror');
                                         $('.timestandardlabel').addClass('settingslabelchanged');
+                                        settingchange();
+                                    },
+                                    "ready": function() {
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            console.log("ERROR: Invalid value for Time Standard.");
+                                            $('.timestandardlabel').addClass('settingslabelerror');
+                                            validerror();
+                                        }
                                     }
                                 }
                             },
@@ -464,7 +616,8 @@ include(__DIR__ . '/../auth_check.php');
                                             data: preferenceSettings.alpaca().getValue(),
                                             success: function(data) {
                                                 console.log("Settings Saved! Applying changes...");
-                                                alert("Settings saved! Applying changes...");
+                                                settingapply();
+                                                //alert("Settings saved! Applying changes...");
                                                 setTimeout(function() {
                                                     window.top.location.reload(true);
                                                 }, 3000);
@@ -472,7 +625,8 @@ include(__DIR__ . '/../auth_check.php');
                                             },
                                             error: function(errorThrown) {
                                                 console.log(errorThrown);
-                                                alert("Error submitting data.");
+                                                settingserror();
+                                                //alert("Error submitting data.");
                                             }
                                         });
                                     }
@@ -490,12 +644,13 @@ include(__DIR__ . '/../auth_check.php');
 
                         //load the custom css file into the form
                         $.when($.get("../../data/custom.css"))
-                            .done(function(response) {
-                                cssEditor.getSession().setValue(response);
-                                cssEditor.getSession().on('change', function() {
-                                    $('.alpaca-form-button-submit').addClass('buttonchange');
-                                });
+                        .done(function(response) {
+                            cssEditor.getSession().setValue(response);
+                            cssEditor.getSession().on('change', function() {
+                                settingchange()
+                                $('.alpaca-form-button-submit').addClass('buttonchange');
                             });
+                        });
 
                         let jsEditor = ace.edit("customJSEditor");
                         jsEditor.getSession().setMode("ace/mode/javascript");
@@ -503,12 +658,13 @@ include(__DIR__ . '/../auth_check.php');
 
                         //load the custom css file into the form
                         $.when($.get("../../data/custom.js"))
-                            .done(function(response) {
-                                jsEditor.getSession().setValue(response);
-                                jsEditor.getSession().on('change', function() {
-                                    $('.alpaca-form-button-submit').addClass('buttonchange');
-                                });
+                        .done(function(response) {
+                            jsEditor.getSession().setValue(response);
+                            jsEditor.getSession().on('change', function() {
+                                settingchange();
+                                $('.alpaca-form-button-submit').addClass('buttonchange');
                             });
+                        });
                     }
                 });
             });

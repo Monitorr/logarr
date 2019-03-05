@@ -60,7 +60,7 @@ include(__DIR__ . '/../auth_check.php');
         function settingapply() {
             Toast.fire({
                 type: 'success',
-                title: 'Settings Saved! Logarr will now reload.',
+                title: 'Settings Saved! <br> Logarr is reloading',
                 background: 'rgba(0, 184, 0, 0.75)'
             })
         };

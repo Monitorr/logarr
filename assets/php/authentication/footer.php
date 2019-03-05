@@ -1,7 +1,7 @@
     <div id="footer">
 
         <!-- Checks for Logarr application update on page load & "Check for update" click: -->
-        <script src="assets/js/update.js" async></script>
+        <script src="assets/js/update.js"></script>
 
         <div id="logarrid">
             <a href="https://github.com/monitorr/logarr" title="Logarr GitHub repo" target="_blank"
