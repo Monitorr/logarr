@@ -121,7 +121,7 @@ include_once(__DIR__ . "/../auth_check.php");
         $timezone = new DateTimeZone("$timezoneString");
         $dt = new DateTime("now", $timezone);
         $timeStandard = (int)($GLOBALS['preferences']['timestandard']);
-        $rftime = $GLOBALS['settings']['rftime'];
+        $rftime = isset($GLOBALS['settings']['rftime']) ? $GLOBALS['settings']['rftime'] : 30000;
         $timezone_suffix = '';
         if (!$timeStandard) {
             $dateTime = new DateTime();
@@ -133,7 +133,7 @@ include_once(__DIR__ . "/../auth_check.php");
         var servertime = "<?php echo $serverTime; ?>";
         var timeStandard = <?php echo $timeStandard; ?>;
         var timeZone = "<?php echo $timezone_suffix; ?>";
-        var rftime = <?php echo $GLOBALS['settings']['rftime']; ?>;
+        var rftime = <?php echo $rftime; ?>;
 
         $(document).ready(function() {
 
