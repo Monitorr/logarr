@@ -116,14 +116,16 @@ include_once(__DIR__ . "/../auth_check.php");
     <script>
         <?php
         //initial values for clock:
-        $timezone = $GLOBALS['preferences']['timezone'];
-        $dt = new DateTime("now", new DateTimeZone("$timezone"));
+        $timezoneString = $GLOBALS['preferences']['timezone'];
+        if(!in_array($timezoneString, timezone_identifiers_list())) $timezoneString = "UTC";
+        $timezone = new DateTimeZone("$timezoneString");
+        $dt = new DateTime("now", $timezone);
         $timeStandard = (int)($GLOBALS['preferences']['timestandard']);
         $rftime = $GLOBALS['settings']['rftime'];
         $timezone_suffix = '';
         if (!$timeStandard) {
             $dateTime = new DateTime();
-            $dateTime->setTimeZone(new DateTimeZone($timezone));
+            $dateTime->setTimeZone($timezone);
             $timezone_suffix = $dateTime->format('T');
         }
         $serverTime = $dt->format("D d M Y H:i:s");
@@ -135,7 +137,7 @@ include_once(__DIR__ . "/../auth_check.php");
 
         $(document).ready(function() {
 
-            //to do / change me  do we need this on login page?  
+            //todo / change me  do we need this on login page?
 
             // setTimeout(syncServerTime(), settings.rftime); //delay is rftime
 
