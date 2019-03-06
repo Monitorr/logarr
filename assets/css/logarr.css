@@ -704,6 +704,7 @@ input[type=search]::-webkit-search-cancel-button {
     cursor: help;
 }
 
+/* // CHANGE ME TODO  Is this used anymore? */
 .highlight {
     background-color: red !important;
     color: white !important;
@@ -721,15 +722,16 @@ input[type=search]::-webkit-search-cancel-button {
     /* Opera 10.5+, IE 9.0 */
 }
 
-/* CHANGE ME: */
 
 .highlightterms {
     color: red;
-    font-size: 1.2em;
+    font-size: 1.2rem;
     font-weight: 600;
 }
 
-.error {
+/* CHANGE ME:  is this needed */
+
+/* .error {
     padding: .1rem;
     background-color: red;
     color: black;
@@ -738,7 +740,7 @@ input[type=search]::-webkit-search-cancel-button {
     -moz-border-radius: .1rem;
     -webkit-border-radius: .1rem;
     border-radius: .1rem;
-}
+} */
 
 .warn {
     padding: .1rem;
@@ -903,12 +905,6 @@ input[type=search]::-webkit-search-cancel-button {
 
 .expanded {
     height: 600px !important;
-}
-
-.logline {
-    display: inline-flex;
-    color: white;
-    text-shadow: 1px 1px black;
 }
 
 .log-action-button {
