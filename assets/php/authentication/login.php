@@ -11,6 +11,8 @@ include_once(__DIR__ . "/../auth_check.php");
         https://github.com/Monitorr
 -->
 
+<!-- login.php -->
+
 <head>
 
     <meta charset="utf-8">
@@ -39,8 +41,6 @@ include_once(__DIR__ . "/../auth_check.php");
     <script src="assets/js/jquery.min.js"></script>
 
     <script src="assets/js/vendor/sweetalert2.min.js"></script>
-
-    <script src="assets/js/jquery.blockUI.js"></script>
 
     <script src="assets/js/logarr.main.js"></script>
 
@@ -105,12 +105,7 @@ include_once(__DIR__ . "/../auth_check.php");
     <script>
         var settings = <?php echo json_encode($GLOBALS['settings']); ?>;
         var preferences = <?php echo json_encode($GLOBALS['preferences']); ?>;
-
-        //to do / change me  do we need this on login page?  
-        // refreshConfig();
-
     </script>
-
 
     <!-- UI clock functions: -->
     <script>
@@ -136,11 +131,6 @@ include_once(__DIR__ . "/../auth_check.php");
         var rftime = <?php echo $rftime; ?>;
 
         $(document).ready(function() {
-
-            //todo / change me  do we need this on login page?
-
-            // setTimeout(syncServerTime(), settings.rftime); //delay is rftime
-
             updateTime();
         });
     </script>
