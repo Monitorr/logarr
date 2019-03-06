@@ -47,9 +47,6 @@ https://github.com/Monitorr/Logarr
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/js/vendor/sweetalert2.min.js"></script>
 
-    <!-- TODO / Remove: -->
-    <!-- <script src="assets/js/jquery.blockUI.js"></script> -->
-
     <script src="assets/js/logarr.main.js"></script>
 
 
@@ -75,17 +72,7 @@ https://github.com/Monitorr/Logarr
         }
     </style>
 
-    <!-- CHANGE ME  - Use welcome modal on login.php or settings.php ?? -->
-
     <script>
-        // const Toast = Swal.mixin({
-        //     toast: true,
-        //     showConfirmButton: false,
-        //     showCloseButton: true,
-        //     position: 'bottom-start',
-        //     background: '#3201199d'
-        // });
-
         function toastwelcome() {
             Toast.fire({
                 toast: true,
@@ -298,7 +285,7 @@ https://github.com/Monitorr/Logarr
         <div id="logarrid">
             <a href="https://github.com/monitorr/logarr" title="Logarr GitHub repo" target="_blank" class="footer">Logarr </a> |
             <a href="https://github.com/Monitorr/logarr/releases" title="Logarr releases" target="_blank" class="footer">
-                Version:
+                v:
                 <?php echo file_get_contents("assets/js/version/version.txt"); ?></a> |
             <a href="settings.php" title="Logarr Settings" target="_blank" class="footer">Settings</a>
             <?php if (isset($_SESSION['user_name']) && isset($_SESSION['user_is_logged_in']) && !empty($_SESSION['user_name']) && ($_SESSION['user_is_logged_in'])) {

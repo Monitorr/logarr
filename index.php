@@ -22,6 +22,8 @@ include('assets/php/auth_check.php');
     <link rel="manifest" href="webmanifest.json">
 
     <meta name="Logarr" content="Logarr: Self-hosted, single-page, log consolidation tool." />
+    <meta name="application-name" content="Logarr" />
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
 
     <script src="assets/js/pace.js" async></script>
 
@@ -32,30 +34,22 @@ include('assets/php/auth_check.php');
     <link rel="stylesheet" href="assets/data/custom.css">
 
     <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="assets/images/favicon/apple-touch-icon-57x57.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/images/favicon/apple-touch-icon-114x114.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="180x180" href="assets/images/favicon/apple-touch-icon.png" />
+    <!-- <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/images/favicon/apple-touch-icon-114x114.png" />
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/images/favicon/apple-touch-icon-72x72.png" />
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/images/favicon/apple-touch-icon-144x144.png" />
     <link rel="apple-touch-icon-precomposed" sizes="60x60" href="assets/images/favicon/apple-touch-icon-60x60.png" />
     <link rel="apple-touch-icon-precomposed" sizes="120x120" href="assets/images/favicon/apple-touch-icon-120x120.png" />
     <link rel="apple-touch-icon-precomposed" sizes="76x76" href="assets/images/favicon/apple-touch-icon-76x76.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="assets/images/favicon/apple-touch-icon-152x152.png" />
-    <link rel="icon" type="image/png" href="assets/images/favicon/favicon-196x196.png" sizes="196x196" />
-    <link rel="icon" type="image/png" href="assets/images/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="assets/images/favicon/apple-touch-icon-152x152.png" /> -->
+
     <link rel="icon" type="image/png" href="assets/images/favicon/favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="assets/images/favicon/favicon-16x16.png" sizes="16x16" />
-    <link rel="icon" type="image/png" href="assets/images/favicon/favicon-128.png" sizes="128x128" />
-    <meta name="application-name" content="Logarr" />
-    <meta name="msapplication-TileColor" content="#FFFFFF" />
-    <meta name="msapplication-TileImage" content="assets/images/favicon/mstile-144x144.png" />
-    <meta name="msapplication-square70x70logo" content="assets/images/favicon/mstile-70x70.png" />
     <meta name="msapplication-square150x150logo" content="assets/images/favicon/mstile-150x150.png" />
-    <meta name="msapplication-wide310x150logo" content="assets/images/favicon/mstile-310x150.png" />
-    <meta name="msapplication-square310x310logo" content="assets/images/favicon/mstile-310x310.png" />
+
     <meta name="theme-color" content="#464646" />
     <meta name="theme_color" content="#464646" />
-
-    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="msapplication-TileColor" content="#464646" />
 
     <title>
         <?php echo $GLOBALS['preferences']['sitetitle']; ?>
@@ -213,11 +207,11 @@ include('assets/php/auth_check.php');
 
         <!-- Checks for Logarr application update on page load-->
         <script src="assets/js/update.js" async></script>
-  
+
         <div id="logarrid">
             <a href="https://github.com/monitorr/logarr" title="Logarr GitHub repo" target="_blank" class="footer">Logarr </a> |
             <a href="https://github.com/Monitorr/logarr/releases" title="Logarr releases" target="_blank" class="footer">
-                Version:
+                v:
                 <?php echo file_get_contents("assets/js/version/version.txt"); ?></a> |
             <a href="settings.php" title="Logarr Settings" target="_blank" class="footer">Settings</a>
             <?php if (isset($_SESSION['user_name']) && isset($_SESSION['user_is_logged_in']) && !empty($_SESSION['user_name']) && ($_SESSION['user_is_logged_in'])) {
