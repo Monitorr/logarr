@@ -1,14 +1,14 @@
 {
     "settings": {
         "rfconfig": "15000",
-        "rftime": "45000",
-        "rflog": "30000",
-        "maxLines": "10000",
+        "rftime": "60000",
+        "rflog": "45000",
+        "maxLines": "2000",
         "customHighlightTerms": "error",
         "logRefresh": "false",
         "autoHighlight": "true",
         "jumpOnSearch": "false",
-        "liveSearch": "true"
+        "liveSearch": "false"
     },
     "preferences": {
         "sitetitle": "Logarr",

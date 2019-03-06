@@ -110,7 +110,6 @@ include(__DIR__ . '/../auth_check.php');
 
     <p id="response"></p>
 
-
     <div id="siteform">
 
         <div id="sitesettings"></div>

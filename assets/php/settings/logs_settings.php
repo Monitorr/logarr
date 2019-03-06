@@ -26,7 +26,6 @@ include(__DIR__ . '/../auth_check.php');
     <script type="text/javascript" src="../../js/handlebars.js"></script>
     <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../js/alpaca.min.js"></script>
-    <!-- <script src="../../js/logarr.main.js"></script> -->
 
     <title>
         <?php
@@ -37,13 +36,11 @@ include(__DIR__ . '/../auth_check.php');
     </title>
 
     <style>
-
         .alpaca-form-buttons-container {
             text-align: left;
             position: fixed;
             bottom: 0;
         }
-
     </style>
 
     <script>
@@ -55,26 +52,72 @@ include(__DIR__ . '/../auth_check.php');
             background: 'rgba(50, 1, 25, 0.75)'
         });
 
-        function sweetalert() {
-            Toast.fire({
-                type: 'info',
-                title: 'Updating Logs'
-            })
-        };
-
-        function udtoast() {
-            Toast.fire({
-                type: 'info',
-                title: 'Auto-update disabled'
-            })
-        };
-
         function settingchange() {
             Toast.fire({
-                type: 'info',
-                title: 'Settings change pending'
+                type: 'warning',
+                title: 'Settings change pending',
+                customClass: "settingchange"
             })
         };
+
+        function logloadinganimate() {
+            Toast.fire({
+                toast: true,
+                title: 'Loading Logs...',
+                showCloseButton: false,
+                background: 'rgba(50, 1, 25, 0.75)',
+                onBeforeOpen: () => {
+                    Swal.showLoading()
+                }
+            })
+        };
+
+        function settingapply() {
+            Toast.fire({
+                type: 'success',
+                title: 'Settings Saved! <br> Logarr is reloading',
+                timer: 3000,
+                background: 'rgba(0, 184, 0, 0.75)'
+            })
+        };
+
+        function dupeerror() {
+            Toast.fire({
+                type: 'error',
+                title: 'This title has already been used!',
+                background: 'rgba(207, 0, 0, 0.75)'
+            })
+        };
+
+        function settingserror() {
+            Toast.fire({
+                type: 'error',
+                title: 'Error saving settings!',
+                background: 'rgba(207, 0, 0, 0.75)'
+            })
+        };
+
+        function ajaxerror() {
+            Toast.fire({
+                type: 'error',
+                title: 'Error loading settings!',
+                background: 'rgba(207, 0, 0, 0.75)'
+            })
+        };
+
+        function validerror() {
+            Toast.fire({
+                type: 'error',
+                title: 'Invalid value!',
+                background: 'rgba(207, 0, 0, 0.75)'
+            })
+        };
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            logloadinganimate();
+        });
     </script>
 
 </head>
@@ -90,27 +133,13 @@ include(__DIR__ . '/../auth_check.php');
 
     <p id="response"></p>
 
-    <div id="modalloading" title="Monitorr logs are populating.">
-
-        <div id="modalloadingspinner" style="transform:translateZ(0);"></div>
-
-        <script>
-            window.paceOptions = {
-                target: "#modalloadingspinner",
-                ajax: false
-            };
-        </script>
-
-        <p class="modaltextloading">Loading logs ...</p>
-
-    </div>
-
     <div id="logsform">
         <div id="logssettings"></div>
 
         <script type="text/javascript">
             $(document).ready(function() {
                 Alpaca.registerConnectorClass("custom");
+
                 $("#logssettings").alpaca({
                     "connector": "custom",
                     "dataSource": "./load-settings/logs_load.php",
@@ -216,7 +245,36 @@ include(__DIR__ . '/../auth_check.php');
                                     "placeholder": "Log Name",
                                     "events": {
                                         "change": function() {
-                                            $('.alpaca-form-button-submit').addClass('buttonchange');
+                                            this.refreshValidationState(true);
+                                            if (!this.isValid(true)) {
+                                                console.log("ERROR: Invalid value for Log Title.");
+                                                validerror();
+                                                this.focus();
+                                            } else {
+                                                Toast.close();
+                                                $('.alpaca-form-button-submit').addClass('buttonchange');
+                                                settingchange();
+                                            }
+                                        },
+                                        "blur": function() {
+                                            this.refreshValidationState(true);
+                                            if (!this.isValid(true)) {
+                                                validerror();
+                                            }
+                                        },
+                                        "focus": function() {
+                                            this.refreshValidationState(true);
+                                            if (!this.isValid(true)) {
+                                                validerror();
+                                            }
+                                        },
+                                        "ready": function() {
+                                            this.refreshValidationState(true);
+                                            if (!this.isValid(true)) {
+                                                console.log("ERROR: Invalid value for Log Title.");
+                                                validerror();
+                                                this.focus();
+                                            }
                                         }
                                     },
                                     "validator": function(callback) {
@@ -231,8 +289,9 @@ include(__DIR__ . '/../auth_check.php');
                                                         "status": false,
                                                         "message": "This title has already been used for another log!"
                                                     });
+                                                    console.log("ERROR: This title has already been used for another log!");
+                                                    dupeerror();
                                                     calledBack = true;
-
                                                 }
                                             }
                                         });
@@ -245,6 +304,7 @@ include(__DIR__ . '/../auth_check.php');
                                 },
                                 "path": {
                                     "type": "text",
+                                    "validate": true,
                                     "showMessages": true,
                                     "label": "Log Path:",
                                     //"helpers": ["Can be dynamic - see <a class='footer' href='https://github.com/Monitorr/logarr/wiki/Settings#dynamic-paths' target='_blank'>wiki</a>"],
@@ -252,7 +312,36 @@ include(__DIR__ . '/../auth_check.php');
                                     "placeholder": "C:\\path\\to.log",
                                     "events": {
                                         "change": function() {
-                                            $('.alpaca-form-button-submit').addClass('buttonchange');
+                                            this.refreshValidationState(true);
+                                            if (!this.isValid(true)) {
+                                                console.log("ERROR: Invalid value for Log Path.");
+                                                validerror();
+                                                this.focus();
+                                            } else {
+                                                Toast.close();
+                                                $('.alpaca-form-button-submit').addClass('buttonchange');
+                                                settingchange();
+                                            }
+                                        },
+                                        "blur": function() {
+                                            this.refreshValidationState(true);
+                                            if (!this.isValid(true)) {
+                                                validerror();
+                                            }
+                                        },
+                                        "focus": function() {
+                                            this.refreshValidationState(true);
+                                            if (!this.isValid(true)) {
+                                                validerror();
+                                            }
+                                        },
+                                        "ready": function() {
+                                            this.refreshValidationState(true);
+                                            if (!this.isValid(true)) {
+                                                console.log("ERROR: Invalid value for Log Path.");
+                                                validerror();
+                                                this.focus();
+                                            }
                                         }
                                     }
                                 },
@@ -265,6 +354,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "events": {
                                         "change": function() {
                                             $('.alpaca-form-button-submit').addClass('buttonchange');
+                                            settingchange();
                                         }
                                     }
                                 },
@@ -296,6 +386,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "events": {
                                         "change": function() {
                                             $('.alpaca-form-button-submit').addClass('buttonchange');
+                                            settingchange();
                                         }
                                     }
                                 },
@@ -309,6 +400,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "events": {
                                         "change": function() {
                                             $('.alpaca-form-button-submit').addClass('buttonchange');
+                                            settingchange();
                                         }
                                     }
                                 }
@@ -326,15 +418,16 @@ include(__DIR__ . '/../auth_check.php');
                                         $.post('post-settings/post_receiver-logs.php', {
                                             data,
                                             success: function(data) {
-                                                alert("Settings saved! Applying changes...");
+                                                settingapply();
+                                                console.log("Settings saved! Applying changes...");
+                                                $('.alpaca-form-button-submit').removeClass('buttonchange');
                                                 // Refresh form after submit:
-                                                setTimeout(location.reload.bind(location), 1000)
+                                                setTimeout(location.reload.bind(location), 3000)
                                             },
                                             error: function(errorThrown) {
                                                 console.log(errorThrown);
                                             }
-                                        }, );
-                                        $('.alpaca-form-button-submit').removeClass('buttonchange');
+                                        });
                                     }
                                 },
                                 "reset": {
@@ -350,13 +443,16 @@ include(__DIR__ . '/../auth_check.php');
                                 return false;
                             });
                         }
-                        document.getElementById("modalloading").remove();
+                        Toast.close();
+                        $('.btn-sm').click(function () {
+                            settingchange();
+                            $('.alpaca-form-button-submit').addClass('buttonchange');
+                        });
                     }
                 });
             });
         </script>
     </div>
-
 
 </body>
 

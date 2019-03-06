@@ -2,12 +2,6 @@
 // https://github.com/Monitorr
 
 
-//CHANGE ME - NOT WORKING:
-
-//import Swal from "vendor/sweetalert2.js";
-//import Swal from 'sweetalert2'
-//const Swal = require('sweetalert2')
-
 // Variables
 let results, currentIndex = 0;
 let logInterval = false;
@@ -15,7 +9,7 @@ let current_rflog = 600000;
 let nIntervId = [];
 let home = false;
 
-let rfconfig = (typeof settings !== "undefined") ? settings.rfconfig : 1000;
+let rfconfig = (typeof settings !== "undefined") ? settings.rfconfig : 5000;
 nIntervId["refreshConfig"] = setInterval(refreshConfig, rfconfig);
 
 
@@ -34,7 +28,6 @@ const Toast = Swal.mixin({
 function logupdatetoast() {
     Toast.fire({
         toast: true,
-        //type: 'info',
         title: '<p class="logupdatetoast">Updating Logs</p>',
         showCloseButton: false,
         background: 'rgba(50, 1, 25, 0.75)',
@@ -47,7 +40,6 @@ function logupdatetoast() {
 function logsingleupdatetoast() {
     Toast.fire({
         toast: true,
-        //type: 'info',
         title: 'Updating Log',
         showCloseButton: false,
         onBeforeOpen: () => {
@@ -84,16 +76,6 @@ function logerror() {
     })
 };
 
-function updateavailtoast() {
-    Toast.fire({
-        toast: true,
-        type: 'warning',
-        title: '<a class="toastlink swal2-title" href="https://github.com/Monitorr/logarr/releases" title="Logarr releases" target="_blank">A Logarr update is available!</a>',
-        customClass: 'updateavailtoast',
-        timer: 10000
-    })
-};
-
 function clearsearch() {
     Toast.fire({
         toast: true,
@@ -111,6 +93,45 @@ function logroll() {
         timer: 5000
     })
 };
+
+
+function logrollmodal() {
+    Swal.fire({
+        toast: false,
+        position: 'center',
+        title: '<div id="rolllogtitle">Roll Log results:</div>',
+        html: 
+            '<div id="responseModal">' +
+            '<div id="modalContent"></div>' +
+            '</div>',
+        width: "auto",
+        background: 'rgba(50, 1, 25, 0.9)',
+        allowOutsideClick: true,
+        showCloseButton: true,
+        showCancelButton: false,
+        showConfirmButton: false,
+        animation: false,
+        customClass: 'logrollmodal',
+        onBeforeOpen: () => {
+
+            //TODO: //Turn OFF autorefresh IF on
+
+            //$("#autoUpdateSlider").attr("data-enabled", "false");
+
+            //clearInterval(nIntervId);
+
+            //logInterval = false;
+
+        },
+        onClose: () => {
+
+            refreshblockUI();
+            //TODO:
+            //Turn ON autorefresh IF ON
+        }
+    })
+};
+
 
 function logrollerror() {
     Toast.fire({
@@ -141,7 +162,6 @@ function filtertoast() {
 function searchtoast() {
     Toast.fire({
         toast: true,
-        //type: 'warning',
         title: 'Searching ...',
         showCloseButton: false,
         onBeforeOpen: () => {
@@ -150,17 +170,65 @@ function searchtoast() {
     })
 };
 
+function updateavailtoast() {
+    Toast.fire({
+        toast: true,
+        type: 'warning',
+        title: '<a class="toastlink swal2-title" href="https://github.com/Monitorr/logarr/releases" title="Logarr releases" target="_blank">A Logarr update is available!</a>',
+        customClass: 'updateavailtoast',
+        timer: 10000
+    })
+};
 
-//CHANGE ME // CONVERT TO Sweetalert:
+function updatechecklatest() {
+    Toast.fire({
+        toast: true,
+        type: 'success',
+        title: 'You have the latest <br> Logarr version',
+        timer: 5000
+    })
+};
 
-// Set sytles for BlockUI overlays in /assets/js/jquery.blockUI.js
+function updatecheckerror() {
+    Toast.fire({
+        toast: true,
+        type: 'error',
+        title: 'An error occurred <br> while checking your Logarr version!',
+        background: 'rgba(207, 0, 0, 0.75)'
+    })
+};
+
+function synctimeerror() {
+    Toast.fire({
+        toast: true,
+        type: 'error',
+        title: 'An error occurred <br> while synchronizing time!',
+        background: 'rgba(207, 0, 0, 0.75)',
+        timer: 5000
+    })
+};
+
+//Search box expand:
+
+ $(document).ready(function () {
+    $('#text-search2').focus(function () {
+        $('#text-search2').addClass('text-search2-expand');
+    });
+    $('#text-search2').blur(function () {
+        $('#text-search2').removeClass('text-search2-expand');
+    });
+})
+
 function refreshblockUI() {
     //$.growlUI('Updating logs...');
-    logupdatetoast();
+
     $('#body').addClass("cursorwait");
+    logupdatetoast();
     setTimeout(function () {
         loadLogs();
     }, 300);
+
+    //CHANGE ME: TODO / Add cursor wait ??
 
     //wait after log update to highlight terms:
     if (settings.autoHighlight === "true") {
@@ -199,6 +267,11 @@ function loadLogs() {
             } else if (typeof logs[i].category == "undefined" && categories.indexOf("Uncategorized") == -1) {
                 categories.push("Uncategorized");
             }
+        }
+        if (logs[i].enabled == "No") {
+            // TODO / bug :  Remove log from display if disabled
+            var logTitle = logs[i].logTitle;
+            console.log("Log disabled: " + logTitle);
         }
     }
     if (categories.length > 0 && !(categories.length == 1 && categories[0] == "Uncategorized")) {
@@ -258,22 +331,16 @@ function highlightjs() {
     if ('customHighlightTerms' in settings && settings.customHighlightTerms !== "") {
         var array = settings.customHighlightTerms.split(",");
         for (let i = 0; i < array.length; i++) {
+            console.log("Highlighting text containing: " + array[i].trim());
             $(".expand").highlight(array[i].trim(), {
                 element: 'em',
-                //CHANGE ME:
-                //className: array[i].trim()
-                className: 'highlightterms',
+                className: array[i].trim(),
             });
-            console.log("Highlighting text containing: " + array[i].trim());
+            $('.' + array[i].trim()).addClass("highlightterms");
         }
-
-        //todo: do we need this: 
-        // setTimeout(function () {
-        //     Toast.close();
-        // },  2000);
     };
-    
 }
+
 
 // Jumps to the element matching the currentIndex
 function jumpTo() {
@@ -324,6 +391,9 @@ function mark() {
             content.mark(keyword, {
                 separateWordSearch: false,
                 done: function () {
+
+                    //TODO:  Add # of results to individual log containers
+
                     results = content.find("mark");
                     let count = $(".count");
                     count.text(results.length);
@@ -346,8 +416,8 @@ $(function () {
     // Perform search action on click
     $("button[data-search='search']").on("click", function () {
         console.log('Logarr is performing search');
-        searchtoast();
         $('#body').addClass("cursorwait");
+        searchtoast();
         $('#buttonStart :checkbox').prop('checked', false).change(); // if auto-update is enabled, disable it after search submit
         //$.blockUI({
         //    message: 'Searching...'
@@ -365,8 +435,8 @@ $(function () {
     $("#text-search2").keyup(function (event) {
         if (event.keyCode === 13) {
             console.log('Logarr is performing search');
-            searchtoast();
             $('#body').addClass("cursorwait");
+            searchtoast();
             $('#buttonStart :checkbox').prop('checked', false).change(); // if auto-update is enabled, disable it after search submit
             // $.blockUI({
             //     message: 'Searching...'
@@ -376,19 +446,18 @@ $(function () {
                 mark();
                 $('#body').removeClass("cursorwait");
                 //$.unblockUI()
-                //Toast.close();
             }, 300);
         }
     });
 
     // Clears the search
     $("button[data-search='clear']").on("click", function () {
-        console.log('Logarr cleared search results');
         clearsearch();
         $(".slide").unmark();
         $("input[name='markinput']").val("");
         $('.count').removeClass("countresults");
         $('.btn-visible').addClass("btn-hidden");
+        console.log('Logarr cleared search results');
     });
 
     // Next and previous search jump to
@@ -410,9 +479,17 @@ $(function () {
     $("input[name='markinput']").keyup(function (e) {
         clearTimeout(timeoutID);
         if (settings.liveSearch === "true") {
+
+            // TODO / Change me: Lags browser
+            //searchtoast();
+
             $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search
             timeoutID = setTimeout(() => mark(e.target.value), 500);
         }
+    });
+
+    $("input[name='markinput']").blur(function (e) {
+        Toast.close();
     });
 
     // unlink log action
@@ -420,30 +497,34 @@ $(function () {
         event.preventDefault(); // stop being refreshed
         console.log('Attempting log roll');
         //$.growlUI("Attempting <br> log roll");
-        logroll();
+        logrollmodal();
         $.ajax({
             type: 'POST',
             url: 'assets/php/unlink.php',
             processData: false,
             data: "file=" + $(".path[data-service='" + $(this).data('service') + "']").html().trim(),
             success: function (data) {
-                //TODO can we use sweetalert with this?
 
                 $('#modalContent').html(data);
                 let modal = $('#responseModal');
-                let span = $('.closemodal');
+
+                //let span = $('.closemodal');
                 modal.fadeIn('slow');
-                span.click(function () {
-                    modal.fadeOut('slow');
-                });
-                $(body).click(function (event) {
-                    if (event.target !== modal) {
-                        modal.fadeOut('slow');
-                    }
-                });
-                setTimeout(function () {
-                    modal.fadeOut('slow');
-                }, 3000);
+
+                // span.click(function () {
+                //     modal.fadeOut('slow');
+                // });
+
+                // TODO Remove?? :
+                // $(body).click(function (event) {
+                //     if (event.target !== modal) {
+                //         modal.fadeOut('slow');
+                //     }
+                // });
+
+                // setTimeout(function () {
+                //     modal.fadeOut('slow');
+                // }, 3000);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log("ERROR: unlink ajax posting failed");
@@ -467,9 +548,17 @@ $(function () {
     // update log action
     $(document).on('click', "button[data-action='update-log']", function (event) {
         event.preventDefault(); // stop page from being refreshed
+        $('#body').addClass("cursorwait");
         logsingleupdatetoast();
         loadLog(logs[$(this).parent().parent().data("index")]);
         setTimeout(function () {
+            //Change me  TO
+            if (settings.autoHighlight === "true") {
+                setTimeout(function () {
+                    highlightjs();
+                }, 500);
+            };
+            $('#body').removeClass("cursorwait");
             Toast.close();
         }, 2000);
         return false;
@@ -526,7 +615,7 @@ function refreshConfig() {
             }
 
             document.title = preferences.sitetitle; //update page title to configured title
-            console.log('Refreshed config variables');
+            console.log("Refreshed config variables | Interval: " + settings.rfconfig + " ms");
         }
     });
 }
@@ -551,6 +640,7 @@ function overwriteLogUpdate() {
 
         console.log("Auto update: Disabled");
         //$.growlUI("Auto update: Disabled");
+
         udtoast();
     }
 }
@@ -594,6 +684,7 @@ function syncServerTime() {
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log('ERROR: Time update');
+            synctimeerror();
         }
     });
 }

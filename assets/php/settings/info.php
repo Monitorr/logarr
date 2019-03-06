@@ -37,12 +37,9 @@ include(__DIR__ . '/../auth_check.php');
         | Info
     </title>
 
-    <!-- ToDO: SA min ?? -->
     <script src="../../js/jquery.min.js"></script>
-    <!-- <script src="../../js/vendor/sweetalert2.min.js"></script> -->
-    <script src="../../js/vendor/sweetalert2.js"></script>
-    <!-- // CHANGE ME:  REMOVE: -->
-    <!-- <script src="../../js/jquery.blockUI.js" async></script> -->
+    <script src="../../js/vendor/sweetalert2.min.js"></script>
+
 
     <script>
         const Toast = Swal.mixin({
