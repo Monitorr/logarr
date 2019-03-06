@@ -54,7 +54,6 @@ include_once(__DIR__ . "/../auth_check.php");
             font-size: 1rem !important;
         }
 
-        /* // CHANGE ME: */
         .swal2-icon.swal2-warning {
             color: yellow !important;
             border-color: yellow !important;

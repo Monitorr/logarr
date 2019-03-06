@@ -186,8 +186,8 @@ include(__DIR__ . '/../auth_check.php');
                                 "showMessages": true,
                                 "disabled": false,
                                 "hidden": false,
-                                "label": "Enable Registration:",
-                                "helpers": ["Enable access to the registration page. (NOTE: For security purposes, this should be DISABLED ('false') after initial configuration.)"],
+                                "label": "Enable Registration Access:",
+                                "helpers": ["Enable access to the Registration page. (NOTE: For security purposes, this should be DISABLED ('false') after initial configuration.)"],
                                 "hideInitValidationError": false,
                                 "focus": false,
                                 "optionLabels": [" True", " False"],
@@ -284,7 +284,7 @@ include(__DIR__ . '/../auth_check.php');
                                             data: authenticationsettings.alpaca().getValue(),
                                             success: function(data) {
                                                 settingapply();
-                                                console.log("Settings saved!");
+                                                console.log("Settings saved! Logarr is reloading");
                                                 setTimeout(window.top.location.reload.bind(window.top.location), 1000);
                                                 $('.alpaca-form-button-submit').removeClass('buttonchange');
                                             },

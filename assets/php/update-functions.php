@@ -26,6 +26,9 @@ if ($copy == 1) {
 		$zip->extractTo($extractPath);
 		$zip->close();
 		// copy config.php to safe place while we update
+
+		//CHANGE ME / TODO:
+
 		rename('../config/config.php', $extractPath . 'config.php');
 		// copy files from temp to monitorr root
 		$scanPath = array_diff(scandir($extractPath), array('..', '.'));
@@ -50,6 +53,5 @@ if ($copy == 1) {
 }
 // send the json data
 echo json_encode($data);
-
 
 ?>

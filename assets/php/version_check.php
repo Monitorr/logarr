@@ -14,16 +14,24 @@ fclose($userfile);
 $user_version = floatval(substr($user_vnum, 0, -1));
 $ext_version = floatval(substr($vnum, 0, -1));
 
-if ($user_vnum == $vnum || (bccomp($user_version, $ext_version, 5) >= 0)) {
+
+if (!$vnum) {
 	// data
 	$data = array("version" => 0);
+
+	echo "<script type='text/javascript'>";
+	echo "console.log('ERROR: Logarr was unable check GitHub for the latest version');";
+	echo "</script>";
+
 } else {
-	// data
-	$data = array("version" => $vnum);
+	if ($user_vnum == $vnum || (bccomp($user_version, $ext_version, 5) >= 0)) {
+		// data
+		$data = array("version" => 0);
+	} else {
+		// data
+		$data = array("version" => $vnum);
+	}
 }
 
 // send the json data
 echo json_encode($data);
-//echo "<br>";
-//echo "remote repo version: $vnum <br />\n";
-//echo "local repo version: $user_vnum <br />\n";

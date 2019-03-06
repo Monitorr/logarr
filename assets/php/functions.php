@@ -33,14 +33,15 @@ $authentication = json_decode(file_get_contents($config_file), 1)['authenticatio
 $branch = $preferences['updateBranch'];
 
 // location to download new version zip
-$remote_file_url = 'https://github.com/Monitorr/logarr/zipball/' . $branch . '';
+$remote_file_url = 'https://github.com/monitorr/logarr/zipball/' . $branch . '';
 // rename version location/name
 $local_file = '../../tmp/logarr-' . $branch . '.zip'; #example: version/new-version.zip
 //
 // version check information
 //
 // url to external verification of version number as a .TXT file
-$ext_version_loc = 'https://raw.githubusercontent.com/Monitorr/logarr/' . $branch . '/assets/js/version/version.txt';
+
+$ext_version_loc = 'https://raw.githubusercontent.com/monitorr/logarr/' . $branch . '/assets/js/version/version.txt';
 // users local version number
 // added the 'uid' just to show that you can verify from an external server the
 // users information. But it can be replaced with something more simple
@@ -103,8 +104,7 @@ function readExternalLog($log)
 	$maxLines = isset($log['maxLines']) ? $log['maxLines'] : $settings['maxLines'];
 
 	foreach ($logContents as $line_num => $line) {
-		//$result .= "<p class='logline'><b>Line {$line_num}</b></p> : " . htmlspecialchars($line) . "<br />\n";
-		$result .= "<p class='logline'><b>Line {$line_num}</b></p>: " . htmlspecialchars($line) . "<br />\n";
+		$result .= "<font color='white'><strong><i>Line {$line_num}</i></strong></font> : " . htmlspecialchars($line) . "<br />\n";
 		if ($maxLines != 0 && $line_num == $maxLines) break;
 	}
 	unset($logContents);

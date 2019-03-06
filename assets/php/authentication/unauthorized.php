@@ -69,7 +69,7 @@ include_once(__DIR__ . "/../auth_check.php");
            class="footer">Logarr </a> |
 
         <a href="https://github.com/Monitorr/logarr/releases" title="Logarr releases" target="_blank" class="footer">
-            Version: <?php echo file_get_contents(__DIR__ . "/../../js/version/version.txt"); ?>
+            v: <?php echo file_get_contents(__DIR__ . "/../../js/version/version.txt"); ?>
         </a> |
         <a href="settings.php" title="Logarr Settings" target="_blank" class="footer">Settings</a>
         <br>
