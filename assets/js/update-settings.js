@@ -4,7 +4,7 @@ function updatechecklatest() {
     Toast.fire({
         toast: true,
         type: 'success',
-        title: 'You have the latest Logarr version',
+        title: 'You have the latest <br> Logarr version',
         timer: 5000
     })
 };
@@ -90,6 +90,7 @@ $(document).ready(function () {
             // error
             versionCheckAuto.html('<p id="vcheckerror" class="vcheckerror">An error occurred while checking your Logarr version </p>');
             console.log('ERROR: An error occurred while checking your Logarr version');
+             updatecheckerror();
         }
     });
 
@@ -183,6 +184,5 @@ $(document).ready(function () {
             }
         });
     });
-
 
 });

@@ -9,7 +9,7 @@ let current_rflog = 600000;
 let nIntervId = [];
 let home = false;
 
-let rfconfig = (typeof settings !== "undefined") ? settings.rfconfig : 1000;
+let rfconfig = (typeof settings !== "undefined") ? settings.rfconfig : 5000;
 nIntervId["refreshConfig"] = setInterval(refreshConfig, rfconfig);
 
 
@@ -184,7 +184,7 @@ function updatechecklatest() {
     Toast.fire({
         toast: true,
         type: 'success',
-        title: 'You have the latest Logarr version',
+        title: 'You have the latest <br> Logarr version',
         timer: 5000
     })
 };
@@ -195,6 +195,16 @@ function updatecheckerror() {
         type: 'error',
         title: 'An error occurred <br> while checking your Logarr version!',
         background: 'rgba(207, 0, 0, 0.75)'
+    })
+};
+
+function synctimeerror() {
+    Toast.fire({
+        toast: true,
+        type: 'error',
+        title: 'An error occurred <br> while synchronizing time!',
+        background: 'rgba(207, 0, 0, 0.75)',
+        timer: 5000
     })
 };
 
@@ -209,18 +219,16 @@ function updatecheckerror() {
     });
 })
 
-//CHANGE ME // CONVERT TO Sweetalert:
-
-// Set sytles for BlockUI overlays in /assets/js/jquery.blockUI.js
 function refreshblockUI() {
     //$.growlUI('Updating logs...');
 
-    //CHANGE ME:
-    logupdatetoast();
     $('#body').addClass("cursorwait");
+    logupdatetoast();
     setTimeout(function () {
         loadLogs();
     }, 300);
+
+    //CHANGE ME: TODO / Add cursor wait ??
 
     //wait after log update to highlight terms:
     if (settings.autoHighlight === "true") {
@@ -323,16 +331,16 @@ function highlightjs() {
     if ('customHighlightTerms' in settings && settings.customHighlightTerms !== "") {
         var array = settings.customHighlightTerms.split(",");
         for (let i = 0; i < array.length; i++) {
+            console.log("Highlighting text containing: " + array[i].trim());
             $(".expand").highlight(array[i].trim(), {
                 element: 'em',
-                //CHANGE ME:
-                //className: array[i].trim()
-                className: 'highlightterms',
+                className: array[i].trim(),
             });
-            console.log("Highlighting text containing: " + array[i].trim());
+            $('.' + array[i].trim()).addClass("highlightterms");
         }
     };
 }
+
 
 // Jumps to the element matching the currentIndex
 function jumpTo() {
@@ -383,6 +391,9 @@ function mark() {
             content.mark(keyword, {
                 separateWordSearch: false,
                 done: function () {
+
+                    //TODO:  Add # of results to individual log containers
+
                     results = content.find("mark");
                     let count = $(".count");
                     count.text(results.length);
@@ -405,8 +416,8 @@ $(function () {
     // Perform search action on click
     $("button[data-search='search']").on("click", function () {
         console.log('Logarr is performing search');
-        searchtoast();
         $('#body').addClass("cursorwait");
+        searchtoast();
         $('#buttonStart :checkbox').prop('checked', false).change(); // if auto-update is enabled, disable it after search submit
         //$.blockUI({
         //    message: 'Searching...'
@@ -424,8 +435,8 @@ $(function () {
     $("#text-search2").keyup(function (event) {
         if (event.keyCode === 13) {
             console.log('Logarr is performing search');
-            searchtoast();
             $('#body').addClass("cursorwait");
+            searchtoast();
             $('#buttonStart :checkbox').prop('checked', false).change(); // if auto-update is enabled, disable it after search submit
             // $.blockUI({
             //     message: 'Searching...'
@@ -441,12 +452,12 @@ $(function () {
 
     // Clears the search
     $("button[data-search='clear']").on("click", function () {
-        console.log('Logarr cleared search results');
         clearsearch();
         $(".slide").unmark();
         $("input[name='markinput']").val("");
         $('.count').removeClass("countresults");
         $('.btn-visible').addClass("btn-hidden");
+        console.log('Logarr cleared search results');
     });
 
     // Next and previous search jump to
@@ -467,8 +478,11 @@ $(function () {
     let timeoutID = null;
     $("input[name='markinput']").keyup(function (e) {
         clearTimeout(timeoutID);
-        searchtoast();
         if (settings.liveSearch === "true") {
+
+            // TODO / Change me: Lags browser
+            //searchtoast();
+
             $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search
             timeoutID = setTimeout(() => mark(e.target.value), 500);
         }
@@ -534,9 +548,17 @@ $(function () {
     // update log action
     $(document).on('click', "button[data-action='update-log']", function (event) {
         event.preventDefault(); // stop page from being refreshed
+        $('#body').addClass("cursorwait");
         logsingleupdatetoast();
         loadLog(logs[$(this).parent().parent().data("index")]);
         setTimeout(function () {
+            //Change me  TO
+            if (settings.autoHighlight === "true") {
+                setTimeout(function () {
+                    highlightjs();
+                }, 500);
+            };
+            $('#body').removeClass("cursorwait");
             Toast.close();
         }, 2000);
         return false;
@@ -619,8 +641,6 @@ function overwriteLogUpdate() {
         console.log("Auto update: Disabled");
         //$.growlUI("Auto update: Disabled");
 
-        //TODO:  Change me:
-
         udtoast();
     }
 }
@@ -664,6 +684,7 @@ function syncServerTime() {
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log('ERROR: Time update');
+            synctimeerror();
         }
     });
 }
