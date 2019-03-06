@@ -3,7 +3,7 @@
         "rfconfig": "15000",
         "rftime": "60000",
         "rflog": "45000",
-        "maxLines": "3000",
+        "maxLines": "2000",
         "customHighlightTerms": "error",
         "logRefresh": "false",
         "autoHighlight": "true",
