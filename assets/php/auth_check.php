@@ -18,9 +18,13 @@ class OneFileLoginApplication
 	 */
 	public $feedback = ""; //
 	/**
-	 * @var string Path of the database file (create this with _install.php)
+	 * @var string Path of the database file
 	 */
-	//private $db_sqlite_path = "../data/users.db";
+	private $db_sqlite_path = "";
+	/**
+	 * @var string Path of the datadir
+	 */
+	public $datadir = "";
 	/**
 	 * @var string Type of used database (currently only SQLite, but feel free to expand this with mysql etc)
 	 */
@@ -47,17 +51,6 @@ class OneFileLoginApplication
 	 */
 	public function __construct()
 	{
-
-		if (is_file(__DIR__ . "/../data/datadir.json")) {
-			$str = file_get_contents(__DIR__ . "/../data/datadir.json");
-			$json = json_decode($str, true);
-			$datadir = $json['datadir'];
-			$this->datadir = $datadir;
-			$datafile = $datadir . 'users.db';
-			$db_sqlite_path = $datafile;
-			$this->db_sqlite_path = $db_sqlite_path;
-		}
-
 		if ($this->isConfigured()) {
 			$config_file = $this->datadir . '/config.json';
 			$this->auth_settings = json_decode(file_get_contents($config_file), 1)['authentication'];
@@ -70,20 +63,31 @@ class OneFileLoginApplication
 
 	public function isConfigured()
 	{
-		if ($this->isDatadirSetup() && $this->doesUserExist() && $this->isConfigComplete()) {
-			return true;
-		}
-		return false;
+		if(!$this->isDatadirSetup()) return false;
+		if(!$this->doesUserExist()) return false;
+		if(!$this->isConfigComplete()) return false;
+		return true;
+
 	}
 
 	public function isDatadirSetup()
 	{
-		if (file_exists($this->datadir)) {
-			$datadir = rtrim($this->datadir, "\\/" . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-			if (file_exists($datadir)
-				&& file_exists($datadir . "config.json")
-				&& file_exists($datadir . "users.db")) {
-				return true;
+		if (is_file(__DIR__ . "/../data/datadir.json")) {
+			$str = file_get_contents(__DIR__ . "/../data/datadir.json");
+			$json = json_decode($str, true);
+			$datadir = $json['datadir'];
+
+			if (file_exists($datadir)) {
+				$this->datadir = $datadir;
+				$datafile = $datadir . 'users.db';
+				$this->db_sqlite_path = $datafile;
+
+				$datadir = rtrim($this->datadir, "\\/" . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+				if (file_exists($datadir)
+					&& file_exists($datadir . "config.json")
+					&& file_exists($datadir . "users.db")) {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -103,6 +107,14 @@ class OneFileLoginApplication
 			}
 		}
 		return false;
+	}
+
+	public function databaseExists(){
+		if(is_file($this->db_sqlite_path)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
