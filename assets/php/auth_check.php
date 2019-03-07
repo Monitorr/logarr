@@ -286,7 +286,7 @@ class OneFileLoginApplication
 
 			//check which page we're on
 
-			$homePageURLs = array("index", "", "load-log", "version_check", "sync-config", "time", "download", "unlink");
+			$homePageURLs = array("index", "", "load-log", "version_check", "sync-config", "time", "download", "unlink", "login-status");
 			if (in_array($currentPage, $homePageURLs)) {
 				if($GLOBALS['authentication']['logsEnabled'] == "true") {
 					// show "page", according to user's login status

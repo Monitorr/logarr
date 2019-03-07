@@ -39,9 +39,7 @@ include_once(__DIR__ . "/../auth_check.php");
     <link rel="stylesheet" href="assets/data/custom.css">
 
     <script src="assets/js/jquery.min.js"></script>
-
     <script src="assets/js/vendor/sweetalert2.min.js"></script>
-
     <script src="assets/js/logarr.main.js"></script>
 
     <style>
@@ -80,26 +78,21 @@ include_once(__DIR__ . "/../auth_check.php");
             })
             console.log("Welcome to Logarr!");
         };
-    </script>
 
-    <script>
         $(document).ready(function() {
             toastwelcome();
         });
     </script>
 
-
-    <!-- // CHANGE ME: -->
+    <!-- // TODO CHANGE ME: -->
     <?php
         //ini_set('error_reporting', E_ERROR);
         error_reporting(0);
     ?>
 
     <title>
-        <?php echo $GLOBALS['preferences']['sitetitle']; ?>
+        <?php echo $GLOBALS['preferences']['sitetitle'] . ' | Log In'; ?>
     </title>
-
-    <title>Logarr</title>
 
     <!-- sync config with javascript -->
     <script>
@@ -111,16 +104,14 @@ include_once(__DIR__ . "/../auth_check.php");
     <script>
         <?php
         //initial values for clock:
-        $timezoneString = $GLOBALS['preferences']['timezone'];
-        if(!in_array($timezoneString, timezone_identifiers_list())) $timezoneString = "UTC";
-        $timezone = new DateTimeZone("$timezoneString");
-        $dt = new DateTime("now", $timezone);
+        $timezone = $GLOBALS['preferences']['timezone'];
+        $dt = new DateTime("now", new DateTimeZone("$timezone"));
         $timeStandard = (int)($GLOBALS['preferences']['timestandard']);
-        $rftime = isset($GLOBALS['settings']['rftime']) ? $GLOBALS['settings']['rftime'] : 30000;
+        $rftime = $GLOBALS['settings']['rftime'];
         $timezone_suffix = '';
         if (!$timeStandard) {
             $dateTime = new DateTime();
-            $dateTime->setTimeZone($timezone);
+            $dateTime->setTimeZone(new DateTimeZone($timezone));
             $timezone_suffix = $dateTime->format('T');
         }
         $serverTime = $dt->format("D d M Y H:i:s");
@@ -128,7 +119,7 @@ include_once(__DIR__ . "/../auth_check.php");
         var servertime = "<?php echo $serverTime; ?>";
         var timeStandard = <?php echo $timeStandard; ?>;
         var timeZone = "<?php echo $timezone_suffix; ?>";
-        var rftime = <?php echo $rftime; ?>;
+        var rftime = <?php echo $GLOBALS['settings']['rftime']; ?>;
 
         $(document).ready(function() {
             updateTime();
@@ -179,7 +170,6 @@ include_once(__DIR__ . "/../auth_check.php");
 
     </div>
 
-    <!-- <div id='login-container' class='flex-child'> -->
     <div id='login-container'>
 
         <?php

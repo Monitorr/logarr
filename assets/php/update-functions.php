@@ -22,12 +22,12 @@ if ($copy == 1) {
 	// unzip update
 	$zip = new ZipArchive;
 	$res = $zip->open($local_file);
-	if ($res === TRUE) {
+	if ($res === true) {
 		$zip->extractTo($extractPath);
 		$zip->close();
 		// copy config.php to safe place while we update
 
-		//CHANGE ME / TODO:
+		//CHANGE ME / TODO: / Remove old config / Do we still need this?
 
 		rename('../config/config.php', $extractPath . 'config.php');
 		// copy files from temp to monitorr root
@@ -47,6 +47,9 @@ if ($copy == 1) {
 	} else {
 		// error updating files
 		$data = array("unzip" => 0);
+		echo "<script type='text/javascript'>";
+		echo "console.log('ERROR: Logarr was unable Logarr');";
+		echo "</script>";
 		// delete potentially corrupt file
 		unlink($local_file);
 	}
@@ -54,4 +57,4 @@ if ($copy == 1) {
 // send the json data
 echo json_encode($data);
 
-?>
+ 
