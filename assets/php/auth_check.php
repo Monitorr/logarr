@@ -37,12 +37,17 @@ class OneFileLoginApplication
 	 * @var bool Configured status.
 	 */
 	private $is_configured = false;
+	/**
+	 * @var array Copy of authentication settings.
+	 */
+	private $auth_settings = false;
 
 	/**
 	 * Does necessary checks for PHP version and PHP password compatibility library and runs the application
 	 */
 	public function __construct()
 	{
+
 		if (is_file(__DIR__ . "/../data/datadir.json")) {
 			$str = file_get_contents(__DIR__ . "/../data/datadir.json");
 			$json = json_decode($str, true);
@@ -51,26 +56,22 @@ class OneFileLoginApplication
 			$datafile = $datadir . 'users.db';
 			$db_sqlite_path = $datafile;
 			$this->db_sqlite_path = $db_sqlite_path;
-			$this->is_configured = $this->isConfigured();
-		} else {
-			$this->is_configured = false;
 		}
 
-		if ($this->is_configured) {
-			if ($this->performMinimumRequirementsCheck()) {
-				$this->runApplication();
-			}
-		} else {
-			$this->doRegistration();
-			$this->showPageConfiguration();
-			exit();
+		if ($this->isConfigured()) {
+			$config_file = $this->datadir . '/config.json';
+			$this->auth_settings = json_decode(file_get_contents($config_file), 1)['authentication'];
+		}
+
+		if ($this->performMinimumRequirementsCheck()) {
+			$this->runApplication();
 		}
 	}
 
 	public function isConfigured()
 	{
 		if ($this->isDatadirSetup() && $this->doesUserExist() && $this->isConfigComplete()) {
-				return true;
+			return true;
 		}
 		return false;
 	}
@@ -86,12 +87,6 @@ class OneFileLoginApplication
 			}
 		}
 		return false;
-	}
-
-	public function isConfigComplete()
-	{
-		//TODO: write implementation, check if all config keys are accounted for
-		return true;
 	}
 
 	public function doesUserExist()
@@ -127,6 +122,12 @@ class OneFileLoginApplication
 		return false;
 	}
 
+	public function isConfigComplete()
+	{
+		//TODO: write implementation, check if all config keys are accounted for
+		return true;
+	}
+
 	/**
 	 * Performs a check for minimum requirements to run this application.
 	 * Does not run the further application when PHP version is lower than 5.3.7
@@ -155,61 +156,62 @@ class OneFileLoginApplication
 	{
 		// start the session, always needed!
 		$this->doStartSession();
+		// check for possible user interactions (login with session/post data or logout)
+		$this->performUserLoginAction();
+
+		//check which page we're on
 		$urlParts = explode("/", strtok($_SERVER["REQUEST_URI"], '?'));
 		$currentPage = strtok(end($urlParts), ".");
+		$homePageURLs = array("index", "", "load-log", "version_check", "sync-config", "time", "download", "unlink", "login-status");
 
-		// check is user wants to see register page (etc.)
-		if (isset($_GET["action"]) && $_GET["action"] == "register" || $currentPage == "register") {
-			if (isset($GLOBALS['authentication']) && isset($GLOBALS['authentication']['registrationEnabled']) && $GLOBALS['authentication']['registrationEnabled'] == "true") {
-				$this->doRegistration();
-				if (!isset($_GET["debug"]) || $_GET["debug"] != 1) {
-					$this->showPageRegistration();
-				}
+		// check is user wants to see configuration page (etc.)
+		if ($currentPage == "configuration") {
+			if (!$this->isConfigured()) {
+				return true;
 			} else {
-				$this->showPageUnauthorized();
+				if (isset($this->auth_settings) && isset($this->auth_settings['configurationEnabled']) && $this->auth_settings['configurationEnabled'] == "true") {
+					if ($this->getUserLoginStatus()) {
+						return true;
+					} else {
+						$this->showPageLoginForm();
+						exit();
+					}
+				} else {
+					var_dump($GLOBALS);
+					$this->showPageUnauthorized();
+					exit();
+				}
 			}
-			exit();
-		} else if (isset($_GET["action"]) && $_GET["action"] == "logout") {
-			$this->doLogout();
-			exit();
-		} else {
-			// check for possible user interactions (login with session/post data or logout)
-			$this->performUserLoginAction();
-
-			//check which page we're on
-
-			$homePageURLs = array("index", "", "load-log", "version_check", "sync-config", "time", "download", "unlink", "login-status");
-			if (in_array($currentPage, $homePageURLs)) {
-				if ($GLOBALS['authentication']['logsEnabled'] == "true") {
-					// show "page", according to user's login status
-					if ($this->getUserLoginStatus()) {
-						return true;
-					} else {
-						$this->showPageLoginForm();
-						exit();
-					}
-				} else {
-					return true;
-				}
-			} else if (strpos(strtolower($_SERVER["REQUEST_URI"]), 'settings') !== false) {
-				if ($GLOBALS['authentication']['settingsEnabled'] == "true") {
-					// show "page", according to user's login status
-					if ($this->getUserLoginStatus()) {
-						return true;
-					} else {
-						$this->showPageLoginForm();
-						exit();
-					}
-				} else {
-					return true;
-				}
-			} else {
+		} else if (in_array($currentPage, $homePageURLs)) {
+			if ($this->auth_settings['logsEnabled'] == "true") {
+				// show "page", according to user's login status
 				if ($this->getUserLoginStatus()) {
 					return true;
 				} else {
 					$this->showPageLoginForm();
 					exit();
 				}
+			} else {
+				return true;
+			}
+		} else if (strpos(strtolower($_SERVER["REQUEST_URI"]), 'settings') !== false) {
+			if ($this->auth_settings['settingsEnabled'] == "true") {
+				// show "page", according to user's login status
+				if ($this->getUserLoginStatus()) {
+					return true;
+				} else {
+					$this->showPageLoginForm();
+					exit();
+				}
+			} else {
+				return true;
+			}
+		} else {
+			if ($this->getUserLoginStatus()) {
+				return true;
+			} else {
+				$this->showPageLoginForm();
+				exit();
 			}
 		}
 	}
@@ -224,150 +226,15 @@ class OneFileLoginApplication
 	}
 
 	/**
-	 * The registration flow
-	 * @return bool
-	 */
-	private function doRegistration()
-	{
-		if ($this->checkRegistrationData()) {
-			if ($this->createDatabaseConnection()) {
-				$this->createNewUser();
-			}
-		}
-		if (isset($_GET["debug"]) && $_GET["debug"] == 1) {
-			echo $this->feedback;
-		}
-		// default return
-		return false;
-	}
-
-	/**
-	 * Validates the user's registration input
-	 * @return bool Success status of user's registration data validation
-	 */
-	private function checkRegistrationData()
-	{
-		// if no registration form submitted: exit the method
-		if (!isset($_POST["register"])) {
-			return false;
-		}
-		// validating the input
-		if (empty($_POST['user_name'])) {
-			$this->feedback = "Empty Username";
-		} elseif (empty($_POST['user_password_new']) || empty($_POST['user_password_repeat'])) {
-			$this->feedback = "Empty Password";
-		} elseif ($_POST['user_password_new'] !== $_POST['user_password_repeat']) {
-			$this->feedback = "Password and password repeat are not the same";
-		} elseif (strlen($_POST['user_password_new']) < 6) {
-			$this->feedback = "Password has a minimum length of 6 characters";
-		} elseif (strlen($_POST['user_name']) > 64 || strlen($_POST['user_name']) < 2) {
-			$this->feedback = "Username cannot be shorter than 2 or longer than 64 characters";
-		} elseif (!preg_match('/^[a-z\d]{2,64}$/i', $_POST['user_name'])) {
-			$this->feedback = "Username does not fit the name scheme: only a-Z and numbers are allowed, 2 to 64 characters";
-		} elseif (isset($_POST['user_email']) && !empty($_POST['user_email'])) {
-			if (strlen($_POST['user_email']) > 64) {
-				$this->feedback = "Email cannot be longer than 64 characters";
-			} elseif (!filter_var($_POST['user_email'], FILTER_VALIDATE_EMAIL)) {
-				$this->feedback = "Your email address is not in a valid email format";
-			} else {
-				return true;
-			}
-		} else {
-			return true;
-		}
-		// default return
-		return false;
-	}
-
-	/**
-	 * Creates a new user.
-	 * @return bool Success status of user registration
-	 */
-	private function createNewUser()
-	{
-		// remove html code etc. from username and email
-		$user_name = htmlentities($_POST['user_name'], ENT_QUOTES);
-		$user_email = isset($_POST['user_email']) ? htmlentities($_POST['user_email'], ENT_QUOTES) : "";
-		$user_password = $_POST['user_password_new'];
-		// crypt the user's password with the PHP 5.5's password_hash() function, results in a 60 char hash string.
-		// the constant PASSWORD_DEFAULT comes from PHP 5.5 or the password_compatibility_library
-		$user_password_hash = password_hash($user_password, PASSWORD_DEFAULT);
-		$sql = 'SELECT * FROM users WHERE user_name = :user_name OR (NOT(user_email="") AND user_email = :user_email)';
-		$query = $this->db_connection->prepare($sql);
-		$query->bindValue(':user_name', $user_name);
-		$query->bindValue(':user_email', $user_email);
-		$query->execute();
-		// As there is no numRows() in SQLite/PDO (!!) we have to do it this way:
-		// If you meet the inventor of PDO, punch him. Seriously.
-		$result_row = $query->fetchObject();
-		if ($result_row) {
-			$this->feedback = "Sorry, that username / email is already taken. Please choose another one.";
-		} else {
-			if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
-				$token = bin2hex(random_bytes(32));
-			} else {
-				$token = bin2hex(openssl_random_pseudo_bytes(32));
-			}
-
-			$sql = 'INSERT INTO users (user_name, user_password_hash, user_email, auth_token)
-                    VALUES(:user_name, :user_password_hash, :user_email, :auth_token)';
-			$query = $this->db_connection->prepare($sql);
-			$query->bindValue(':user_name', $user_name);
-			$query->bindValue(':user_password_hash', $user_password_hash);
-			$query->bindValue(':user_email', $user_email);
-			$query->bindValue(':auth_token', $token);
-			// PDO's execute() gives back TRUE when successful, FALSE when not
-			// @link http://stackoverflow.com/q/1661863/1114320
-			$registration_success_state = $query->execute();
-			if ($registration_success_state) {
-				$this->feedback = '<b>User credentials have been created successfully.</b><br><b><a href="/settings.php" class="btn btn-primary" title="Logarr Settings">Log in here</a> </b>';
-				return true;
-			} else {
-				$this->feedback = "ERROR: registration failed. Please check the webserver PHP logs and try again.";
-			}
-		}
-		// default return
-		return false;
-	}
-
-	/**
-	 * Simple demo-"page" with the registration form.
-	 * In a real application you would probably include an html-template here, but for this extremely simple
-	 * demo the "echo" statements are totally okay.
-	 */
-	private function showPageRegistration()
-	{
-		include_once('authentication/register.php');
-	}
-
-	/**
-	 * Simple unauthorized page
-	 */
-	private function showPageUnauthorized()
-	{
-		include_once('authentication/unauthorized.php');
-	}
-
-	/**
-	 * Logs the user out
-	 */
-	private function doLogout()
-	{
-		$_SESSION = array();
-		session_destroy();
-		$this->user_is_logged_in = false;
-		unset($_COOKIE["Logarr_AUTH"]);
-		setcookie("Logarr_AUTH", null, time() - 1, "/");
-		$this->feedback = "You were just logged out.";
-		header("location: index.php");
-	}
-
-	/**
 	 * Handles the flow of the login/logout process. According to the circumstances, a logout, a login with session
 	 * data or a login with post data will be performed
 	 */
 	private function performUserLoginAction()
 	{
+		if (isset($_GET["action"]) && $_GET["action"] == "logout") {
+			$this->doLogout();
+			exit();
+		}
 		if (!empty($_SESSION['user_name']) && ($_SESSION['user_is_logged_in'])) {
 			$this->doLoginWithSessionData();
 		} elseif (isset($_POST["login"])) {
@@ -521,6 +388,145 @@ class OneFileLoginApplication
 	private function showPageLoginForm()
 	{
 		include_once('authentication/login.php');
+	}
+
+	/**
+	 * Simple unauthorized page
+	 */
+	private function showPageUnauthorized()
+	{
+		include_once('authentication/unauthorized.php');
+	}
+
+	/**
+	 * Logs the user out
+	 */
+	private function doLogout()
+	{
+		$_SESSION = array();
+		session_destroy();
+		$this->user_is_logged_in = false;
+		unset($_COOKIE["Logarr_AUTH"]);
+		setcookie("Logarr_AUTH", null, time() - 1, "/");
+		$this->feedback = "You were just logged out.";
+		header("location: index.php");
+	}
+
+	/**
+	 * The registration flow
+	 * @return bool
+	 */
+	private function doRegistration()
+	{
+		if ($this->checkRegistrationData()) {
+			if ($this->createDatabaseConnection()) {
+				$this->createNewUser();
+			}
+		}
+		if (isset($_GET["debug"]) && $_GET["debug"] == 1) {
+			echo $this->feedback;
+		}
+		// default return
+		return false;
+	}
+
+	/**
+	 * Validates the user's registration input
+	 * @return bool Success status of user's registration data validation
+	 */
+	private function checkRegistrationData()
+	{
+		// if no registration form submitted: exit the method
+		if (!isset($_POST["register"])) {
+			return false;
+		}
+		// validating the input
+		if (empty($_POST['user_name'])) {
+			$this->feedback = "Empty Username";
+		} elseif (empty($_POST['user_password_new']) || empty($_POST['user_password_repeat'])) {
+			$this->feedback = "Empty Password";
+		} elseif ($_POST['user_password_new'] !== $_POST['user_password_repeat']) {
+			$this->feedback = "Password and password repeat are not the same";
+		} elseif (strlen($_POST['user_password_new']) < 6) {
+			$this->feedback = "Password has a minimum length of 6 characters";
+		} elseif (strlen($_POST['user_name']) > 64 || strlen($_POST['user_name']) < 2) {
+			$this->feedback = "Username cannot be shorter than 2 or longer than 64 characters";
+		} elseif (!preg_match('/^[a-z\d]{2,64}$/i', $_POST['user_name'])) {
+			$this->feedback = "Username does not fit the name scheme: only a-Z and numbers are allowed, 2 to 64 characters";
+		} elseif (isset($_POST['user_email']) && !empty($_POST['user_email'])) {
+			if (strlen($_POST['user_email']) > 64) {
+				$this->feedback = "Email cannot be longer than 64 characters";
+			} elseif (!filter_var($_POST['user_email'], FILTER_VALIDATE_EMAIL)) {
+				$this->feedback = "Your email address is not in a valid email format";
+			} else {
+				return true;
+			}
+		} else {
+			return true;
+		}
+		// default return
+		return false;
+	}
+
+	/**
+	 * Creates a new user.
+	 * @return bool Success status of user registration
+	 */
+	private function createNewUser()
+	{
+		// remove html code etc. from username and email
+		$user_name = htmlentities($_POST['user_name'], ENT_QUOTES);
+		$user_email = isset($_POST['user_email']) ? htmlentities($_POST['user_email'], ENT_QUOTES) : "";
+		$user_password = $_POST['user_password_new'];
+		// crypt the user's password with the PHP 5.5's password_hash() function, results in a 60 char hash string.
+		// the constant PASSWORD_DEFAULT comes from PHP 5.5 or the password_compatibility_library
+		$user_password_hash = password_hash($user_password, PASSWORD_DEFAULT);
+		$sql = 'SELECT * FROM users WHERE user_name = :user_name OR (NOT(user_email="") AND user_email = :user_email)';
+		$query = $this->db_connection->prepare($sql);
+		$query->bindValue(':user_name', $user_name);
+		$query->bindValue(':user_email', $user_email);
+		$query->execute();
+		// As there is no numRows() in SQLite/PDO (!!) we have to do it this way:
+		// If you meet the inventor of PDO, punch him. Seriously.
+		$result_row = $query->fetchObject();
+		if ($result_row) {
+			$this->feedback = "Sorry, that username / email is already taken. Please choose another one.";
+		} else {
+			if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
+				$token = bin2hex(random_bytes(32));
+			} else {
+				$token = bin2hex(openssl_random_pseudo_bytes(32));
+			}
+
+			$sql = 'INSERT INTO users (user_name, user_password_hash, user_email, auth_token)
+                    VALUES(:user_name, :user_password_hash, :user_email, :auth_token)';
+			$query = $this->db_connection->prepare($sql);
+			$query->bindValue(':user_name', $user_name);
+			$query->bindValue(':user_password_hash', $user_password_hash);
+			$query->bindValue(':user_email', $user_email);
+			$query->bindValue(':auth_token', $token);
+			// PDO's execute() gives back TRUE when successful, FALSE when not
+			// @link http://stackoverflow.com/q/1661863/1114320
+			$registration_success_state = $query->execute();
+			if ($registration_success_state) {
+				$this->feedback = '<b>User credentials have been created successfully.</b><br><b><a href="/settings.php" class="btn btn-primary" title="Logarr Settings">Log in here</a> </b>';
+				return true;
+			} else {
+				$this->feedback = "ERROR: registration failed. Please check the webserver PHP logs and try again.";
+			}
+		}
+		// default return
+		return false;
+	}
+
+	/**
+	 * Simple demo-"page" with the registration form.
+	 * In a real application you would probably include an html-template here, but for this extremely simple
+	 * demo the "echo" statements are totally okay.
+	 */
+	private function showPageRegistration()
+	{
+		include_once('authentication/register.php');
 	}
 
 	/**

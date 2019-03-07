@@ -75,9 +75,9 @@ include_once(__DIR__ . "/../auth_check.php");
                 title: 'Welcome to Logarr!',
                 position: 'bottom-start',
                 timer: 5000
-            })
+            });
             console.log("Welcome to Logarr!");
-        };
+        }
 
         $(document).ready(function() {
             toastwelcome();
@@ -104,14 +104,16 @@ include_once(__DIR__ . "/../auth_check.php");
     <script>
         <?php
         //initial values for clock:
-        $timezone = $GLOBALS['preferences']['timezone'];
-        $dt = new DateTime("now", new DateTimeZone("$timezone"));
+        $timezoneString = $GLOBALS['preferences']['timezone'];
+        if(!in_array($timezoneString, timezone_identifiers_list())) $timezoneString = "UTC";
+        $timezone = new DateTimeZone("$timezoneString");
+        $dt = new DateTime("now", $timezone);
         $timeStandard = (int)($GLOBALS['preferences']['timestandard']);
-        $rftime = $GLOBALS['settings']['rftime'];
+        $rftime = isset($GLOBALS['settings']['rftime']) ? $GLOBALS['settings']['rftime'] : 30000;
         $timezone_suffix = '';
         if (!$timeStandard) {
             $dateTime = new DateTime();
-            $dateTime->setTimeZone(new DateTimeZone($timezone));
+            $dateTime->setTimeZone($timezone);
             $timezone_suffix = $dateTime->format('T');
         }
         $serverTime = $dt->format("D d M Y H:i:s");
@@ -119,7 +121,7 @@ include_once(__DIR__ . "/../auth_check.php");
         var servertime = "<?php echo $serverTime; ?>";
         var timeStandard = <?php echo $timeStandard; ?>;
         var timeZone = "<?php echo $timezone_suffix; ?>";
-        var rftime = <?php echo $GLOBALS['settings']['rftime']; ?>;
+        var rftime = <?php echo $rftime; ?>;
 
         $(document).ready(function() {
             updateTime();

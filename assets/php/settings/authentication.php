@@ -138,18 +138,18 @@ include(__DIR__ . '/../auth_check.php');
                         "layout": {
                             "template": './templates/two-column-layout-template.html',
                             "bindings": {
-                                "registrationEnabled": "rightcolumn",
+                                "configurationEnabled": "rightcolumn",
                                 "settingsEnabled": "leftcolumn",
                                 "logsEnabled": "leftcolumn"
                             }
                         },
                         "fields": {
-                            "/registrationEnabled": {
+                            "/configurationEnabled": {
                                 "templates": {
-                                    "control": "./templates/authentication/templates-authentication_registrationenabled.html"
+                                    "control": "./templates/authentication/templates-authentication_configurationenabled.html"
                                 },
                                 "bindings": {
-                                    "registrationEnabled": "#registrationenabled"
+                                    "configurationEnabled": "#authentication_configurationenabled"
                                 }
                             },
                             "/settingsEnabled": {
@@ -180,18 +180,18 @@ include(__DIR__ . '/../auth_check.php');
                         "collapsible": false,
                         "legendStyle": "button",
                         "fields": {
-                            "registrationEnabled": {
+                            "configurationEnabled": {
                                 "type": "radio",
                                 "validate": true,
                                 "showMessages": true,
                                 "disabled": false,
                                 "hidden": false,
-                                "label": "Enable Registration Access:",
-                                "helpers": ["Enable access to the Registration page. (NOTE: For security purposes, this should be DISABLED ('false') after initial configuration.)"],
+                                "label": "Enable Configuration Access:",
+                                "helpers": ["Enable access to the Configuration page. (NOTE: For security purposes, this should be DISABLED ('false') after initial configuration.)"],
                                 "hideInitValidationError": false,
                                 "focus": false,
                                 "optionLabels": [" True", " False"],
-                                "name": "registrationEnabled",
+                                "name": "configurationEnabled",
                                 "typeahead": {},
                                 "allowOptionalEmpty": false,
                                 "data": {},
@@ -203,7 +203,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "events": {
                                     "change": function() {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
-                                        $('.registrationenabledlabel').addClass('settingslabelchanged');
+                                        $('.configurationenabledlabel').addClass('settingslabelchanged');
                                         settingchange();
                                     }
                                 }

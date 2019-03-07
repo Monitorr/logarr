@@ -3,16 +3,6 @@
 ini_set('error_reporting', E_ERROR);
 
 ini_set('memory_limit', '-1');
-if (!is_file(__DIR__ . '../../data/datadir.json')
-	|| file_get_contents(__DIR__ . '../../data/datadir.json') == ""
-	|| !key_exists("datadir", json_decode(file_get_contents(__DIR__ . '../../data/datadir.json'), 1))
-	|| !is_file(json_decode(file_get_contents(__DIR__ . '../../data/datadir.json'), 1)['datadir'] . 'config.json')
-) {
-	//invalid/unset datadir, start configuration process
-	$_GET['action'] = 'config';
-	include_once(__DIR__ . '/auth_check.php');
-	exit();
-}
 
 // Data Dir
 $datadir_json = json_decode(file_get_contents(__DIR__ . '../../data/datadir.json'), 1);
@@ -25,6 +15,7 @@ $settings = json_decode(file_get_contents($config_file), 1)['settings'];
 $logs = json_decode(file_get_contents($config_file), 1)['logs'];
 $authentication = json_decode(file_get_contents($config_file), 1)['authentication'];
 
+global $preferences, $settings,$logs, $authentication;
 
 // New version download information
 
