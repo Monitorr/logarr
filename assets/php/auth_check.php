@@ -181,7 +181,7 @@ class OneFileLoginApplication
 			if (!$this->isConfigured()) {
 				return true;
 			} else {
-				if (isset($this->auth_settings) && isset($this->auth_settings['configurationEnabled']) && $this->auth_settings['configurationEnabled'] == "true") {
+				if (isset($this->auth_settings) && (!isset($this->auth_settings['configurationEnabled']) || $this->auth_settings['configurationEnabled'] != "false")) {
 					if ($this->getUserLoginStatus()) {
 						return true;
 					} else {
