@@ -51,12 +51,12 @@ class OneFileLoginApplication
 			$datafile = $datadir . 'users.db';
 			$db_sqlite_path = $datafile;
 			$this->db_sqlite_path = $db_sqlite_path;
-			$this->is_configured = $this->IsConfigured();
+			$this->is_configured = $this->isConfigured();
 		} else {
 			$this->is_configured = false;
 		}
 
-		if($this->is_configured) {
+		if ($this->is_configured) {
 			if ($this->performMinimumRequirementsCheck()) {
 				$this->runApplication();
 			}
@@ -67,26 +67,35 @@ class OneFileLoginApplication
 		}
 	}
 
-	public function IsConfigured(){
-		if(file_exists($this->datadir)) {
+	public function isConfigured()
+	{
+		if ($this->isDatadirSetup() && $this->doesUserExist() && $this->isConfigComplete()) {
+				return true;
+		}
+		return false;
+	}
+
+	public function isDatadirSetup()
+	{
+		if (file_exists($this->datadir)) {
 			$datadir = rtrim($this->datadir, "\\/" . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-			if(file_exists($datadir)
+			if (file_exists($datadir)
 				&& file_exists($datadir . "config.json")
-				&& file_exists($datadir . "users.db")){
-				if($this->ConfigIsComplete() && $this->UserExists()) {
-					return true;
-				}
+				&& file_exists($datadir . "users.db")) {
+				return true;
 			}
 		}
 		return false;
 	}
 
-	public function ConfigIsComplete(){
-		//TODO: write implementation
+	public function isConfigComplete()
+	{
+		//TODO: write implementation, check if all config keys are accounted for
 		return true;
 	}
 
-	public function UserExists(){
+	public function doesUserExist()
+	{
 		if ($this->createDatabaseConnection()) {
 			$sql = "SELECT COUNT(*) as count FROM users;";
 			$query = $this->db_connection->prepare($sql);
@@ -102,6 +111,119 @@ class OneFileLoginApplication
 	}
 
 	/**
+	 * Creates a PDO database connection (in this case to a SQLite flat-file database)
+	 * @return bool Database creation success status, false by default
+	 */
+	private function createDatabaseConnection()
+	{
+		try {
+			$this->db_connection = new PDO($this->db_type . ':' . $this->db_sqlite_path);
+			return true;
+		} catch (PDOException $e) {
+			$this->feedback = "PDO database connection problem: " . $e->getMessage();
+		} catch (Exception $e) {
+			$this->feedback = "General problem: " . $e->getMessage();
+		}
+		return false;
+	}
+
+	/**
+	 * Performs a check for minimum requirements to run this application.
+	 * Does not run the further application when PHP version is lower than 5.3.7
+	 * Does include the PHP password compatibility library when PHP version lower than 5.5.0
+	 * (this library adds the PHP 5.5 password hashing functions to older versions of PHP)
+	 * @return bool Success status of minimum requirements check, default is false
+	 */
+	private function performMinimumRequirementsCheck()
+	{
+		if (version_compare(PHP_VERSION, '5.3.7', '<')) {
+			echo "Sorry, Simple PHP Login does not run on a PHP version older than 5.3.7 !";
+		} elseif (version_compare(PHP_VERSION, '5.5.0', '<')) {
+			require_once(__DIR__ . "/../libraries/password_compatibility_library.php");
+			return true;
+		} elseif (version_compare(PHP_VERSION, '5.5.0', '>=')) {
+			return true;
+		}
+		// default return
+		return false;
+	}
+
+	/**
+	 * This is basically the controller that handles the entire flow of the application.
+	 */
+	public function runApplication()
+	{
+		// start the session, always needed!
+		$this->doStartSession();
+		$urlParts = explode("/", strtok($_SERVER["REQUEST_URI"], '?'));
+		$currentPage = strtok(end($urlParts), ".");
+
+		// check is user wants to see register page (etc.)
+		if (isset($_GET["action"]) && $_GET["action"] == "register" || $currentPage == "register") {
+			if (isset($GLOBALS['authentication']) && isset($GLOBALS['authentication']['registrationEnabled']) && $GLOBALS['authentication']['registrationEnabled'] == "true") {
+				$this->doRegistration();
+				if (!isset($_GET["debug"]) || $_GET["debug"] != 1) {
+					$this->showPageRegistration();
+				}
+			} else {
+				$this->showPageUnauthorized();
+			}
+			exit();
+		} else if (isset($_GET["action"]) && $_GET["action"] == "logout") {
+			$this->doLogout();
+			exit();
+		} else {
+			// check for possible user interactions (login with session/post data or logout)
+			$this->performUserLoginAction();
+
+			//check which page we're on
+
+			$homePageURLs = array("index", "", "load-log", "version_check", "sync-config", "time", "download", "unlink");
+			if (in_array($currentPage, $homePageURLs)) {
+				if ($GLOBALS['authentication']['logsEnabled'] == "true") {
+					// show "page", according to user's login status
+					if ($this->getUserLoginStatus()) {
+						return true;
+					} else {
+						$this->showPageLoginForm();
+						exit();
+					}
+				} else {
+					return true;
+				}
+			} else if (strpos(strtolower($_SERVER["REQUEST_URI"]), 'settings') !== false) {
+				if ($GLOBALS['authentication']['settingsEnabled'] == "true") {
+					// show "page", according to user's login status
+					if ($this->getUserLoginStatus()) {
+						return true;
+					} else {
+						$this->showPageLoginForm();
+						exit();
+					}
+				} else {
+					return true;
+				}
+			} else {
+				if ($this->getUserLoginStatus()) {
+					return true;
+				} else {
+					$this->showPageLoginForm();
+					exit();
+				}
+			}
+		}
+	}
+
+	/**
+	 * Simply starts the session.
+	 * It's cleaner to put this into a method than writing it directly into runApplication()
+	 */
+	private function doStartSession()
+	{
+		if (session_status() == PHP_SESSION_NONE) session_start();
+	}
+
+	/**
 	 * The registration flow
 	 * @return bool
 	 */
@@ -112,7 +234,7 @@ class OneFileLoginApplication
 				$this->createNewUser();
 			}
 		}
-		if(isset($_GET["debug"]) && $_GET["debug"] == 1) {
+		if (isset($_GET["debug"]) && $_GET["debug"] == 1) {
 			echo $this->feedback;
 		}
 		// default return
@@ -154,23 +276,6 @@ class OneFileLoginApplication
 			return true;
 		}
 		// default return
-		return false;
-	}
-
-	/**
-	 * Creates a PDO database connection (in this case to a SQLite flat-file database)
-	 * @return bool Database creation success status, false by default
-	 */
-	private function createDatabaseConnection()
-	{
-		try {
-			$this->db_connection = new PDO($this->db_type . ':' . $this->db_sqlite_path);
-			return true;
-		} catch (PDOException $e) {
-			$this->feedback = "PDO database connection problem: " . $e->getMessage();
-		} catch (Exception $e) {
-			$this->feedback = "General problem: " . $e->getMessage();
-		}
 		return false;
 	}
 
@@ -223,112 +328,6 @@ class OneFileLoginApplication
 		}
 		// default return
 		return false;
-	}
-
-	/**
-	 * Simple demo-"page" with the registration form.
-	 * In a real application you would probably include an html-template here, but for this extremely simple
-	 * demo the "echo" statements are totally okay.
-	 */
-	private function showPageConfiguration()
-	{
-		include_once('authentication/configuration.php');
-	}
-
-	/**
-	 * Performs a check for minimum requirements to run this application.
-	 * Does not run the further application when PHP version is lower than 5.3.7
-	 * Does include the PHP password compatibility library when PHP version lower than 5.5.0
-	 * (this library adds the PHP 5.5 password hashing functions to older versions of PHP)
-	 * @return bool Success status of minimum requirements check, default is false
-	 */
-	private function performMinimumRequirementsCheck()
-	{
-		if (version_compare(PHP_VERSION, '5.3.7', '<')) {
-			echo "Sorry, Simple PHP Login does not run on a PHP version older than 5.3.7 !";
-		} elseif (version_compare(PHP_VERSION, '5.5.0', '<')) {
-			require_once(__DIR__ . "/../libraries/password_compatibility_library.php");
-			return true;
-		} elseif (version_compare(PHP_VERSION, '5.5.0', '>=')) {
-			return true;
-		}
-		// default return
-		return false;
-	}
-
-	/**
-	 * This is basically the controller that handles the entire flow of the application.
-	 */
-	public function runApplication()
-	{
-		// start the session, always needed!
-		$this->doStartSession();
-		$urlParts = explode("/", strtok($_SERVER["REQUEST_URI"], '?'));
-		$currentPage = strtok(end($urlParts), ".");
-
-		// check is user wants to see register page (etc.)
-		if (isset($_GET["action"]) && $_GET["action"] == "register" || $currentPage == "register") {
-			if (isset($GLOBALS['authentication']) && isset($GLOBALS['authentication']['registrationEnabled']) && $GLOBALS['authentication']['registrationEnabled'] == "true") {
-				$this->doRegistration();
-				if(!isset($_GET["debug"]) || $_GET["debug"] != 1) {
-					$this->showPageRegistration();
-				}
-			} else {
-				$this->showPageUnauthorized();
-			}
-			exit();
-		} else if (isset($_GET["action"]) && $_GET["action"] == "logout") {
-			$this->doLogout();
-			exit();
-		} else {
-			// check for possible user interactions (login with session/post data or logout)
-			$this->performUserLoginAction();
-
-			//check which page we're on
-
-			$homePageURLs = array("index", "", "load-log", "version_check", "sync-config", "time", "download", "unlink");
-			if (in_array($currentPage, $homePageURLs)) {
-				if($GLOBALS['authentication']['logsEnabled'] == "true") {
-					// show "page", according to user's login status
-					if ($this->getUserLoginStatus()) {
-						return true;
-					} else {
-						$this->showPageLoginForm();
-						exit();
-					}
-				} else {
-					return true;
-				}
-			} else if (strpos(strtolower($_SERVER["REQUEST_URI"]), 'settings') !== false) {
-				if($GLOBALS['authentication']['settingsEnabled'] == "true") {
-					// show "page", according to user's login status
-					if ($this->getUserLoginStatus()) {
-						return true;
-					} else {
-						$this->showPageLoginForm();
-						exit();
-					}
-				} else {
-					return true;
-				}
-			} else {
-				if ($this->getUserLoginStatus()) {
-					return true;
-				} else {
-					$this->showPageLoginForm();
-					exit();
-				}
-			}
-		}
-	}
-
-	/**
-	 * Simply starts the session.
-	 * It's cleaner to put this into a method than writing it directly into runApplication()
-	 */
-	private function doStartSession()
-	{
-		if (session_status() == PHP_SESSION_NONE) session_start();
 	}
 
 	/**
@@ -522,6 +521,16 @@ class OneFileLoginApplication
 	private function showPageLoginForm()
 	{
 		include_once('authentication/login.php');
+	}
+
+	/**
+	 * Simple demo-"page" with the registration form.
+	 * In a real application you would probably include an html-template here, but for this extremely simple
+	 * demo the "echo" statements are totally okay.
+	 */
+	private function showPageConfiguration()
+	{
+		include_once('authentication/configuration.php');
 	}
 }
 
