@@ -19,6 +19,8 @@ if (isset($_GET["action"]) && $_GET["action"] == "register") {
 https://github.com/Monitorr/Logarr
 -->
 
+<!-- settings.php -->
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -46,9 +48,7 @@ https://github.com/Monitorr/Logarr
 
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/js/vendor/sweetalert2.min.js"></script>
-
     <script src="assets/js/logarr.main.js"></script>
-
 
     <style>
         .header-brand {
@@ -72,6 +72,8 @@ https://github.com/Monitorr/Logarr
         }
     </style>
 
+    <?php checkLoginsettings(); ?>
+
     <script>
         function toastwelcome() {
             Toast.fire({
@@ -92,6 +94,10 @@ https://github.com/Monitorr/Logarr
         });
     </script>
 
+    <title>
+        <?php echo $GLOBALS['preferences']['sitetitle'] . ' | Settings'; ?>
+    </title>
+
     <!-- sync config with javascript -->
     <script>
         let settings = <?php echo json_encode($GLOBALS['settings']); ?>;
@@ -101,7 +107,7 @@ https://github.com/Monitorr/Logarr
 
     <!-- // Set global timezone from config file: -->
     <?php
-    //Why is this necessary? - rob1998  // CHANGE ME
+        // TODO / Why is this necessary? - rob1998  // This was left over from Monitorr - If config values were NOT set, use below
     if ($GLOBALS['preferences']['timezone'] == "") {
 
         date_default_timezone_set('UTC');
@@ -117,7 +123,6 @@ https://github.com/Monitorr/Logarr
     <script>
         <?php
         //initial values for clock:
-        //$timezone = $preferences['timezone'];
         $dt = new DateTime("now", new DateTimeZone("$timezone"));
         $timeStandard = (int)($GLOBALS['preferences']['timestandard']);
         $rftime = $GLOBALS['settings']['rftime'];
@@ -139,13 +144,6 @@ https://github.com/Monitorr/Logarr
             updateTime();
         });
     </script>
-
-    <title>
-        <?php
-        echo $preferences['sitetitle'];
-        ?>
-        | Settings
-    </title>
 
     <script>
         $(function() {
@@ -239,7 +237,7 @@ https://github.com/Monitorr/Logarr
                     </li>
                     <?php if (isset($_SESSION['user_name']) && isset($_SESSION['user_is_logged_in']) && !empty($_SESSION['user_name']) && ($_SESSION['user_is_logged_in'])) { ?>
                     <li class="sidebar-nav-item" data-item="log-out">
-                        <a href="settings.php?action=logout" title="Log Out"><i class="fas fa-sign-out-alt"></i>Log Out</a>
+                        <a href="settings.php?action=logout" onclick='logouttoast();' title="Log Out"><i class="fas fa-sign-out-alt"></i>Log Out</a>
                     </li>
                     <?php 
                 } ?>
@@ -289,7 +287,7 @@ https://github.com/Monitorr/Logarr
                 <?php echo file_get_contents("assets/js/version/version.txt"); ?></a> |
             <a href="settings.php" title="Logarr Settings" target="_blank" class="footer">Settings</a>
             <?php if (isset($_SESSION['user_name']) && isset($_SESSION['user_is_logged_in']) && !empty($_SESSION['user_name']) && ($_SESSION['user_is_logged_in'])) {
-                echo " | <a href='index.php?action=logout' title='Log out' class='footer'></i>Logout</a>";
+                echo " | <a href='index.php?action=logout' onclick='logouttoast(); 'title='Log out' class='footer'></i>Logout</a>";
             } ?>
             <br>
         </div>

@@ -3,7 +3,6 @@ include('assets/php/functions.php');
 include('assets/php/auth_check.php');
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,7 +33,8 @@ include('assets/php/auth_check.php');
     <link rel="stylesheet" href="assets/data/custom.css">
 
     <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="apple-touch-icon-precomposed" sizes="180x180" href="assets/images/favicon/apple-touch-icon.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="180x180" href="assets/images/favicon/apple-touch-icon.png">
+    <link rel="mask-icon" href="assets/images/favicon/icon.svg" color="blue">
     <!-- <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/images/favicon/apple-touch-icon-114x114.png" />
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/images/favicon/apple-touch-icon-72x72.png" />
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/images/favicon/apple-touch-icon-144x144.png" />
@@ -43,9 +43,9 @@ include('assets/php/auth_check.php');
     <link rel="apple-touch-icon-precomposed" sizes="76x76" href="assets/images/favicon/apple-touch-icon-76x76.png" />
     <link rel="apple-touch-icon-precomposed" sizes="152x152" href="assets/images/favicon/apple-touch-icon-152x152.png" /> -->
 
-    <link rel="icon" type="image/png" href="assets/images/favicon/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="assets/images/favicon/favicon-16x16.png" sizes="16x16" />
-    <meta name="msapplication-square150x150logo" content="assets/images/favicon/mstile-150x150.png" />
+    <link rel="icon" type="image/png" href="assets/images/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="assets/images/favicon/favicon-16x16.png" sizes="16x16">
+    <meta name="msapplication-square150x150logo" content="assets/images/favicon/mstile-150x150.png">
 
     <meta name="theme-color" content="#464646" />
     <meta name="theme_color" content="#464646" />
@@ -68,10 +68,10 @@ include('assets/php/auth_check.php');
 
     <script src="assets/js/jquery.min.js"></script>
 
-    <script src="assets/js/vendor/sweetalert2.min.js"></script>
+    <!-- Check if Logger auth is enabled / if TRUE, check login status every 10s -->
+    <?php checkLoginindex(); ?>
 
-    <!-- Chang me / remove -->
-    <script src="assets/js/jquery.blockUI.js"></script>
+    <script src="assets/js/vendor/sweetalert2.min.js"></script>
 
     <script src="assets/js/jquery.highlight.js" async></script>
 
@@ -79,14 +79,17 @@ include('assets/php/auth_check.php');
 
     <script src="assets/js/logarr.main.js"></script>
 
+
     <!-- sync config with javascript -->
     <script>
         let settings = <?php echo json_encode($GLOBALS['settings']); ?>;
         let preferences = <?php echo json_encode($GLOBALS['preferences']); ?>;
         let logs = <?php echo json_encode($GLOBALS['logs']); ?>;
+        let authentication = <?php echo json_encode($GLOBALS['authentication']); ?>;
         home = true;
         refreshConfig();
     </script>
+
 
     <!-- UI clock functions: -->
     <script>
@@ -215,7 +218,7 @@ include('assets/php/auth_check.php');
                 <?php echo file_get_contents("assets/js/version/version.txt"); ?></a> |
             <a href="settings.php" title="Logarr Settings" target="_blank" class="footer">Settings</a>
             <?php if (isset($_SESSION['user_name']) && isset($_SESSION['user_is_logged_in']) && !empty($_SESSION['user_name']) && ($_SESSION['user_is_logged_in'])) {
-                echo " | <a href='index.php?action=logout' title='Log out' class='footer'></i>Logout</a>";
+                echo " | <a href='index.php?action=logout' onclick='logouttoast();'  title='Log out' class='footer'></i>Logout</a>";
             } ?>
             <br>
         </div>
