@@ -38,9 +38,6 @@ include(__DIR__ . '/../auth_check.php');
     $("#registration-content").load("?action=register");
 </script>
 
- <!-- CHANGE ME:  DO WE NEED THIS: ?? -->
-<!-- <script src="../../js/update-settings.js" async></script> -->
-
 </body>
 
 </html>

@@ -37,6 +37,15 @@ function logupdatetoast() {
     })
 };
 
+function logouttoast() {
+    Toast.fire({
+        toast: true,
+        type: 'warning',
+        title: 'You have been logged out.',
+        background: 'rgba(207, 0, 0, 0.75)',
+    })
+};
+
 function logsingleupdatetoast() {
     Toast.fire({
         toast: true,
@@ -93,7 +102,6 @@ function logroll() {
         timer: 5000
     })
 };
-
 
 function logrollmodal() {
     Swal.fire({
@@ -228,8 +236,6 @@ function refreshblockUI() {
         loadLogs();
     }, 300);
 
-    //CHANGE ME: TODO / Add cursor wait ??
-
     //wait after log update to highlight terms:
     if (settings.autoHighlight === "true") {
         setTimeout(function () {
@@ -341,7 +347,6 @@ function highlightjs() {
     };
 }
 
-
 // Jumps to the element matching the currentIndex
 function jumpTo() {
     if (results.length) {
@@ -418,16 +423,12 @@ $(function () {
         console.log('Logarr is performing search');
         $('#body').addClass("cursorwait");
         searchtoast();
-        $('#buttonStart :checkbox').prop('checked', false).change(); // if auto-update is enabled, disable it after search submit
-        //$.blockUI({
-        //    message: 'Searching...'
-        //});
+        $('#buttonStart :checkbox').prop('checked', false).change(); // TODO - BUG: if auto-update is enabled, disable it after search submit
         setTimeout(function () {
             $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search
             mark();
             $('#body').removeClass("cursorwait");
             Toast.close();
-            //$.unblockUI()
         }, 300);
     });
 
@@ -437,15 +438,11 @@ $(function () {
             console.log('Logarr is performing search');
             $('#body').addClass("cursorwait");
             searchtoast();
-            $('#buttonStart :checkbox').prop('checked', false).change(); // if auto-update is enabled, disable it after search submit
-            // $.blockUI({
-            //     message: 'Searching...'
-            // });
+            $('#buttonStart :checkbox').prop('checked', false).change(); // TODO: BUG: if auto-update is enabled, disable it after search submit
             setTimeout(function () {
                 $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search
                 mark();
                 $('#body').removeClass("cursorwait");
-                //$.unblockUI()
             }, 300);
         }
     });
@@ -479,10 +476,6 @@ $(function () {
     $("input[name='markinput']").keyup(function (e) {
         clearTimeout(timeoutID);
         if (settings.liveSearch === "true") {
-
-            // TODO / Change me: Lags browser
-            //searchtoast();
-
             $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search
             timeoutID = setTimeout(() => mark(e.target.value), 500);
         }
@@ -496,7 +489,6 @@ $(function () {
     $(document).on('click', "button[data-action='unlink-log']", function (event) {
         event.preventDefault(); // stop being refreshed
         console.log('Attempting log roll');
-        //$.growlUI("Attempting <br> log roll");
         logrollmodal();
         $.ajax({
             type: 'POST',
@@ -507,24 +499,7 @@ $(function () {
 
                 $('#modalContent').html(data);
                 let modal = $('#responseModal');
-
-                //let span = $('.closemodal');
                 modal.fadeIn('slow');
-
-                // span.click(function () {
-                //     modal.fadeOut('slow');
-                // });
-
-                // TODO Remove?? :
-                // $(body).click(function (event) {
-                //     if (event.target !== modal) {
-                //         modal.fadeOut('slow');
-                //     }
-                // });
-
-                // setTimeout(function () {
-                //     modal.fadeOut('slow');
-                // }, 3000);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log("ERROR: unlink ajax posting failed");
@@ -536,8 +511,7 @@ $(function () {
 
     // download log action
     $(document).on('click', "button[data-action='download-log']", function (event) {
-        event.preventDefault(); // stop page from being refreshed
-        //$.growlUI("Downloading <br> log file");
+        event.preventDefault();
         dllog();
         let logFilePath = ($(".path[data-service='" + $(this).data('service') + "']").html()).replace('file=', '').trim();
         console.log("Downloading log file: " + logFilePath);
@@ -547,12 +521,11 @@ $(function () {
 
     // update log action
     $(document).on('click', "button[data-action='update-log']", function (event) {
-        event.preventDefault(); // stop page from being refreshed
+        event.preventDefault();
         $('#body').addClass("cursorwait");
         logsingleupdatetoast();
         loadLog(logs[$(this).parent().parent().data("index")]);
         setTimeout(function () {
-            //Change me  TO
             if (settings.autoHighlight === "true") {
                 setTimeout(function () {
                     highlightjs();
@@ -602,19 +575,18 @@ function refreshConfig() {
                     $("#autoUpdateSlider").attr("data-enabled", "true");
                     current_rflog = settings.rflog;
                     console.log("Auto update: Enabled | Interval: " + settings.rflog + " ms");
-                    //$.growlUI("Auto update: Enabled");
                     uetoast();
                 } else if (settings.logRefresh === "false" && logInterval === true) {
                     clearInterval(nIntervId["logRefresh"]);
                     logInterval = false;
                     $("#autoUpdateSlider").attr("data-enabled", "false");
                     console.log("Auto update: Disabled");
-                    //$.growlUI("Auto update: Disabled");
                     udtoast();
                 }
             }
 
-            document.title = preferences.sitetitle; //update page title to configured title
+            // TODO Why is this needed? Isn't this set in HEAD?
+            //document.title = preferences.sitetitle; //update page title to configured title
             console.log("Refreshed config variables | Interval: " + settings.rfconfig + " ms");
         }
     });
@@ -628,19 +600,13 @@ function overwriteLogUpdate() {
         clearInterval(nIntervId);
         nIntervId = setInterval(refreshblockUI, settings.rflog);
         logInterval = true;
-
         console.log("Auto update: Enabled | Interval: " + settings.rflog + " ms");
-        //$.growlUI("Auto update: Enabled");
         uetoast();
     } else {
         $("#autoUpdateSlider").attr("data-enabled", "false");
-
         clearInterval(nIntervId);
         logInterval = false;
-
         console.log("Auto update: Disabled");
-        //$.growlUI("Auto update: Disabled");
-
         udtoast();
     }
 }
@@ -823,7 +789,6 @@ function parseGithubToHTML(result) {
     }
 
     result += "</ol>";
-
     return result;
 }
 

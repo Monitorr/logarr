@@ -1,7 +1,6 @@
 <?php
-// check current version number
 require("functions.php");
-include("auth_check.php");
+// check current version number
 // open version file on external server
 $file = fopen($ext_version_loc, "r");
 $vnum = fgets($file);
@@ -15,14 +14,13 @@ $user_version = floatval(substr($user_vnum, 0, -1));
 $ext_version = floatval(substr($vnum, 0, -1));
 
 
-if (!$vnum) {
+if (!$file) {
 	// data
 	$data = array("version" => 0);
 
 	echo "<script type='text/javascript'>";
 	echo "console.log('ERROR: Logarr was unable check GitHub for the latest version');";
 	echo "</script>";
-
 } else {
 	if ($user_vnum == $vnum || (bccomp($user_version, $ext_version, 5) >= 0)) {
 		// data

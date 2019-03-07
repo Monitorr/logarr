@@ -1,7 +1,5 @@
 <?php
 
-// CHANGE ME:
-
 ini_set('error_reporting', E_ERROR);
 
 ini_set('memory_limit', '-1');
@@ -60,6 +58,74 @@ function configExists()
 {
 	return is_file($GLOBALS['config_file']);
 }
+
+
+// Check if Logger authenticaiton is enabled / if TRUE, check login status every 10s:
+function checkLoginindex() {
+
+	echo "<script type='text/javascript'>";
+	echo "console.log('Logger is checking authentication settings');";
+	echo "</script>";
+
+	$logsEnabled = $GLOBALS['authentication']['logsEnabled']; 
+
+	if (!$logsEnabled) {
+
+		echo "<script type='text/javascript'>";
+		echo "console.log('ERROR: Logger could not check authentication settings');";
+		echo "</script>";
+		echo "<script src='assets/js/login-status.js'></script>";
+
+	} else {
+		if ($logsEnabled == "true") {
+
+			echo "<script type='text/javascript'>";
+			echo "console.log('Logger auth: ENABLED');";
+			echo "</script>";
+			echo "<script src='assets/js/login-status.js'></script>";
+
+		} if ($logsEnabled == "false") {
+
+			echo "<script type='text/javascript'>";
+			echo "console.log('Logger auth: DISABLED');";
+			echo "</script>";
+		};
+	}
+}
+
+// Check if Logger settings authenticaiton is enabled / if TRUE, check login status every 10s:
+function checkLoginsettings() {
+
+	echo "<script type='text/javascript'>";
+	echo "console.log('Logger is checking authentication settings');";
+	echo "</script>";
+
+	$settingsEnabled = $GLOBALS['authentication']['settingsEnabled']; 
+
+	if (!$settingsEnabled) {
+
+		echo "<script type='text/javascript'>";
+		echo "console.log('ERROR: Logger could not check authentication settings');";
+		echo "</script>";
+		echo "<script src='assets/js/login-status-settings.js'></script>";
+
+	} else {
+		if ($settingsEnabled == "true") {
+
+			echo "<script type='text/javascript'>";
+			echo "console.log('Logger settings auth: ENABLED');";
+			echo "</script>";
+			echo "<script src='assets/js/login-status-settings.js'></script>";
+
+		} if ($settingsEnabled == "false") {
+
+			echo "<script type='text/javascript'>";
+			echo "console.log('Logger settings auth: DISABLED');";
+			echo "</script>";
+		};
+	}
+}
+
 
 function parseLogPath($path)
 {

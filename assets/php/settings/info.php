@@ -5,6 +5,8 @@ include(__DIR__ . '/../auth_check.php');
 <!DOCTYPE html>
 <html lang="en">
 
+<!-- info.php -->
+
 <head>
 
     <meta charset="utf-8">
@@ -30,16 +32,11 @@ include(__DIR__ . '/../auth_check.php');
     </style>
 
     <title>
-        <?php
-        $title = $GLOBALS['preferences']['sitetitle'];
-        echo $title . PHP_EOL;
-        ?>
-        | Info
+        <?php echo $GLOBALS['preferences']['sitetitle'] . ' | Info'; ?>
     </title>
 
     <script src="../../js/jquery.min.js"></script>
     <script src="../../js/vendor/sweetalert2.min.js"></script>
-
 
     <script>
         const Toast = Swal.mixin({

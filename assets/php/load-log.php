@@ -53,8 +53,6 @@ $result = "
 	       <button type=\"button\" class=\"log-action-button slidebutton btn btn-primary\"
 	               data-action=\"update-log\" data-index=\"" . $log['logTitle'] . "\"
                    title=\"Update individual log\">Update
-                   <!-- CHANGE ME: -->
-                    <!-- title=\"Update individual log\" onclick=\"refreshblockUI();\">Update -->
 	       </button>
         </div>";
 echo $result;
