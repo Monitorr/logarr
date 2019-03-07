@@ -428,7 +428,7 @@ class OneFileLoginApplication
 	 * The registration flow
 	 * @return bool
 	 */
-	private function doRegistration()
+	public function doRegistration()
 	{
 		if ($this->checkRegistrationData()) {
 			if ($this->createDatabaseConnection()) {
