@@ -81,7 +81,7 @@ function logerror() {
     Toast.fire({
         toast: true,
         type: 'error',
-        title: 'Error Loading Log!',
+        title: 'Error loading log!',
         background: 'rgba(207, 0, 0, 0.75)',
         timer: 10000
     })
@@ -218,6 +218,16 @@ function synctimeerror() {
     })
 };
 
+function syncconfigerror() {
+    Toast.fire({
+        toast: true,
+        type: 'error',
+        title: 'An error occurred <br> while synchronizing settings!',
+        background: 'rgba(207, 0, 0, 0.75)',
+        timer: 5000
+    })
+};
+
 //Search box expand:
 
  $(document).ready(function () {
@@ -329,6 +339,10 @@ function loadLog(log) {
             $("#" + logTitle.replace(/\s/g, "-") + "-log-container").html(response);
             console.log("Updated log: " + logTitle);
         },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("ERROR: AJAX error while loading logs!");
+            logerror();
+        }
     })
 }
 
@@ -595,6 +609,10 @@ function refreshConfig() {
 
             document.getElementById("brand").innerHTML = preferences.sitetitle; //update header title to configured site title
             console.log("Refreshed config variables | Interval: " + settings.rfconfig + " ms");
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("ERROR: Config refresh failed!");
+            syncconfigerror();
         }
     });
 }
