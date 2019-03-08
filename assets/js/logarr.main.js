@@ -10,11 +10,13 @@ let nIntervId = [];
 let home = false;
 
 let rfconfig = (typeof settings !== "undefined") ? settings.rfconfig : 5000;
-nIntervId["refreshConfig"] = setInterval(refreshConfig, rfconfig);
+
+//TODO Can we remove this so rfconfig doesn't load automatically on child pages we don't want it to?
+
+//nIntervId["refreshConfig"] = setInterval(refreshConfig, rfconfig);
 
 
 ///Swal.fire('Logarr is loading ...');
-
 
 const Toast = Swal.mixin({
     toast: true,
@@ -41,8 +43,8 @@ function logouttoast() {
     Toast.fire({
         toast: true,
         type: 'warning',
-        title: 'You have been logged out.',
-        background: 'rgba(207, 0, 0, 0.75)',
+        title: '<p class="logouttoast"> You have been logged out </p>',
+        background: 'rgba(255, 196, 0, 0.75)'
     })
 };
 
@@ -82,6 +84,17 @@ function logerror() {
         title: 'Error Loading Log!',
         background: 'rgba(207, 0, 0, 0.75)',
         timer: 10000
+    })
+};
+
+function searchtoast() {
+    Toast.fire({
+        toast: true,
+        title: 'Searching ...',
+        showCloseButton: false,
+        onBeforeOpen: () => {
+            Swal.showLoading()
+        }
     })
 };
 
@@ -167,17 +180,6 @@ function filtertoast() {
     })
 };
 
-function searchtoast() {
-    Toast.fire({
-        toast: true,
-        title: 'Searching ...',
-        showCloseButton: false,
-        onBeforeOpen: () => {
-            Swal.showLoading()
-        }
-    })
-};
-
 function updateavailtoast() {
     Toast.fire({
         toast: true,
@@ -228,7 +230,6 @@ function synctimeerror() {
 })
 
 function refreshblockUI() {
-    //$.growlUI('Updating logs...');
 
     $('#body').addClass("cursorwait");
     logupdatetoast();
@@ -388,7 +389,6 @@ function mark() {
     let content = $(".slide");
 
     // Determine selected options
-
     // Mark the keyword inside the context:
 
     content.unmark({
@@ -408,7 +408,7 @@ function mark() {
                     results.addClass("markresults");
                     count.addClass("countresults");
                     currentIndex = 0;
-                    if (settings.jumpOnSearch === "true") jumpTo(); // Auto focus/scroll to first searched term after search submit, if user had enabled option in config
+                    if (settings.jumpOnSearch === "true") jumpTo(); // Auto focus/scroll to first searched term after search submit, if option enabled in settings
                 }
             });
         }
@@ -429,23 +429,26 @@ $(function () {
             mark();
             $('#body').removeClass("cursorwait");
             Toast.close();
+            console.log(results.length + " search result(s) found");
         }, 300);
     });
 
+    //TODO:  Why does ENTER keyup work without this?
+
     // Perform search action on enter
-    $("#text-search2").keyup(function (event) {
-        if (event.keyCode === 13) {
-            console.log('Logarr is performing search');
-            $('#body').addClass("cursorwait");
-            searchtoast();
-            $('#buttonStart :checkbox').prop('checked', false).change(); // TODO: BUG: if auto-update is enabled, disable it after search submit
-            setTimeout(function () {
-                $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search
-                mark();
-                $('#body').removeClass("cursorwait");
-            }, 300);
-        }
-    });
+    // $("#text-search2").keyup(function (event) {
+    //     if (event.keyCode === 13) {
+    //         console.log('Logarr is performing search');
+    //         $('#body').addClass("cursorwait");
+    //         searchtoast();
+    //         $('#buttonStart :checkbox').prop('checked', false).change(); // TODO: BUG: if auto-update is enabled, disable it after search submit
+    //         setTimeout(function () {
+    //             $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search
+    //             mark();
+    //             $('#body').removeClass("cursorwait");
+    //         }, 300);
+    //     }
+    // });
 
     // Clears the search
     $("button[data-search='clear']").on("click", function () {
@@ -471,7 +474,7 @@ $(function () {
         }
     });
 
-    // Live search as soon as user keyup in search field:
+    // Live search when user keyup in search field:
     let timeoutID = null;
     $("input[name='markinput']").keyup(function (e) {
         clearTimeout(timeoutID);
@@ -481,6 +484,7 @@ $(function () {
         }
     });
 
+    //Remove "searching" modal after search is complete:
     $("input[name='markinput']").blur(function (e) {
         Toast.close();
     });
@@ -564,7 +568,7 @@ function refreshConfig() {
                 nIntervId["refreshConfig"] = setInterval(refreshConfig, rfconfig);
             }
 
-           $("#auto-update-status").attr("data-enabled", settings.logRefresh);
+            $("#auto-update-status").attr("data-enabled", settings.logRefresh);
 
             //TODO: this can probably be handled better
             if(home) {
@@ -574,19 +578,22 @@ function refreshConfig() {
                     logInterval = true;
                     $("#autoUpdateSlider").attr("data-enabled", "true");
                     current_rflog = settings.rflog;
-                    console.log("Auto update: Enabled | Interval: " + settings.rflog + " ms");
+                    console.log("Log auto update: Enabled | Interval: " + settings.rflog + " ms");
                     uetoast();
                 } else if (settings.logRefresh === "false" && logInterval === true) {
                     clearInterval(nIntervId["logRefresh"]);
                     logInterval = false;
                     $("#autoUpdateSlider").attr("data-enabled", "false");
-                    console.log("Auto update: Disabled");
+                    console.log("Log auto update: Disabled");
                     udtoast();
                 }
             }
 
-            // TODO Why is this needed? Isn't this set in HEAD?
-            //document.title = preferences.sitetitle; //update page title to configured title
+            if(home) {
+                document.title = preferences.sitetitle; //update index.php page title to configured site title
+            }
+
+            document.getElementById("brand").innerHTML = preferences.sitetitle; //update header title to configured site title
             console.log("Refreshed config variables | Interval: " + settings.rfconfig + " ms");
         }
     });
@@ -594,19 +601,25 @@ function refreshConfig() {
 
 function overwriteLogUpdate() {
 
+    //TODO:  Not working:
+
     if ($("#autoUpdateSlider").attr("data-enabled") === "false") {
         $("#autoUpdateSlider").attr("data-enabled", "true");
-
         clearInterval(nIntervId);
         nIntervId = setInterval(refreshblockUI, settings.rflog);
         logInterval = true;
-        console.log("Auto update: Enabled | Interval: " + settings.rflog + " ms");
+        console.log("Log auto update: Enabled | Interval: " + settings.rflog + " ms");
         uetoast();
+        setTimeout(function () {
+            refreshblockUI();
+        }, 1000);
     } else {
         $("#autoUpdateSlider").attr("data-enabled", "false");
+        //TODO:
+        //clearInterval(nIntervId["logRefresh"]);
         clearInterval(nIntervId);
         logInterval = false;
-        console.log("Auto update: Disabled");
+        console.log("Log auto update: Disabled");
         udtoast();
     }
 }
@@ -633,7 +646,7 @@ function updateTime() {
 }
 
 function syncServerTime() {
-    console.log('Logarr time update START | Interval: ' + settings.rftime + ' ms');
+    console.log('Logarr time update | Interval: ' + settings.rftime + ' ms');
     $.ajax({
         url: "assets/php/time.php",
         type: "GET",
@@ -644,9 +657,10 @@ function syncServerTime() {
             timeZone = response.timezoneSuffix;
             rftime = response.rftime;
             date = new Date(servertime);
-            setTimeout(function () {
-                syncServerTime()
-            }, settings.rftime); //delay is rftime
+            //TO DO: Moved to child pages
+           // setTimeout(function () {
+           //     syncServerTime()
+           // }, settings.rftime); //delay is rftime
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log('ERROR: Time update');
@@ -705,7 +719,7 @@ function scrollFunction() {
     }
 }
 
-// When the user clicks on the button, scroll to the top of the document
+// When user clicks on the button, scroll to the top of the document
 function topFunction() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;

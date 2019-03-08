@@ -11,26 +11,18 @@ function checkLogin() {
             if (data === "true") {
                 // User is logged IN:
 
-                console.log('Logger user is logged IN');
+                console.log('Loggar user is logged IN');
 
             } else {
                 // User is logged OUT:
 
-                console.log('Logger user is logged OUT');
+                console.log('Loggar user is logged OUT');
                 logouttoast();
 
                 // If user user logs out, refresh index page to envoke authentication page after 3s:
                 setTimeout(function () {
-
-                    // TODO what works for both index and settings ??
                     
-                    window.location.href = "index.php"; // THIS WORKS
-
-                    //window.top.location; // DOES NOT WORK
-                    
-                    //window.top.location.reload(); Does not work
-
-                    //top.location.reload();  //Doesn't work on settings page if in iframe
+                    window.location.href = "index.php";
 
                 }, 3000);
             }
