@@ -323,8 +323,6 @@ h6,
     cursor: default !important;
 }
 
-
-
 #logoHeader {
     display: flex;
     position: relative;
@@ -576,13 +574,11 @@ mark.current {
     content: '✓';
     margin-top: .5rem;
     color: green;
-
 }
 
 .validity {
     position: absolute;
     margin-left: -2.5rem;
-
 }
 
 input:invalid {
@@ -1943,7 +1939,7 @@ input[name="imginput"]:focus {
 }
 
 #authnote {
-    color: orange !important;
+    color: yellow !important;
     font-style: italic;
 }
 
