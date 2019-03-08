@@ -86,8 +86,8 @@ include_once(__DIR__ . "/../auth_check.php");
 
     <!-- // TODO CHANGE ME: -->
     <?php
-        //ini_set('error_reporting', E_ERROR);
-        error_reporting(0);
+        ini_set('error_reporting', E_ERROR);
+        //error_reporting(0);
     ?>
 
     <title>
@@ -100,39 +100,53 @@ include_once(__DIR__ . "/../auth_check.php");
         var preferences = <?php echo json_encode($GLOBALS['preferences']); ?>;
     </script>
 
+    <!-- // Set global timezone from config file: -->
+    <?php
+            // TODO / Why is this necessary? - rob1998  // This was left over from Monitorr - If config values were NOT set, use below
+        if ($GLOBALS['preferences']['timezone'] == "") {
+
+            date_default_timezone_set('UTC');
+            $timezone = date_default_timezone_get();
+        } else {
+
+            $timezoneconfig = $GLOBALS['preferences']['timezone'];
+            date_default_timezone_set($timezoneconfig);
+            $timezone = date_default_timezone_get();
+        }
+    ?>
+
     <!-- UI clock functions: -->
     <script>
         <?php
-        //initial values for clock:
-        $timezoneString = $GLOBALS['preferences']['timezone'];
-        if(!in_array($timezoneString, timezone_identifiers_list())) $timezoneString = "UTC";
-        $timezone = new DateTimeZone("$timezoneString");
-        $dt = new DateTime("now", $timezone);
-        $timeStandard = (int)($GLOBALS['preferences']['timestandard']);
-        $rftime = isset($GLOBALS['settings']['rftime']) ? $GLOBALS['settings']['rftime'] : 30000;
-        $timezone_suffix = '';
-        if (!$timeStandard) {
-            $dateTime = new DateTime();
-            $dateTime->setTimeZone($timezone);
-            $timezone_suffix = $dateTime->format('T');
-        }
-        $serverTime = $dt->format("D d M Y H:i:s");
+            //initial values for clock:
+            $dt = new DateTime("now", new DateTimeZone("$timezone"));
+            $timeStandard = (int)($GLOBALS['preferences']['timestandard']);
+            $rftime = $GLOBALS['settings']['rftime'];
+            $timezone_suffix = '';
+            if (!$timeStandard) {
+                $dateTime = new DateTime();
+                $dateTime->setTimeZone(new DateTimeZone($timezone));
+                $timezone_suffix = $dateTime->format('T');
+            }
+            $serverTime = $dt->format("D d M Y H:i:s");
         ?>
-        var servertime = "<?php echo $serverTime; ?>";
-        var timeStandard = <?php echo $timeStandard; ?>;
-        var timeZone = "<?php echo $timezone_suffix; ?>";
-        var rftime = <?php echo $rftime; ?>;
+        let servertime = "<?php echo $serverTime; ?>";
+        let timeStandard = <?php echo $timeStandard; ?>;
+        let timeZone = "<?php echo $timezone_suffix; ?>";
+        let rftime = <?php echo $GLOBALS['settings']['rftime']; ?>;
 
         $(document).ready(function() {
+            syncServerTime();
             updateTime();
         });
     </script>
 
-    <script src="assets/js/clock.js"></script>
+    <script src="assets/js/clock.js" async></script>
+    <script src="assets/data/custom.js"></script>
 
 </head>
 
-<body id="body" style="color: #FFFFFF;">
+<body id="body">
 
     <script>
         document.body.className += ' fade-out';

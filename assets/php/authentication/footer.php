@@ -1,3 +1,4 @@
+    <!-- footer.php -->
     <div id="footer">
 
         <!-- Checks for Logarr application update on page load & "Check for update" click: -->

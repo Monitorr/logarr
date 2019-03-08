@@ -11,6 +11,7 @@ include_once(__DIR__ . "/../auth_check.php");
         https://github.com/Monitorr
 -->
 
+<!-- unauthorized.php -->
 <head>
 
     <meta charset="utf-8">
@@ -33,12 +34,11 @@ include_once(__DIR__ . "/../auth_check.php");
     <link rel="stylesheet" href="assets/css/logarr.css">
     <link rel="stylesheet" href="assets/data/custom.css">
 
-    <title>Logarr - Unauthorized</title>
+    <title>Logarr | Unauthorized</title>
 
 </head>
 
 <body id="body" style="color: #FFFFFF;">
-
 
 <?php
     $str = file_get_contents(__DIR__ . "/../../data/datadir.json");

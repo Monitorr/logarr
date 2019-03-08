@@ -6,6 +6,8 @@ include(__DIR__ . '/../auth_check.php');
 <!DOCTYPE html>
 <html lang="en">
 
+<!-- site_settings.php -->
+
 <head>
 
     <meta charset="utf-8">
@@ -33,7 +35,7 @@ include(__DIR__ . '/../auth_check.php');
         $title = $GLOBALS['preferences']['sitetitle'];
         echo $title . PHP_EOL;
         ?>
-        | User Preferences
+        | Logarr Settings
     </title>
 
     <style>

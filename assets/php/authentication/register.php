@@ -11,6 +11,8 @@ include_once(__DIR__ . "/../auth_check.php");
         https://github.com/Monitorr
 -->
 
+<!-- register.php -->
+
 <head>
 
 	<meta charset="utf-8">
@@ -44,12 +46,11 @@ include_once(__DIR__ . "/../auth_check.php");
 	?>
 
 	<title>
-		<?php echo $GLOBALS['preferences']['sitetitle']; ?> - Register
+		<?php echo $GLOBALS['preferences']['sitetitle']; ?> | Register
 	</title>
 </head>
 
 <body id="body" style="color: #FFFFFF;">
-
 
 <!--  START create user form -->
 <div id="userwrapper">

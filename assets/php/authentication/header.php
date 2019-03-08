@@ -5,11 +5,16 @@ include_once(__DIR__ . "/../auth_check.php");
 <!DOCTYPE html>
 <html lang="en">
 
+
+<!-- TODO :  This file is NO longer in use ?? -->
+
 <!--
                 LOGARR
     by @seanvree, @jonfinley, and @rob1998
         https://github.com/Monitorr
 -->
+
+<!-- header.php -->
 
 <head>
 
@@ -61,7 +66,7 @@ include_once(__DIR__ . "/../auth_check.php");
 
     </style>
 
-    <!-- // CHANGE ME: -->
+    <!-- // CHANGE ME TODO: -->
     <?php
     //ini_set('error_reporting', E_ERROR);
     error_reporting(0);
@@ -78,7 +83,7 @@ include_once(__DIR__ . "/../auth_check.php");
         var settings = <?php echo json_encode($GLOBALS['settings']); ?>;
         var preferences = <?php echo json_encode($GLOBALS['preferences']); ?>;
 
-        refreshConfig();
+        //refreshConfig();
     </script>
 
 

@@ -5,6 +5,8 @@ include(__DIR__ . '/../auth_check.php');
 <!DOCTYPE html>
 <html lang="en">
 
+<!-- logs_settings.php -->
+
 <head>
 
     <meta charset="utf-8">
