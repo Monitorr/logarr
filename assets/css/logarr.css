@@ -19,25 +19,6 @@ body.fade-out {
     transition: none;
 }
 
-body::-webkit-scrollbar {
-    width: 10px;
-    background-color: #252525;
-}
-
-body::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-    background-color: #252525;
-}
-
-body::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
-    background-color: #8E8B8B;
-}
-
 :root {
     font-size: 14px;
 }
@@ -62,7 +43,6 @@ body::-webkit-scrollbar-thumb {
     align-items: center;
     justify-content: center;
     margin-top: 1em;
-
 }
 
 .flex-child {
@@ -108,6 +88,7 @@ body::-webkit-scrollbar-thumb {
     box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
     background-color: #8E8B8B;
 }
+
 
 /* scroll to top  */
 
@@ -700,6 +681,7 @@ input[type=search]::-webkit-search-cancel-button {
     font-size: .80rem;
     font-weight: 600;
     color: black;
+    white-space: nowrap;
 }
 
 .countresults {
@@ -728,14 +710,13 @@ input[type=search]::-webkit-search-cancel-button {
     /* Opera 10.5+, IE 9.0 */
 }
 
-
 .highlightterms {
     color: red;
     font-size: 1.2rem;
     font-weight: 600;
 }
 
-/* CHANGE ME:  is this needed */
+/* CHANGE ME TODO:  is this needed */
 
 /* .error {
     padding: .1rem;
@@ -1395,6 +1376,10 @@ ul.nav.sidebar-nav>li>a>i {
     color: #C8C8C8;
 }
 
+.logouttoast {
+    color: black;
+}
+
 .settingchange {
     color: orange !important;
     border-color: orange !important;
@@ -1738,8 +1723,8 @@ input[name="imginput"]:focus {
     white-space: nowrap;
     vertical-align: middle;
     user-select: none;
-    padding: .1rem .5rem;
-    border-radius: .25rem;
+    padding: .1rem .5rem .25rem;
+    border-radius: .2rem;
     cursor: help;
 }
 
@@ -1753,8 +1738,8 @@ input[name="imginput"]:focus {
     vertical-align: middle;
     user-select: none;
     border: 1px solid transparent;
-    padding: .1rem .5rem;
-    border-radius: .25rem;
+    padding: .1rem .5rem .25rem;
+    border-radius: .2rem;
     cursor: pointer;
 }
 
@@ -1957,6 +1942,11 @@ input[name="imginput"]:focus {
     font-style: italic;
 }
 
+#authnote {
+    color: orange !important;
+    font-style: italic;
+}
+
 #pathsettingnote {
     color: #aaa !important;
     font-style: italic;
@@ -1981,6 +1971,16 @@ input[name="imginput"]:focus {
     margin: auto;
     text-align: center;
     cursor: default;
+}
+
+.infotitle {
+    font-size: 1.1em;
+    font-weight: 700;
+}
+
+.releasebadge {
+    height: auto !important;
+    width: auto !important;
 }
 
 .settings-title {
@@ -2110,7 +2110,7 @@ div[data-alpaca-container-item-name="category"] {
 }
 
 #login-container {
-    position: fixed;
+    /* position: fixed; */
     margin: 0 auto;
     justify-content: center;
     text-align: center;
