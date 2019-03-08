@@ -15,7 +15,7 @@ if (isset($_GET["action"]) && $_GET["action"] == "register") {
 <html lang="en">
 
 <!--
-     Logarr | settings page
+     Logarr | Settings
 https://github.com/Monitorr/Logarr
 -->
 
@@ -29,7 +29,7 @@ https://github.com/Monitorr/Logarr
     <link rel="manifest" href="webmanifest.json">
 
     <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <link rel="apple-touch-icon" href="favicon.ico">
 
     <meta name="description" content="Monitorr">
@@ -49,6 +49,15 @@ https://github.com/Monitorr/Logarr
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/js/vendor/sweetalert2.min.js"></script>
     <script src="assets/js/logarr.main.js"></script>
+
+    <title>
+        <?php
+        $title = $GLOBALS['preferences']['sitetitle'];
+        echo $title . PHP_EOL;
+        ?>
+        | Settings
+    </title>
+
 
     <style>
         .header-brand {
@@ -72,6 +81,7 @@ https://github.com/Monitorr/Logarr
         }
     </style>
 
+    <!-- Check if Loggar settings auth is enabled / if TRUE, check login status every 10s -->
     <?php checkLoginsettings(); ?>
 
     <script>
@@ -84,19 +94,13 @@ https://github.com/Monitorr/Logarr
                 background: 'rgba(50, 1, 25, 0.75)',
                 timer: 5000
             })
-            console.log("Welcome to Logarr!");
         };
-    </script>
 
-    <script>
         $(document).ready(function() {
+            console.log("Welcome to Logarr!");
             toastwelcome();
         });
     </script>
-
-    <title>
-        <?php echo $GLOBALS['preferences']['sitetitle'] . ' | Settings'; ?>
-    </title>
 
     <!-- sync config with javascript -->
     <script>
@@ -107,19 +111,20 @@ https://github.com/Monitorr/Logarr
 
     <!-- // Set global timezone from config file: -->
     <?php
-        // TODO / Why is this necessary? - rob1998  // This was left over from Monitorr - If config values were NOT set, use below
-    if ($GLOBALS['preferences']['timezone'] == "") {
+            // TODO / Why is this necessary? - rob1998  // This was left over from Monitorr - If config values were NOT set, use below
+        if ($GLOBALS['preferences']['timezone'] == "") {
 
-        date_default_timezone_set('UTC');
-        $timezone = date_default_timezone_get();
-    } else {
+            date_default_timezone_set('UTC');
+            $timezone = date_default_timezone_get();
+        } else {
 
-        $timezoneconfig = $GLOBALS['preferences']['timezone'];
-        date_default_timezone_set($timezoneconfig);
-        $timezone = date_default_timezone_get();
-    }
+            $timezoneconfig = $GLOBALS['preferences']['timezone'];
+            date_default_timezone_set($timezoneconfig);
+            $timezone = date_default_timezone_get();
+        }
     ?>
 
+    <!-- UI clock functions: -->
     <script>
         <?php
         //initial values for clock:
@@ -140,7 +145,10 @@ https://github.com/Monitorr/Logarr
         let rftime = <?php echo $settings['rftime']; ?>;
 
         $(document).ready(function() {
-            setTimeout(syncServerTime(), settings.rftime); //delay is rftime
+            syncServerTime()
+            setInterval(function() {
+                syncServerTime()
+            }, settings.rftime); //delay is rftime
             updateTime();
         });
     </script>
@@ -190,7 +198,7 @@ https://github.com/Monitorr/Logarr
         </div>
 
         <div id="settingsbrand">
-            <div class="navbar-brand" onclick='window.location.href="index.php";' title="Return to Logarr">
+            <div id="brand" class="navbar-brand" onclick='window.location.href="index.php";' title="Return to Logarr">
                 <?php
                 echo $preferences['sitetitle'];
                 ?>

@@ -52,7 +52,10 @@ include('assets/php/auth_check.php');
     <meta name="msapplication-TileColor" content="#464646" />
 
     <title>
-        <?php echo $GLOBALS['preferences']['sitetitle']; ?>
+        <?php
+        $title = $GLOBALS['preferences']['sitetitle'];
+        echo $title . PHP_EOL;
+        ?>
     </title>
 
     <style>
@@ -68,17 +71,13 @@ include('assets/php/auth_check.php');
 
     <script src="assets/js/jquery.min.js"></script>
 
-    <!-- Check if Logger auth is enabled / if TRUE, check login status every 10s -->
+    <!-- Check if Loggar auth is enabled / if TRUE, check login status every 10s -->
     <?php checkLoginindex(); ?>
 
     <script src="assets/js/vendor/sweetalert2.min.js"></script>
-
     <script src="assets/js/jquery.highlight.js" async></script>
-
     <script src="assets/js/jquery.mark.min.js" async></script>
-
     <script src="assets/js/logarr.main.js"></script>
-
 
     <!-- sync config with javascript -->
     <script>
@@ -89,7 +88,6 @@ include('assets/php/auth_check.php');
         home = true;
         refreshConfig();
     </script>
-
 
     <!-- UI clock functions: -->
     <script>
@@ -113,7 +111,12 @@ include('assets/php/auth_check.php');
         let rftime = <?php echo $GLOBALS['settings']['rftime']; ?>;
 
         $(document).ready(function() {
-            setTimeout(syncServerTime(), settings.rftime); //delay is rftime
+            //todo:
+            //setInterval(syncServerTime(), settings.rftime); //delay is rftime
+            syncServerTime()
+            setInterval(function() {
+                syncServerTime()
+            }, settings.rftime); //delay is rftime
             updateTime();
         });
     </script>
@@ -147,7 +150,7 @@ include('assets/php/auth_check.php');
 
         <div id="logo" class="Column">
             <img id="logo-icon" src="assets/images/logo_white_glow_text_logarr-crop.png" alt="Logarr">
-            <div id="index-brand" class="header-brand" title="Reload Logarr" onclick="window.location.reload(true);">
+            <div id="brand" class="header-brand" title="Reload Logarr" onclick="window.location.reload(true);">
                 <?php
                 echo $preferences['sitetitle'];
                 ?>

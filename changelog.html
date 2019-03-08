@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<!--
+			LOGARR Changelog
+		https://github.com/Monitorr
+-->
+
+<!-- changelog.html -->
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,7 +35,7 @@
             console.log("Retrieving Logarr release info from GitHub.");
             $.ajax({
                 type: "GET",
-                url: "https://api.github.com/repos/Monitorr/Logarr/releases",
+                url: "https://api.github.com/repos/monitorr/logarr/releases",
                 dataType: "json",
                 success: function (github) {
                     let infoTabVersionHistory = $('#about').find('#versionHistory');
