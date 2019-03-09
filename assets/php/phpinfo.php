@@ -1,73 +1,82 @@
-<link rel="stylesheet" href="../css/logarr.css">
+<!-- phpinfo.php -->
+<head>
 
-<link rel="icon" type="image/png" href="../../favicon.png">
+	<link rel="icon" type="image/png" href="../../favicon.png">
 
-<title> Logarr | PHP Info </title>
+	<title> Logarr | PHP Info </title>
 
-<style type="text/css">
-    body {
-        padding-top: 0 !important;
-    }
+	<link rel="stylesheet" href="../css/logarr.css">
+	<link rel="stylesheet" href="../data/custom.css">
 
-    body::-webkit-scrollbar {
-        width: .75rem;
-        background-color: #252525;
-    }
+	<style type="text/css">
+		body {
+			padding-top: 0 !important;
+			background-color: #3d3d3d !important;
+		}
 
-    body::-webkit-scrollbar-track {
-        -webkit-box-shadow: inset 0 0 .25rem rgba(0, 0, 0, 0.3);
-        box-shadow: inset 0 0 .25rem rgba(0, 0, 0, 0.3);
-        border-radius: .75rem;
-        background-color: #252525;
-    }
+		body::-webkit-scrollbar {
+			width: .75rem;
+			background-color: #252525;
+		}
 
-    body::-webkit-scrollbar-thumb {
-        border-radius: .75rem;
-        -webkit-box-shadow: inset 0 0 .25rem rgba(0, 0, 0, .3);
-        box-shadow: inset 0 0 .25rem rgba(0, 0, 0, .3);
-        background-color: #8E8B8B;
-    }
+		body::-webkit-scrollbar-track {
+			-webkit-box-shadow: inset 0 0 .25rem rgba(0, 0, 0, 0.3);
+			box-shadow: inset 0 0 .25rem rgba(0, 0, 0, 0.3);
+			border-radius: .75rem;
+			background-color: #252525;
+		}
 
-    a {
-        color: black;
-    }
+		body::-webkit-scrollbar-thumb {
+			border-radius: .75rem;
+			-webkit-box-shadow: inset 0 0 .25rem rgba(0, 0, 0, .3);
+			box-shadow: inset 0 0 .25rem rgba(0, 0, 0, .3);
+			background-color: #8E8B8B;
+		}
 
-    #phpinfo {
-        font-size: .5rem !important;
-        cursor: default;
-    }
+		a {
+			color: black;
+		}
 
-    tbody {
-        cursor: default;
-    }
+		#phpinfo {
+			font-size: .5rem !important;
+			cursor: default;
+		}
 
-    table {
-        width: 100% !important;
-    }
+		tbody {
+			cursor: default;
+		}
 
-    tr {
-        font-size: 1rem !important;
-    }
+		table {
+			width: 100% !important;
+		}
 
-    hr {
-        width: 100% !important;
-    }
+		tr {
+			font-size: 1rem !important;
+		}
 
-    .v {
-        width: 50% !important;
-        max-width: 1vw !important;
-    }
+		hr {
+			width: 100% !important;
+		}
 
-    h1 {
-        font-size: 2em !important;
-        color: black;
-    }
+		.v {
+			width: 50% !important;
+			max-width: 1vw !important;
+		}
 
-    h2 {
-        font-size: 2em !important;
-        color: black;
-    }
-</style>
+		h1 {
+			font-size: 2em !important;
+			color: black;
+		}
+
+		h2 {
+			font-size: 2em !important;
+			color: black;
+		}
+	</style>
+
+</head>
+
+<body>
 
 <?php
 
@@ -75,11 +84,13 @@ ini_set('error_reporting', E_ERROR);
 
 echo "<div id='extensions'>";
 
-echo " <strong> Required Extensions: </strong> ";
+echo "<div id='extensiontitle'> Required Extensions: </div> ";
+
+//Check if '/assets/data/' dir is writable:
 
 $myfile = fopen('../data/php-perms-check.txt', 'w');
+$date = date("D d M Y H:i T");
 
-echo "<br>";
 
 if (!$myfile) {
 	echo " <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP write permissions FAIL'>";
@@ -90,8 +101,43 @@ if (!$myfile) {
 	echo " <div class='extok' title='PHP write permissions OK' >";
 	echo "Perms";
 	echo "</div>";
-	fwrite($myfile, "Logarr PHP write permissions OK");
+	fwrite($myfile, $date . "\r\n" . "Logarr PHP write permissions O.K \r\nThis file can be safely removed, however it will be regenerated every time a user logs into Logarr Settings.");
 	fclose($myfile);
+}
+
+$str = file_get_contents(__DIR__ . "/../data/datadir.json");
+$json = json_decode($str, true);
+$datadir = $json['datadir'];
+$datafile = $datadir . 'php-perms-check.txt';
+$datadirfile = $datafile;
+
+//Check if datadir is present:
+
+if (!file_exists($datadir)) {
+	echo "<script>console.log('ERROR: Logarr Datadir not found');</script>";
+	echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='Logarr Datadir NOT found'>";
+	echo "Data";
+	echo "</a>";
+} else {
+	echo "<script>console.log('Logarr Datadir found: $datadir ');</script>";
+
+	//Check if datadir is writable:
+
+	$datadircheck = fopen($datadirfile, 'w');
+
+	if (!$datadircheck) {
+		echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP Datadir write permissions FAIL'>";
+		echo "Data";
+		echo "</a>";
+		echo "<script>console.log( 'ERROR: Logarr PHP Datadir write permissions FAIL' );</script>";
+	} else {
+		echo " | <div class='extok' title='PHP Datadir write permissions OK' >";
+		echo "Data";
+		echo "</div>";
+		fwrite($datadircheck, $date . "\r\n" . "Logarr PHP Datadir write permissions O.K \r\nThis file can be safely removed, however it will be regenerated every time a user logs into Logarr Settings. ");
+		fclose($datadircheck);
+		echo "<script>console.log( 'Logarr PHP Datadir write permissions OK' );</script>";
+	}
 }
 
 if (extension_loaded('sqlite3')) {
@@ -200,4 +246,6 @@ echo "</div>";
 
     <?php phpinfo(); ?>
 
-</div> 
+</div>
+
+</body>

@@ -77,7 +77,7 @@ include(__DIR__ . '/../auth_check.php');
         function settingapply() {
             Toast.fire({
                 type: 'success',
-                title: 'Settings Saved! <br> Logarr is reloading',
+                title: 'Settings Saved!',
                 timer: 3000,
                 background: 'rgba(0, 184, 0, 0.75)'
             })
@@ -423,10 +423,12 @@ include(__DIR__ . '/../auth_check.php');
                                                 settingapply();
                                                 console.log("Settings saved! Applying changes...");
                                                 $('.alpaca-form-button-submit').removeClass('buttonchange');
-                                                // Refresh form after submit:
-                                                setTimeout(location.reload.bind(location), 3000)
+                                                $('.btn-sm').click(function () {
+                                                    settingchange();
+                                                    $('.alpaca-form-button-submit').addClass('buttonchange');
+                                                });
                                             },
-                                            error: function(errorThrown) {
+                                            error: function (jqXHR, textStatus, errorThrown) {
                                                 console.log(errorThrown);
                                             }
                                         });

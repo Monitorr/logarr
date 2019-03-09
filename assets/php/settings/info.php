@@ -21,6 +21,14 @@ include(__DIR__ . '/../auth_check.php');
     <meta name="theme-color" content="#464646" />
     <meta name="theme_color" content="#464646" />
 
+    <title>
+        <?php
+        $title = $GLOBALS['preferences']['sitetitle'];
+        echo $title . PHP_EOL;
+        ?>
+        | Settings
+    </title>
+
     <style>
         table {
             color: white !important;
@@ -31,16 +39,9 @@ include(__DIR__ . '/../auth_check.php');
         }
     </style>
 
-    <title>
-        <?php
-        $title = $GLOBALS['preferences']['sitetitle'];
-        echo $title . PHP_EOL;
-        ?>
-        | Settings
-    </title>
-
     <script src="../../js/jquery.min.js"></script>
     <script src="../../js/vendor/sweetalert2.min.js"></script>
+    <!-- <script src="../../js/logarr.main.js" async></script> -->
 
     <script>
         const Toast = Swal.mixin({
@@ -53,6 +54,7 @@ include(__DIR__ . '/../auth_check.php');
 
         function exterror() {
             Toast.fire({
+                toast: true,
                 type: 'error',
                 title: 'PHP extension not loaded!',
                 background: 'rgba(207, 0, 0, 0.75)',
@@ -116,11 +118,36 @@ include(__DIR__ . '/../auth_check.php');
                             echo "<script>console.log( 'ERROR: PHP write permissions FAIL' );</script>";
                             echo "<script>exterror();</script>";
                         } else {
-                            echo " <div class='extok' title='PHP write permissions OK' >";
+                            echo "<div class='extok' title='PHP write permissions OK' >";
                             echo "Perms";
                             echo "</div>";
-                            fwrite($myfile, "Logarr PHP write permissions OK");
+                            fwrite($myfile, "Logarr PHP write permissions O.K \r\nThis file can be safely removed, however will be regenerated every time a user logs into Logarr Settings. ");
                             fclose($myfile);
+                        }
+
+                        //Check if datadir is writable:
+
+                        $str = file_get_contents(__DIR__ . "/../../data/datadir.json");
+                        $json = json_decode($str, true);
+                        $datadir = $json['datadir'];
+                        $datafile = $datadir . 'php-perms-check.txt';
+                        $datadirfile = $datafile;
+
+                        $datadircheck = fopen($datadirfile, 'w');
+
+                        if (!$datadircheck) {
+                            echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP Datadir write permissions FAIL'>";
+                            echo "Data";
+                            echo "</a>";
+                            echo "<script>console.log( 'ERROR: Logarr PHP Datadir write permissions FAIL' );</script>";
+                            echo "<script>exterror();</script>";
+                        } else {
+                            echo " | <div class='extok' title='PHP Datadir write permissions OK' >";
+                            echo "Data";
+                            echo "</div>";
+                            fwrite($datadircheck, "Logarr PHP Datadir write permissions O.K \r\nThis file can be safely removed, however it will be regenerated every time a user logs into Logarr Settings. ");
+                            fclose($datadircheck);
+                            echo "<script>console.log( 'Logarr PHP Datadir write permissions OK' );</script>";
                         }
 
                         if (extension_loaded('sqlite3')) {

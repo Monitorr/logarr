@@ -170,7 +170,7 @@ include_once(__DIR__ . "/../auth_check.php");
         </div>
 
         <div id="loginbrand">
-            <div class="navbar-brand" onclick='window.location.href="index.php";' title="Return to Logarr">
+            <div id="brand" class="navbar-brand" onclick='window.location.href="index.php";' title="Return to Logarr">
                 <?php
                 echo $GLOBALS['preferences']['sitetitle'];
                 ?>

@@ -51,11 +51,11 @@ function configExists()
 }
 
 
-// Check if Loggar authenticaiton is enabled / if TRUE, check login status every 10s:
+// Check if Logarr authenticaiton is enabled / if TRUE, check login status every 10s:
 function checkLoginindex() {
 
 	echo "<script type='text/javascript'>";
-	echo "console.log('Loggar is checking authentication settings');";
+	echo "console.log('Logarr is checking authentication settings');";
 	echo "</script>";
 
 	$logsEnabled = $GLOBALS['authentication']['logsEnabled']; 
@@ -63,7 +63,7 @@ function checkLoginindex() {
 	if (!$logsEnabled) {
 
 		echo "<script type='text/javascript'>";
-		echo "console.log('ERROR: Loggar could not check authentication settings');";
+		echo "console.log('ERROR: Logarr could not check authentication settings');";
 		echo "</script>";
 		echo "<script src='assets/js/login-status.js'></script>";
 
@@ -71,24 +71,24 @@ function checkLoginindex() {
 		if ($logsEnabled == "true") {
 
 			echo "<script type='text/javascript'>";
-			echo "console.log('Loggar auth: ENABLED');";
+			echo "console.log('Logarr auth: ENABLED');";
 			echo "</script>";
 			echo "<script src='assets/js/login-status.js'></script>";
 
 		} if ($logsEnabled == "false") {
 
 			echo "<script type='text/javascript'>";
-			echo "console.log('Loggar auth: DISABLED');";
+			echo "console.log('Logarr auth: DISABLED');";
 			echo "</script>";
 		};
 	}
 }
 
-// Check if Loggar settings authenticaiton is enabled / if TRUE, check login status every 10s:
+// Check if Logarr settings authenticaiton is enabled / if TRUE, check login status every 10s:
 function checkLoginsettings() {
 
 	echo "<script type='text/javascript'>";
-	echo "console.log('Loggar is checking authentication settings');";
+	echo "console.log('Logarr is checking authentication settings');";
 	echo "</script>";
 
 	$settingsEnabled = $GLOBALS['authentication']['settingsEnabled']; 
@@ -96,7 +96,7 @@ function checkLoginsettings() {
 	if (!$settingsEnabled) {
 
 		echo "<script type='text/javascript'>";
-		echo "console.log('ERROR: Loggar could not check authentication settings');";
+		echo "console.log('ERROR: Logarr could not check authentication settings');";
 		echo "</script>";
 		echo "<script src='assets/js/login-status-settings.js'></script>";
 
@@ -104,14 +104,14 @@ function checkLoginsettings() {
 		if ($settingsEnabled == "true") {
 
 			echo "<script type='text/javascript'>";
-			echo "console.log('Loggar settings auth: ENABLED');";
+			echo "console.log('Logarr settings auth: ENABLED');";
 			echo "</script>";
 			echo "<script src='assets/js/login-status-settings.js'></script>";
 
 		} if ($settingsEnabled == "false") {
 
 			echo "<script type='text/javascript'>";
-			echo "console.log('Loggar settings auth: DISABLED');";
+			echo "console.log('Logarr settings auth: DISABLED');";
 			echo "</script>";
 		};
 	}
