@@ -526,7 +526,7 @@ input:focus+.slider {
 }
 
 mark {
-    background: yellow;
+    background-color: rgba(255, 255, 0, 0.75);
 }
 
 mark.current {
@@ -678,6 +678,19 @@ input[type=search]::-webkit-search-cancel-button {
     font-weight: 600;
     color: black;
     white-space: nowrap;
+}
+
+#countmodal {
+    padding: 1rem 0 .5rem 0;
+    font-weight: 600;
+    color: rgba(255, 255, 0, 0.75);
+    white-space: nowrap;
+}
+
+#searchtitle {
+    margin: 0 auto;
+    text-align: center;
+    cursor: default;
 }
 
 .countresults {
@@ -902,7 +915,6 @@ input[type=search]::-webkit-search-cancel-button {
     width: 7.5em;
 }
 
-
 #unlinkform {
     float: left;
     margin-left: 2rem;
@@ -913,8 +925,8 @@ input[type=search]::-webkit-search-cancel-button {
 }
 
 .hidden {
-    visibility: hidden;
-    display: none;
+    visibility: hidden !important;
+    display: none !important;
 }
 
 p {
@@ -1011,27 +1023,14 @@ input[type="checkbox"] {
 }
 
 #responseModal {
-    /* display: none; */
-    /* position: fixed;
-    left: 0;
-    top: 0;
-    width: 50%;
-    margin-top: 10%;
-    margin-left: 25%;
-    margin-right: 25%; */
     margin: 0 auto;
     height: 100%;
     justify-content: center;
     display: flex;
     padding: 1rem;
-    /* color: white; */
     font-size: 1.5rem;
     text-align: center;
     align-items: center;
-    /* background-color: rgba(0, 0, 0, 0.900);
-    border: 3px solid #680233;
-    border-radius: 4px;
-    box-shadow: 5px 5px 15px rgb(15, 15, 15); */
     overflow-y: auto;
     z-index: 8000;
 }
@@ -1707,6 +1706,17 @@ input[name="imginput"]:focus {
     text-align: center;
     margin: auto;
     font-size: 1.5em;
+    cursor: default;
+}
+
+#extensiontitle {
+    color: white;
+    font-size: 2rem;
+    text-shadow: 0.1rem 0.1rem black;
+    font-weight: 600;
+    text-align: center;
+    margin: auto;
+    margin-bottom: .5rem;
     cursor: default;
 }
 
@@ -2460,10 +2470,12 @@ object {
 
 .releaseHeader {
     text-align: center;
+    margin-bottom: 0;
 }
 
 .releaseHeader a {
-    margin: 0 1.5rem 1.5rem;
+    vertical-align: middle;
+    /* margin: 0 1.5rem 1.5rem; */
     font-size: 2rem;
     font-weight: 700;
     text-shadow: 0.1rem 0.1rem black;
