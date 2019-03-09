@@ -58,7 +58,6 @@ https://github.com/Monitorr/Logarr
         | Settings
     </title>
 
-
     <style>
         .header-brand {
             cursor: default;
@@ -71,7 +70,6 @@ https://github.com/Monitorr/Logarr
         .swal2-bottom-start {
             margin-left: .5rem !important;
             bottom: 5em !important;
-            /* position: unset !important; */
             cursor: default;
         }
 
@@ -81,7 +79,7 @@ https://github.com/Monitorr/Logarr
         }
     </style>
 
-    <!-- Check if Loggar settings auth is enabled / if TRUE, check login status every 10s -->
+    <!-- Check if Logarr settings auth is enabled / if TRUE, check login status every 10s -->
     <?php checkLoginsettings(); ?>
 
     <script>

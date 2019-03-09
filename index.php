@@ -71,7 +71,7 @@ include('assets/php/auth_check.php');
 
     <script src="assets/js/jquery.min.js"></script>
 
-    <!-- Check if Loggar auth is enabled / if TRUE, check login status every 10s -->
+    <!-- Check if Logarr auth is enabled / if TRUE, check login status every 10s -->
     <?php checkLoginindex(); ?>
 
     <script src="assets/js/vendor/sweetalert2.min.js"></script>
@@ -111,8 +111,6 @@ include('assets/php/auth_check.php');
         let rftime = <?php echo $GLOBALS['settings']['rftime']; ?>;
 
         $(document).ready(function() {
-            //todo:
-            //setInterval(syncServerTime(), settings.rftime); //delay is rftime
             syncServerTime()
             setInterval(function() {
                 syncServerTime()

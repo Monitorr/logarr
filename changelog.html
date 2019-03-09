@@ -65,6 +65,10 @@
                         let x = 4; //show this many releases
                         $('#versionHistory > li:lt(' + x + ')').show();
                     });
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log("ERROR: An error occurred while retrieving releases from GitHub!");
+                    ghajaxerror();
                 }
             });
         }
@@ -93,7 +97,7 @@
             <div id="logarrid">
                 <a href="https://github.com/monitorr/logarr" title="Logarr GitHub repo" target="_blank" class="footer">Logarr
                 </a> |
-                <a href="https://github.com/Monitorr/logarr/releases" title="Logarr releases" target="_blank" class="footer"> Releases </a>
+                <a href="https://github.com/monitorr/logarr/releases" title="Logarr releases" target="_blank" class="footer"> Releases </a>
                 <br>
             </div>
         </div>
