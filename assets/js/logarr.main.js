@@ -153,7 +153,6 @@ function logrollmodal() {
     })
 };
 
-
 function logrollerror() {
     Toast.fire({
         toast: true,
@@ -228,19 +227,59 @@ function syncconfigerror() {
     })
 };
 
-//Search box expand:
+function exterror() {
+    Toast.fire({
+        toast: true,
+        type: 'error',
+        title: 'PHP extension not loaded!',
+        background: 'rgba(207, 0, 0, 0.75)',
+        timer: 5000
+    })
+};
 
- $(document).ready(function () {
-    $('#text-search2').focus(function () {
-        $('#text-search2').addClass('text-search2-expand');
-    });
-    $('#text-search2').blur(function () {
-        $('#text-search2').removeClass('text-search2-expand');
-    });
-})
+function ghajaxerror() {
+    Toast.fire({
+        toast: true,
+        type: 'error',
+        title: 'An error occurred while <br> retrieving releases from GitHub!',
+        background: 'rgba(207, 0, 0, 0.75)',
+        timer: 5000
+    })
+};
+
+function searchresults() {
+    Toast.fire({
+        toast: true,
+        type: 'info',
+        position: 'bottom-start',
+        title: '<div id="searchtitle">Search results:</div>',
+        html: 
+            '<div id="countmodal" class="countmodal">' +
+            '</div>',
+        width: "auto",
+        showCloseButton: true,
+        showCancelButton: false,
+        showConfirmButton: false,
+        animation: true
+    })
+};
+
+function nosearch() {
+    Toast.fire({
+        toast: true,
+        type: 'warning',
+        position: 'bottom-start',
+        title: 'Missing search query!',
+        width: "auto",
+        showCloseButton: true,
+        showCancelButton: false,
+        showConfirmButton: false,
+        animation: true,
+        timer: 3000
+    })
+};
 
 function refreshblockUI() {
-
     $('#body').addClass("cursorwait");
     logupdatetoast();
     setTimeout(function () {
@@ -253,11 +292,14 @@ function refreshblockUI() {
             highlightjs();
         }, 1500);
     }
-    //wait after log update, if the searchinput field is not empty, perform search:
+    //wait after log update, if search input field is not empty, perform search:
     if ($("input[name='markinput']").val() !== "") {
         setTimeout(function () {
             mark();
         }, 1500);
+        $('#count').removeClass("hidden");
+    } else {
+        $('#count').addClass("hidden");
     }
 }
 
@@ -411,6 +453,8 @@ function mark() {
                 separateWordSearch: false,
                 done: function () {
 
+                    searchresults();
+
                     //TODO:  Add # of results to individual log containers
 
                     results = content.find("mark");
@@ -421,6 +465,15 @@ function mark() {
                     count.append("'");
                     results.addClass("markresults");
                     count.addClass("countresults");
+
+                    //Append search results count to SweetAlert modal:
+                    let countmodal = $(".countmodal");
+                    countmodal.text(results.length);
+                    countmodal.append(" occurance(s) of: '");
+                    countmodal.append(keyword);
+                    countmodal.append("'");
+                    $('.swal2-close').addClass("hidden");
+
                     currentIndex = 0;
                     if (settings.jumpOnSearch === "true") jumpTo(); // Auto focus/scroll to first searched term after search submit, if option enabled in settings
                 }
@@ -432,19 +485,37 @@ function mark() {
 // on page ready functions
 $(function () {
 
+    //Search box expand:
+    $('#text-search2').focus(function () {
+        $('#text-search2').addClass('text-search2-expand');
+    });
+    $('#text-search2').blur(function () {
+        $('#text-search2').removeClass('text-search2-expand');
+    });
+
     // Perform search action on click
     $("button[data-search='search']").on("click", function () {
-        console.log('Logarr is performing search');
-        $('#body').addClass("cursorwait");
-        searchtoast();
-        $('#buttonStart :checkbox').prop('checked', false).change(); // TODO - BUG: if auto-update is enabled, disable it after search submit
-        setTimeout(function () {
-            $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search
-            mark();
-            $('#body').removeClass("cursorwait");
-            Toast.close();
-            console.log(results.length + " search result(s) found");
-        }, 300);
+
+        if ($("input[name='markinput']").val() !== "") {
+
+            console.log('Logarr is performing search');
+            $('#count').removeClass("hidden");
+            $('#body').addClass("cursorwait");
+            
+            searchtoast();
+            
+            $('#buttonStart :checkbox').prop('checked', false).change(); // TODO - BUG: if auto-update is enabled, disable it after search submit
+            setTimeout(function () {
+                $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search
+                mark();
+                $('#body').removeClass("cursorwait");
+                console.log(results.length + " search result(s) found");
+            }, 300);
+
+        } else {
+            nosearch();
+            console.log("No query to search!");
+        }
     });
 
     //TODO:  Why does ENTER keyup work without this?
@@ -491,10 +562,16 @@ $(function () {
     // Live search when user keyup in search field:
     let timeoutID = null;
     $("input[name='markinput']").keyup(function (e) {
-        clearTimeout(timeoutID);
-        if (settings.liveSearch === "true") {
-            $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search
-            timeoutID = setTimeout(() => mark(e.target.value), 500);
+        if ($("input[name='markinput']").val() !== "") {
+            clearTimeout(timeoutID);
+            if (settings.liveSearch === "true") {
+                $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search
+                timeoutID = setTimeout(() => mark(e.target.value), 500);
+                $('#count').removeClass("hidden");
+            }
+        } else {
+            $('#count').addClass("hidden");
+            Toast.close();
         }
     });
 
@@ -514,7 +591,6 @@ $(function () {
             processData: false,
             data: "file=" + $(".path[data-service='" + $(this).data('service') + "']").html().trim(),
             success: function (data) {
-
                 $('#modalContent').html(data);
                 let modal = $('#responseModal');
                 modal.fadeIn('slow');
@@ -675,10 +751,10 @@ function syncServerTime() {
             timeZone = response.timezoneSuffix;
             rftime = response.rftime;
             date = new Date(servertime);
-            //TO DO: Moved to child pages
-           // setTimeout(function () {
-           //     syncServerTime()
-           // }, settings.rftime); //delay is rftime
+            //TODO: Moved to child pages
+            // setTimeout(function () {
+            //     syncServerTime()
+            // }, settings.rftime); //delay is rftime
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log('ERROR: Time update');
@@ -737,7 +813,7 @@ function scrollFunction() {
     }
 }
 
-// When user clicks on the button, scroll to the top of the document
+// user clicks on the button, scroll to the top of the document
 function topFunction() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;

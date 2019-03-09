@@ -11,12 +11,12 @@ function checkLogin() {
             if (data === "true") {
                 // User is logged IN:
 
-                console.log('Loggar user is logged IN');
+                console.log('Logarr user is logged IN');
 
             } else {
                 // User is logged OUT:
 
-                console.log('Loggar user is logged OUT');
+                console.log('Logarr user is logged OUT');
                 logouttoast();
 
                 // If user user logs out, refresh index page to envoke authentication page after 3s:

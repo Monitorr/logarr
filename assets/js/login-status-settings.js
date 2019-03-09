@@ -11,12 +11,12 @@ function checkLogin() {
             if (data === "true") {
                 // User is logged IN:
 
-                console.log('Loggar user is logged into Settings');
+                console.log('Logarr user is logged into Settings');
 
             } else {
                 // User is logged OUT:
 
-                console.log('Loggar user is logged OUT');
+                console.log('Logarr user is logged OUT');
 
                 logouttoast();
 
