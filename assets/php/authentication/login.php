@@ -98,6 +98,7 @@ include_once(__DIR__ . "/../auth_check.php");
     <script>
         var settings = <?php echo json_encode($GLOBALS['settings']); ?>;
         var preferences = <?php echo json_encode($GLOBALS['preferences']); ?>;
+        //refreshConfig(false);
     </script>
 
     <!-- // Set global timezone from config file: -->

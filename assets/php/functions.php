@@ -15,7 +15,7 @@ $settings = json_decode(file_get_contents($config_file), 1)['settings'];
 $logs = json_decode(file_get_contents($config_file), 1)['logs'];
 $authentication = json_decode(file_get_contents($config_file), 1)['authentication'];
 
-global $preferences, $settings,$logs, $authentication;
+global $preferences, $settings, $logs, $authentication;
 
 // New version download information
 
@@ -54,9 +54,9 @@ function configExists()
 // Check if Logarr authenticaiton is enabled / if TRUE, check login status every 10s:
 function checkLoginindex() {
 
-	echo "<script type='text/javascript'>";
-	echo "console.log('Logarr is checking authentication settings');";
-	echo "</script>";
+	// echo "<script type='text/javascript'>";
+	// echo "console.log('Logarr is checking authentication settings');";
+	// echo "</script>";
 
 	$logsEnabled = $GLOBALS['authentication']['logsEnabled']; 
 
@@ -65,7 +65,13 @@ function checkLoginindex() {
 		echo "<script type='text/javascript'>";
 		echo "console.log('ERROR: Logarr could not check authentication settings');";
 		echo "</script>";
-		echo "<script src='assets/js/login-status.js'></script>";
+		echo "ERROR: Logarr could not check authentication settings";
+		//echo "<script src='assets/js/login-status.js'></script>";
+
+		// If authentication sttings are missing forward to unauthorized.php:
+		echo "<script type='text/javascript'>";
+		echo "window.location.href = 'assets/php/authentication/unauthorized.php';";
+		echo "</script>";
 
 	} else {
 		if ($logsEnabled == "true") {
@@ -75,8 +81,7 @@ function checkLoginindex() {
 			echo "</script>";
 			echo "<script src='assets/js/login-status.js'></script>";
 
-		} if ($logsEnabled == "false") {
-
+		} else {
 			echo "<script type='text/javascript'>";
 			echo "console.log('Logarr auth: DISABLED');";
 			echo "</script>";
@@ -98,25 +103,27 @@ function checkLoginsettings() {
 		echo "<script type='text/javascript'>";
 		echo "console.log('ERROR: Logarr could not check authentication settings');";
 		echo "</script>";
-		echo "<script src='assets/js/login-status-settings.js'></script>";
+		echo "ERROR: Logarr could not check authentication settings";
+		//echo "<script src='assets/js/login-status-settings.js'></script>";
+
+		echo "<script type='text/javascript'>";
+		echo "window.location.href = 'assets/php/authentication/unauthorized.php';";
+		echo "</script>";
 
 	} else {
 		if ($settingsEnabled == "true") {
-
 			echo "<script type='text/javascript'>";
 			echo "console.log('Logarr settings auth: ENABLED');";
 			echo "</script>";
 			echo "<script src='assets/js/login-status-settings.js'></script>";
 
-		} if ($settingsEnabled == "false") {
-
+		} else {
 			echo "<script type='text/javascript'>";
 			echo "console.log('Logarr settings auth: DISABLED');";
 			echo "</script>";
 		};
 	}
 }
-
 
 function parseLogPath($path)
 {
