@@ -32,7 +32,7 @@ https://github.com/Monitorr/Logarr
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <link rel="apple-touch-icon" href="favicon.ico">
 
-    <meta name="description" content="Monitorr">
+    <meta name="description" content="Logarr">
 
     <script type="text/javascript" src="assets/js/pace.js" async></script>
 
@@ -45,10 +45,6 @@ https://github.com/Monitorr/Logarr
 
     <meta name="theme-color" content="#464646" />
     <meta name="theme_color" content="#464646" />
-
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/vendor/sweetalert2.min.js"></script>
-    <script src="assets/js/logarr.main.js"></script>
 
     <title>
         <?php
@@ -79,6 +75,10 @@ https://github.com/Monitorr/Logarr
         }
     </style>
 
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/vendor/sweetalert2.min.js"></script>
+    <script src="assets/js/logarr.main.js"></script>
+
     <!-- Check if Logarr settings auth is enabled / if TRUE, check login status every 10s -->
     <?php checkLoginsettings(); ?>
 
@@ -104,6 +104,8 @@ https://github.com/Monitorr/Logarr
     <script>
         let settings = <?php echo json_encode($GLOBALS['settings']); ?>;
         let preferences = <?php echo json_encode($GLOBALS['preferences']); ?>;
+        let authentication = <?php echo json_encode($GLOBALS['authentication']); ?>;
+        settings = true;
         refreshConfig(false);
     </script>
 

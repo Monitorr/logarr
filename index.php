@@ -13,7 +13,6 @@ include('assets/php/auth_check.php');
 -->
 
 <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -21,16 +20,11 @@ include('assets/php/auth_check.php');
     <link rel="manifest" href="webmanifest.json">
 
     <meta name="Logarr" content="Logarr: Self-hosted, single-page, log consolidation tool." />
+    <meta name="description" content="Logarr">
     <meta name="application-name" content="Logarr" />
     <meta name="robots" content="NOINDEX, NOFOLLOW">
 
     <script src="assets/js/pace.js" async></script>
-
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/vendor/sweetalert2.min.css">
-    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/logarr.css">
-    <link rel="stylesheet" href="assets/data/custom.css">
 
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon-precomposed" sizes="180x180" href="assets/images/favicon/apple-touch-icon.png">
@@ -51,6 +45,12 @@ include('assets/php/auth_check.php');
     <meta name="theme_color" content="#464646" />
     <meta name="msapplication-TileColor" content="#464646" />
 
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/vendor/sweetalert2.min.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/logarr.css">
+    <link rel="stylesheet" href="assets/data/custom.css">
+
     <title>
         <?php
         $title = $GLOBALS['preferences']['sitetitle'];
@@ -70,14 +70,13 @@ include('assets/php/auth_check.php');
     </style>
 
     <script src="assets/js/jquery.min.js"></script>
-
-    <!-- Check if Logarr auth is enabled / if TRUE, check login status every 10s -->
-    <?php checkLoginindex(); ?>
-
     <script src="assets/js/vendor/sweetalert2.min.js"></script>
     <script src="assets/js/jquery.highlight.js" async></script>
     <script src="assets/js/jquery.mark.min.js" async></script>
     <script src="assets/js/logarr.main.js"></script>
+
+    <!-- Check if Logarr auth is enabled / if TRUE, check login status every 10s -->
+    <?php checkLoginindex(); ?>
 
     <!-- sync config with javascript -->
     <script>
