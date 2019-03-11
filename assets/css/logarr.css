@@ -725,19 +725,6 @@ input[type=search]::-webkit-search-cancel-button {
     font-weight: 600;
 }
 
-/* CHANGE ME TODO:  is this needed */
-
-/* .error {
-    padding: .1rem;
-    background-color: red;
-    color: black;
-    font-style: normal;
-    font-weight: 600;
-    -moz-border-radius: .1rem;
-    -webkit-border-radius: .1rem;
-    border-radius: .1rem;
-} */
-
 .warn {
     padding: .1rem;
     background-color: yellow;
@@ -1061,26 +1048,6 @@ input[type="checkbox"] {
     font-size: 1.75rem;
     margin-top: 1rem;
     margin-bottom: 0;
-}
-
-/* TODO:  REMOVE: */
-
-.closemodal {
-    position: fixed;
-    color: rgb(255, 80, 80);
-    left: 27%;
-    margin-top: -1rem;
-    /* margin-left: -36%; */
-    font-size: 2rem;
-    font-weight: 700;
-}
-
-.closemodal:hover,
-.closemodal:focus {
-    color: red;
-    text-decoration: none;
-    cursor: pointer;
-    font-weight: 900;
 }
 
 
