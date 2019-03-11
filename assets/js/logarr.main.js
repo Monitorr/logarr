@@ -647,15 +647,31 @@ function refreshConfig() {
         type: "GET",
         success: function (response) {
 
+            // Check if authentication settings have changed:
+            if (home) {
+                refreshAuth();
+            }
+            
             let json = JSON.parse(response);
             settings = json.settings;
             preferences = json.preferences;
+            authentication = json.authentication;
             logs = json.logs;
 
-            if (settings.rfconfig !== rfconfig) {
-                rfconfig = settings.rfconfig;
-                clearInterval(nIntervId["refreshConfig"]);
-                nIntervId["refreshConfig"] = setInterval(refreshConfig, rfconfig);
+             //TODO: refresh browser IF sync-config data is NULL: - INOP
+
+            if (json.settings == undefined) {
+                console.log("ERROR: json settings KEY error")
+            } else {
+                //console.log("json settings GOOD")
+            };
+
+            if(home, settings) {
+                if (settings.rfconfig !== rfconfig) {
+                    rfconfig = settings.rfconfig;
+                    clearInterval(nIntervId["refreshConfig"]);
+                    nIntervId["refreshConfig"] = setInterval(refreshConfig, rfconfig);
+                }
             }
 
             $("#auto-update-status").attr("data-enabled", settings.logRefresh);
@@ -685,10 +701,91 @@ function refreshConfig() {
 
             document.getElementById("brand").innerHTML = preferences.sitetitle; //update header title to configured site title
             console.log("Refreshed config variables | Interval: " + settings.rfconfig + " ms");
+
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log("ERROR: Config refresh failed!");
             syncconfigerror();
+        }
+    });
+}
+
+// Check if authentication settings have changed:
+function refreshAuth() {
+
+    console.log('Logarr is checking authentication settings | Interval ' + settings.rfconfig + ' (Auto)');
+
+    $.ajax({
+        url: "assets/php/sync-config-auth.php",
+        type: "GET",
+        success: function (response) {
+
+            let json = JSON.parse(response);
+
+            authentication = json.authentication;
+
+            if (authentication.logsEnabled === "false") {
+
+                console.log("Logarr auth: DISABLED (Auto)");
+
+            } else {
+
+                console.log("Logarr auth: ENABLED (Auto)");
+
+                function checkLoginSync() {
+
+                    $.ajax({
+                        type: "GET",
+                        url: "assets/php/login-status.php",
+                        success: function (data) {
+
+                            if (data === "true") {
+                                // User is logged IN:
+                                console.log('Logarr user is logged IN (Auto)');
+
+                            } else {
+                                // User is logged OUT:
+                                console.log('Logarr user is logged OUT (Auto)');
+
+                                logouttoast();
+
+                                // If user user is logged out, refresh index page to envoke authentication page:
+                                setTimeout(function () {
+
+                                    window.location.href = "index.php";
+
+                                }, 1000);
+                            }
+                        },
+
+                        error: function () {
+                            // error
+                            console.log('ERROR: An error occurred while checking login status!');
+
+                            logouttoast();
+
+                            setTimeout(function () {
+
+                                //window.location.href = "index.php";
+                                window.location.href = 'assets/php/authentication/unauthorized.php';
+
+                            }, 3000);
+                        }
+                    });
+                }
+                checkLoginSync();
+            };
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("ERROR: Authentication settings check error!");
+            syncconfigerror();
+
+            setTimeout(function () {
+
+                //window.location.href = "index.php";
+                window.location.href = 'assets/php/authentication/unauthorized.php';
+
+            }, 3000);
         }
     });
 }

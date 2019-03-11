@@ -1,11 +1,10 @@
-function checkLogin() {
+console.log('Logarr auth: ENABLED | Checking login status every 10s');
 
-    //console.log('Logarr auth: ENABLED | Checking login status');
+function checkLogin() {
 
     $.ajax({
         type: "GET",
         url: "assets/php/login-status.php",
-        // data: info,
         success: function (data) {
 
             if (data === "true") {
@@ -17,6 +16,7 @@ function checkLogin() {
                 // User is logged OUT:
 
                 console.log('Logarr user is logged OUT');
+
                 logouttoast();
 
                 // If user user logs out, refresh index page to envoke authentication page after 3s:
@@ -31,6 +31,15 @@ function checkLogin() {
         error: function () {
             // error
             console.log('ERROR: An error occurred while checking login status.');
+
+            logouttoast();
+
+            setTimeout(function () {
+                
+                //window.location.href = "index.php";
+                window.location.href = 'assets/php/authentication/unauthorized.php';
+
+            }, 3000);
         }
     });
 
