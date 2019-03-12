@@ -1905,6 +1905,10 @@ input[name="imginput"]:focus {
     color: red;
 }
 
+.alpaca-message-stringTooLong {
+    color: red;
+}
+
 .alpaca-field-text-max-length-indicator {
     font-style: italic;
     cursor: default;
@@ -2009,6 +2013,7 @@ div[data-alpaca-container-item-name="category"] {
     display: flex;
     flex-wrap: wrap;
     padding: 2rem 0;
+    justify-content: center;
 }
 
 .alpaca-container-item:not(:first-child) {
@@ -2813,7 +2818,6 @@ ul.stepper li.success a .circle {
         -webkit-transform: rotate(0deg);
         transform: rotate(0deg);
     }
-
     100% {
         -webkit-transform: rotate(360deg);
         transform: rotate(360deg);
@@ -2825,7 +2829,6 @@ ul.stepper li.success a .circle {
         -moz-transform: rotate(0deg);
         transform: rotate(0deg);
     }
-
     100% {
         -moz-transform: rotate(360deg);
         transform: rotate(360deg);
@@ -2837,7 +2840,6 @@ ul.stepper li.success a .circle {
         -o-transform: rotate(0deg);
         transform: rotate(0deg);
     }
-
     100% {
         -o-transform: rotate(360deg);
         transform: rotate(360deg);
@@ -2849,7 +2851,6 @@ ul.stepper li.success a .circle {
         -ms-transform: rotate(0deg);
         transform: rotate(0deg);
     }
-
     100% {
         -ms-transform: rotate(360deg);
         transform: rotate(360deg);
@@ -2860,7 +2861,6 @@ ul.stepper li.success a .circle {
     0% {
         transform: rotate(0deg);
     }
-
     100% {
         transform: rotate(360deg);
     }
@@ -2870,7 +2870,6 @@ ul.stepper li.success a .circle {
     0% {
         -webkit-transform: rotate(0deg);
     }
-
     99% {
         -webkit-transform: rotate(360deg);
     }
@@ -2880,7 +2879,6 @@ ul.stepper li.success a .circle {
     0% {
         transform: rotate(0deg);
     }
-
     99% {
         transform: rotate(360deg);
     }
