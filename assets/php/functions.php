@@ -24,7 +24,12 @@ $branch = $preferences['updateBranch'];
 // location to download new version zip
 $remote_file_url = 'https://github.com/monitorr/logarr/zipball/' . $branch . '';
 // rename version location/name
-$local_file = '../../tmp/logarr-' . $branch . '.zip'; #example: version/new-version.zip
+
+//TODO:  Change download path to /assets/data:
+//$local_file = '../../tmp/logarr-' . $branch . '.zip'; #example: version/new-version.zip
+
+$local_file = '../../assets/data/tmp/logarr-' . $branch . '.zip'; //download path for udpate zip file
+
 //
 // version check information
 //
