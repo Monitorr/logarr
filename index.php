@@ -27,6 +27,7 @@ include('assets/php/auth_check.php');
     <script src="assets/js/pace.js" async></script>
 
     <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <link rel="apple-touch-icon-precomposed" sizes="180x180" href="assets/images/favicon/apple-touch-icon.png">
     <link rel="mask-icon" href="assets/images/favicon/icon.svg" color="blue">
     <!-- <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/images/favicon/apple-touch-icon-114x114.png" />
@@ -92,7 +93,7 @@ include('assets/php/auth_check.php');
     <script>
         <?php
         //initial values for clock:
-        $timezone = $GLOBALS['preferences']['timezone'];
+        //$timezone = $GLOBALS['preferences']['timezone'];
         $dt = new DateTime("now", new DateTimeZone("$timezone"));
         $timeStandard = (int)($GLOBALS['preferences']['timestandard']);
         $rftime = $GLOBALS['settings']['rftime'];
@@ -132,6 +133,7 @@ include('assets/php/auth_check.php');
         });
     </script>
 
+    <!-- // TODO:  This can me removed - NOT tied to any function?? -->
     <div id="ajaxtimestamp" title="Analog clock timeout. Refresh page."></div>
 
     <div class="header">

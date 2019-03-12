@@ -42,7 +42,6 @@ https://github.com/Monitorr/Logarr
     <link rel="stylesheet" href="assets/css/logarr.css">
     <link rel="stylesheet" href="assets/data/custom.css">
 
-
     <meta name="theme-color" content="#464646" />
     <meta name="theme_color" content="#464646" />
 
@@ -106,23 +105,9 @@ https://github.com/Monitorr/Logarr
         let preferences = <?php echo json_encode($GLOBALS['preferences']); ?>;
         let authentication = <?php echo json_encode($GLOBALS['authentication']); ?>;
         settings = true;
-        refreshConfig(false);
+        refreshConfig();
+        //refreshConfig(false);
     </script>
-
-    <!-- // Set global timezone from config file: -->
-    <?php
-            // TODO / Why is this necessary? - rob1998  // This was left over from Monitorr - If config values were NOT set, use below
-        if ($GLOBALS['preferences']['timezone'] == "") {
-
-            date_default_timezone_set('UTC');
-            $timezone = date_default_timezone_get();
-        } else {
-
-            $timezoneconfig = $GLOBALS['preferences']['timezone'];
-            date_default_timezone_set($timezoneconfig);
-            $timezone = date_default_timezone_get();
-        }
-    ?>
 
     <!-- UI clock functions: -->
     <script>
