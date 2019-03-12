@@ -135,20 +135,21 @@ function logrollmodal() {
         customClass: 'logrollmodal',
         onBeforeOpen: () => {
 
-            //TODO: //Turn OFF autorefresh IF on
+            //TODO: //Turn OFF autorefresh before log roll attempt // Works but will re-enabled w/ rfconfig:
 
-            //$("#autoUpdateSlider").attr("data-enabled", "false");
-
-            //clearInterval(nIntervId);
-
-            //logInterval = false;
+            $("#autoUpdateSlider").attr("data-enabled", "false");
+            clearInterval(nIntervId["logRefresh"]);
+            clearInterval(nIntervId);
+            clearInterval(refreshblockUI, settings.rflog);
+            clearInterval(refreshblockUI);
+            logInterval = false;
 
         },
         onClose: () => {
 
             refreshblockUI();
             //TODO:
-            //Turn ON autorefresh IF ON
+            //Re-enable autorefresh IF ON
         }
     })
 };
@@ -331,6 +332,10 @@ function loadLogs() {
             // TODO / bug :  Remove log from display if disabled
             var logTitle = logs[i].logTitle;
             console.log("Log disabled: " + logTitle);
+            // TODO: not sure if this is the best way to do this but it works:
+            $("#" + logs[i].logTitle.replace(/\s/g, "-") + "-log-container").addClass("hidden");
+        } else {
+            $("#" + logs[i].logTitle.replace(/\s/g, "-") + "-log-container").removeClass("hidden");
         }
     }
     if (categories.length > 0 && !(categories.length == 1 && categories[0] == "Uncategorized")) {
@@ -455,7 +460,7 @@ function mark() {
 
                     searchresults();
 
-                    //TODO:  Add # of results to individual log containers
+                    //Future TODO:  Add # of results to individual log containers
 
                     results = content.find("mark");
                     let count = $(".count");
@@ -504,7 +509,7 @@ $(function () {
             
             searchtoast();
             
-            $('#buttonStart :checkbox').prop('checked', false).change(); // TODO - BUG: if auto-update is enabled, disable it after search submit
+            $('#buttonStart :checkbox').prop('checked', false).change();
             setTimeout(function () {
                 $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search
                 mark();
@@ -658,14 +663,6 @@ function refreshConfig() {
             authentication = json.authentication;
             logs = json.logs;
 
-             //TODO: refresh browser IF sync-config data is NULL: - INOP
-
-            if (json.settings == undefined) {
-                console.log("ERROR: json settings KEY error")
-            } else {
-                //console.log("json settings GOOD")
-            };
-
             if(home, settings) {
                 if (settings.rfconfig !== rfconfig) {
                     rfconfig = settings.rfconfig;
@@ -688,6 +685,8 @@ function refreshConfig() {
                     uetoast();
                 } else if (settings.logRefresh === "false" && logInterval === true) {
                     clearInterval(nIntervId["logRefresh"]);
+                    clearInterval(nIntervId);
+                    clearInterval(refreshblockUI, settings.rflog);
                     logInterval = false;
                     $("#autoUpdateSlider").attr("data-enabled", "false");
                     console.log("Log auto update: Disabled");
@@ -801,14 +800,17 @@ function overwriteLogUpdate() {
         logInterval = true;
         console.log("Log auto update: Enabled | Interval: " + settings.rflog + " ms");
         uetoast();
-        setTimeout(function () {
-            refreshblockUI();
-        }, 1000);
+        //TODO CHANGE ME
+        // setTimeout(function () {
+        //     refreshblockUI();
+        // }, 1000);
     } else {
         $("#autoUpdateSlider").attr("data-enabled", "false");
-        //TODO:
-        //clearInterval(nIntervId["logRefresh"]);
+        //TODO: Adding everything possible to stop rfconfig from re-applying values:
+        clearInterval(nIntervId["logRefresh"]);
         clearInterval(nIntervId);
+        clearInterval(refreshblockUI, settings.rflog);
+        clearInterval(refreshblockUI);
         logInterval = false;
         console.log("Log auto update: Disabled");
         udtoast();
