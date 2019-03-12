@@ -27,7 +27,7 @@ if ($copy == 1) {
 		$zip->close();
 		// copy config.php to safe place while we update
 
-		//CHANGE ME / TODO: / Remove old config / Do we still need this?
+		//CHANGE ME / TODO: / Remove old config:
 
 		rename('../config/config.php', $extractPath . 'config.php');
 		// copy files from temp to monitorr root
@@ -47,9 +47,6 @@ if ($copy == 1) {
 	} else {
 		// error updating files
 		$data = array("unzip" => 0);
-		echo "<script type='text/javascript'>";
-		echo "console.log('ERROR: Logarr was unable Logarr');";
-		echo "</script>";
 		// delete potentially corrupt file
 		unlink($local_file);
 	}

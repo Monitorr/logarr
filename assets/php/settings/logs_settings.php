@@ -245,6 +245,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "name": "logTitle",
                                     "size": 20,
                                     "placeholder": "Log Name",
+                                    "inputType": "search",
                                     "events": {
                                         "change": function() {
                                             this.refreshValidationState(true);
@@ -311,6 +312,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "label": "Log Path:",
                                     //"helpers": ["Can be dynamic - see <a class='footer' href='https://github.com/Monitorr/logarr/wiki/Settings#dynamic-paths' target='_blank'>wiki</a>"],
                                     "name": "path",
+                                    "inputType": "search",
                                     "placeholder": "C:\\path\\to.log",
                                     "events": {
                                         "change": function() {
@@ -369,6 +371,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "name": "maxLines",
                                     "placeholder": "1000",
                                     "size": "10",
+                                    "inputType": "search",
                                     "events": {
                                         "change": function() {
                                             $('.alpaca-form-button-submit').addClass('buttonchange');
@@ -385,6 +388,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "name": "autoRollSize",
                                     "placeholder": "E.g. 2MB or 200KB",
                                     "size": "10",
+                                    "inputType": "search",
                                     "events": {
                                         "change": function() {
                                             $('.alpaca-form-button-submit').addClass('buttonchange');
@@ -399,6 +403,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "hideInitValidationError": false,
                                     "name": "category",
                                     "placeholder": "E.g. Media",
+                                    "inputType": "search",
                                     "events": {
                                         "change": function() {
                                             $('.alpaca-form-button-submit').addClass('buttonchange');
@@ -423,12 +428,12 @@ include(__DIR__ . '/../auth_check.php');
                                                 settingapply();
                                                 console.log("Settings saved! Applying changes...");
                                                 $('.alpaca-form-button-submit').removeClass('buttonchange');
-                                                $('.btn-sm').click(function () {
+                                                $('.btn-sm').click(function() {
                                                     settingchange();
                                                     $('.alpaca-form-button-submit').addClass('buttonchange');
                                                 });
                                             },
-                                            error: function (jqXHR, textStatus, errorThrown) {
+                                            error: function(jqXHR, textStatus, errorThrown) {
                                                 console.log(errorThrown);
                                             }
                                         });
@@ -448,7 +453,7 @@ include(__DIR__ . '/../auth_check.php');
                             });
                         }
                         Toast.close();
-                        $('.btn-sm').click(function () {
+                        $('.btn-sm').click(function() {
                             settingchange();
                             $('.alpaca-form-button-submit').addClass('buttonchange');
                         });

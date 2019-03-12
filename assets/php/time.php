@@ -2,7 +2,13 @@
 include('functions.php');
 //TODO:  do we need to authcheck time?
 //include("auth_check.php");
-$timezone = $GLOBALS['preferences']['timezone'];
+if (!$GLOBALS['preferences']['timezone']) {
+	date_default_timezone_set('UTC');
+	$timezone = date_default_timezone_get();
+} else {
+	$timezone = $GLOBALS['preferences']['timezone'];
+}
+//$timezone = $GLOBALS['preferences']['timezone'];
 $dt = new DateTime("now", new DateTimeZone("$timezone"));
 $timeStandard = (int)($GLOBALS['preferences']['timestandard'] === "True" ? true : false);
 $rftime = $GLOBALS['settings']['rftime'];

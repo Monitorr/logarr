@@ -86,50 +86,36 @@ include_once(__DIR__ . "/../auth_check.php");
 
     <!-- // TODO CHANGE ME: -->
     <?php
-        ini_set('error_reporting', E_ERROR);
-        //error_reporting(0);
+    ini_set('error_reporting', E_WARN);
+    //error_reporting(0);
     ?>
 
     <title>
         <?php echo $GLOBALS['preferences']['sitetitle'] . ' | Log In'; ?>
     </title>
 
-    <!-- sync config with javascript -->
+    <!-- Load inital global values from javascript -->
     <script>
-        var settings = <?php echo json_encode($GLOBALS['settings']); ?>;
-        var preferences = <?php echo json_encode($GLOBALS['preferences']); ?>;
-        //refreshConfig(false);
+        let settings = <?php echo json_encode($GLOBALS['settings']); ?>;
+        let preferences = <?php echo json_encode($GLOBALS['preferences']); ?>;
     </script>
-
-    <!-- // Set global timezone from config file: -->
-    <?php
-            // TODO / Why is this necessary? - rob1998  // This was left over from Monitorr - If config values were NOT set, use below
-        if ($GLOBALS['preferences']['timezone'] == "") {
-
-            date_default_timezone_set('UTC');
-            $timezone = date_default_timezone_get();
-        } else {
-
-            $timezoneconfig = $GLOBALS['preferences']['timezone'];
-            date_default_timezone_set($timezoneconfig);
-            $timezone = date_default_timezone_get();
-        }
-    ?>
 
     <!-- UI clock functions: -->
     <script>
         <?php
-            //initial values for clock:
-            $dt = new DateTime("now", new DateTimeZone("$timezone"));
-            $timeStandard = (int)($GLOBALS['preferences']['timestandard']);
-            $rftime = $GLOBALS['settings']['rftime'];
-            $timezone_suffix = '';
-            if (!$timeStandard) {
-                $dateTime = new DateTime();
-                $dateTime->setTimeZone(new DateTimeZone($timezone));
-                $timezone_suffix = $dateTime->format('T');
-            }
-            $serverTime = $dt->format("D d M Y H:i:s");
+        $timezoneconfig = $GLOBALS['preferences']['timezone'];
+        date_default_timezone_set($timezoneconfig);
+        $timezone = date_default_timezone_get();
+        $dt = new DateTime("now", new DateTimeZone("$timezone"));
+        $timeStandard = (int)($GLOBALS['preferences']['timestandard']);
+        $rftime = $GLOBALS['settings']['rftime'];
+        $timezone_suffix = '';
+        if (!$timeStandard) {
+            $dateTime = new DateTime();
+            $dateTime->setTimeZone(new DateTimeZone($timezone));
+            $timezone_suffix = $dateTime->format('T');
+        }
+        $serverTime = $dt->format("D d M Y H:i:s");
         ?>
         let servertime = "<?php echo $serverTime; ?>";
         let timeStandard = <?php echo $timeStandard; ?>;
@@ -156,6 +142,7 @@ include_once(__DIR__ . "/../auth_check.php");
         });
     </script>
 
+    <!-- // TODO:  This can me removed - NOT tied to any function?? -->
     <div id="ajaxtimestamp" title="Analog clock timeout. Refresh page."></div>
 
     <div class="header-login">

@@ -274,6 +274,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "fields": {},
                                 "renderButtons": true,
                                 "attributes": {},
+                                "inputType": "search",
                                 "events": {
                                     "change": function() {
                                         this.refreshValidationState(true);
@@ -338,6 +339,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "fields": {},
                                 "renderButtons": true,
                                 "attributes": {},
+                                "inputType": "search",
                                 "events": {
                                     "change": function() {
                                         this.refreshValidationState(true);
@@ -402,6 +404,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "fields": {},
                                 "renderButtons": true,
                                 "attributes": {},
+                                "inputType": "search",
                                 "events": {
                                     "change": function() {
                                         this.refreshValidationState(true);
@@ -466,6 +469,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "fields": {},
                                 "renderButtons": true,
                                 "attributes": {},
+                                "inputType": "search",
                                 "events": {
                                     "change": function() {
                                         this.refreshValidationState(true);
@@ -530,6 +534,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "fields": {},
                                 "renderButtons": true,
                                 "attributes": {},
+                                "inputType": "search",
                                 "events": {
                                     "change": function() {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
