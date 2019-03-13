@@ -5,7 +5,32 @@ function updatechecklatest() {
         toast: true,
         type: 'success',
         title: 'You have the latest <br> Logarr version',
+        background: 'rgba(0, 184, 0, 0.75)',
         timer: 5000
+    })
+};
+
+function updatecheck() {
+    Toast.fire({
+        toast: true,
+        type: 'info',
+        title: 'Logarr is checking for an <br> application update',
+        showCloseButton: false,
+        onBeforeOpen: () => {
+            Swal.showLoading()
+        }
+    })
+};
+
+function updateprogress() {
+    Toast.fire({
+        toast: true,
+        type: 'warning',
+        title: 'Logarr is updating',
+        showCloseButton: false,
+        onBeforeOpen: () => {
+            Swal.showLoading()
+        }
     })
 };
 
@@ -22,7 +47,8 @@ function updatesuccess() {
     Toast.fire({
         toast: true,
         type: 'success',
-        title: 'Update Successful! <br> Reloading Logarr in 5 seconds...'
+        title: 'Update Successful! <br> Reloading Logarr in 5 seconds...',
+        background: 'rgba(0, 184, 0, 0.75)'
     })
 };
 
@@ -102,8 +128,9 @@ $(document).ready(function () {
         var info = "uid=" + uid + "&vcheck=1";
         $.ajax({
             beforeSend: function () {
-                $('#version_check').html('<img src="../../images/loader.gif" width="16" height="16" />');
                 console.log('Logarr is checking for an application update');
+                updatecheck();
+                $('#version_check').html('<img src="../../images/loader.gif" width="16" height="16" />');
             },
             type: "POST",
             url: "../version_check.php",
@@ -116,6 +143,12 @@ $(document).ready(function () {
                     var uInfo = "uid=" + uid + "&version=" + data.version;
                     $.ajax({
                         beforeSend: function () {
+
+                            console.log('Logarr is updating...');
+
+                            //TODO:  Add SA Modal:
+                            updateprogress();
+
                             versionCheck.html('<img src="../../images/loader.gif" width="16" height="16" />');
                         },
                         type: "POST",
@@ -165,8 +198,6 @@ $(document).ready(function () {
                     console.log('Logarr update: You have the latest Logarr version');
                     versionCheck.html("Check for Update");
                     updatechecklatest();
-                    
-                    //setTimeout(location.reload.bind(location), 5000);
                 }
             },
             error: function () {

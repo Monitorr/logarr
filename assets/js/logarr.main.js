@@ -5,11 +5,11 @@
 // Variables
 let results, currentIndex = 0;
 let logInterval = false;
-let current_rflog = 600000;
+let current_rflog = 60000;
 let nIntervId = [];
 let home = false;
 
-let rfconfig = (typeof settings !== "undefined") ? settings.rfconfig : 5000;
+let rfconfig = (typeof settings !== "undefined") ? settings.rfconfig : 10000;
 
 //TODO Can we remove this so rfconfig doesn't load automatically on child pages we don't want it to?
 
@@ -992,7 +992,9 @@ function parseGithubToHTML(result) {
 
     var i = 0;
     for (i = 0; i < changeItems.length; i++) {
-        result += "<li><i class='fa fa-lightbulb'></i> CHANGE: " + changeItems[i] + "</li>";
+        //TODO: Pencil ??
+        // result += "<li><i class='fa fa-lightbulb'></i> CHANGE: " + changeItems[i] + "</li>";
+        result += "<li><i class='fas fa-pencil-alt'></i> CHANGE: " + changeItems[i] + "</li>";
     }
 
     result += "</ol>";

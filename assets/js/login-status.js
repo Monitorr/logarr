@@ -36,7 +36,6 @@ function checkLogin() {
 
             setTimeout(function () {
                 
-                //window.location.href = "index.php";
                 window.location.href = 'assets/php/authentication/unauthorized.php';
 
             }, 3000);
