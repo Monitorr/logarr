@@ -1,7 +1,13 @@
 <?php
 include('functions.php');
-include("auth_check.php");
-$timezone = $GLOBALS['preferences']['timezone'];
+if (!$GLOBALS['preferences']['timezone']) {
+	date_default_timezone_set('UTC');
+	$timezone = date_default_timezone_get();
+	appendLog($logentry = "ERROR: Logarr could not load timezone values. Default values have been set");
+} else {
+	$timezone = $GLOBALS['preferences']['timezone'];
+}
+//$timezone = $GLOBALS['preferences']['timezone'];
 $dt = new DateTime("now", new DateTimeZone("$timezone"));
 $timeStandard = (int)($GLOBALS['preferences']['timestandard'] === "True" ? true : false);
 $rftime = $GLOBALS['settings']['rftime'];

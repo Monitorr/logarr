@@ -7,7 +7,7 @@
 
             {{{options.label}}}
 
-            <i class="fa fa-fw fa-question-circle input_icon" id="logsenabled_icon" title="Enable authentication for the main Logarr UI."> </i>
+            <i class="fa fa-fw fa-question-circle input_icon" id="logsenabled_icon" title="Enable authentication for the main Logarr UI. If this setting is changed, a manual refresh of the main Logarr UI is required"> </i>
 
         </label>
 
@@ -21,6 +21,10 @@
         </p>
 
         {{/if}}
+
+        <p id='authnote' class="hidden"> 
+            <i class="fas fa-info-circle"></i> NOTE: If this setting is changed, <br> a manual refresh of the main Logarr UI is required.
+        </p>
 
     </div>
 

@@ -5,7 +5,32 @@ function updatechecklatest() {
         toast: true,
         type: 'success',
         title: 'You have the latest <br> Logarr version',
+        background: 'rgba(0, 184, 0, 0.75)',
         timer: 5000
+    })
+};
+
+function updatecheck() {
+    Toast.fire({
+        toast: true,
+        type: 'info',
+        title: 'Logarr is checking for an <br> application update',
+        showCloseButton: false,
+        onBeforeOpen: () => {
+            Swal.showLoading()
+        }
+    })
+};
+
+function updateprogress() {
+    Toast.fire({
+        toast: true,
+        type: 'warning',
+        title: 'Logarr is updating',
+        showCloseButton: false,
+        onBeforeOpen: () => {
+            Swal.showLoading()
+        }
     })
 };
 
@@ -22,7 +47,8 @@ function updatesuccess() {
     Toast.fire({
         toast: true,
         type: 'success',
-        title: 'Update Successful! <br> Reloading Logarr in 5 seconds...'
+        title: 'Update Successful! <br> Reloading Logarr in 5 seconds...',
+        background: 'rgba(0, 184, 0, 0.75)'
     })
 };
 
@@ -83,14 +109,14 @@ $(document).ready(function () {
             } else {
                 // user has the latest version already installed
                 versionCheckAuto.html("");
-                console.log('Logarr update: You have the latest version.');
+                console.log('Logarr update: You have the latest version');
             }
         },
         error: function () {
             // error
             versionCheckAuto.html('<p id="vcheckerror" class="vcheckerror">An error occurred while checking your Logarr version </p>');
             console.log('ERROR: An error occurred while checking your Logarr version');
-             updatecheckerror();
+            updatecheckerror();
         }
     });
 
@@ -102,8 +128,9 @@ $(document).ready(function () {
         var info = "uid=" + uid + "&vcheck=1";
         $.ajax({
             beforeSend: function () {
+                console.log('Logarr is checking for an application update');
+                updatecheck();
                 $('#version_check').html('<img src="../../images/loader.gif" width="16" height="16" />');
-                console.log('Logarr is checking for an application update.');
             },
             type: "POST",
             url: "../version_check.php",
@@ -111,14 +138,17 @@ $(document).ready(function () {
             dataType: "json",
             success: function (data) {
 
-                // clear loading information
-                //versionCheck.html("");
-
                 // check for version verification
                 if (data.version != 0) {
                     var uInfo = "uid=" + uid + "&version=" + data.version;
                     $.ajax({
                         beforeSend: function () {
+
+                            console.log('Logarr is updating...');
+
+                            //TODO:  Add SA Modal:
+                            updateprogress();
+
                             versionCheck.html('<img src="../../images/loader.gif" width="16" height="16" />');
                         },
                         type: "POST",
@@ -130,9 +160,6 @@ $(document).ready(function () {
                             // check for version verification:
                             if (data.copy != 0) {
                                 if (data.unzip == 1) {
-
-                                    // clear loading information
-                                    //versionCheck.html("");
 
                                     // successful update
                                     console.log('Logarr update successful! Reloading Logarr in 5 seconds...');
@@ -171,18 +198,15 @@ $(document).ready(function () {
                     console.log('Logarr update: You have the latest Logarr version');
                     versionCheck.html("Check for Update");
                     updatechecklatest();
-                    
-                    //setTimeout(location.reload.bind(location), 5000);
                 }
             },
             error: function () {
                 // error
-                console.log('Logarr update: An error occurred while checking your Logarr version.');
+                console.log('Logarr update: An error occurred while checking your Logarr version');
                 versionCheck.html('<p id="vcheckerror" class="vcheckerror"> ERROR! </p>');
                 updatecheckerror();
                 setTimeout(5000);
             }
         });
     });
-
 });

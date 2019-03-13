@@ -5,6 +5,8 @@ include(__DIR__ . '/../auth_check.php');
 <!DOCTYPE html>
 <html lang="en">
 
+<!-- authentication.php -->
+
 <head>
 
     <meta charset="utf-8">
@@ -32,7 +34,7 @@ include(__DIR__ . '/../auth_check.php');
         $title = $GLOBALS['preferences']['sitetitle'];
         echo $title . PHP_EOL;
         ?>
-        | User Preferences
+        | Settings
     </title>
 
     <style>
@@ -186,8 +188,8 @@ include(__DIR__ . '/../auth_check.php');
                                 "showMessages": true,
                                 "disabled": false,
                                 "hidden": false,
-                                "label": "Enable Configuration Access:",
-                                "helpers": ["Enable access to the Configuration page. (NOTE: For security purposes, this should be DISABLED ('false') after initial configuration.)"],
+                                "label": "Enable Configuration access:",
+                                "helpers": ["Enable access to the Configuration page. (NOTE: For security purposes, this should be DISABLED ('False') after initial configuration.)"],
                                 "hideInitValidationError": false,
                                 "focus": false,
                                 "optionLabels": [" True", " False"],
@@ -258,6 +260,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "fields": {},
                                 "events": {
                                     "change": function() {
+                                        $('#authnote').removeClass('hidden');
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
                                         $('.logsenabledlabel').addClass('settingslabelchanged');
                                         settingchange();

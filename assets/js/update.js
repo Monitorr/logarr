@@ -8,7 +8,7 @@ $(document).ready(function () {
         $.ajax({
             beforeSend: function () {
                 versionCheckAuto.html('<img src="assets/images/loader.gif" width="16" height="16" />');
-                console.log('Logarr is checking for an application update (Auto).');
+                console.log('Logarr is checking for an application update (Auto)');
             },
             type: "POST",
             url: "assets/php/version_check.php",
@@ -22,7 +22,7 @@ $(document).ready(function () {
                 // check for version verification:
                 if (data.version != 0) {
                     var uInfo = "uid=" + uid + "&version=" + data.version;
-                    console.log('Logarr version ' + data.version.trim() + ' is available. Click "check for update" on the Info page to update Logarr.');
+                    console.log('Logarr version ' + data.version.trim() + ' is available. Click "check for update" on the Info page to update Logarr');
 
                     updateavailtoast();
 
@@ -35,13 +35,12 @@ $(document).ready(function () {
                 } else {
                     // latest version already installed:
                     versionCheckAuto.html("");
-
-                    console.log('Logarr update: You have the latest Logarr version (Auto).');
+                    console.log('Logarr update: You have the latest Logarr version (Auto)');
                 }
             },
             error: function () {
                 // error
-                console.log('ERROR: An error occurred while checking your Logarr version.');
+                console.log('ERROR: An error occurred while checking your Logarr version');
                 versionCheckAuto.html('<p id="vcheckerror" class="vcheckerror">An error occurred while checking your Logarr version!</p>');
                 updatecheckerror();
                 setTimeout(10000);

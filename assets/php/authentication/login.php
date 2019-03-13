@@ -42,6 +42,8 @@ include_once(__DIR__ . "/../auth_check.php");
     <script src="assets/js/vendor/sweetalert2.min.js"></script>
     <script src="assets/js/logarr.main.js"></script>
 
+    <?php appendLog($logentry = "Logarr Login page loaded"); ?>
+
     <style>
         .notification {
             visibility: hidden;
@@ -86,53 +88,54 @@ include_once(__DIR__ . "/../auth_check.php");
 
     <!-- // TODO CHANGE ME: -->
     <?php
-        //ini_set('error_reporting', E_ERROR);
-        error_reporting(0);
+    ini_set('error_reporting', E_WARN);
+    //error_reporting(0);
     ?>
 
     <title>
         <?php echo $GLOBALS['preferences']['sitetitle'] . ' | Log In'; ?>
     </title>
 
-    <!-- sync config with javascript -->
+    <!-- Load inital global values from javascript -->
     <script>
-        var settings = <?php echo json_encode($GLOBALS['settings']); ?>;
-        var preferences = <?php echo json_encode($GLOBALS['preferences']); ?>;
+        let settings = <?php echo json_encode($GLOBALS['settings']); ?>;
+        let preferences = <?php echo json_encode($GLOBALS['preferences']); ?>;
     </script>
 
     <!-- UI clock functions: -->
     <script>
         <?php
-        //initial values for clock:
-        $timezoneString = $GLOBALS['preferences']['timezone'];
-        if(!in_array($timezoneString, timezone_identifiers_list())) $timezoneString = "UTC";
-        $timezone = new DateTimeZone("$timezoneString");
-        $dt = new DateTime("now", $timezone);
+        $timezoneconfig = $GLOBALS['preferences']['timezone'];
+        date_default_timezone_set($timezoneconfig);
+        $timezone = date_default_timezone_get();
+        $dt = new DateTime("now", new DateTimeZone("$timezone"));
         $timeStandard = (int)($GLOBALS['preferences']['timestandard']);
-        $rftime = isset($GLOBALS['settings']['rftime']) ? $GLOBALS['settings']['rftime'] : 30000;
+        $rftime = $GLOBALS['settings']['rftime'];
         $timezone_suffix = '';
         if (!$timeStandard) {
             $dateTime = new DateTime();
-            $dateTime->setTimeZone($timezone);
+            $dateTime->setTimeZone(new DateTimeZone($timezone));
             $timezone_suffix = $dateTime->format('T');
         }
         $serverTime = $dt->format("D d M Y H:i:s");
         ?>
-        var servertime = "<?php echo $serverTime; ?>";
-        var timeStandard = <?php echo $timeStandard; ?>;
-        var timeZone = "<?php echo $timezone_suffix; ?>";
-        var rftime = <?php echo $rftime; ?>;
+        let servertime = "<?php echo $serverTime; ?>";
+        let timeStandard = <?php echo $timeStandard; ?>;
+        let timeZone = "<?php echo $timezone_suffix; ?>";
+        let rftime = <?php echo $GLOBALS['settings']['rftime']; ?>;
 
         $(document).ready(function() {
+            syncServerTime();
             updateTime();
         });
     </script>
 
-    <script src="assets/js/clock.js"></script>
+    <script src="assets/js/clock.js" async></script>
+    <script src="assets/data/custom.js"></script>
 
 </head>
 
-<body id="body" style="color: #FFFFFF;">
+<body id="body">
 
     <script>
         document.body.className += ' fade-out';
@@ -141,6 +144,7 @@ include_once(__DIR__ . "/../auth_check.php");
         });
     </script>
 
+    <!-- // TODO:  This can me removed - NOT tied to any function?? -->
     <div id="ajaxtimestamp" title="Analog clock timeout. Refresh page."></div>
 
     <div class="header-login">
@@ -156,7 +160,7 @@ include_once(__DIR__ . "/../auth_check.php");
         </div>
 
         <div id="loginbrand">
-            <div class="navbar-brand" onclick='window.location.href="index.php";' title="Return to Logarr">
+            <div id="brand" class="navbar-brand" onclick='window.location.href="index.php";' title="Return to Logarr">
                 <?php
                 echo $GLOBALS['preferences']['sitetitle'];
                 ?>

@@ -21,6 +21,14 @@ include(__DIR__ . '/../auth_check.php');
     <meta name="theme-color" content="#464646" />
     <meta name="theme_color" content="#464646" />
 
+    <title>
+        <?php
+        $title = $GLOBALS['preferences']['sitetitle'];
+        echo $title . PHP_EOL;
+        ?>
+        | Settings
+    </title>
+
     <style>
         table {
             color: white !important;
@@ -31,12 +39,9 @@ include(__DIR__ . '/../auth_check.php');
         }
     </style>
 
-    <title>
-        <?php echo $GLOBALS['preferences']['sitetitle'] . ' | Info'; ?>
-    </title>
-
     <script src="../../js/jquery.min.js"></script>
     <script src="../../js/vendor/sweetalert2.min.js"></script>
+    <!-- <script src="../../js/logarr.main.js" async></script> -->
 
     <script>
         const Toast = Swal.mixin({
@@ -49,6 +54,7 @@ include(__DIR__ . '/../auth_check.php');
 
         function exterror() {
             Toast.fire({
+                toast: true,
                 type: 'error',
                 title: 'PHP extension not loaded!',
                 background: 'rgba(207, 0, 0, 0.75)',
@@ -73,31 +79,29 @@ include(__DIR__ . '/../auth_check.php');
         <table class="table">
             <tbody>
                 <tr>
-                    <td><strong>Logarr Installed Version:</strong></td>
+                    <td class="infotitle">Logarr Installed Version:</td>
                     <td>
                         <?php echo file_get_contents("../../js/version/version.txt") ?>
                         <p id="version_check_auto" class="version_check_info"></p>
                     </td>
-                    <td><strong>OS / Version:</strong></td>
+                    <td class="infotitle">OS / Version:</td>
                     <td>
                         <?php echo php_uname(); ?>
                     </td>
                 </tr>
                 <tr>
-                    <td><strong>Logarr Latest Version:</strong></td>
+                    <td class="infotitle">Logarr Latest Version:</td>
                     <td>Master:
                         <a href="https://github.com/Monitorr/logarr/releases" target="_blank" title="Logarr Releases">
-                            <img src="https://img.shields.io/github/release/Monitorr/logarr.svg?style=flat" alt="Logarr Release" style="width:6rem;height:1.1rem;">
+                            <img class="releasebadge" src="https://img.shields.io/github/release/Monitorr/logarr.svg?style=flat" alt="Logarr Release" style="width:6rem;height:1.1rem;">
                         </a>
                         | Develop:
                         <a href="https://github.com/Monitorr/logarr/releases" target="_blank" title="Logarr Releases">
-                            <img src="https://img.shields.io/github/release/Monitorr/logarr/all.svg" alt="Logarr Release" style="width:6rem;height:1.1rem;">
+                            <img class="releasebadge" src="https://img.shields.io/github/release/Monitorr/logarr/all.svg" alt="Logarr Release" style="width:6rem;height:1.1rem;">
                         </a>
                     </td>
 
-                    <td>
-                        <strong>PHP Version:</strong>
-                    </td>
+                    <td class="infotitle">PHP Version:</td>
 
                     <td>
 
@@ -105,20 +109,51 @@ include(__DIR__ . '/../auth_check.php');
 
                         echo " <strong> | Extensions: </strong> ";
 
-                        $myfile = fopen('../php-perms-check.txt', 'w');
+                        $myfile = fopen('../../data/php-perms-check.txt', 'w');
 
                         if (!$myfile) {
                             echo " <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP write permissions FAIL'>";
                             echo "Perms";
                             echo "</a>";
-                            echo "<script>console.log( 'ERROR: PHP Write permissions FAIL' );</script>";
+                            echo "<script>console.log( 'ERROR: PHP write permissions FAIL' );</script>";
                             echo "<script>exterror();</script>";
+                            appendLog(
+                                $logentry = "ERROR: PHP write permissions FAIL"
+                            );
                         } else {
-                            echo " <div class='extok' title='PHP write permissions OK' >";
+                            echo "<div class='extok' title='PHP write permissions OK' >";
                             echo "Perms";
                             echo "</div>";
-                            fwrite($myfile, "PHP write permissions OK");
+                            fwrite($myfile, "Logarr PHP write permissions O.K \r\nThis file can be safely removed, however will be regenerated every time a user logs into Logarr Settings. ");
                             fclose($myfile);
+                        }
+
+                        //Check if datadir is writable:
+
+                        $str = file_get_contents(__DIR__ . "/../../data/datadir.json");
+                        $json = json_decode($str, true);
+                        $datadir = $json['datadir'];
+                        $datafile = $datadir . 'php-perms-check.txt';
+                        $datadirfile = $datafile;
+
+                        $datadircheck = fopen($datadirfile, 'w');
+
+                        if (!$datadircheck) {
+                            echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP Datadir write permissions FAIL'>";
+                            echo "Data";
+                            echo "</a>";
+                            echo "<script>console.log( 'ERROR: Logarr PHP Datadir write permissions FAIL' );</script>";
+                            echo "<script>exterror();</script>";
+                            appendLog(
+                                $logentry = "ERROR: Logarr PHP Datadir write permissions FAIL"
+                            );
+                        } else {
+                            echo " | <div class='extok' title='PHP Datadir write permissions OK' >";
+                            echo "Data";
+                            echo "</div>";
+                            fwrite($datadircheck, "Logarr PHP Datadir write permissions O.K \r\nThis file can be safely removed, however it will be regenerated every time a user logs into Logarr Settings. ");
+                            fclose($datadircheck);
+                            echo "<script>console.log( 'Logarr PHP Datadir write permissions OK' );</script>";
                         }
 
                         if (extension_loaded('sqlite3')) {
@@ -130,6 +165,9 @@ include(__DIR__ . '/../auth_check.php');
                             echo "php_sqlite3";
                             echo "</a>";
                             echo "<script>exterror();</script>";
+                            appendLog(
+                                $logentry = "ERROR: PHP php_sqlite3 extension NOT loaded"
+                            );
                         }
 
                         if (extension_loaded('pdo_sqlite')) {
@@ -141,6 +179,9 @@ include(__DIR__ . '/../auth_check.php');
                             echo "pdo_sqlite";
                             echo "</a>";
                             echo "<script>exterror();</script>";
+                            appendLog(
+                                $logentry = "ERROR: PHP pdo_sqlite extension NOT loaded"
+                            );
                         }
 
                         if (extension_loaded('zip')) {
@@ -152,6 +193,9 @@ include(__DIR__ . '/../auth_check.php');
                             echo "php7-zip";
                             echo "</a>";
                             echo "<script>exterror();</script>";
+                            appendLog(
+                                $logentry = "ERROR: PHP ZIP extension NOT loaded"
+                            );
                         }
 
                         if (extension_loaded('openssl')) {
@@ -164,6 +208,9 @@ include(__DIR__ . '/../auth_check.php');
                             echo "</a>";
                             echo "<script>console.log( 'ERROR: PHP openssl extension NOT loaded' );</script>";
                             echo "<script>exterror();</script>";
+                            appendLog(
+                                $logentry = "ERROR: PHP openssl extension NOT loaded"
+                            );
                         }
 
                         ?>
@@ -172,7 +219,7 @@ include(__DIR__ . '/../auth_check.php');
                 </tr>
 
                 <tr>
-                    <td><strong>Check & Execute Update:</strong></td>
+                    <td class="infotitle">Check & Execute Update:</td>
                     <td>
                         Update branch selected:
                         <strong>
@@ -184,7 +231,7 @@ include(__DIR__ . '/../auth_check.php');
 
                         <a id="version_check" class="btn btn-primary" style="cursor: pointer" title="Execute Update">Check for Update</a>
                     </td>
-                    <td><strong>Install Path: </strong></td>
+                    <td class="infotitle">Install Path:</td>
                     <td>
                         <?php
                         $vnum_loc = "../../../";
@@ -194,10 +241,10 @@ include(__DIR__ . '/../auth_check.php');
                 </tr>
 
                 <tr>
-                    <td><strong>Resources:</strong></td>
+                    <td class="infotitle">Resources:</td>
                     <td><a href="https://github.com/Monitorr/logarr" target="_blank" title="Logarr GitHub Repo"> <img src="https://img.shields.io/badge/GitHub-repo-green.svg" style="width:4rem;height:1rem;" alt="Logarr GitHub Repo"></a> | <a href="https://hub.docker.com/r/monitorr/logarr/" target="_blank" title="Logarr Docker Repo"> <img src="https://img.shields.io/docker/build/monitorr/logarr.svg?maxAge=2592000" style="width:6rem;height:1rem;" alt="Logarr Docker Repo"></a> | <a href="https://feathub.com/Monitorr/logarr" target="_blank" title="Logarr Feature Request"> <img src="https://img.shields.io/badge/FeatHub-suggest-blue.svg" style="width:5rem;height:1rem;" alt="Logarr Feature Request"></a> | <a href="https://discord.gg/j2XGCtH" target="_blank" title="Logarr Discord Channel"> <img src="https://img.shields.io/discord/102860784329052160.svg" style="width:5rem;height:1rem;" alt="Logarr on Discord"></a> | <a href="https://paypal.me/monitorrapp" target="_blank" title="Buy us a beer!"> <img src="https://img.shields.io/badge/Donate-PayPal-green.svg" style="width:4rem;height:1rem;" alt="PayPal"></a></td>
 
-                    <td><strong>Database Path:</strong></td>
+                    <td class="infotitle">Database Path:</td>
                     <td>
                         <?php
 

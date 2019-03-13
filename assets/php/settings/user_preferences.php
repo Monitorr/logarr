@@ -5,6 +5,8 @@ include(__DIR__ . '/../auth_check.php');
 <!DOCTYPE html>
 <html lang="en">
 
+<!-- user_preferences.php -->
+
 <head>
 
     <meta charset="utf-8">
@@ -228,6 +230,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "fields": {},
                                 "renderButtons": true,
                                 "attributes": {},
+                                "inputType": "search",
                                 "events": {
                                     "change": function() {
                                         this.refreshValidationState(true);
@@ -573,6 +576,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "fields": {},
                                 "renderButtons": true,
                                 "attributes": {},
+                                "inputType": "search",
                                 "events": {
                                     "change": function() {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
@@ -621,7 +625,7 @@ include(__DIR__ . '/../auth_check.php');
                                                 setTimeout(function() {
                                                     window.top.location.reload(true);
                                                 }, 3000);
-                                                $('.alpaca-form-button-submit').removeClass('buttonchange');
+                                                $('.alpaca-form-button-submit').removeClass('buttonchange');                                                
                                             },
                                             error: function(errorThrown) {
                                                 console.log(errorThrown);

@@ -13,7 +13,7 @@
     "preferences": {
         "sitetitle": "Logarr",
         "siteurl": "http:\/\/localhost\/logarr",
-        "updateBranch": "develop",
+        "updateBranch": "alpha",
         "timezone": "Europe\/London",
         "timestandard": "False",
         "language": "EN"
@@ -25,10 +25,10 @@
     },
     "logs": [
         {
-            "logTitle": "Sample Log",
-            "path": "..\\data\\samplelog.log",
+            "logTitle": "Logarr",
+            "path": "..\\data\\logs\\logarr.log",
             "enabled": "Yes",
-            "category": "sample"
+            "category": "Logarr"
         }
     ]
 }

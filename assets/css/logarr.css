@@ -19,25 +19,6 @@ body.fade-out {
     transition: none;
 }
 
-body::-webkit-scrollbar {
-    width: 10px;
-    background-color: #252525;
-}
-
-body::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-    background-color: #252525;
-}
-
-body::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
-    background-color: #8E8B8B;
-}
-
 :root {
     font-size: 14px;
 }
@@ -62,7 +43,6 @@ body::-webkit-scrollbar-thumb {
     align-items: center;
     justify-content: center;
     margin-top: 1em;
-
 }
 
 .flex-child {
@@ -108,6 +88,7 @@ body::-webkit-scrollbar-thumb {
     box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
     background-color: #8E8B8B;
 }
+
 
 /* scroll to top  */
 
@@ -342,8 +323,6 @@ h6,
     cursor: default !important;
 }
 
-
-
 #logoHeader {
     display: flex;
     position: relative;
@@ -547,7 +526,7 @@ input:focus+.slider {
 }
 
 mark {
-    background: yellow;
+    background-color: rgba(255, 255, 0, 0.75);
 }
 
 mark.current {
@@ -595,13 +574,11 @@ mark.current {
     content: '✓';
     margin-top: .5rem;
     color: green;
-
 }
 
 .validity {
     position: absolute;
     margin-left: -2.5rem;
-
 }
 
 input:invalid {
@@ -700,6 +677,20 @@ input[type=search]::-webkit-search-cancel-button {
     font-size: .80rem;
     font-weight: 600;
     color: black;
+    white-space: nowrap;
+}
+
+#countmodal {
+    padding: 1rem 0 .5rem 0;
+    font-weight: 600;
+    color: rgba(255, 255, 0, 0.75);
+    white-space: nowrap;
+}
+
+#searchtitle {
+    margin: 0 auto;
+    text-align: center;
+    cursor: default;
 }
 
 .countresults {
@@ -728,25 +719,11 @@ input[type=search]::-webkit-search-cancel-button {
     /* Opera 10.5+, IE 9.0 */
 }
 
-
 .highlightterms {
     color: red;
     font-size: 1.2rem;
     font-weight: 600;
 }
-
-/* CHANGE ME:  is this needed */
-
-/* .error {
-    padding: .1rem;
-    background-color: red;
-    color: black;
-    font-style: normal;
-    font-weight: 600;
-    -moz-border-radius: .1rem;
-    -webkit-border-radius: .1rem;
-    border-radius: .1rem;
-} */
 
 .warn {
     padding: .1rem;
@@ -925,7 +902,6 @@ input[type=search]::-webkit-search-cancel-button {
     width: 7.5em;
 }
 
-
 #unlinkform {
     float: left;
     margin-left: 2rem;
@@ -936,8 +912,8 @@ input[type=search]::-webkit-search-cancel-button {
 }
 
 .hidden {
-    visibility: hidden;
-    display: none;
+    visibility: hidden !important;
+    display: none !important;
 }
 
 p {
@@ -1034,27 +1010,14 @@ input[type="checkbox"] {
 }
 
 #responseModal {
-    /* display: none; */
-    /* position: fixed;
-    left: 0;
-    top: 0;
-    width: 50%;
-    margin-top: 10%;
-    margin-left: 25%;
-    margin-right: 25%; */
     margin: 0 auto;
     height: 100%;
     justify-content: center;
     display: flex;
     padding: 1rem;
-    /* color: white; */
     font-size: 1.5rem;
     text-align: center;
     align-items: center;
-    /* background-color: rgba(0, 0, 0, 0.900);
-    border: 3px solid #680233;
-    border-radius: 4px;
-    box-shadow: 5px 5px 15px rgb(15, 15, 15); */
     overflow-y: auto;
     z-index: 8000;
 }
@@ -1085,26 +1048,6 @@ input[type="checkbox"] {
     font-size: 1.75rem;
     margin-top: 1rem;
     margin-bottom: 0;
-}
-
-/* TODO:  REMOVE: */
-
-.closemodal {
-    position: fixed;
-    color: rgb(255, 80, 80);
-    left: 27%;
-    margin-top: -1rem;
-    /* margin-left: -36%; */
-    font-size: 2rem;
-    font-weight: 700;
-}
-
-.closemodal:hover,
-.closemodal:focus {
-    color: red;
-    text-decoration: none;
-    cursor: pointer;
-    font-weight: 900;
 }
 
 
@@ -1393,6 +1336,10 @@ ul.nav.sidebar-nav>li>a>i {
 
 .logupdatetoast {
     color: #C8C8C8;
+}
+
+.logouttoast {
+    color: black;
 }
 
 .settingchange {
@@ -1729,6 +1676,17 @@ input[name="imginput"]:focus {
     cursor: default;
 }
 
+#extensiontitle {
+    color: white;
+    font-size: 2rem;
+    text-shadow: 0.1rem 0.1rem black;
+    font-weight: 600;
+    text-align: center;
+    margin: auto;
+    margin-bottom: .5rem;
+    cursor: default;
+}
+
 .extok {
     color: white;
     background-color: green;
@@ -1738,8 +1696,8 @@ input[name="imginput"]:focus {
     white-space: nowrap;
     vertical-align: middle;
     user-select: none;
-    padding: .1rem .5rem;
-    border-radius: .25rem;
+    padding: .1rem .5rem .25rem;
+    border-radius: .2rem;
     cursor: help;
 }
 
@@ -1753,8 +1711,8 @@ input[name="imginput"]:focus {
     vertical-align: middle;
     user-select: none;
     border: 1px solid transparent;
-    padding: .1rem .5rem;
-    border-radius: .25rem;
+    padding: .1rem .5rem .25rem;
+    border-radius: .2rem;
     cursor: pointer;
 }
 
@@ -1947,6 +1905,10 @@ input[name="imginput"]:focus {
     color: red;
 }
 
+.alpaca-message-stringTooLong {
+    color: red;
+}
+
 .alpaca-field-text-max-length-indicator {
     font-style: italic;
     cursor: default;
@@ -1954,6 +1916,11 @@ input[name="imginput"]:focus {
 
 #regsettingnote {
     color: red !important;
+    font-style: italic;
+}
+
+#authnote {
+    color: yellow !important;
     font-style: italic;
 }
 
@@ -1981,6 +1948,16 @@ input[name="imginput"]:focus {
     margin: auto;
     text-align: center;
     cursor: default;
+}
+
+.infotitle {
+    font-size: 1.1em;
+    font-weight: 700;
+}
+
+.releasebadge {
+    height: auto !important;
+    width: auto !important;
 }
 
 .settings-title {
@@ -2036,6 +2013,7 @@ div[data-alpaca-container-item-name="category"] {
     display: flex;
     flex-wrap: wrap;
     padding: 2rem 0;
+    justify-content: center;
 }
 
 .alpaca-container-item:not(:first-child) {
@@ -2110,7 +2088,7 @@ div[data-alpaca-container-item-name="category"] {
 }
 
 #login-container {
-    position: fixed;
+    /* position: fixed; */
     margin: 0 auto;
     justify-content: center;
     text-align: center;
@@ -2455,19 +2433,25 @@ object {
     text-align: left;
 }
 
+#release {
+    background-color: #3d3d3d
+}
+
 #releaseWrapper {
     max-width: 100rem;
     margin: auto;
     margin-bottom: 3rem;
-    background-color: #3d3d3d;
+    background-color: inherit;
 }
 
 .releaseHeader {
     text-align: center;
+    margin-bottom: 0;
 }
 
 .releaseHeader a {
-    margin: 0 1.5rem 1.5rem;
+    vertical-align: middle;
+    /* margin: 0 1.5rem 1.5rem; */
     font-size: 2rem;
     font-weight: 700;
     text-shadow: 0.1rem 0.1rem black;
@@ -2838,7 +2822,6 @@ ul.stepper li.success a .circle {
         -webkit-transform: rotate(0deg);
         transform: rotate(0deg);
     }
-
     100% {
         -webkit-transform: rotate(360deg);
         transform: rotate(360deg);
@@ -2850,7 +2833,6 @@ ul.stepper li.success a .circle {
         -moz-transform: rotate(0deg);
         transform: rotate(0deg);
     }
-
     100% {
         -moz-transform: rotate(360deg);
         transform: rotate(360deg);
@@ -2862,7 +2844,6 @@ ul.stepper li.success a .circle {
         -o-transform: rotate(0deg);
         transform: rotate(0deg);
     }
-
     100% {
         -o-transform: rotate(360deg);
         transform: rotate(360deg);
@@ -2874,7 +2855,6 @@ ul.stepper li.success a .circle {
         -ms-transform: rotate(0deg);
         transform: rotate(0deg);
     }
-
     100% {
         -ms-transform: rotate(360deg);
         transform: rotate(360deg);
@@ -2885,7 +2865,6 @@ ul.stepper li.success a .circle {
     0% {
         transform: rotate(0deg);
     }
-
     100% {
         transform: rotate(360deg);
     }
@@ -2895,7 +2874,6 @@ ul.stepper li.success a .circle {
     0% {
         -webkit-transform: rotate(0deg);
     }
-
     99% {
         -webkit-transform: rotate(360deg);
     }
@@ -2905,7 +2883,6 @@ ul.stepper li.success a .circle {
     0% {
         transform: rotate(0deg);
     }
-
     99% {
         transform: rotate(360deg);
     }

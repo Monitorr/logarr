@@ -6,6 +6,8 @@ include(__DIR__ . '/../auth_check.php');
 <!DOCTYPE html>
 <html lang="en">
 
+<!-- site_settings.php -->
+
 <head>
 
     <meta charset="utf-8">
@@ -33,7 +35,7 @@ include(__DIR__ . '/../auth_check.php');
         $title = $GLOBALS['preferences']['sitetitle'];
         echo $title . PHP_EOL;
         ?>
-        | User Preferences
+        | Logarr Settings
     </title>
 
     <style>
@@ -272,6 +274,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "fields": {},
                                 "renderButtons": true,
                                 "attributes": {},
+                                "inputType": "search",
                                 "events": {
                                     "change": function() {
                                         this.refreshValidationState(true);
@@ -336,6 +339,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "fields": {},
                                 "renderButtons": true,
                                 "attributes": {},
+                                "inputType": "search",
                                 "events": {
                                     "change": function() {
                                         this.refreshValidationState(true);
@@ -400,6 +404,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "fields": {},
                                 "renderButtons": true,
                                 "attributes": {},
+                                "inputType": "search",
                                 "events": {
                                     "change": function() {
                                         this.refreshValidationState(true);
@@ -464,6 +469,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "fields": {},
                                 "renderButtons": true,
                                 "attributes": {},
+                                "inputType": "search",
                                 "events": {
                                     "change": function() {
                                         this.refreshValidationState(true);
@@ -528,6 +534,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "fields": {},
                                 "renderButtons": true,
                                 "attributes": {},
+                                "inputType": "search",
                                 "events": {
                                     "change": function() {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
@@ -705,7 +712,6 @@ include(__DIR__ . '/../auth_check.php');
                                             success: function(data) {
                                                 settingapply();
                                                 console.log("Settings Saved!");
-                                                // setTimeout(location.reload.bind(location), 500)
                                                 $('.alpaca-form-button-submit').removeClass('buttonchange');
                                                 $('.livesearchlabel').removeClass('settingslabelchanged');
                                                 $('.logrefreshlabel').removeClass('settingslabelchanged');
