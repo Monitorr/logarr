@@ -21,13 +21,23 @@ if (!$file) {
 	echo "<script type='text/javascript'>";
 	echo "console.log('ERROR: Logarr was unable check GitHub for the latest version');";
 	echo "</script>";
+	appendLog(
+		$logentry = "ERROR: Logarr was unable check GitHub for the latest version"
+	);
 } else {
 	if ($user_vnum == $vnum || (bccomp($user_version, $ext_version, 5) >= 0)) {
 		// data
+		//User has latest version:
 		$data = array("version" => 0);
+		appendLog(
+			$logentry = "Logarr update check: You have the latest version"
+		);
 	} else {
 		// data
 		$data = array("version" => $vnum);
+		appendLog(
+			$logentry = "Logarr update check: An update is available: " . $ext_version . "(" . $branch . ")"
+		);
 	}
 }
 

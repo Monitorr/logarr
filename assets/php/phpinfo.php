@@ -82,13 +82,28 @@
 
 ini_set('error_reporting', E_ERROR);
 
+$datadir_json = json_decode(file_get_contents(__DIR__ . '../../data/datadir.json'), 1);
+$datadir = $datadir_json['datadir'];
+$config_file = $datadir . '/config.json';
+$preferences = json_decode(file_get_contents($config_file), 1)['preferences'];
+
+
+if ($GLOBALS['preferences']['timezone'] == "") {
+	date_default_timezone_set('UTC');
+	$timezone = date_default_timezone_get();
+} else {
+	$timezoneconfig = $GLOBALS['preferences']['timezone'];
+	date_default_timezone_set($timezoneconfig);
+	$timezone = date_default_timezone_get();
+}
+
 echo "<div id='extensions'>";
 
 echo "<div id='extensiontitle'> Required Extensions: </div> ";
 
 //Check if '/assets/data/' dir is writable:
 
-$myfile = fopen('../data/php-perms-check.txt', 'w');
+$myfile = fopen('../data/php-perms-check.txt', 'w+');
 $date = date("D d M Y H:i T");
 
 
@@ -101,7 +116,7 @@ if (!$myfile) {
 	echo " <div class='extok' title='PHP write permissions OK' >";
 	echo "Perms";
 	echo "</div>";
-	fwrite($myfile, $date . "\r\n" . "Logarr PHP write permissions O.K \r\nThis file can be safely removed, however it will be regenerated every time a user logs into Logarr Settings.");
+	fwrite($myfile, "\r\n" . $date . "\r\n" . "Logarr PHP write permissions O.K \r\nThis file can be safely removed, however it will be regenerated every time a user logs into Logarr Settings.");
 	fclose($myfile);
 }
 

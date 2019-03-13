@@ -42,6 +42,8 @@ include_once(__DIR__ . "/../auth_check.php");
     <script src="assets/js/vendor/sweetalert2.min.js"></script>
     <script src="assets/js/logarr.main.js"></script>
 
+    <?php appendLog($logentry = "Logarr Login page loaded"); ?>
+
     <style>
         .notification {
             visibility: hidden;

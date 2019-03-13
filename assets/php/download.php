@@ -9,7 +9,6 @@ include("auth_check.php");
 
 $file = $_GET['file'];
 
-
 // check if log file exists in config.json:
 
 if (in_array_recursive($file, $logs)) {
@@ -24,6 +23,9 @@ if (in_array_recursive($file, $logs)) {
 		//ob_clean();
 		flush();
 		readfile($file);
+		appendLog(
+			$logentry = "Downloading log file: " . $file
+		);
 		exit;
 	} else {
 		echo 'file: ' . $file . ' does not exist.';
@@ -31,6 +33,10 @@ if (in_array_recursive($file, $logs)) {
 		echo "<script type='text/javascript'>";
 		echo "console.log('ERROR: file: '" . $file . "' does not exist.');";
 		echo "</script>";
+
+		appendLog(
+			$logentry = "ERROR: Downloading log file: " . $file . " does NOT exist"
+		);
 	}
 } // Deny access if log file does NOT exist in config.json:
 
@@ -40,5 +46,9 @@ else {
 	echo "<script type='text/javascript'>";
 	echo "console.log('ERROR:  Illegal File');";
 	echo "</script>";
+
+	appendLog(
+		$logentry = "ERROR: Downloading log file: Illegal File"
+	);
 }
 

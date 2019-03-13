@@ -8,7 +8,6 @@ ini_set('memory_limit', '-1');
 $datadir_json = json_decode(file_get_contents(__DIR__ . '../../data/datadir.json'), 1);
 $datadir = $datadir_json['datadir'];
 
-
 $config_file = $datadir . '/config.json';
 $preferences = json_decode(file_get_contents($config_file), 1)['preferences'];
 $settings = json_decode(file_get_contents($config_file), 1)['settings'];
@@ -16,30 +15,6 @@ $logs = json_decode(file_get_contents($config_file), 1)['logs'];
 $authentication = json_decode(file_get_contents($config_file), 1)['authentication'];
 
 global $preferences, $settings, $logs, $authentication;
-
-// New version download information
-
-$branch = $preferences['updateBranch'];
-
-// location to download new version zip
-$remote_file_url = 'https://github.com/monitorr/logarr/zipball/' . $branch . '';
-// rename version location/name
-
-//TODO:  Change download path to /assets/data:
-//$local_file = '../../tmp/logarr-' . $branch . '.zip'; #example: version/new-version.zip
-
-$local_file = '../../assets/data/tmp/logarr-' . $branch . '.zip'; //download path for udpate zip file
-
-//
-// version check information
-//
-// url to external verification of version number as a .TXT file
-
-$ext_version_loc = 'https://raw.githubusercontent.com/monitorr/logarr/' . $branch . '/assets/js/version/version.txt';
-// users local version number
-// added the 'uid' just to show that you can verify from an external server the
-// users information. But it can be replaced with something more simple
-$vnum_loc = "../js/version/version.txt"; #example: version/vnum_1.txt
 
 if ($GLOBALS['preferences']['timezone'] == "") {
 	date_default_timezone_set('UTC');
@@ -50,18 +25,65 @@ if ($GLOBALS['preferences']['timezone'] == "") {
 	$timezone = date_default_timezone_get();
 }
 
+// New version download information
+
+$branch = $preferences['updateBranch'];
+
+// location to download new version zip
+$remote_file_url = 'https://github.com/monitorr/logarr/zipball/' . $branch . '';
+
+// rename version location/name
+$local_file = '../../assets/data/tmp/logarr-' . $branch . '.zip'; //download path for udpate zip file
+
+// version check information
+// url to external verification of version number as a .TXT file
+
+$ext_version_loc = 'https://raw.githubusercontent.com/monitorr/logarr/' . $branch . '/assets/js/version/version.txt';
+
+// users local version number:
+
+$vnum_loc = "../js/version/version.txt"; 
+
+
 function configExists()
 {
 	return is_file($GLOBALS['config_file']);
 }
 
+//TODO:  Add runtime logging:
+//TODO:  Add roll log above 1MB
+
+function appendLog($logentry) {
+
+	mkdir (__DIR__ . '/../data/logs/');
+	$logfile = 'logarr.log';
+	$logdir = __DIR__ . '/../data/logs/';
+	$logpath = $logdir . $logfile;
+	//$logentry = "Add this to the file";
+	$date = date("D d M Y H:i T ");
+
+	if (!$handle = fopen($logpath, 'a+')) {
+		echo "<script>console.log('ERROR: Cannot open file ($logfile)');</script>";
+		//exit;
+	}
+
+	if (fwrite($handle, $date . " | " . $logentry . "\r\n") === false) {
+		echo "<script>console.log('ERROR: Cannot write to file $logfile');</script>";
+		//exit;
+	} else {
+
+		if (is_writable($logpath)) {
+			//echo "<script>console.log('Logarr log: wrote: $logentry | Log file: $logfile');</script>";
+			fclose($handle);
+
+		} else {
+			echo "<script>console.log('ERROR: The file $logfile is not writable');</script>";
+		}
+	}
+}
 
 // Check if Logarr authenticaiton is enabled / if TRUE, check login status every 10s:
 function checkLoginindex() {
-
-	// echo "<script type='text/javascript'>";
-	// echo "console.log('Logarr is checking authentication settings');";
-	// echo "</script>";
 
 	$logsEnabled = $GLOBALS['authentication']['logsEnabled']; 
 
@@ -70,9 +92,10 @@ function checkLoginindex() {
 		echo "<script type='text/javascript'>";
 		echo "console.log('ERROR: Logarr could not check authentication settings');";
 		echo "</script>";
+		appendLog(
+			$logentry = "ERROR: Logarr could not check authentication settings"
+		);
 		echo "ERROR: Logarr could not check authentication settings";
-		//echo "<script src='assets/js/login-status.js'></script>";
-
 		// If authentication sttings are missing forward to unauthorized.php:
 		echo "<script type='text/javascript'>";
 		echo "window.location.href = 'assets/php/authentication/unauthorized.php';";
@@ -80,16 +103,21 @@ function checkLoginindex() {
 
 	} else {
 		if ($logsEnabled == "true") {
-
 			echo "<script type='text/javascript'>";
 			echo "console.log('Logarr auth: ENABLED');";
 			echo "</script>";
 			echo "<script src='assets/js/login-status.js'></script>";
+			appendLog(
+				$logentry = "Logarr auth: ENABLED"
+			);
 
 		} else {
 			echo "<script type='text/javascript'>";
 			echo "console.log('Logarr auth: DISABLED');";
 			echo "</script>";
+			appendLog(
+				$logentry = "Logarr auth: DISABLED"
+			);
 		};
 	}
 }
@@ -108,9 +136,10 @@ function checkLoginsettings() {
 		echo "<script type='text/javascript'>";
 		echo "console.log('ERROR: Logarr could not check authentication settings');";
 		echo "</script>";
+		appendLog(
+			$logentry = "ERROR: Logarr could not check authentication settings"
+		);
 		echo "ERROR: Logarr could not check authentication settings";
-		//echo "<script src='assets/js/login-status-settings.js'></script>";
-
 		echo "<script type='text/javascript'>";
 		echo "window.location.href = 'assets/php/authentication/unauthorized.php';";
 		echo "</script>";
@@ -120,12 +149,18 @@ function checkLoginsettings() {
 			echo "<script type='text/javascript'>";
 			echo "console.log('Logarr settings auth: ENABLED');";
 			echo "</script>";
+			appendLog(
+				$logentry = "Logarr settings auth: ENABLED"
+			);
 			echo "<script src='assets/js/login-status-settings.js'></script>";
 
 		} else {
 			echo "<script type='text/javascript'>";
 			echo "console.log('Logarr settings auth: DISABLED');";
 			echo "</script>";
+			appendLog(
+				$logentry = "Logarr settings auth: DISABLED"
+			);
 		};
 	}
 }
@@ -157,6 +192,9 @@ function parseLogPath($path)
 			return $dir . DIRECTORY_SEPARATOR . $last_edited_file; //return the merged dir and filename
 		} else {
 			return "ERROR: path is dynamic, only dynamic filenames are allowed!";
+			appendLog(
+				$logentry = "ERROR: path is dynamic, only dynamic filenames are allowed!"
+			);
 		}
 	} else {
 		return $path; //if path doesn't contain *, just return the path. Nothing fancy here
@@ -205,6 +243,9 @@ function unlinkLog($file, $print)
 				if ($print) echo "</script>";
 
 				if ($print) echo('<br> <p class="rolllogfail"> Roll log file FAIL: ' . $file  . '</p>');
+				appendLog(
+					$logentry = "Roll Log: ERROR: Roll log file FAIL: $file "
+				);
 
 			} else {  // copy log file success:
 				if ($print) echo "Copy log file: SUCCESS: $newfile<br>";
@@ -212,13 +253,22 @@ function unlinkLog($file, $print)
 				if ($print) echo "console.log('Copy log file: SUCCESS: $newfile');";
 				if ($print) echo "</script>";
 
+				appendLog(
+					$logentry = "Roll Log: Copy log file: SUCCESS: $newfile"
+				);
+
 				$delete = unlink($file);    // delete orginal log file:
 
 				if ($delete == true) {
 					if ($print) echo "Delete original log file: SUCCESS: $file <br>";
 					if ($print) echo "<script type='text/javascript'>";
 					if ($print) echo "console.log('Delete original log file: SUCCESS: $file');";
-					if ($print) echo "</script>";
+					if ($print) echo"</script>";
+
+					appendLog(
+						$logentry = "Roll Log: Delete original log file: SUCCESS: $file"
+					);
+					
 					$newlogfile = $file;
 
 					// Write log entry in new log file:
@@ -233,7 +283,11 @@ function unlinkLog($file, $print)
 
                         echo "<script type='text/javascript'>";
                         echo "console.log('Roll log file SUCCESS: $file');";
-                        echo "</script>";
+						echo "</script>";
+						
+						appendLog(
+							$logentry = "Roll Log file SUCCESS: $file"
+						);
 
 						if ($print) echo('<br> <p class="rolllogsuccess">Roll log file SUCCESS: ' . $file  . '</p>');
 						
@@ -243,6 +297,10 @@ function unlinkLog($file, $print)
 						if ($print) echo "console.log('ERROR: Create new log file: FAIL:  $newlogfile');";
 						if ($print) echo "</script>";
 
+						appendLog(
+							$logentry = "Roll Log: ERROR: Create new log file:  $newlogfile"
+						);
+
 						if ($print) echo('<br> <p class="rolllogfail"> Roll log file FAIL: ' . $file  . '</p>');
 					}
 				} else {
@@ -250,6 +308,10 @@ function unlinkLog($file, $print)
 					if ($print) echo "<script type='text/javascript'>";
 					if ($print) echo "console.log('ERROR: Delete original log file: FAIL: $file');";
 					if ($print) echo "</script>";
+
+					appendLog(
+						$logentry = "Roll Log: ERROR: Delete original log file: $file"
+					);
 
 					//write log file entry if unlink of original log file fails:
 					$fh = fopen($file, 'a');
@@ -264,16 +326,29 @@ function unlinkLog($file, $print)
 						if ($print) echo "<script type='text/javascript'>";
 						if ($print) echo "console.log('Delete log file backup: SUCCESS: $newfile');";
 						if ($print) echo "</script>";
+
+						appendLog(
+							$logentry = "Roll Log: Delete log file backup: SUCCESS: $newfile"
+						);
+
 					} else {
 						if ($print) echo "Delete log file backup: FAIL: $newfile";
 						if ($print) echo "<script type='text/javascript'>";
 						if ($print) echo "console.log('ERROR: Delete log file backup: FAIL: $newfile');";
 						if ($print) echo "</script>";
+
+						appendLog(
+							$logentry = "Roll Log: ERROR: Delete log file backup: FAIL: $newfile"
+						);
 					};
 
                     echo "<script type='text/javascript'>";
                     echo "console.log('ERROR: Roll log FAILED: $file');";
 					echo "</script>";
+
+					appendLog(
+						$logentry = "Roll Log: ERROR: Roll log file:  $file "
+					);
 					
 					if ($print) echo('<br> <p class="rolllogfail"> Roll log file FAIL: ' . $file  . '</p>');
 				}
@@ -283,6 +358,11 @@ function unlinkLog($file, $print)
 			if ($print) echo "<script type='text/javascript'>";
 			if ($print) echo "console.log('ERROR: file: $file does not exist.');";
 			if ($print) echo "</script>";
+
+			appendLog(
+				$logentry = "Roll Log: ERROR: file: $file does not exist "
+			);
+
 			if ($print) echo("<br> <p class='rolllogfail'> ERROR: file: ' " . $file . " ' does not exist. </p>");
 		}
 	} else {  // Deny access if log file does NOT exist:
@@ -290,6 +370,11 @@ function unlinkLog($file, $print)
 		if ($print) echo "<script type='text/javascript'>";
 		if ($print) echo "console.log('ERROR:  Illegal File');";
 		if ($print) echo "</script>";
+
+		appendLog(
+			$logentry = "Roll Log: ERROR: Illegal File "
+		);
+
 		if ($print) echo("<br> <p class='rolllogfail'> ERROR:  Illegal File </p>");
 	}
 }
@@ -366,5 +451,7 @@ function convertToBytes($from)
 			return $from;
 	}
 }
+
+
 
 

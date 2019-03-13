@@ -712,7 +712,6 @@ include(__DIR__ . '/../auth_check.php');
                                             success: function(data) {
                                                 settingapply();
                                                 console.log("Settings Saved!");
-                                                // setTimeout(location.reload.bind(location), 500)
                                                 $('.alpaca-form-button-submit').removeClass('buttonchange');
                                                 $('.livesearchlabel').removeClass('settingslabelchanged');
                                                 $('.logrefreshlabel').removeClass('settingslabelchanged');

@@ -625,7 +625,7 @@ include(__DIR__ . '/../auth_check.php');
                                                 setTimeout(function() {
                                                     window.top.location.reload(true);
                                                 }, 3000);
-                                                $('.alpaca-form-button-submit').removeClass('buttonchange');
+                                                $('.alpaca-form-button-submit').removeClass('buttonchange');                                                
                                             },
                                             error: function(errorThrown) {
                                                 console.log(errorThrown);

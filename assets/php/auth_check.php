@@ -105,6 +105,32 @@ class OneFileLoginApplication
 		return false;
 	}
 
+	public function appendLog($logentry)
+	{
+		mkdir(__DIR__ . '/../data/logs/');
+		$logfile = 'logarr.log';
+		$logdir = __DIR__ . '/../data/logs/';
+		$logpath = $logdir . $logfile;
+		//$logentry = "Add this to the file";
+		$date = date("D d M Y H:i T ");
+
+		if (!$handle = fopen($logpath, 'a+')) {
+			echo "<script>console.log('ERROR: Cannot open file ($logfile)');</script>";
+			//exit;
+		}
+		if (fwrite($handle, $date . " | " . $logentry . "\r\n") === false) {
+			echo "<script>console.log('ERROR: Cannot write to file $logfile');</script>";
+			//exit;
+		} else {
+			if (is_writable($logpath)) {
+				//echo "<script>console.log('Logarr log: wrote: $logentry | Log file: $logfile');</script>";
+				fclose($handle);
+			} else {
+				echo "<script>console.log('ERROR: The file $logfile is not writable');</script>";
+			}
+		};
+	}
+
 	/**
 	 * Creates a PDO database connection (in this case to a SQLite flat-file database)
 	 * @return bool Database creation success status, false by default
@@ -264,6 +290,7 @@ class OneFileLoginApplication
 				if ($result_row) {
 					$cookie_value = $result_row->auth_token;
 					setcookie("Logarr_AUTH", $cookie_value, time() + 60 * 60 * 24 * 7, "/"); //store login cookie for 7 days
+					appendLog($logentry = "Logarr user has logged in");
 					return true;
 				} else {
 					$this->feedback = "Invalid Auth Token";
@@ -327,12 +354,15 @@ class OneFileLoginApplication
 				$this->user_is_logged_in = true;
 				$cookie_value = $result_row->auth_token;
 				setcookie("Logarr_AUTH", $cookie_value, time() + 60 * 60 * 24 * 7, "/"); //store login cookie for 7 days
+				appendLog($logentry = "Logarr user has logged in");
 				return true;
 			} else {
 				$this->feedback = "Invalid password";
+				appendLog($logentry = "Logarr login attempt: ERROR: Invalid password");
 			}
 		} else {
 			$this->feedback = "User does not exist";
+			appendLog($logentry = "Logarr login attempt: ERROR: User does not exist");
 		}
 		// default return
 		return false;
@@ -362,6 +392,7 @@ class OneFileLoginApplication
 				$this->user_is_logged_in = true;
 				$cookie_value = $result_row->auth_token;
 				setcookie("Logarr_AUTH", $cookie_value, time() + 60 * 60 * 24 * 7, "/"); //store login cookie for 7 days
+				appendLog($logentry = "Logarr user has logged in");
 				return true;
 			} else {
 				$this->feedback = "Invalid Auth Token";
@@ -396,6 +427,7 @@ class OneFileLoginApplication
 	private function showPageUnauthorized()
 	{
 		include_once('authentication/unauthorized.php');
+		appendLog($logentry = "Logarr ERROR: Unauthorized page loaded");
 	}
 
 	/**
@@ -410,6 +442,7 @@ class OneFileLoginApplication
 		setcookie("Logarr_AUTH", null, time() - 1, "/");
 		$this->feedback = "You were just logged out.";
 		header("location: index.php");
+		appendLog($logentry = "Logarr user has logged out");
 	}
 
 	/**

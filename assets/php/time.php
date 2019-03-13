@@ -1,10 +1,9 @@
 <?php
 include('functions.php');
-//TODO:  do we need to authcheck time?
-//include("auth_check.php");
 if (!$GLOBALS['preferences']['timezone']) {
 	date_default_timezone_set('UTC');
 	$timezone = date_default_timezone_get();
+	appendLog($logentry = "ERROR: Logarr could not load timezone values. Default values have been set");
 } else {
 	$timezone = $GLOBALS['preferences']['timezone'];
 }

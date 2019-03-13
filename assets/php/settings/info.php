@@ -117,6 +117,9 @@ include(__DIR__ . '/../auth_check.php');
                             echo "</a>";
                             echo "<script>console.log( 'ERROR: PHP write permissions FAIL' );</script>";
                             echo "<script>exterror();</script>";
+                            appendLog(
+                                $logentry = "ERROR: PHP write permissions FAIL"
+                            );
                         } else {
                             echo "<div class='extok' title='PHP write permissions OK' >";
                             echo "Perms";
@@ -141,6 +144,9 @@ include(__DIR__ . '/../auth_check.php');
                             echo "</a>";
                             echo "<script>console.log( 'ERROR: Logarr PHP Datadir write permissions FAIL' );</script>";
                             echo "<script>exterror();</script>";
+                            appendLog(
+                                $logentry = "ERROR: Logarr PHP Datadir write permissions FAIL"
+                            );
                         } else {
                             echo " | <div class='extok' title='PHP Datadir write permissions OK' >";
                             echo "Data";
@@ -159,6 +165,9 @@ include(__DIR__ . '/../auth_check.php');
                             echo "php_sqlite3";
                             echo "</a>";
                             echo "<script>exterror();</script>";
+                            appendLog(
+                                $logentry = "ERROR: PHP php_sqlite3 extension NOT loaded"
+                            );
                         }
 
                         if (extension_loaded('pdo_sqlite')) {
@@ -170,6 +179,9 @@ include(__DIR__ . '/../auth_check.php');
                             echo "pdo_sqlite";
                             echo "</a>";
                             echo "<script>exterror();</script>";
+                            appendLog(
+                                $logentry = "ERROR: PHP pdo_sqlite extension NOT loaded"
+                            );
                         }
 
                         if (extension_loaded('zip')) {
@@ -181,6 +193,9 @@ include(__DIR__ . '/../auth_check.php');
                             echo "php7-zip";
                             echo "</a>";
                             echo "<script>exterror();</script>";
+                            appendLog(
+                                $logentry = "ERROR: PHP ZIP extension NOT loaded"
+                            );
                         }
 
                         if (extension_loaded('openssl')) {
@@ -193,6 +208,9 @@ include(__DIR__ . '/../auth_check.php');
                             echo "</a>";
                             echo "<script>console.log( 'ERROR: PHP openssl extension NOT loaded' );</script>";
                             echo "<script>exterror();</script>";
+                            appendLog(
+                                $logentry = "ERROR: PHP openssl extension NOT loaded"
+                            );
                         }
 
                         ?>
