@@ -1,0 +1,34 @@
+{
+    "settings": {
+        "rfconfig": "15000",
+        "rftime": "60000",
+        "rflog": "45000",
+        "maxLines": "2000",
+        "customHighlightTerms": "error",
+        "logRefresh": "false",
+        "autoHighlight": "true",
+        "jumpOnSearch": "false",
+        "liveSearch": "false"
+    },
+    "preferences": {
+        "sitetitle": "Logarr",
+        "siteurl": "http:\/\/localhost\/logarr",
+        "updateBranch": "develop",
+        "timezone": "Europe\/London",
+        "timestandard": "False",
+        "language": "EN"
+    },
+    "authentication": {
+        "configurationEnabled": "true",
+        "settingsEnabled": "true",
+        "logsEnabled": "false"
+    },
+    "logs": [
+        {
+            "logTitle": "Logarr",
+            "path": "..\\data\\logs\\logarr.log",
+            "enabled": "Yes",
+            "category": "Logarr"
+        }
+    ]
+}
