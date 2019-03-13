@@ -107,8 +107,7 @@ https://github.com/Monitorr/Logarr
         let preferences = <?php echo json_encode($GLOBALS['preferences']); ?>;
         let authentication = <?php echo json_encode($GLOBALS['authentication']); ?>;
         settings = true;
-        //refreshConfig();
-        refreshConfig(false);
+        refreshConfig();
     </script>
 
     <!-- UI clock functions: -->
@@ -130,12 +129,13 @@ https://github.com/Monitorr/Logarr
         let timeStandard = <?php echo $timeStandard; ?>;
         let timeZone = "<?php echo $timezone_suffix; ?>";
         let rftime = <?php echo $settings['rftime']; ?>;
+        rftime = rftime > 300 ? rftime : 30000; //minimum value, if not set default value will be used
 
         $(document).ready(function() {
             //TODO: Causing memory crash at times:
-            //    setInterval(function() {
-            //        syncServerTime()
-            //    }, settings.rftime); //delay is rftime
+            setInterval(function() {
+                syncServerTime();
+            }, rftime); //delay is rftime
             syncServerTime();
             updateTime();
         });
@@ -167,16 +167,6 @@ https://github.com/Monitorr/Logarr
 
     <script src="assets/js/clock.js" async></script>
     <script src="assets/data/custom.js"></script>
-
-    <script>
-        $(document).ready(function() {
-            //TODO: Causing memory crash at times:
-            setInterval(function() {
-                syncServerTime()
-            }, settings.rftime); //delay is rftime
-        });
-    </script>
-
 
 </head>
 
