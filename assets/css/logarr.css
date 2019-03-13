@@ -2433,11 +2433,15 @@ object {
     text-align: left;
 }
 
+#release {
+    background-color: #3d3d3d
+}
+
 #releaseWrapper {
     max-width: 100rem;
     margin: auto;
     margin-bottom: 3rem;
-    background-color: #3d3d3d;
+    background-color: inherit;
 }
 
 .releaseHeader {
