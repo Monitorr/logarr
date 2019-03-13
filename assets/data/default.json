@@ -13,7 +13,7 @@
     "preferences": {
         "sitetitle": "Logarr",
         "siteurl": "http:\/\/localhost\/logarr",
-        "updateBranch": "develop",
+        "updateBranch": "alpha",
         "timezone": "Europe\/London",
         "timestandard": "False",
         "language": "EN"
