@@ -897,11 +897,11 @@ function load_logs() {
     $("li[data-item='logs-configuration']").addClass("active");
 }
 
-function load_registration() {
-    document.getElementById("settings-page-title").innerHTML = 'Registration';
-    document.getElementById("includedContent").innerHTML = '<object type="text/html" class="object" data="assets/php/settings/registration.php" ></object>';
+function load_configuration() {
+    document.getElementById("settings-page-title").innerHTML = 'Configuration';
+    $("#includedContent").html('<object type="text/html" class="object" data="configuration.php" ></object>');
     $(".sidebar-nav-item").removeClass('active');
-    $("li[data-item='registration']").addClass("active");
+    $("li[data-item='configuration']").addClass("active");
 }
 
 function scrollFunction() {

@@ -54,6 +54,14 @@ class OneFileLoginApplication
 		if ($this->isConfigured()) {
 			$config_file = $this->datadir . '/config.json';
 			$this->auth_settings = json_decode(file_get_contents($config_file), 1)['authentication'];
+		} else {
+			$urlParts = explode("/", strtok($_SERVER["REQUEST_URI"], '?'));
+			$currentPage = strtok(end($urlParts), ".");
+			if($currentPage != "configuration") {
+				//TODO: This works for index and settings, but not for nested pages like /assets/php/settings/authentication.php
+				// Determine how many directories we need to go up
+				header("Location: configuration.php");
+			}
 		}
 
 		if ($this->performMinimumRequirementsCheck()) {
@@ -64,6 +72,7 @@ class OneFileLoginApplication
 	public function isConfigured()
 	{
 		if(!$this->isDatadirSetup()) return false;
+		if(!$this->databaseExists()) return false;
 		if(!$this->doesUserExist()) return false;
 		if(!$this->isConfigComplete()) return false;
 		return true;
@@ -75,17 +84,17 @@ class OneFileLoginApplication
 		if (is_file(__DIR__ . "/../data/datadir.json")) {
 			$str = file_get_contents(__DIR__ . "/../data/datadir.json");
 			$json = json_decode($str, true);
-			$datadir = $json['datadir'];
 
+			if(!isset($json['datadir'])) return false;
+
+			$datadir = $json['datadir'];
 			if (file_exists($datadir)) {
 				$this->datadir = $datadir;
 				$datafile = $datadir . 'users.db';
 				$this->db_sqlite_path = $datafile;
 
 				$datadir = rtrim($this->datadir, "\\/" . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-				if (file_exists($datadir)
-					&& file_exists($datadir . "config.json")
-					&& file_exists($datadir . "users.db")) {
+				if (file_exists($datadir)) {
 					return true;
 				}
 			}
@@ -117,7 +126,7 @@ class OneFileLoginApplication
 		}
 	}
 
-	public function appendLog($logentry)
+	private function appendLog($logentry)
 	{
 		mkdir(__DIR__ . '/../data/logs/');
 		$logfile = 'logarr.log';
@@ -151,6 +160,7 @@ class OneFileLoginApplication
 	{
 		try {
 			$this->db_connection = new PDO($this->db_type . ':' . $this->db_sqlite_path);
+			$this->databaseSetup();
 			return true;
 		} catch (PDOException $e) {
 			$this->feedback = "PDO database connection problem: " . $e->getMessage();
@@ -160,10 +170,38 @@ class OneFileLoginApplication
 		return false;
 	}
 
+	private function databaseSetup() {
+		// create new empty table inside the database (if table does not already exist)
+		$sql = 'CREATE TABLE IF NOT EXISTS `users` (
+                        `user_id` INTEGER PRIMARY KEY,
+                        `user_name` varchar(64),
+                        `user_password_hash` varchar(255),
+                        `user_email` varchar(64),
+                        `auth_token` varchar(64));
+                        CREATE UNIQUE INDEX `user_name_UNIQUE` ON `users` (`user_name` ASC);
+                        CREATE UNIQUE INDEX `user_email_UNIQUE` ON `users` (`user_email` ASC);
+                        ';
+
+		// execute the above query
+
+		$query = $this->db_connection->prepare($sql);
+		$query->execute();
+
+		if (!$query) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 	public function isConfigComplete()
 	{
-		//TODO: write implementation, check if all config keys are accounted for
-		return true;
+		$config_path = $this->datadir . DIRECTORY_SEPARATOR . "config.json";
+		if(file_exists($config_path)) {
+			//TODO: write implementation, check if all config keys are accounted for
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -215,7 +253,6 @@ class OneFileLoginApplication
 						exit();
 					}
 				} else {
-					var_dump($GLOBALS);
 					$this->showPageUnauthorized();
 					exit();
 				}
@@ -302,7 +339,7 @@ class OneFileLoginApplication
 				if ($result_row) {
 					$cookie_value = $result_row->auth_token;
 					setcookie("Logarr_AUTH", $cookie_value, time() + 60 * 60 * 24 * 7, "/"); //store login cookie for 7 days
-					appendLog($logentry = "Logarr user has logged in");
+					$this->appendLog($logentry = "Logarr user has logged in");
 					return true;
 				} else {
 					$this->feedback = "Invalid Auth Token";
@@ -366,15 +403,15 @@ class OneFileLoginApplication
 				$this->user_is_logged_in = true;
 				$cookie_value = $result_row->auth_token;
 				setcookie("Logarr_AUTH", $cookie_value, time() + 60 * 60 * 24 * 7, "/"); //store login cookie for 7 days
-				appendLog($logentry = "Logarr user has logged in");
+				$this->appendLog($logentry = "Logarr user has logged in");
 				return true;
 			} else {
 				$this->feedback = "Invalid password";
-				appendLog($logentry = "Logarr login attempt: ERROR: Invalid password");
+				$this->appendLog($logentry = "Logarr login attempt: ERROR: Invalid password");
 			}
 		} else {
 			$this->feedback = "User does not exist";
-			appendLog($logentry = "Logarr login attempt: ERROR: User does not exist");
+			$this->appendLog($logentry = "Logarr login attempt: ERROR: User does not exist");
 		}
 		// default return
 		return false;
@@ -404,7 +441,7 @@ class OneFileLoginApplication
 				$this->user_is_logged_in = true;
 				$cookie_value = $result_row->auth_token;
 				setcookie("Logarr_AUTH", $cookie_value, time() + 60 * 60 * 24 * 7, "/"); //store login cookie for 7 days
-				appendLog($logentry = "Logarr user has logged in");
+				$this->appendLog($logentry = "Logarr user has logged in");
 				return true;
 			} else {
 				$this->feedback = "Invalid Auth Token";
@@ -439,7 +476,7 @@ class OneFileLoginApplication
 	private function showPageUnauthorized()
 	{
 		include_once('authentication/unauthorized.php');
-		appendLog($logentry = "Logarr ERROR: Unauthorized page loaded");
+		$this->appendLog($logentry = "Logarr ERROR: Unauthorized page loaded");
 	}
 
 	/**
@@ -454,7 +491,7 @@ class OneFileLoginApplication
 		setcookie("Logarr_AUTH", null, time() - 1, "/");
 		$this->feedback = "You were just logged out.";
 		header("location: index.php");
-		appendLog($logentry = "Logarr user has logged out");
+		$this->appendLog($logentry = "Logarr user has logged out");
 	}
 
 	/**
@@ -465,11 +502,10 @@ class OneFileLoginApplication
 	{
 		if ($this->checkRegistrationData()) {
 			if ($this->createDatabaseConnection()) {
-				$this->createNewUser();
+				if($this->createNewUser()){
+					return true;
+				}
 			}
-		}
-		if (isset($_GET["debug"]) && $_GET["debug"] == 1) {
-			echo $this->feedback;
 		}
 		// default return
 		return false;

@@ -16,12 +16,11 @@ $authentication = json_decode(file_get_contents($config_file), 1)['authenticatio
 
 global $preferences, $settings, $logs, $authentication;
 
-if ($GLOBALS['preferences']['timezone'] == "") {
+if ($preferences['timezone'] == "") {
 	date_default_timezone_set('UTC');
 	$timezone = date_default_timezone_get();
 } else {
-	$timezoneconfig = $GLOBALS['preferences']['timezone'];
-	date_default_timezone_set($timezoneconfig);
+	date_default_timezone_set($preferences["timezone"]);
 	$timezone = date_default_timezone_get();
 }
 
@@ -64,12 +63,10 @@ function appendLog($logentry) {
 
 	if (!$handle = fopen($logpath, 'a+')) {
 		echo "<script>console.log('ERROR: Cannot open file ($logfile)');</script>";
-		//exit;
 	}
 
 	if (fwrite($handle, $date . " | " . $logentry . "\r\n") === false) {
 		echo "<script>console.log('ERROR: Cannot write to file $logfile');</script>";
-		//exit;
 	} else {
 
 		if (is_writable($logpath)) {

@@ -156,8 +156,8 @@ https://github.com/Monitorr/Logarr
                 case "#logs-configuration":
                     load_logs();
                     break;
-                case "#registration":
-                    load_registration();
+                case "#configuration":
+                    load_configuration();
                     break;
                 default:
                     load_info();
@@ -228,8 +228,8 @@ https://github.com/Monitorr/Logarr
                     <li class="sidebar-nav-item" data-item="logs-configuration">
                         <a href="#logs-configuration" onclick="load_logs()" title="Log Configuration"><i class="fa fa-fw fa-book"></i>Log Configuration</a>
                     </li>
-                    <li class="sidebar-nav-item" data-item="registration">
-                        <a href="#registration" onclick="load_registration()" title="Registration"><i class="fas fa-user-plus"></i>Registration</a>
+                    <li class="sidebar-nav-item" data-item="configuration">
+                        <a href="#configuration" onclick="load_configuration()" title="Configuration"><i class="fas fa-user-plus"></i>Configuration</a>
                     </li>
                     <?php if (isset($_SESSION['user_name']) && isset($_SESSION['user_is_logged_in']) && !empty($_SESSION['user_name']) && ($_SESSION['user_is_logged_in'])) { ?>
                     <li class="sidebar-nav-item" data-item="log-out">

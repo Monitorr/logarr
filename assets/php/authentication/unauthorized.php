@@ -1,9 +1,3 @@
-<?php
-include_once(__DIR__ . "/../functions.php");
-
-// TODO: This should be removed ??
-//include_once(__DIR__ . "/../auth_check.php");
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,10 +25,10 @@ include_once(__DIR__ . "/../functions.php");
 
     <meta name="robots" content="NOINDEX, NOFOLLOW">
 
-    <link rel="stylesheet" href="../../css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../css/font-awesome.min.css">
-    <link rel="stylesheet" href="../../css/logarr.css">
-    <link rel="stylesheet" href="../../data/custom.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/logarr.css">
+    <link rel="stylesheet" href="assets/data/custom.css">
 
     <title>Logarr | Unauthorized</title>
 
@@ -69,7 +63,7 @@ include_once(__DIR__ . "/../functions.php");
     <div id="logarrid">
         <a href="https://github.com/monitorr/logarr" title="Logarr GitHub repo" target="_blank"
            class="footer">Logarr </a> |
-        <a href="../../../settings.php" title="Logarr Settings" target="_blank" class="footer">Settings</a>
+        <a href="settings.php" title="Logarr Settings" target="_blank" class="footer">Settings</a>
         <br>
     </div>
 
