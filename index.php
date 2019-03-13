@@ -69,6 +69,8 @@ include('assets/php/auth_check.php');
     <script src="assets/js/jquery.mark.min.js" async></script>
     <script src="assets/js/logarr.main.js"></script>
 
+    <?php appendLog($logentry = "Logarr index loaded"); ?>
+
     <!-- Check if Logarr auth is enabled / if TRUE, check login status every 10s -->
     <?php checkLoginindex(); ?>
 
@@ -95,6 +97,10 @@ include('assets/php/auth_check.php');
             $dateTime = new DateTime();
             $dateTime->setTimeZone(new DateTimeZone($timezone));
             $timezone_suffix = $dateTime->format('T');
+            //TODO:
+            // appendLog(
+            // 	$logentry = "ERROR: Could not load time standard value"
+            // );
         }
         $serverTime = $dt->format("D d M Y H:i:s");
         ?>
