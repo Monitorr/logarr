@@ -1836,8 +1836,6 @@ input[name="imginput"]:focus {
     text-align: left;
 }
 
-
-
 #rightcolumn {
     margin: auto;
     text-align: left;
@@ -2087,6 +2085,14 @@ div[data-alpaca-container-item-name="category"] {
     padding: 2rem;
 }
 
+#configuration-container {
+    margin-top: 5vh;
+}
+
+.warning {
+    color: yellow;
+}
+
 #login-container {
     /* position: fixed; */
     margin: 0 auto;
@@ -2121,9 +2127,7 @@ div[data-alpaca-container-item-name="category"] {
 #logo-login {
     text-align: center;
     vertical-align: middle;
-    /* width: 90%; */
 }
-
 
 #logo-login>img {
     height: 8em;
@@ -2159,6 +2163,18 @@ div[data-alpaca-container-item-name="category"] {
 
 table#regmulti>tbody>tr>td {
     vertical-align: top;
+}
+
+#usernameinput {
+    white-space: nowrap;
+}
+
+#useremail {
+    white-space: nowrap;
+}
+
+#userpassword {
+    white-space: nowrap;
 }
 
 h5.heading {
@@ -2203,16 +2219,58 @@ h2.heading {
 }
 
 .unauth-container {
-    margin-top: 20vh !important;
+    margin-top: 10vh !important;
     margin: 2rem auto;
     width: 75%;
     padding: 2rem;
+}
+
+#logo-unauth {
+    text-align: center;
+    vertical-align: middle;
+}
+
+#logo-unauth>img {
+    height: 6em;
+    border: 0;
+    filter: drop-shadow(.2rem .2rem .2rem black);
+    -webkit-filter: drop-shadow(.2rem .2rem .2rem black);
+    cursor: pointer;
 }
 
 #regerror {
     color: red;
     font-size: 1.5em;
     text-align: center;
+    cursor: default;
+}
+
+.regerror {
+    color: red;
+    font-size: 1.25em;
+    padding: .5em;
+    cursor: default;
+}
+
+.regsuccess {
+    color: lightgreen;
+    font-size: 1.25em;
+    padding: .5em;
+    cursor: default;
+}
+
+.fv-error {
+    border: .2rem solid #e74c3c !important;
+}
+
+/* .fv-success {
+    border: .2rem solid #4B763D !important;
+} */
+
+.fv-error-message {
+    color: #e74c3c;
+    margin-bottom: 1%;
+    font-size: 1em;
     cursor: default;
 }
 
@@ -2232,6 +2290,60 @@ h2.heading {
 
 /*** Registration ***/
 
+.flex-grid {
+    display: flex;
+}
+
+.flex-grid {
+    display: flex;
+}
+
+.flex-grid .col {
+    flex: 1;
+}
+
+.flex-grid-thirds {
+    display: flex;
+    justify-content: space-between;
+}
+
+.flex-grid-thirds .col {
+    width: 32%;
+}
+
+#registration-title {
+    display: flex;
+    white-space: nowrap;
+    float: left;
+    /* justify-content: center; */
+    /* direction: rtl; */
+    font-size: 4rem;
+    /* padding: .5rem 0 0; */
+    text-shadow: 0 0 5px #FF0104;
+    /* position: absolute; */
+    /* left: 0;
+    right: 0; */
+    margin: auto;
+    background-color: inherit;
+    cursor: default;
+}
+
+#logo-reg {
+    /* text-align: center; */
+    vertical-align: middle;
+    /* width: 90%; */
+}
+
+#logo-reg>img {
+    height: 6em;
+    border: 0;
+    float: right;
+    filter: drop-shadow(.2rem .2rem .2rem black);
+    -webkit-filter: drop-shadow(.2rem .2rem .2rem black);
+    cursor: default;
+}
+
+
 #reginstructions {
     background-color: inherit;
 }
@@ -2248,7 +2360,7 @@ h2.heading {
 
 #datadirbtn {
     width: 6em;
-    cursor: pointer;
+    /* cursor: pointer; */
 }
 
 
