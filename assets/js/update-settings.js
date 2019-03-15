@@ -146,7 +146,6 @@ $(document).ready(function () {
 
                             console.log('Logarr is updating...');
 
-                            //TODO:  Add SA Modal:
                             updateprogress();
 
                             versionCheck.html('<img src="../../images/loader.gif" width="16" height="16" />');
