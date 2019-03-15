@@ -121,6 +121,9 @@ include('assets/php/auth_check.php');
     <script src="assets/js/clock.js" async></script>
     <script src="assets/data/custom.js"></script>
 
+    <!-- Append settings values to Logarr log: -->
+    <?php settingsValues(); ?>
+
 </head>
 
 <body id="body" onscroll="scrollFunction()" onload="refreshblockUI();">

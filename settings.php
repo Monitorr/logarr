@@ -132,7 +132,6 @@ https://github.com/Monitorr/Logarr
         rftime = rftime > 300 ? rftime : 30000; //minimum value, if not set default value will be used
 
         $(document).ready(function() {
-            //TODO: Causing memory crash at times:
             setInterval(function() {
                 syncServerTime();
             }, rftime); //delay is rftime
