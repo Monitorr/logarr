@@ -49,7 +49,6 @@ function configExists()
 	return is_file($GLOBALS['config_file']);
 }
 
-//TODO:  Add runtime logging:
 //TODO:  Add roll log above 1MB
 
 function appendLog($logentry) {
@@ -161,6 +160,20 @@ function checkLoginsettings() {
 		};
 	}
 }
+
+function settingsValues()
+{
+	appendLog($logentry = "Config refresh interval: " . $GLOBALS['settings']['rfconfig'] . " ms");
+
+	appendLog($logentry = "Time refresh interval: " . $GLOBALS['settings']['rftime'] . " ms");
+
+	if ($GLOBALS['settings']['logRefresh'] == "true") {
+		appendLog($logentry = "Log auto update: Enabled | Interval: " . $GLOBALS['settings']['rflog'] . " ms");
+	} else {
+		appendLog($logentry = "Log auto update: DISABLED");
+	}
+}
+
 
 function parseLogPath($path)
 {

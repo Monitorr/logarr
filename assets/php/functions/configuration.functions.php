@@ -3,9 +3,50 @@
  * Project: Logarr
  * By: @seanvree, @jonfinley and @rob1998
  * URL: https://github.com/Monitorr/Logarr
- * Date: 13-Mar-19
- * Time: 16:54
  */
+
+function appendLog($logentry) {
+	$logfile = 'logarr.log';
+	$logdir = 'assets/data/logs/';
+	$logpath = $logdir . $logfile;
+	//$logentry = "Add this to the file";
+	$date = date("D d M Y H:i T ");
+
+	if (file_exists($logdir)) {
+
+		if (!$handle = fopen($logpath, 'a+')) {
+			echo "<script>console.log('ERROR: Cannot open file ($logfile)');</script>";
+		}
+
+		if (fwrite($handle, $date . " | " . $logentry . "\r\n") === false) {
+			echo "<script>console.log('ERROR: Cannot write to file $logfile');</script>";
+		} else {
+			if (is_writable($logpath)) {
+				fclose($handle);
+			} else {
+				echo "<script>console.log('ERROR: The file $logfile is not writable');</script>";
+			}
+		}
+	} else {
+		if (!mkdir($logdir)) {
+			echo "<script>console.log('ERROR: Cannot create log dir');</script>";
+		} else {
+			appendLog($logentry = "Logarr log dir created");
+			if (!$handle = fopen($logpath, 'a+')) {
+				echo "<script>console.log('ERROR: Cannot open file ($logfile)');</script>";
+			}
+			if (fwrite($handle, $date . " | " . $logentry . "\r\n") === false) {
+				echo "<script>console.log('ERROR: Cannot write to file $logfile');</script>";
+			} else {
+				if (is_writable($logpath)) {
+					fclose($handle);
+				} else {
+					echo "<script>console.log('ERROR: The file $logfile is not writable');</script>";
+				}
+			}
+		}
+	}
+}
 
 function createDatadir($datadir) {
 	$datadir = trim($datadir, " \t\n\r");
@@ -18,15 +59,18 @@ function createDatadir($datadir) {
 	if (!mkdir($datadir, 0777, FALSE)) {
 		rename($datadir_file, $datadir_file_fail);
 		file_put_contents($datadir_file_fail, json_encode($_POST));
+		appendLog($logentry = "Logarr failed to create data directory");
 		return false;
 	} else {
+		appendLog($logentry = "Logarr created data dir: " . $datadir);
 		return true;
 	}
 }
 
 function copyDefaultConfig($datadir) {
 
-	$default_config_file = __DIR__ . "/../../data/default.json";
+	//$default_config_file = __DIR__ . "/../../data/default.json";
+	$default_config_file = __DIR__ . "/../../php/functions/default.json";
 	$new_config_file = $datadir . 'config.json';
 	if (is_file(__DIR__ . "/../../config/config.php") && !is_file($new_config_file)) {
 		include_once(__DIR__ . "/../../config/config.php");
@@ -58,8 +102,10 @@ function copyDefaultConfig($datadir) {
 		$json = json_encode(array_replace_recursive($new_config, $old_config_converted), JSON_PRETTY_PRINT);
 		file_put_contents($new_config_file, $json);
 		$copyDefaults = true;
+		appendLog($logentry = "Logarr created new config file: " . $new_config_file);
 	} else {
 		$copyDefaults = copy($default_config_file, $new_config_file);
+		appendLog($logentry = "Logarr created new config file: " . $new_config_file);
 	}
 
 	return $copyDefaults;

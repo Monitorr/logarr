@@ -164,8 +164,10 @@ class OneFileLoginApplication
 			return true;
 		} catch (PDOException $e) {
 			$this->feedback = "PDO database connection problem: " . $e->getMessage();
+			$this->appendLog($logentry = "ERROR: PDO database connection problem");
 		} catch (Exception $e) {
 			$this->feedback = "General problem: " . $e->getMessage();
+			$this->appendLog($logentry = "ERROR: PDO database general problem");
 		}
 		return false;
 	}
@@ -189,6 +191,7 @@ class OneFileLoginApplication
 
 		if (!$query) {
 			return false;
+			$this->appendLog($logentry = "ERROR: PDO database setup!");
 		} else {
 			return true;
 		}
@@ -214,7 +217,8 @@ class OneFileLoginApplication
 	private function performMinimumRequirementsCheck()
 	{
 		if (version_compare(PHP_VERSION, '5.3.7', '<')) {
-			echo "Sorry, Simple PHP Login does not run on a PHP version older than 5.3.7 !";
+			echo "ERROR: Simple PHP Login does not run on a PHP version older than 5.3.7 !";
+			appendLog($logentry = "ERROR: PHP Login does not run on a PHP version older than 5.3.7");
 		} elseif (version_compare(PHP_VERSION, '5.5.0', '<')) {
 			require_once(__DIR__ . "/../libraries/password_compatibility_library.php");
 			return true;
@@ -445,6 +449,7 @@ class OneFileLoginApplication
 				return true;
 			} else {
 				$this->feedback = "Invalid Auth Token";
+				$this->appendLog($logentry = "Logarr login attempt: ERROR: Invalid Auth Token");
 			}
 		}
 		// default return
@@ -528,12 +533,15 @@ class OneFileLoginApplication
 			$this->feedback = "Empty Password";
 		} elseif ($_POST['user_password_new'] !== $_POST['user_password_repeat']) {
 			$this->feedback = "Password and password repeat are not the same";
+			$this->appendLog($logentry = "ERROR: Password and password repeat are not the same.");
 		} elseif (strlen($_POST['user_password_new']) < 6) {
 			$this->feedback = "Password has a minimum length of 6 characters";
 		} elseif (strlen($_POST['user_name']) > 64 || strlen($_POST['user_name']) < 2) {
 			$this->feedback = "Username cannot be shorter than 2 or longer than 64 characters";
+			$this->appendLog($logentry = "ERROR: Username cannot be shorter than 2 or longer than 64 characters.");
 		} elseif (!preg_match('/^[a-z\d]{2,64}$/i', $_POST['user_name'])) {
 			$this->feedback = "Username does not fit the name scheme: only a-Z and numbers are allowed, 2 to 64 characters";
+			$this->appendLog($logentry = "ERROR: Username does not fit the name scheme: only a-Z and numbers are allowed, 2 to 64 characters.");
 		} elseif (isset($_POST['user_email']) && !empty($_POST['user_email'])) {
 			if (strlen($_POST['user_email']) > 64) {
 				$this->feedback = "Email cannot be longer than 64 characters";
@@ -571,7 +579,8 @@ class OneFileLoginApplication
 		// If you meet the inventor of PDO, punch him. Seriously.
 		$result_row = $query->fetchObject();
 		if ($result_row) {
-			$this->feedback = "Sorry, that username / email is already taken. Please choose another one.";
+			$this->feedback = "ERROR: Username / email is already used.";
+			$this->appendLog($logentry = "ERROR: Username / email is already used.");
 		} else {
 			if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
 				$token = bin2hex(random_bytes(32));
@@ -590,10 +599,12 @@ class OneFileLoginApplication
 			// @link http://stackoverflow.com/q/1661863/1114320
 			$registration_success_state = $query->execute();
 			if ($registration_success_state) {
-				$this->feedback = '<b>User credentials have been created successfully.</b><br><b><a href="/settings.php" class="btn btn-primary" title="Logarr Settings">Log in here</a> </b>';
+				$this->appendLog($logentry = "User credentials have been created successfully!");
+				$this->feedback = 'User credentials have been created successfully.';
 				return true;
 			} else {
 				$this->feedback = "ERROR: registration failed. Please check the webserver PHP logs and try again.";
+				$this->appendLog($logentry = "ERROR: registration failed. Please check the webserver PHP logs and try again");
 			}
 		}
 		// default return
@@ -607,6 +618,7 @@ class OneFileLoginApplication
 	 */
 	private function showPageRegistration()
 	{
+		//TODO:  Is this still valid?
 		include_once('authentication/register.php');
 	}
 
@@ -617,6 +629,7 @@ class OneFileLoginApplication
 	 */
 	private function showPageConfiguration()
 	{
+		//TODO:  Is this still valid?
 		include_once('authentication/configuration.php');
 	}
 }

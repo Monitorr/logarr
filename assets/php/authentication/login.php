@@ -123,6 +123,7 @@ include_once(__DIR__ . "/../auth_check.php");
         let timeStandard = <?php echo $timeStandard; ?>;
         let timeZone = "<?php echo $timezone_suffix; ?>";
         let rftime = <?php echo $GLOBALS['settings']['rftime']; ?>;
+        rftime = rftime > 300 ? rftime : 30000;
 
         $(document).ready(function() {
             syncServerTime();
@@ -130,7 +131,7 @@ include_once(__DIR__ . "/../auth_check.php");
         });
     </script>
 
-    <script src="assets/js/clock.js" async></script>
+    <script src="assets/js/clock.js"></script>
     <script src="assets/data/custom.js"></script>
 
 </head>
