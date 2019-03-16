@@ -8,6 +8,7 @@
 -->
 
 <!-- unauthorized.php -->
+
 <head>
 
     <meta charset="utf-8">
@@ -25,28 +26,35 @@
 
     <meta name="robots" content="NOINDEX, NOFOLLOW">
 
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/logarr.css">
-    <link rel="stylesheet" href="assets/data/custom.css">
+    <!-- <link rel="stylesheet" href="assets/css/bootstrap.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/font-awesome.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/logarr.css"> -->
+    <!-- <link rel="stylesheet" href="assets/data/custom.css"> -->
 
     <title>Logarr | Unauthorized</title>
+
+    <style>
+        <?php include(__DIR__ . '/../../css/bootstrap.min.css');?>
+        <?php include(__DIR__ . '/../../css/font-awesome.min.css');?>
+        <?php include(__DIR__ . '/../../css/logarr.css');?>
+        <?php include(__DIR__ . '/../../data/custom.css');?>
+    </style>
 
 </head>
 
 <body id="body" style="color: #FFFFFF;">
 
     <?php
-        $str = file_get_contents(__DIR__ . "/../../data/datadir.json");
-        $json = json_decode($str, true);
-        $datadir = $json['datadir'];
-        $datafile = $datadir . 'users.db';
-        $db_sqlite_path = $datafile;
+    $str = file_get_contents(__DIR__ . "/../../data/datadir.json");
+    $json = json_decode($str, true);
+    $datadir = $json['datadir'];
+    $datafile = $datadir . 'users.db';
+    $db_sqlite_path = $datafile;
     ?>
 
     <div class="header-login">
         <a id="logo-unauth" class="Column" href="https://github.com/monitorr/Logarr" target="_blank" title="Logarr">
-            <img src="assets/images/logarr_white_text_crop.png" alt="Logarr" a href="https://github.com/monitorr/Logarr" target="_blank" title="Logarr"></a>
+            <img src="assets/images/logarr_white_text_crop.png" alt="Logarr" title="Logarr">
         </a>
     </div>
 
@@ -57,7 +65,7 @@
         </div>
 
         <div id="regbody">
-            + If you are the administrator and are trying to access the Logarr Configuration tool, change the 'Enable Configuration Access' setting to 'True' in the <a class="footer reglink" href='settings.php#logarr-authentication' title="Authentication Settings" target="_blank" >Authentication Settings page</a>.
+            + If you are the administrator and are trying to access the Logarr Configuration tool, change the 'Enable Configuration Access' setting to 'True' in the <a class="footer reglink" href='settings.php#logarr-authentication' title="Authentication Settings" target="_blank">Authentication Settings page</a>.
             <br><br>
             + If you cannot access the Logarr settings page, rename the database file: "<strong> <i> <?php echo $db_sqlite_path; ?> </i> </strong>" and browse to this page again.
             <br><br>
@@ -68,8 +76,7 @@
     <div id="footer">
 
         <div id="logarrid">
-            <a href="https://github.com/monitorr/logarr" title="Logarr GitHub repo" target="_blank"
-            class="footer">Logarr </a> |
+            <a href="https://github.com/monitorr/logarr" title="Logarr GitHub repo" target="_blank" class="footer">Logarr </a> |
             <a href="settings.php" title="Logarr Settings" target="_blank" class="footer">Settings</a>
             <br>
         </div>
@@ -78,4 +85,4 @@
 
 </body>
 
-</html>
+</html> 

@@ -49,19 +49,23 @@ function appendLog($logentry) {
 }
 
 function createDatadir($datadir) {
+
 	$datadir = trim($datadir, " \t\n\r");
 	$datadir = rtrim($datadir, "\\/" . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 	$datadir_file = __DIR__ . '/../../data/datadir.json';
 	$datadir_file_fail = __DIR__ . '/../../data/datadir.fail.txt';
 
-	file_put_contents($datadir_file, json_encode(array("datadir" => $datadir)));
+	appendLog($logentry = "Logarr is creating data directory: " . json_encode($_POST));
 
 	if (!mkdir($datadir, 0777, FALSE)) {
-		rename($datadir_file, $datadir_file_fail);
+		//TODO: Why rename datadir.json if fail?
+		//rename($datadir_file, $datadir_file_fail);
 		file_put_contents($datadir_file_fail, json_encode($_POST));
 		appendLog($logentry = "Logarr failed to create data directory");
 		return false;
 	} else {
+		file_put_contents($datadir_file, json_encode(array("datadir" => $datadir)));
+		unlink($datadir_file_fail);
 		appendLog($logentry = "Logarr created data dir: " . $datadir);
 		return true;
 	}

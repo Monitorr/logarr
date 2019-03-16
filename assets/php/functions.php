@@ -138,6 +138,7 @@ function checkLoginsettings() {
 		echo "ERROR: Logarr could not check authentication settings";
 		echo "<script type='text/javascript'>";
 		echo "window.location.href = 'assets/php/authentication/unauthorized.php';";
+		//echo "window.location.href = '../authentication/unauthorized.php';";
 		echo "</script>";
 
 	} else {
@@ -149,6 +150,7 @@ function checkLoginsettings() {
 				$logentry = "Logarr settings auth: ENABLED"
 			);
 			echo "<script src='assets/js/login-status-settings.js'></script>";
+			//echo "<script src='../../js/login-status-settings.js'></script>";
 
 		} else {
 			echo "<script type='text/javascript'>";

@@ -603,8 +603,8 @@ class OneFileLoginApplication
 				$this->feedback = 'User credentials have been created successfully.';
 				return true;
 			} else {
-				$this->feedback = "ERROR: registration failed. Please check the webserver PHP logs and try again.";
-				$this->appendLog($logentry = "ERROR: registration failed. Please check the webserver PHP logs and try again");
+				$this->feedback = "ERROR: registration failed. Check the webserver PHP logs and try again.";
+				$this->appendLog($logentry = "ERROR: registration failed. Check the webserver PHP logs and try again");
 			}
 		}
 		// default return
