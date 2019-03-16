@@ -32,14 +32,28 @@ function checkLoginSettings() {
             // error
             console.log('ERROR: An error occurred while checking login status.');
 
-            logouttoast();
+            // If logged-in user creates NEW data dir, must create new user within 2 minutes:
+            setTimeout(function () {
+
+                console.log('ERROR: An error occurred while checking login status. You will be auto-logged out in 2 minutes');
+
+                logoutwarning();
+
+            }, 120000);
 
             setTimeout(function () {
-                    
-                //window.location.href = "settings.php";
-                window.location.href = 'assets/php/authentication/unauthorized.php';
 
-            }, 3000);
+                console.log('ERROR: An error occurred while checking login status. You are logged out.');
+
+                logouttoast();
+
+            }, 235000);
+            
+            setTimeout(function () {
+
+                window.location.href = 'settings.php';
+
+            }, 240000);
         }
     });
 

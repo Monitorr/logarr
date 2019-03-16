@@ -39,6 +39,16 @@ function logupdatetoast() {
     })
 };
 
+function logoutwarning() {
+    Toast.fire({
+        toast: true,
+        type: 'warning',
+        title: '<p class="logouttoast"> An error occurred while checking login status. <br> You will be auto-logged out in 2 minutes. </p>',
+        background: 'rgba(255, 196, 0, 0.75)'
+    })
+};
+
+
 function logouttoast() {
     Toast.fire({
         toast: true,
@@ -704,7 +714,12 @@ function refreshConfig() {
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log("ERROR: Config refresh failed!");
-            syncconfigerror();
+
+            setTimeout(function () {
+
+                syncconfigerror();
+
+            }, 120000);
         }
     });
 }
@@ -765,7 +780,6 @@ function refreshAuth() {
 
                             setTimeout(function () {
 
-                                //window.location.href = "index.php";
                                 window.location.href = 'assets/php/authentication/unauthorized.php';
 
                             }, 3000);

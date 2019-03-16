@@ -30,15 +30,23 @@ function checkLogin() {
 
         error: function () {
             // error
-            console.log('ERROR: An error occurred while checking login status.');
+            console.log('ERROR: An error occurred while checking login status. You will be auto-logged out in 2 minutes');
 
-            logouttoast();
+            logoutwarning();
 
             setTimeout(function () {
-                
+
+                console.log('ERROR: An error occurred while checking login status. You are logged out.');
+
+                logouttoast();
+
+            }, 115000);
+
+            setTimeout(function () {
+
                 window.location.href = 'assets/php/authentication/unauthorized.php';
 
-            }, 3000);
+            }, 120000);
         }
     });
 
