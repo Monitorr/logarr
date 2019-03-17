@@ -1,4 +1,4 @@
-![Logarr](https://i.imgur.com/Ba7KCnT.png)
+![Logarr](https://raw.githubusercontent.com/Monitorr/Logos/master/Logarr-white-greybg.png)
 
 
 ## - *Logarr* is a Self-hosted, single-page, log consolidation tool written in PHP 
