@@ -1637,6 +1637,7 @@ input[name="imginput"]:focus {
     font-size: 1rem;
     font-weight: 600;
     text-align: center;
+    max-width: 17rem;
 }
 
 #footer>p {
