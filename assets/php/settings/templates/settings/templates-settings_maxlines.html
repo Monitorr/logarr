@@ -1,0 +1,27 @@
+<script type="text/x-handlebars-template">
+
+    <div id="maxlines_input" class="form-group">
+
+        {{#if options.label}}
+        <label class="{{#if options.labelClass}}{{options.labelClass}}{{/if}} alpaca-control-label maxlineslabel" for="{{id}}">
+
+            {{{options.label}}}
+
+            <i class="fa fa-fw fa-question-circle input_icon" id="maxlines_input_icon" title="Default line maximum for logs."> </i>
+
+        </label>
+
+        {{/if}} {{#control}}{{/control}} {{#if options.helper}}
+
+        <p class="{{#if options.helperClass}}{{options.helperClass}}{{/if}}">
+            <i class="info-sign"> </i>
+
+            {{{options.helper}}}
+
+        </p>
+
+        {{/if}}
+
+    </div>
+
+</script>

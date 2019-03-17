@@ -2,23 +2,15 @@
   "type": "object",
   "required": false,
   "properties": {
-    "maxLines": {
-      "type": "integer",
-      "required": true,
-      "default": 1000,
-      "minimum": 1,
-      "exclusiveMinimum": true,
-      "properties": {}
-    },
     "rfconfig": {
       "type": "integer",
       "required": true,
-      "default": 3000,
+      "default": 15000,
       "minimum": 1000,
       "exclusiveMinimum": true,
       "properties": {}
     },
-    "rflog": {
+	"rftime": {
       "type": "integer",
       "required": true,
       "default": 30000,
@@ -26,17 +18,37 @@
       "exclusiveMinimum": true,
       "properties": {}
     },
-    "rftime": {
+	"rflog": {
+      "type": "integer",
+      "required": true,
+      "default": 30000,
+      "minimum": 3000,
+      "exclusiveMinimum": true,
+      "properties": {}
+    },
+    "maxLines": {
       "type": "integer",
       "required": true,
       "default": 5000,
-      "minimum": 1000,
+      "minimum": 1,
       "exclusiveMinimum": true,
       "properties": {}
     },
     "customHighlightTerms": {
       "type": "string",
-      "default": "error"
+      "default": "error",
+      "properties": {}
+    },
+	"logRefresh": {
+      "type": "string",
+      "enum": [
+        "true",
+        "false"
+      ],
+      "required": true,
+      "pattern": {},
+      "default": "false",
+      "properties": {}
     },
     "autoHighlight": {
       "type": "string",
@@ -60,17 +72,6 @@
       "default": "true",
       "properties": {}
     },
-    "logRefresh": {
-      "type": "string",
-      "enum": [
-        "true",
-        "false"
-      ],
-      "required": true,
-      "pattern": {},
-      "default": "true",
-      "properties": {}
-    },
     "liveSearch": {
       "type": "string",
       "enum": [
@@ -79,7 +80,7 @@
       ],
       "required": true,
       "pattern": {},
-      "default": "true",
+      "default": "false",
       "properties": {}
     }
   }

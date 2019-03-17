@@ -1,236 +1,314 @@
 <?php
 include('../functions.php');
+include(__DIR__ . '/../auth_check.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
+<!-- authentication.php -->
+
 <head>
 
     <meta charset="utf-8">
-    <link type="text/css" href="../../css/bootstrap.min.css" rel="stylesheet">
-    <link type="text/css" href="../../css/alpaca.min.css" rel="stylesheet">
-    <!-- <link type="text/css" href="../../css/main.css" rel="stylesheet"> -->
-    <link type="text/css" href="../../css/logarr.css" rel="stylesheet">
-    <link type="text/css" href="../../data/custom.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <meta name="theme-color" content="#464646"/>
-    <meta name="theme_color" content="#464646"/>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../css/alpaca.min.css">
+    <link rel="stylesheet" href="../../css/vendor/sweetalert2.min.css">
+    <link rel="stylesheet" href="../../css/logarr.css">
+    <link rel="stylesheet" href="../../data/custom.css">
+
+    <meta name="theme-color" content="#464646" />
+    <meta name="theme_color" content="#464646" />
 
     <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script src="../../js/vendor/sweetalert2.min.js"></script>
     <script type="text/javascript" src="../../js/handlebars.js"></script>
-    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="https://code.cloudcms.com/alpaca/1.5.24/bootstrap/alpaca.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.9/ace.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../js/alpaca.min.js"></script>
 
     <title>
-	    <?php
-	    $title = $GLOBALS['preferences']['sitetitle'];
-	    echo $title . PHP_EOL;
-	    ?>
-        | User Preferences
+        <?php
+        $title = $GLOBALS['preferences']['sitetitle'];
+        echo $title . PHP_EOL;
+        ?>
+        | Settings
     </title>
+
+    <style>
+        .swal2-popup.swal2-toast {
+            cursor: default !important;
+        } 
+    </style>
+
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            showConfirmButton: false,
+            showCloseButton: true,
+            position: 'bottom-end',
+            background: 'rgba(50, 1, 25, 0.75)'
+        });
+
+        function settingchange() {
+            Toast.fire({
+                type: 'warning',
+                title: 'Settings change pending'
+            })
+        };
+
+        function settingapply() {
+            Toast.fire({
+                type: 'success',
+                title: 'Settings Saved! <br> Logarr is reloading',
+                background: 'rgba(0, 184, 0, 0.75)'
+            })
+        };
+
+        function settingserror() {
+            Toast.fire({
+                type: 'error',
+                title: 'Error saving settings!',
+                background: 'rgba(207, 0, 0, 0.75)'
+            })
+        };
+
+        function ajaxerror() {
+            Toast.fire({
+                type: 'error',
+                title: 'Error loading settings!',
+                background: 'rgba(207, 0, 0, 0.75)'
+            })
+        };
+    </script>
 
 </head>
 
-<body id="settings-frame-wrapper" class="transparent-background">
+<body id="settings-frame-wrapper">
 
-<script>
-    document.body.className += ' fade-out';
-    $(function () {
-        $('body').removeClass('fade-out');
-    });
-</script>
+    <script>
+        document.body.className += ' fade-out';
+        $(function() {
+            $('body').removeClass('fade-out');
+        });
+    </script>
 
-<p id="response"></p>
+    <p id="response"></p>
 
+    <div id="authenticationform">
 
-<div id="authenticationform">
+        <div id="authenticationsettings"></div>
 
-    <div id="authenticationsettings"></div>
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            var CustomConnector = Alpaca.Connector.extend({
-                buildAjaxConfig: function (uri, isJson) {
-                    var ajaxConfig = this.base(uri, isJson);
-                    ajaxConfig.headers = {
-                        "ssoheader": "abcde12345"
-                    };
-                    return ajaxConfig;
-                }
-            });
-
-            var data;
-            $.ajax({
-                dataType: "json",
-                url: './load-settings/authentication_load.php',
-                data: data,
-                success: function (data) {
-                    console.log(data);
-                },
-
-                error: function (errorThrown) {
-                    console.log(errorThrown);
-                    document.getElementById("response").innerHTML = "GET failed (ajax)";
-                    alert("GET failed (ajax)");
-                },
-            });
-
-            Alpaca.registerConnectorClass("custom", CustomConnector);
-            $("#authenticationsettings").alpaca({
-                "connector": "custom",
-                "dataSource": "./load-settings/authentication_load.php",
-                "schemaSource": "./schemas/authentication.json",
-                "view": {
-                    "parent": "bootstrap-edit-horizontal",
-                    "layout": {
-                        "template": './templates/two-column-layout-template.html',
-                        "bindings": {
-                            "registrationEnabled": "leftcolumn",
-                            "settingsEnabled": "leftcolumn",
-                            "logsEnabled": "rightcolumn"
-                        }
+        <script type="text/javascript">
+            $(document).ready(function() {
+                var CustomConnector = Alpaca.Connector.extend({
+                    buildAjaxConfig: function(uri, isJson) {
+                        var ajaxConfig = this.base(uri, isJson);
+                        ajaxConfig.headers = {
+                            "ssoheader": "abcde12345"
+                        };
+                        return ajaxConfig;
                     }
-                },
-                "options": {
-                    "focus": false,
-                    "type": "object",
-                    "helpers": [],
-                    "validate": true,
-                    "disabled": false,
-                    "showMessages": true,
-                    "collapsible": false,
-                    "legendStyle": "button",
-                    "fields": {
-                        "registrationEnabled": {
-                            "type": "radio",
-                            "validate": true,
-                            "showMessages": true,
-                            "disabled": false,
-                            "hidden": false,
-                            "label": "Enable Registration:",
-                            "helpers": ["Enable registration page."],
-                            "hideInitValidationError": false,
-                            "focus": false,
-                            "optionLabels": [" True", " False"],
-                            "name": "registrationEnabled",
-                            "typeahead": {},
-                            "allowOptionalEmpty": false,
-                            "data": {},
-                            "autocomplete": "false",
-                            "disallowEmptySpaces": true,
-                            "disallowOnlyEmptySpaces": false,
-                            "removeDefaultNone": true,
-                            "fields": {},
-                            "events": {
-                                "change": function () {
-                                    $('.alpaca-form-button-submit').addClass('buttonchange');
-                                }
+                });
+
+                var data;
+                $.ajax({
+                    dataType: "json",
+                    url: './load-settings/authentication_load.php',
+                    data: data,
+                    success: function(data) {
+                        console.log(data);
+                    },
+
+                    error: function(errorThrown) {
+                        console.log(errorThrown);
+                        document.getElementById("response").innerHTML = "GET failed (ajax)";
+                        //alert("GET failed (ajax)");
+                        ajaxerror();
+                    },
+                });
+
+                Alpaca.registerConnectorClass("custom", CustomConnector);
+                $("#authenticationsettings").alpaca({
+                    "connector": "custom",
+                    "dataSource": "./load-settings/authentication_load.php",
+                    "schemaSource": "./schemas/authentication.json",
+                    "view": {
+                        "parent": "bootstrap-edit-horizontal",
+                        "layout": {
+                            "template": './templates/two-column-layout-template.html',
+                            "bindings": {
+                                "configurationEnabled": "rightcolumn",
+                                "settingsEnabled": "leftcolumn",
+                                "logsEnabled": "leftcolumn"
                             }
                         },
-                        "settingsEnabled": {
-                            "type": "radio",
-                            "validate": true,
-                            "showMessages": true,
-                            "disabled": false,
-                            "hidden": false,
-                            "label": "Enable Settings Authentication:",
-                            "helpers": ["Enable authentication for the settingspage."],
-                            "hideInitValidationError": false,
-                            "focus": false,
-                            "optionLabels": [" True", " False"],
-                            "name": "settingsEnabled",
-                            "typeahead": {},
-                            "allowOptionalEmpty": false,
-                            "data": {},
-                            "autocomplete": "false",
-                            "disallowEmptySpaces": true,
-                            "disallowOnlyEmptySpaces": false,
-                            "removeDefaultNone": true,
-                            "fields": {},
-                            "events": {
-                                "change": function () {
-                                    $('.alpaca-form-button-submit').addClass('buttonchange');
+                        "fields": {
+                            "/configurationEnabled": {
+                                "templates": {
+                                    "control": "./templates/authentication/templates-authentication_configurationenabled.html"
+                                },
+                                "bindings": {
+                                    "configurationEnabled": "#authentication_configurationenabled"
                                 }
-                            }
-                        },
-                        "logsEnabled": {
-                            "type": "radio",
-                            "validate": true,
-                            "showMessages": true,
-                            "disabled": false,
-                            "hidden": false,
-                            "label": "Enable authentication for the logs page:",
-                            "helpers": ["Enable authentication for the homepage showing the logs."],
-                            "hideInitValidationError": false,
-                            "focus": false,
-                            "optionLabels": [" True", " False"],
-                            "name": "logsEnabled",
-                            "typeahead": {},
-                            "allowOptionalEmpty": false,
-                            "data": {},
-                            "autocomplete": "false",
-                            "disallowEmptySpaces": true,
-                            "disallowOnlyEmptySpaces": false,
-                            "removeDefaultNone": true,
-                            "fields": {},
-                            "events": {
-                                "change": function () {
-                                    $('.alpaca-form-button-submit').addClass('buttonchange');
+                            },
+                            "/settingsEnabled": {
+                                "templates": {
+                                    "control": "./templates/authentication/templates-authentication_settingsenabled.html"
+                                },
+                                "bindings": {
+                                    "settingsEnabled": "#settingsenabled"
+                                }
+                            },
+                            "/logsEnabled": {
+                                "templates": {
+                                    "control": "./templates/authentication/templates-authentication_logsenabled.html"
+                                },
+                                "bindings": {
+                                    "logsEnabled": "#logsenabled"
                                 }
                             }
                         }
                     },
-                    "form": {
-                        "attributes": {
-                            "action": "post-settings/post_receiver-authentication.php",
-                            "method": "post",
-                        },
-                        "buttons": {
-                            "submit": {
-                                "type": "button",
-                                "label": "Submit",
-                                "name": "submit",
-                                "value": "submit",
-                                click: function () {
-                                    let authenticationsettings = $('#authenticationsettings');
-                                    var data = authenticationsettings.alpaca().getValue();
-                                    $.post({
-                                        url: 'post-settings/post_receiver-authentication.php',
-                                        data: authenticationsettings.alpaca().getValue(),
-                                        success: function (data) {
-                                            alert("Settings saved!");
-                                            setTimeout(window.top.location.reload.bind(window.top.location), 500)
-                                        },
-                                        error: function (errorThrown) {
-                                            console.log(errorThrown);
-                                            alert("Error submitting data.");
-                                        }
-                                    });
-                                    $('.alpaca-form-button-submit').removeClass('buttonchange');
+                    "options": {
+                        "focus": false,
+                        "type": "object",
+                        "helpers": [],
+                        "validate": true,
+                        "disabled": false,
+                        "showMessages": true,
+                        "collapsible": false,
+                        "legendStyle": "button",
+                        "fields": {
+                            "configurationEnabled": {
+                                "type": "radio",
+                                "validate": true,
+                                "showMessages": true,
+                                "disabled": false,
+                                "hidden": false,
+                                "label": "Enable Configuration access:",
+                                "helpers": ["Enable access to the Configuration page. (NOTE: For security purposes, this should be DISABLED ('False') after initial configuration.)"],
+                                "hideInitValidationError": false,
+                                "focus": false,
+                                "optionLabels": [" True", " False"],
+                                "name": "configurationEnabled",
+                                "typeahead": {},
+                                "allowOptionalEmpty": false,
+                                "data": {},
+                                "autocomplete": "false",
+                                "disallowEmptySpaces": true,
+                                "disallowOnlyEmptySpaces": false,
+                                "removeDefaultNone": true,
+                                "fields": {},
+                                "events": {
+                                    "change": function() {
+                                        $('.alpaca-form-button-submit').addClass('buttonchange');
+                                        $('.configurationenabledlabel').addClass('settingslabelchanged');
+                                        settingchange();
+                                    }
                                 }
                             },
-                            "reset": {
-                                "label": "Clear Values"
+                            "settingsEnabled": {
+                                "type": "radio",
+                                "validate": true,
+                                "showMessages": true,
+                                "disabled": false,
+                                "hidden": false,
+                                "label": "Enable Settings authentication:",
+                                "helpers": ["Enable authentication for the settings page."],
+                                "hideInitValidationError": false,
+                                "focus": false,
+                                "optionLabels": [" True", " False"],
+                                "name": "settingsEnabled",
+                                "typeahead": {},
+                                "allowOptionalEmpty": false,
+                                "data": {},
+                                "autocomplete": "false",
+                                "disallowEmptySpaces": true,
+                                "disallowOnlyEmptySpaces": false,
+                                "removeDefaultNone": true,
+                                "fields": {},
+                                "events": {
+                                    "change": function() {
+                                        $('.alpaca-form-button-submit').addClass('buttonchange');
+                                        $('.settingsenabledlabel').addClass('settingslabelchanged');
+                                        settingchange();
+                                    }
+                                }
+                            },
+                            "logsEnabled": {
+                                "type": "radio",
+                                "validate": true,
+                                "showMessages": true,
+                                "disabled": false,
+                                "hidden": false,
+                                "label": "Enable Logarr authentication:",
+                                "helpers": ["Enable authentication for the main Logarr UI."],
+                                "hideInitValidationError": false,
+                                "focus": false,
+                                "optionLabels": [" True", " False"],
+                                "name": "logsEnabled",
+                                "typeahead": {},
+                                "allowOptionalEmpty": false,
+                                "data": {},
+                                "autocomplete": "false",
+                                "disallowEmptySpaces": true,
+                                "disallowOnlyEmptySpaces": false,
+                                "removeDefaultNone": true,
+                                "fields": {},
+                                "events": {
+                                    "change": function() {
+                                        $('#authnote').removeClass('hidden');
+                                        $('.alpaca-form-button-submit').addClass('buttonchange');
+                                        $('.logsenabledlabel').addClass('settingslabelchanged');
+                                        settingchange();
+                                    }
+                                }
                             }
-                            // "view": {
-                            //     "type": "button",
-                            //     "label": "View JSON",
-                            //     "value": "View JSON",
-                            //     "click": function() {
-                            //         alert(JSON.stringify(this.getValue(), null, "  "));
-                            //     }
-                            // }
                         },
-                    }
-                },
-            });
+                        "form": {
+                            "attributes": {
+                                "action": "post-settings/post_receiver-authentication.php",
+                                "method": "post",
+                            },
+                            "buttons": {
+                                "submit": {
+                                    "type": "button",
+                                    "label": "Submit",
+                                    "name": "submit",
+                                    "value": "submit",
+                                    click: function() {
+                                        let authenticationsettings = $('#authenticationsettings');
+                                        var data = authenticationsettings.alpaca().getValue();
+                                        $.post({
+                                            url: 'post-settings/post_receiver-authentication.php',
+                                            data: authenticationsettings.alpaca().getValue(),
+                                            success: function(data) {
+                                                settingapply();
+                                                console.log("Settings saved! Logarr is reloading");
+                                                setTimeout(window.top.location.reload.bind(window.top.location), 1000);
+                                                $('.alpaca-form-button-submit').removeClass('buttonchange');
+                                            },
+                                            error: function(errorThrown) {
+                                                console.log(errorThrown);
+                                                // alert("Error submitting data.");
+                                                settingserror();
+                                            }
+                                        });
+                                    }
+                                }
+                            },
+                        }
+                    },
+                });
 
-        })
-    </script>
+            })
+        </script>
 
-</div>
+    </div>
 
 </body>
 
-</html>
+</html> 

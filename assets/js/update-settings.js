@@ -1,5 +1,89 @@
 // function to reorder
+
+function updatechecklatest() {
+    Toast.fire({
+        toast: true,
+        type: 'success',
+        title: 'You have the latest <br> Logarr version',
+        background: 'rgba(0, 184, 0, 0.75)',
+        timer: 5000
+    })
+};
+
+function updatecheck() {
+    Toast.fire({
+        toast: true,
+        type: 'info',
+        title: 'Logarr is checking for an <br> application update',
+        showCloseButton: false,
+        onBeforeOpen: () => {
+            Swal.showLoading()
+        }
+    })
+};
+
+function updateprogress() {
+    Toast.fire({
+        toast: true,
+        type: 'warning',
+        title: 'Logarr is updating',
+        showCloseButton: false,
+        onBeforeOpen: () => {
+            Swal.showLoading()
+        }
+    })
+};
+
+function updatecheckerror() {
+    Toast.fire({
+        toast: true,
+        type: 'error',
+        title: 'An error occurred <br> while checking your Logarr version!',
+        background: 'rgba(207, 0, 0, 0.75)'
+    })
+};
+
+function updatesuccess() {
+    Toast.fire({
+        toast: true,
+        type: 'success',
+        title: 'Update Successful! <br> Reloading Logarr in 5 seconds...',
+        background: 'rgba(0, 184, 0, 0.75)'
+    })
+};
+
+function updateextracterror() {
+    Toast.fire({
+        toast: true,
+        type: 'error',
+        title: 'An error occurred <br> while extracting the update files!',
+        background: 'rgba(207, 0, 0, 0.75)'
+    })
+};
+
+function updatecopyerror() {
+    Toast.fire({
+        toast: true,
+        type: 'error',
+        title: 'An error occurred <br> while copying the update files!',
+        background: 'rgba(207, 0, 0, 0.75)'
+    })
+};
+
+function updatewriteerror() {
+    Toast.fire({
+        toast: true,
+        type: 'error',
+        title: 'An error occurred <br> while updating the Logarr files!',
+        background: 'rgba(207, 0, 0, 0.75)'
+    })
+};
+
+
 $(document).ready(function () {
+
+    //Check if application is updated on page load:
+
     var uid = $(this).attr("id");
     var info = "uid=" + uid + "&vcheck=1";
     const versionCheckAuto = $('#version_check_auto');
@@ -19,45 +103,51 @@ $(document).ready(function () {
                 var uInfo = "uid=" + uid + "&version=" + data.version;
 
                 versionCheckAuto.html(
-                    //TODO: replace this with a link to start the updating process?
-                    '<a class="links" href = "https://github.com/Monitorr/Logarr/releases" target = "_blank" title="Logarr releases" style = "cursor: pointer"> <b> An update is available</b></a>'
+                    '<a class="updatelink" href="https://github.com/Monitorr/Logarr/releases" target="_blank" title="Click CHECK FOR UPDATE below to update Logarr" style="cursor: pointer;"> <b>An update is available </b></a>',
                 );
-            }
-
-            else {
+                $('#version_check').addClass('version_check-update');
+            } else {
                 // user has the latest version already installed
                 versionCheckAuto.html("");
+                console.log('Logarr update: You have the latest version');
             }
         },
         error: function () {
             // error
-            versionCheckAuto.html('<strong> An error occured while checking your Logarr version </strong>');
+            versionCheckAuto.html('<p id="vcheckerror" class="vcheckerror">An error occurred while checking your Logarr version </p>');
+            console.log('ERROR: An error occurred while checking your Logarr version');
+            updatecheckerror();
         }
     });
 
-    // check users files and update with most recent version
+    // Check and execute update when "CHECK FOR UPDATE" button is fired:
+
     let versionCheck = $('#version_check');
     versionCheck.on('click', function (e) {
-        //$('#loading').show();
         var uid = $(this).attr("id");
         var info = "uid=" + uid + "&vcheck=1";
         $.ajax({
             beforeSend: function () {
+                console.log('Logarr is checking for an application update');
+                updatecheck();
                 $('#version_check').html('<img src="../../images/loader.gif" width="16" height="16" />');
-                console.log('Logarr is checking for an application update.');
             },
             type: "POST",
             url: "../version_check.php",
             data: info,
             dataType: "json",
             success: function (data) {
-                // clear loading information
-                versionCheck.html("");
+
                 // check for version verification
                 if (data.version != 0) {
                     var uInfo = "uid=" + uid + "&version=" + data.version;
                     $.ajax({
                         beforeSend: function () {
+
+                            console.log('Logarr is updating...');
+
+                            updateprogress();
+
                             versionCheck.html('<img src="../../images/loader.gif" width="16" height="16" />');
                         },
                         type: "POST",
@@ -65,63 +155,55 @@ $(document).ready(function () {
                         data: uInfo,
                         dataType: "json",
                         success: function (data) {
-                            // check for version verification
+
+                            // check for version verification:
                             if (data.copy != 0) {
                                 if (data.unzip == 1) {
-                                    // clear loading information
-                                    versionCheck.html("");
+
                                     // successful update
                                     console.log('Logarr update successful! Reloading Logarr in 5 seconds...');
-                                    versionCheck.html("<strong>Update Successful!</strong>");
-                                    $.blockUI(
-                                        {
-                                            css: {
-                                                width: '35%',
-                                                left: '32.5%',
-                                            },
-                                            message: 'Update Successful! <br> Reloading Logarr in 5 seconds...'
-                                        }
-                                    );
-                                    setTimeout(location.reload.bind(location), 5000);
-                                    // location.reload();
+                                    versionCheck.html("<strong>SUCCESSFUL!</strong>");
+                                    updatesuccess();
+                                    
+                                    //reload DOM after successful update:
+                                    setTimeout(function() {
+                                        window.top.location.reload(true);
+                                    }, 5000);
+
                                 } else {
                                     // error during update/unzip
-                                    console.log('Logarr update: An error occured while extracting the files.');
-                                    versionCheck.html("<strong>An error occured while extracting the files.</strong>");
-                                    $.growlUI('An error occured while extracting the files.');
+                                    console.log('Logarr update: An error occurred while extracting the update files!');
+                                    versionCheck.html('<p id="vcheckerror" class="vcheckerror"> ERROR! </p>');
+                                    updateextracterror();
                                     setTimeout(5000);
                                 }
-
                             } else {
-                                console.log('Logarr update: An error occured while copying the files.');
-                                versionCheck.html("<strong>An error occured while copying the files.</strong>");
-                                $.growlUI('An error occured while copying the files.');
+                                console.log('Logarr update: An error occurred while copying the update files!');
+                                versionCheck.html('<p id="vcheckerror" class="vcheckerror"> ERROR! </p>');
+                                updatecopyerror();
                                 setTimeout(5000);
-
                             }
                         },
                         error: function () {
                             // error
-                            console.log('Logarr update: An error occured while updating your files.');
-                            versionCheck.html('<strong>An error occured while updating your files.</strong>');
-                            $.growlUI('An error occured while updating your files.');
+                            console.log('Logarr update: An error occurred while updating the Logarr files!');
+                            versionCheck.html('<p id="vcheckerror" class="vcheckerror"> ERROR! </p>');
+                            updatewriteerror();
                             setTimeout(5000);
                         }
                     });
                 } else {
-                    // user has the latest version already installed
-                    console.log('Logarr update: You have the latest version. Reloading Logarr in 5 seconds...');
-                    versionCheck.html("");
-                    versionCheck.html("<strong>You have the latest version. Reloading Logarr in 5 seconds...</strong>");
-                    $.growlUI('You have the latest version. <br> Reloading Logarr in 5 seconds...');
-                    setTimeout(location.reload.bind(location), 5000);
+                    // latest version already installed:
+                    console.log('Logarr update: You have the latest Logarr version');
+                    versionCheck.html("Check for Update");
+                    updatechecklatest();
                 }
             },
             error: function () {
                 // error
-                console.log('Logarr update: An error occured while checking your Logarr version.');
-                versionCheck.html('<strong>An error occured while checking your Logarr version.</strong>');
-                $.growlUI('An error occured while checking your Logarr version.');
+                console.log('Logarr update: An error occurred while checking your Logarr version');
+                versionCheck.html('<p id="vcheckerror" class="vcheckerror"> ERROR! </p>');
+                updatecheckerror();
                 setTimeout(5000);
             }
         });

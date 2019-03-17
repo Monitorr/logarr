@@ -1,39 +1,360 @@
 // Logarr main JS script
 // https://github.com/Monitorr
 
+
 // Variables
 let results, currentIndex = 0;
+let logInterval = false;
+let current_rflog = 60000;
+let nIntervId = [];
+let home = false;
+
+let rfconfig = (typeof settings !== "undefined") ? settings.rfconfig : 10000;
+
+//TODO Can we remove this so rfconfig doesn't load automatically on child pages we don't want it to?
+
+//nIntervId["refreshConfig"] = setInterval(refreshConfig, rfconfig);
 
 
-// Set sytles for BlockUI overlays in /assets/js/jquery.blockUI.js
+///Swal.fire('Logarr is loading ...');
+
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'bottom-start',
+    showConfirmButton: false,
+    showCloseButton: true,
+    background: 'rgba(50, 1, 25, 0.75)'
+    //timer: 10000
+});
+
+function logupdatetoast() {
+    Toast.fire({
+        toast: true,
+        title: '<p class="logupdatetoast">Updating Logs</p>',
+        showCloseButton: false,
+        background: 'rgba(50, 1, 25, 0.75)',
+        onBeforeOpen: () => {
+            Swal.showLoading()
+        }
+    })
+};
+
+function logoutwarning() {
+    Toast.fire({
+        toast: true,
+        type: 'warning',
+        title: '<p class="logouttoast"> An error occurred while checking login status. <br> You will be auto-logged out in 2 minutes. </p>',
+        background: 'rgba(255, 196, 0, 0.75)'
+    })
+};
+
+
+function logouttoast() {
+    Toast.fire({
+        toast: true,
+        type: 'warning',
+        title: '<p class="logouttoast"> You have been logged out </p>',
+        background: 'rgba(255, 196, 0, 0.75)'
+    })
+};
+
+function logsingleupdatetoast() {
+    Toast.fire({
+        toast: true,
+        title: 'Updating Log',
+        showCloseButton: false,
+        onBeforeOpen: () => {
+            Swal.showLoading()
+        }
+    })
+};
+
+function udtoast() {
+    Toast.fire({
+        toast: true,
+        type: 'warning',
+        title: 'Auto-update disabled',
+        timer: 3000
+    })
+};
+
+function uetoast() {
+    Toast.fire({
+        toast: true,
+        type: 'warning',
+        title: 'Auto-update enabled',
+        timer: 3000
+    })
+};
+
+function logerror() {
+    Toast.fire({
+        toast: true,
+        type: 'error',
+        title: 'Error loading log!',
+        background: 'rgba(207, 0, 0, 0.75)',
+        timer: 10000
+    })
+};
+
+function searchtoast() {
+    Toast.fire({
+        toast: true,
+        title: 'Searching ...',
+        showCloseButton: false,
+        onBeforeOpen: () => {
+            Swal.showLoading()
+        }
+    })
+};
+
+function clearsearch() {
+    Toast.fire({
+        toast: true,
+        type: 'warning',
+        title: 'Clearing search results',
+        timer: 3000
+    })
+};
+
+function logroll() {
+    Toast.fire({
+        toast: true,
+        type: 'warning',
+        title: 'Attempting log roll',
+        timer: 5000
+    })
+};
+
+function logrollmodal() {
+    Swal.fire({
+        toast: false,
+        position: 'center',
+        title: '<div id="rolllogtitle">Roll Log results:</div>',
+        html: 
+            '<div id="responseModal">' +
+            '<div id="modalContent"></div>' +
+            '</div>',
+        width: "auto",
+        background: 'rgba(50, 1, 25, 0.9)',
+        allowOutsideClick: true,
+        showCloseButton: true,
+        showCancelButton: false,
+        showConfirmButton: false,
+        animation: false,
+        customClass: 'logrollmodal',
+        onBeforeOpen: () => {
+
+            //TODO: //Turn OFF autorefresh before log roll attempt // Works but will re-enabled w/ rfconfig:
+
+            $("#autoUpdateSlider").attr("data-enabled", "false");
+            clearInterval(nIntervId["logRefresh"]);
+            clearInterval(nIntervId);
+            clearInterval(refreshblockUI, settings.rflog);
+            clearInterval(refreshblockUI);
+            logInterval = false;
+
+        },
+        onClose: () => {
+
+            refreshblockUI();
+            //TODO:
+            //Re-enable autorefresh IF ON
+        }
+    })
+};
+
+function logrollerror() {
+    Toast.fire({
+        toast: true,
+        type: 'error',
+        title: 'An error occurred while attempting log roll!',
+        background: 'rgba(207, 0, 0, 0.75)'
+    })
+};
+
+function dllog() {
+    Toast.fire({
+        toast: true,
+        type: 'success',
+        title: 'Downloading log',
+        timer: 5000
+    })
+};
+
+function filtertoast() {
+    Toast.fire({
+        toast: true,
+        type: 'warning',
+        title: 'Filtering logs'
+    })
+};
+
+function updateavailtoast() {
+    Toast.fire({
+        toast: true,
+        type: 'warning',
+        title: '<a class="toastlink swal2-title" href="https://github.com/Monitorr/logarr/releases" title="Logarr releases" target="_blank">A Logarr update is available!</a>',
+        customClass: 'updateavailtoast',
+        timer: 10000
+    })
+};
+
+function updatechecklatest() {
+    Toast.fire({
+        toast: true,
+        type: 'success',
+        title: 'You have the latest <br> Logarr version',
+        timer: 5000
+    })
+};
+
+function updatecheckerror() {
+    Toast.fire({
+        toast: true,
+        type: 'error',
+        title: 'An error occurred <br> while checking your Logarr version!',
+        background: 'rgba(207, 0, 0, 0.75)'
+    })
+};
+
+function synctimeerror() {
+    Toast.fire({
+        toast: true,
+        type: 'error',
+        title: 'An error occurred <br> while synchronizing time!',
+        background: 'rgba(207, 0, 0, 0.75)',
+        timer: 10000
+    })
+};
+
+function syncconfigerror() {
+    Toast.fire({
+        toast: true,
+        type: 'error',
+        title: 'An error occurred <br> while synchronizing settings!',
+        background: 'rgba(207, 0, 0, 0.75)',
+        timer: 10000
+    })
+};
+
+function exterror() {
+    Toast.fire({
+        toast: true,
+        type: 'error',
+        title: 'PHP extension not loaded!',
+        background: 'rgba(207, 0, 0, 0.75)',
+        timer: 10000
+    })
+};
+
+function ghajaxerror() {
+    Toast.fire({
+        toast: true,
+        type: 'error',
+        title: 'An error occurred while <br> retrieving releases from GitHub!',
+        background: 'rgba(207, 0, 0, 0.75)',
+        timer: 10000
+    })
+};
+
+function searchresults() {
+    Toast.fire({
+        toast: true,
+        type: 'info',
+        position: 'bottom-start',
+        title: '<div id="searchtitle">Search results:</div>',
+        html: 
+            '<div id="countmodal" class="countmodal">' +
+            '</div>',
+        width: "auto",
+        showCloseButton: true,
+        showCancelButton: false,
+        showConfirmButton: false,
+        animation: true
+    })
+};
+
+function nosearch() {
+    Toast.fire({
+        toast: true,
+        type: 'warning',
+        position: 'bottom-start',
+        title: 'Missing search query!',
+        width: "auto",
+        showCloseButton: true,
+        showCancelButton: false,
+        showConfirmButton: false,
+        animation: true,
+        timer: 3000
+    })
+};
+
+
+function sareload() {
+    let timerInterval
+    Toast.fire({
+        toast: true,
+        showCloseButton: false,
+        showCancelButton: false,
+        html:   '<p id="reloadtitle">Reloading Logarr in <strong></strong> seconds </p>' +
+                '<button id="reload-btn" class="btn btn-primary" title="Reload Logarr">' +
+                    'Reload Logarr' +
+                '</button>',
+        timer: 10000,
+        onBeforeOpen: () => {
+            console.log("Reloading Logarr in 10 seconds");
+            const content = Swal.getContent()
+            const $ = content.querySelector.bind(content)
+            const reload = $('#reload-btn')
+
+            Swal.showLoading()
+
+            reload.addEventListener('click', () => {
+                top.location = "settings.php";
+            })
+
+            timerInterval = setInterval(() => {
+                Swal.getContent().querySelector('strong')
+                    .textContent = (Swal.getTimerLeft() / 1000)
+                    .toFixed(0)
+            }, 100)
+        },
+        onClose: () => {
+            clearInterval(timerInterval);
+            top.location = "settings.php";
+        }
+    })
+}
+
+
 function refreshblockUI() {
-    $.growlUI('Updating logs...');
+    $('#body').addClass("cursorwait");
+    logupdatetoast();
     setTimeout(function () {
-        refresh();
+        loadLogs();
     }, 300);
 
-    //wait after log update to highlight error terms:
-    if (settings.autoHighlight == "true") {
+    //wait after log update to highlight terms:
+    if (settings.autoHighlight === "true") {
         setTimeout(function () {
             highlightjs();
         }, 1500);
     }
-    //wait after log update, if the searchinput field is not empty, perform search:
-    if ($("input[name='markinput']").val() != "") {
+    //wait after log update, if search input field is not empty, perform search:
+    if ($("input[name='markinput']").val() !== "") {
         setTimeout(function () {
             mark();
         }, 1500);
+        $('#count').removeClass("hidden");
+    } else {
+        $('#count').addClass("hidden");
     }
-}
-
-function refresh() {
-    console.log('Logarr log update START');
-    refreshConfig(false);
-    loadLogs();
 }
 
 // Load logs
 function loadLogs() {
+    console.log('Logarr log update START');
     var categories = [];
     var html = "";
     var filter = window.location.hash.substr(1);
@@ -55,16 +376,25 @@ function loadLogs() {
                 categories.push("Uncategorized");
             }
         }
+        if (logs[i].enabled == "No") {
+            // TODO / bug :  Remove log from display if disabled
+            var logTitle = logs[i].logTitle;
+            console.log("Log disabled: " + logTitle);
+            // TODO: not sure if this is the best way to do this but it works:
+            $("#" + logs[i].logTitle.replace(/\s/g, "-") + "-log-container").addClass("hidden");
+        } else {
+            $("#" + logs[i].logTitle.replace(/\s/g, "-") + "-log-container").removeClass("hidden");
+        }
     }
     if (categories.length > 0 && !(categories.length == 1 && categories[0] == "Uncategorized")) {
-        console.log("choice 1");
+        //console.log("choice 1");
         var allFilter = (filter[0] == "" || arraySubset(filter, categories)) ? "true" : "false";
         var categoryFilter = window.location.hash.substr(1);
         if (allFilter == "true") categoryFilter = categories.join(",");
 
         html += "<div class='category-item'>" +
-            "<a href='#' class='category-filter-item'>All</a>" +
-            "<label class=\"switch category-switch\">" +
+            "<div class='category-filter-item'>All</div>" +
+            "<label class=\"switch category-switch\" title=\"Display All\">" +
             "<span class=\"slider round\" data-enabled=\"" + allFilter + "\" onclick=\"toggleCategory('', '" + categoryFilter + "');\"></span>" +
             "</label>" +
             "</div>";
@@ -73,8 +403,8 @@ function loadLogs() {
         for (let i = 0; i < categories.length; i++) {
             var catFilter = (allFilter == "true" || filter.indexOf(categories[i]) != -1) ? "true" : "false";
             html += "<div class='category-item'>" +
-                "<a href='#" + categories[i] + "' class='category-filter-item'>" + categories[i] + "</a>" +
-                "<label class=\"switch category-switch\">" +
+                "<div class='category-filter-item'>" + categories[i] + "</div>" +
+                "<label class=\"switch category-switch\" title=\"Hide/display Category\">" +
                 "<span class=\"slider round\" data-enabled=\"" + catFilter + "\" onclick=\"toggleCategory('" + categories[i] + "', '" + categoryFilter + "');\"></span>" +
                 "</label>" +
                 "</div>";
@@ -83,14 +413,19 @@ function loadLogs() {
         $('#categoryFilter').html(html);
         $('#categoryFilter').show();
     } else {
-        console.log("choice 2");
+        //console.log("choice 2");
         $('#categoryFilter').hide();
     }
 
+    setTimeout(function () {
+        $('#body').removeClass("cursorwait");
+        Toast.close();
+    }, 2000);
 }
 
 function loadLog(log) {
     var logTitle = log.logTitle;
+
     $.ajax({
         url: "assets/php/load-log.php",
         data: {'log': log},
@@ -98,22 +433,28 @@ function loadLog(log) {
         success: function (response) {
             $("#" + logTitle.replace(/\s/g, "-") + "-log-container").html(response);
             console.log("Updated log: " + logTitle);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("ERROR: AJAX error while loading logs!");
+            logerror();
         }
-    });
+    })
 }
 
-// highlight all "error" terms:
+// highlight terms:
 function highlightjs() {
-    if ('customHighlightTerms' in settings && settings.customHighlightTerms != "") {
+    
+    if ('customHighlightTerms' in settings && settings.customHighlightTerms !== "") {
         var array = settings.customHighlightTerms.split(",");
         for (let i = 0; i < array.length; i++) {
+            console.log("Highlighting text containing: " + array[i].trim());
             $(".expand").highlight(array[i].trim(), {
                 element: 'em',
-                className: array[i].trim()
+                className: array[i].trim(),
             });
-            console.log("Highlighting text containing: " + array[i].trim());
+            $('.' + array[i].trim()).addClass("highlightterms");
         }
-    }
+    };
 }
 
 // Jumps to the element matching the currentIndex
@@ -157,7 +498,6 @@ function mark() {
     let content = $(".slide");
 
     // Determine selected options
-
     // Mark the keyword inside the context:
 
     content.unmark({
@@ -165,6 +505,11 @@ function mark() {
             content.mark(keyword, {
                 separateWordSearch: false,
                 done: function () {
+
+                    searchresults();
+
+                    //Future TODO:  Add # of results to individual log containers
+
                     results = content.find("mark");
                     let count = $(".count");
                     count.text(results.length);
@@ -173,8 +518,17 @@ function mark() {
                     count.append("'");
                     results.addClass("markresults");
                     count.addClass("countresults");
+
+                    //Append search results count to SweetAlert modal:
+                    let countmodal = $(".countmodal");
+                    countmodal.text(results.length);
+                    countmodal.append(" occurance(s) of: '");
+                    countmodal.append(keyword);
+                    countmodal.append("'");
+                    $('.swal2-close').addClass("hidden");
+
                     currentIndex = 0;
-                    if (settings.jumpOnSearch == "true") jumpTo(); // Auto focus/scroll to first searched term after search submit, if user had enabled option in config
+                    if (settings.jumpOnSearch === "true") jumpTo(); // Auto focus/scroll to first searched term after search submit, if option enabled in settings
                 }
             });
         }
@@ -184,44 +538,64 @@ function mark() {
 // on page ready functions
 $(function () {
 
-    // Perform search action on click
-    $("button[data-search='search']").on("click", function () {
-        console.log('Logarr is performing search');
-        $('#buttonStart :checkbox').prop('checked', false).change(); // if auto-update is enabled, disable it after search submit
-        $.blockUI({
-            message: 'Searching...'
-        });
-        setTimeout(function () {
-            $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search
-            mark();
-            $.unblockUI()
-        }, 300);
+    //Search box expand:
+    $('#text-search2').focus(function () {
+        $('#text-search2').addClass('text-search2-expand');
+    });
+    $('#text-search2').blur(function () {
+        $('#text-search2').removeClass('text-search2-expand');
     });
 
-    // Perform search action on enter
-    $("#text-search2").keyup(function (event) {
-        if (event.keyCode === 13) {
+    // Perform search action on click
+    $("button[data-search='search']").on("click", function () {
+
+        if ($("input[name='markinput']").val() !== "") {
+
             console.log('Logarr is performing search');
-            $('#buttonStart :checkbox').prop('checked', false).change(); // if auto-update is enabled, disable it after search submit
-            $.blockUI({
-                message: 'Searching...'
-            });
+            $('#count').removeClass("hidden");
+            $('#body').addClass("cursorwait");
+            
+            searchtoast();
+            
+            $('#buttonStart :checkbox').prop('checked', false).change();
             setTimeout(function () {
                 $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search
                 mark();
-                $.unblockUI()
+                $('#body').removeClass("cursorwait");
+                console.log(results.length + " search result(s) found");
             }, 300);
+
+        } else {
+            nosearch();
+            console.log("No query to search!");
         }
     });
 
+    //TODO:  Why does ENTER keyup work without this?
+
+    // Perform search action on enter
+    // $("#text-search2").keyup(function (event) {
+    //     if (event.keyCode === 13) {
+    //         console.log('Logarr is performing search');
+    //         $('#body').addClass("cursorwait");
+    //         searchtoast();
+    //         $('#buttonStart :checkbox').prop('checked', false).change(); // TODO: BUG: if auto-update is enabled, disable it after search submit
+    //         setTimeout(function () {
+    //             $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search
+    //             mark();
+    //             $('#body').removeClass("cursorwait");
+    //         }, 300);
+    //     }
+    // });
+
     // Clears the search
     $("button[data-search='clear']").on("click", function () {
-        console.log('Logarr cleared search results');
-        $.growlUI('Clearing <br> search results');
+        clearsearch();
         $(".slide").unmark();
         $("input[name='markinput']").val("");
         $('.count').removeClass("countresults");
         $('.btn-visible').addClass("btn-hidden");
+        console.log('Logarr cleared search results');
     });
 
     // Next and previous search jump to
@@ -238,21 +612,32 @@ $(function () {
         }
     });
 
-    // Live search as soon as user keyup in search field:
+    // Live search when user keyup in search field:
     let timeoutID = null;
     $("input[name='markinput']").keyup(function (e) {
-        clearTimeout(timeoutID);
-        if (settings.liveSearch == "true") {
-            $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search
-            timeoutID = setTimeout(() => mark(e.target.value), 500);
+        if ($("input[name='markinput']").val() !== "") {
+            clearTimeout(timeoutID);
+            if (settings.liveSearch === "true") {
+                $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search
+                timeoutID = setTimeout(() => mark(e.target.value), 500);
+                $('#count').removeClass("hidden");
+            }
+        } else {
+            $('#count').addClass("hidden");
+            Toast.close();
         }
+    });
+
+    //Remove "searching" modal after search is complete:
+    $("input[name='markinput']").blur(function (e) {
+        Toast.close();
     });
 
     // unlink log action
     $(document).on('click', "button[data-action='unlink-log']", function (event) {
         event.preventDefault(); // stop being refreshed
         console.log('Attempting log roll');
-        $.growlUI("Attempting <br> log roll");
+        logrollmodal();
         $.ajax({
             type: 'POST',
             url: 'assets/php/unlink.php',
@@ -261,22 +646,11 @@ $(function () {
             success: function (data) {
                 $('#modalContent').html(data);
                 let modal = $('#responseModal');
-                let span = $('.closemodal');
                 modal.fadeIn('slow');
-                span.click(function () {
-                    modal.fadeOut('slow');
-                });
-                $(body).click(function (event) {
-                    if (event.target != modal) {
-                        modal.fadeOut('slow');
-                    }
-                });
-                setTimeout(function () {
-                    modal.fadeOut('slow');
-                }, 3000);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log("ERROR: unlink ajax posting failed");
+                logrollerror();
             }
         });
         return false;
@@ -284,8 +658,8 @@ $(function () {
 
     // download log action
     $(document).on('click', "button[data-action='download-log']", function (event) {
-        event.preventDefault(); // stop page from being refreshed
-        $.growlUI("Downloading <br> log file");
+        event.preventDefault();
+        dllog();
         let logFilePath = ($(".path[data-service='" + $(this).data('service') + "']").html()).replace('file=', '').trim();
         console.log("Downloading log file: " + logFilePath);
         window.open('assets/php/download.php?file=' + logFilePath);
@@ -294,13 +668,25 @@ $(function () {
 
     // update log action
     $(document).on('click', "button[data-action='update-log']", function (event) {
-        event.preventDefault(); // stop page from being refreshed
+        event.preventDefault();
+        $('#body').addClass("cursorwait");
+        logsingleupdatetoast();
         loadLog(logs[$(this).parent().parent().data("index")]);
+        setTimeout(function () {
+            if (settings.autoHighlight === "true") {
+                setTimeout(function () {
+                    highlightjs();
+                }, 500);
+            };
+            $('#body').removeClass("cursorwait");
+            Toast.close();
+        }, 2000);
         return false;
     });
 
     // filter logs
     $(document).on('click', ".category-filter-item", function (event) {
+        //TODO why refresh blockUI on log filter ??
         refreshblockUI();
         setTimeout(function () {
             console.log('Filtering logs on: ' + window.location.hash);
@@ -308,75 +694,178 @@ $(function () {
     });
 });
 
-function refreshConfig(updateLogs) {
+function refreshConfig() {
     $.ajax({
         url: "assets/php/sync-config.php",
         type: "GET",
         success: function (response) {
 
+            // Check if authentication settings have changed:
+            if (home) {
+                refreshAuth();
+            }
+            
             let json = JSON.parse(response);
             settings = json.settings;
             preferences = json.preferences;
+            authentication = json.authentication;
             logs = json.logs;
 
-            console.log(json.logs);
-
-            setTimeout(function () {
-                refreshConfig()
-            }, settings.rfconfig); //delay is rftime
-
-
-            $("#auto-update-status").attr("data-enabled", settings.logRefresh);
-
-            if (updateLogs) {
-                if (settings.logRefresh == "true" && (logInterval == false || settings.rflog != current_rflog)) {
-                    clearInterval(nIntervId);
-                    nIntervId = setInterval(refreshblockUI, settings.rflog);
-                    logInterval = true;
-                    $("#autoUpdateSlider").attr("data-enabled", "true");
-                    current_rflog = settings.rflog;
-                    console.log("Auto update: Enabled | Interval: " + settings.rflog + " ms");
-                    $.growlUI("Auto update: Enabled");
-                } else if (settings.logRefresh == "false" && logInterval == true) {
-                    clearInterval(nIntervId);
-                    logInterval = false;
-                    $("#autoUpdateSlider").attr("data-enabled", "false");
-                    console.log("Auto update: Disabled");
-                    $.growlUI("Auto update: Disabled");
+            if(home, settings) {
+                if (settings.rfconfig !== rfconfig) {
+                    rfconfig = settings.rfconfig;
+                    clearInterval(nIntervId["refreshConfig"]);
+                    nIntervId["refreshConfig"] = setInterval(refreshConfig, rfconfig);
                 }
             }
 
-            document.title = preferences.sitetitle; //update page title to configured title
-            console.log('Refreshed config variables');
+            $("#auto-update-status").attr("data-enabled", settings.logRefresh);
+
+            //TODO: this can probably be handled better
+            if(home) {
+                if (settings.logRefresh === "true" && (logInterval === false || settings.rflog !== current_rflog)) {
+                    clearInterval(nIntervId["logRefresh"]);
+                    nIntervId["logRefresh"] = setInterval(refreshblockUI, settings.rflog);
+                    logInterval = true;
+                    $("#autoUpdateSlider").attr("data-enabled", "true");
+                    current_rflog = settings.rflog;
+                    console.log("Log auto update: Enabled | Interval: " + settings.rflog + " ms");
+                    uetoast();
+                } else if (settings.logRefresh === "false" && logInterval === true) {
+                    clearInterval(nIntervId["logRefresh"]);
+                    clearInterval(nIntervId);
+                    clearInterval(refreshblockUI, settings.rflog);
+                    logInterval = false;
+                    $("#autoUpdateSlider").attr("data-enabled", "false");
+                    console.log("Log auto update: Disabled");
+                    udtoast();
+                }
+            }
+
+            if(home) {
+                document.title = preferences.sitetitle; //update index.php page title to configured site title
+            }
+
+            document.getElementById("brand").innerHTML = preferences.sitetitle; //update header title to configured site title
+            console.log("Refreshed config variables | Interval: " + settings.rfconfig + " ms");
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("ERROR: Config refresh failed!");
+
+            setTimeout(function () {
+
+                syncconfigerror();
+
+            }, 120000);
+        }
+    });
+}
+
+// Check if authentication settings have changed:
+function refreshAuth() {
+
+    console.log('Logarr is checking authentication settings | Interval ' + settings.rfconfig + ' (Auto)');
+
+    $.ajax({
+        url: "assets/php/sync-config-auth.php",
+        type: "GET",
+        success: function (response) {
+
+            let json = JSON.parse(response);
+
+            authentication = json.authentication;
+
+            if (authentication.logsEnabled === "false") {
+
+                console.log("Logarr auth: DISABLED (Auto)");
+
+            } else {
+
+                console.log("Logarr auth: ENABLED (Auto)");
+
+                function checkLoginSync() {
+
+                    $.ajax({
+                        type: "GET",
+                        url: "assets/php/login-status.php",
+                        success: function (data) {
+
+                            if (data === "true") {
+                                // User is logged IN:
+                                console.log('Logarr user is logged IN (Auto)');
+
+                            } else {
+                                // User is logged OUT:
+                                console.log('Logarr user is logged OUT (Auto)');
+
+                                logouttoast();
+
+                                // If user user is logged out, refresh index page to envoke authentication page:
+                                setTimeout(function () {
+
+                                    window.location.href = "index.php";
+
+                                }, 1000);
+                            }
+                        },
+
+                        error: function () {
+                            // error
+                            console.log('ERROR: An error occurred while checking login status!');
+
+                            logouttoast();
+
+                            setTimeout(function () {
+
+                                window.location.href = 'assets/php/authentication/unauthorized.php';
+
+                            }, 3000);
+                        }
+                    });
+                }
+                checkLoginSync();
+            };
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("ERROR: Authentication settings check error!");
+            syncconfigerror();
+
+            setTimeout(function () {
+
+                //window.location.href = "index.php";
+                window.location.href = 'assets/php/authentication/unauthorized.php';
+
+            }, 3000);
         }
     });
 }
 
 function overwriteLogUpdate() {
 
-    if (!autoUpdateOverwrite) {
-        console.log("Auto update setting will only be updated from config when the page is refreshed");
-    }
+    //TODO:  Not working:
 
-    if ($("#autoUpdateSlider").attr("data-enabled") == "false") {
-        autoUpdateOverwrite = true;
+    if ($("#autoUpdateSlider").attr("data-enabled") === "false") {
         $("#autoUpdateSlider").attr("data-enabled", "true");
-
         clearInterval(nIntervId);
         nIntervId = setInterval(refreshblockUI, settings.rflog);
         logInterval = true;
-
-        console.log("Auto update: Enabled | Interval: " + settings.rflog + " ms");
-        $.growlUI("Auto update: Enabled");
+        console.log("Log auto update: Enabled | Interval: " + settings.rflog + " ms");
+        uetoast();
+        //TODO CHANGE ME
+        // setTimeout(function () {
+        //     refreshblockUI();
+        // }, 1000);
     } else {
-        autoUpdateOverwrite = true;
         $("#autoUpdateSlider").attr("data-enabled", "false");
-
+        //TODO: Adding everything possible to stop rfconfig from re-applying values:
+        clearInterval(nIntervId["logRefresh"]);
         clearInterval(nIntervId);
+        clearInterval(refreshblockUI, settings.rflog);
+        clearInterval(refreshblockUI);
         logInterval = false;
-
-        console.log("Auto update: Disabled");
-        $.growlUI("Auto update: Disabled");
+        console.log("Log auto update: Disabled");
+        udtoast();
     }
 }
 
@@ -402,7 +891,7 @@ function updateTime() {
 }
 
 function syncServerTime() {
-    console.log('Logarr time update START | Interval: ' + settings.rftime + ' ms');
+    console.log('Logarr time update | Interval: ' + settings.rftime + ' ms');
     $.ajax({
         url: "assets/php/time.php",
         type: "GET",
@@ -413,56 +902,61 @@ function syncServerTime() {
             timeZone = response.timezoneSuffix;
             rftime = response.rftime;
             date = new Date(servertime);
-            setTimeout(function () {
-                syncServerTime()
-            }, settings.rftime); //delay is rftime
+            //TODO: Moved to child pages
+            // setTimeout(function () {
+            //     syncServerTime()
+            // }, settings.rftime); //delay is rftime
+            $("#synctimeerror").addClass("hidden");
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            console.log('Logarr time update START');
+            console.log('ERROR: Time update');
+            $("#synctimeerror").removeClass("hidden");
+            synctimeerror();
+            //TODO: Add error icon when synctime fails
         }
     });
 }
 
 function load_info() {
-    document.getElementById("setttings-page-title").innerHTML = 'Information';
+    document.getElementById("settings-page-title").innerHTML = 'Information';
     document.getElementById("includedContent").innerHTML = '<object  type="text/html" class="object" data="assets/php/settings/info.php" ></object>';
     $(".sidebar-nav-item").removeClass('active');
     $("li[data-item='info']").addClass("active");
 }
 
 function load_preferences() {
-    document.getElementById("setttings-page-title").innerHTML = 'User Preferences';
+    document.getElementById("settings-page-title").innerHTML = 'User Preferences';
     document.getElementById("includedContent").innerHTML = '<object type="text/html" class="object" data="assets/php/settings/user_preferences.php" ></object>';
     $(".sidebar-nav-item").removeClass('active');
     $("li[data-item='user-preferences']").addClass("active");
 }
 
 function load_settings() {
-    document.getElementById("setttings-page-title").innerHTML = 'Logarr Settings';
+    document.getElementById("settings-page-title").innerHTML = 'Logarr Settings';
     document.getElementById("includedContent").innerHTML = '<object type="text/html" class="object" data="assets/php/settings/site_settings.php" ></object>';
     $(".sidebar-nav-item").removeClass('active');
     $("li[data-item='logarr-settings']").addClass("active");
 }
 
 function load_authentication() {
-    document.getElementById("setttings-page-title").innerHTML = 'Logarr Authentication';
+    document.getElementById("settings-page-title").innerHTML = 'Logarr Authentication';
     document.getElementById("includedContent").innerHTML = '<object type="text/html" class="object" data="assets/php/settings/authentication.php" ></object>';
     $(".sidebar-nav-item").removeClass('active');
     $("li[data-item='logarr-authentication']").addClass("active");
 }
 
 function load_logs() {
-    document.getElementById("setttings-page-title").innerHTML = 'Log Configuration';
+    document.getElementById("settings-page-title").innerHTML = 'Log Configuration';
     document.getElementById("includedContent").innerHTML = '<object type="text/html" class="object" data="assets/php/settings/logs_settings.php" ></object>';
     $(".sidebar-nav-item").removeClass('active');
     $("li[data-item='logs-configuration']").addClass("active");
 }
 
-function load_registration() {
-    document.getElementById("setttings-page-title").innerHTML = 'Registration';
-    document.getElementById("includedContent").innerHTML = '<object type="text/html" class="object" data="assets/php/settings/registration.php" ></object>';
+function load_configuration() {
+    document.getElementById("settings-page-title").innerHTML = 'Configuration';
+    $("#includedContent").html('<object type="text/html" class="object" data="configuration.php" ></object>');
     $(".sidebar-nav-item").removeClass('active');
-    $("li[data-item='registration']").addClass("active");
+    $("li[data-item='configuration']").addClass("active");
 }
 
 function scrollFunction() {
@@ -473,7 +967,7 @@ function scrollFunction() {
     }
 }
 
-// When the user clicks on the button, scroll to the top of the document
+// user clicks on the button, scroll to the top of the document
 function topFunction() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
@@ -553,15 +1047,17 @@ function parseGithubToHTML(result) {
 
     var i = 0;
     for (i = 0; i < changeItems.length; i++) {
-        result += "<li><i class='fa fa-lightbulb'></i> CHANGE: " + changeItems[i] + "</li>";
+        //TODO: Pencil ??
+        // result += "<li><i class='fa fa-lightbulb'></i> CHANGE: " + changeItems[i] + "</li>";
+        result += "<li><i class='fas fa-pencil-alt'></i> CHANGE: " + changeItems[i] + "</li>";
     }
 
     result += "</ol>";
-
     return result;
 }
 
 function toggleCategory(category, categoryList) {
+    filtertoast();
     var categories;
     if (category != "") {
         categories = categoryList.split(',');

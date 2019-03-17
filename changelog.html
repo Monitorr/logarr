@@ -1,75 +1,123 @@
-<html>
-<head>
-    <meta charset="utf-8">
-    <title> Logarr | Releases </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!DOCTYPE html>
+<html lang="en">
 
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-    <link type="text/css" href="assets/css/bootstrap.min.css" rel="stylesheet">
-    <link type="text/css" href="assets/css/font-awesome.min.css" rel="stylesheet">
-    <link type="text/css" href="assets/css/logarr.css" rel="stylesheet">
-    <link type="text/css" href="assets/data/custom.css" rel="stylesheet">
+<!--
+			LOGARR Changelog
+		https://github.com/Monitorr
+-->
 
-    <meta name="theme-color" content="#464646"/>
-    <meta name="theme_color" content="#464646"/>
+<!-- changelog.html -->
 
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/jquery.blockUI.js" async></script>
-    <script src="assets/js/logarr.main.js" async></script>
-    <script>
-        function checkGithub() {
-            console.log("Retrieving Monitorr release info from GH.");
-            $.ajax({
-                type: "GET",
-                url: "https://api.github.com/repos/Monitorr/Logarr/releases",
-                dataType: "json",
-                success: function (github) {
-                    let infoTabVersionHistory = $('#about').find('#versionHistory');
-                    $.each(github, function (i, v) {
-                        if (i === 0) {
-                            //console.log(v.tag_name);
-                            githubVersion = v.tag_name;
-                            githubDescription = v.body;
-                            githubName = v.name;
-                        }
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-                        var body = parseGithubToHTML(v.body);
+        <link rel="icon" type="image/png" href="favicon.png">
+        <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 
-                        infoTabVersionHistory.append(
-                            '<li style="display: none">' +
-                            '<div class="github-item">' +
-                            '<h2 class="releaseName text-uppercase">' + v.name + '</h2>' +
-                            '<time class="github-item-time" datetime="' + v.published_at + '">' +
-                            '<span class="releasetime">Released on: ' + v.published_at.substring(0, 10) + ' at ' + v.published_at.substring(11, 19) + '</span>' +
-                            '</time>' +
-                            '<div class="releaseBody">' + body + '</div>' +
-                            '</div>' +
-                            '<hr class="releasehr"\>' +
-                            '</li>'
-                        );
-                        let size_li = $("#versionHistory > li");
-                        let x = 4; //show this many releases
-                        $('#versionHistory > li:lt(' + x + ')').show();
-                    });
-                }
-            });
-        }
-    </script>
-</head>
-<body onload="checkGithub()" style="background-color: #3d3d3d;">
-<div id="releaseWrapper">
+        <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+        <link rel="stylesheet" href="assets/css/logarr.css">
+        <link rel="stylesheet" href="assets/data/custom.css">
 
-    <h4 class="releaseHeader">
-        <a class="releaselink" href="https://github.com/Monitorr/Logarr/releases" target="_blank"
-           title="Monitorr Releases">
-            Logarr Release Log:
-        </a>
-    </h4>
+        <meta name="theme-color" content="#464646"/>
+        <meta name="theme_color" content="#464646"/>
 
-    <div id="about">
-        <ul id="versionHistory"></ul>
-    </div>
+        <title> Logarr | Releases </title>
 
-</div>
-</body>
+        <style>
+            .fa-plus {
+                color: lightgreen;
+            }
+
+            .fa-pencil-alt {
+                color: yellow;
+            }
+
+            .fa-wrench {
+                color: yellow;
+            }
+        </style>
+
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/vendor/sweetalert2.min.js"></script>
+        <script src="assets/js/logarr.main.js" async></script>
+
+        
+
+        <script>
+            function checkGithub() {
+                console.log("Retrieving Logarr release info from GitHub.");
+                $.ajax({
+                    type: "GET",
+                    url: "https://api.github.com/repos/monitorr/logarr/releases",
+                    dataType: "json",
+                    success: function (github) {
+                        let infoTabVersionHistory = $('#about').find('#versionHistory');
+                        $.each(github, function (i, v) {
+                            if (i === 0) {
+                                //console.log(v.tag_name);
+                                githubVersion = v.tag_name;
+                                githubDescription = v.body;
+                                githubName = v.name;
+                            }
+
+                            var body = parseGithubToHTML(v.body);
+
+                            infoTabVersionHistory.append(
+                                '<li style="display: none">' +
+                                '<div class="github-item">' +
+                                '<h2 class="releaseName text-uppercase">' + v.name + '</h2>' +
+                                '<time class="github-item-time" datetime="' + v.published_at + '">' +
+                                '<span class="releasetime">Released on: ' + v.published_at.substring(0, 10) + ' at ' + v.published_at.substring(11, 19) + '</span>' +
+                                '</time>' +
+                                '<div class="releaseBody">' + body + '</div>' +
+                                '</div>' +
+                                '<hr class="releasehr"\>' +
+                                '</li>'
+                            );
+                            let size_li = $("#versionHistory > li");
+                            let x = 4; //show this many releases
+                            $('#versionHistory > li:lt(' + x + ')').show();
+                        });
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log("ERROR: An error occurred while retrieving releases from GitHub!");
+                        ghajaxerror();
+                    }
+                });
+            }
+        </script>
+
+    </head>
+
+    <body id="release" onload="checkGithub()">
+
+        <div id="releaseWrapper">
+
+            <h4 class="releaseHeader">
+                <a class="releaselink" href="https://github.com/Monitorr/Logarr/releases" target="_blank"
+                title="Logarr Releases">
+                    Logarr Release Log:
+                </a>
+            </h4>
+
+            <div id="about">
+                <ul id="versionHistory"></ul>
+            </div>
+
+        </div>
+
+        <div id="footer">
+            <div id="logarrid">
+                <a href="https://github.com/monitorr/logarr" title="Logarr GitHub repo" target="_blank" class="footer">Logarr
+                </a> |
+                <a href="https://github.com/monitorr/logarr/releases" title="Logarr releases" target="_blank" class="footer"> Releases </a>
+                <br>
+            </div>
+        </div>
+
+    </body>
+
 </html>
