@@ -26,7 +26,7 @@
     "logs": [
         {
             "logTitle": "Logarr",
-            "path": "..\\data\\logs\\logarr.log",
+            "path": "..//data//logs//logarr.log",
             "enabled": "Yes",
             "category": "Logarr"
         }

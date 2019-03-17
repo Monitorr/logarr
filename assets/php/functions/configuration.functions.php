@@ -1,8 +1,8 @@
 <?php
 /**
- * Project: Logarr
+ * LOGARR
  * By: @seanvree, @jonfinley and @rob1998
- * URL: https://github.com/Monitorr/Logarr
+ * https://github.com/Monitorr/Logarr
  */
 
 function appendLog($logentry) {

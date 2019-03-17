@@ -2,6 +2,9 @@
 require_once(__DIR__ . "/assets/php/auth_check.php");
 require_once(__DIR__ . "/assets/php/functions/configuration.functions.php");
 
+    // TODO:  Disable datadir change if on docker -->
+    // Include file in docker repo  - IF exists then disable datadir change ?
+
 if (isset($_POST['action'])) {
     $result = array("status" => "failed");
     switch ($_POST['action']) {
@@ -130,7 +133,9 @@ if (isset($_POST['action'])) {
     </script>
 
     <?php
-    if ($authenticator->isDatadirSetup()) {
+    //TODO: 
+    //if ($authenticator->isDatadirSetup()) {
+    if ($authenticator->databaseExists()) {
 
         echo '<script>';
         echo '$(document).ready(function () {';
@@ -252,7 +257,7 @@ if (isset($_POST['action'])) {
                         switchTabs("#config");
                         usersuccess();
 
-                        // Reload settings page after user creation / config complete:
+                        // Reload config page after user creation / config complete:
                         setTimeout(function() {
                             sareload();
                         }, 3000);
@@ -343,9 +348,17 @@ if (isset($_POST['action'])) {
                     $userStepClass = "";
                     $configStepClass = "";
 
-                    if (!$authenticator->isDatadirSetup()) {
+                    //TODO: TESTING / set step to userstep if datadir exists, NOT user.db exists
+
+                    if (!$authenticator->doesDataDirExist()) {
                         $datadirStepClass = "active";
-                    } else if (!$authenticator->databaseExists()) {
+                    } 
+
+                   //else if (!$authenticator->isDatadirSetup()) {
+                    //    $datadirStepClass = "active";
+                   // } 
+
+                    else if (!$authenticator->databaseExists()) {
                         $datadirStepClass = "completed";
                         $userStepClass = "active";
                     } else if (!$authenticator->isConfigComplete()) {
@@ -396,6 +409,7 @@ if (isset($_POST['action'])) {
             <h2 class="heading">Create a data directory:</h2>
 
             <?php
+            //TODO:  Testing / 
             if ($authenticator->isDatadirSetup()) {
                 echo '<div id="loginerror" class="warning">';
                 echo '<p id="datadirwarn">';
@@ -435,7 +449,9 @@ if (isset($_POST['action'])) {
                 <i>
                     + The directory that is chosen must NOT already exist, however CAN be a sub directory of an existing directory.
                     <br>
-                    + Value must be an absolute path on the server's filesystem with the exception of Docker - use a relative path.
+                    + Value must be an absolute path on the server's filesystem. <!-- with the exception of Docker - use a relative path. -->
+                    <br>
+                    + It is NOT possible to change the data directory location if using Docker. <!-- //TODO Change me -->
                     <br>
                     + For security purposes, this directory should NOT be within the webserver's filesystem hierarchy.
                     However, if a path is chosen outside the webserver's filesystem, the PHP process must have read/write privileges to whatever location is chosen to create the data directory.
@@ -509,10 +525,10 @@ if (isset($_POST['action'])) {
         <!-- END user create form -->
 
         <!-- START config -->
+        <!-- //TODO testing  / add hidden -->
         <div id="config" class="hidden stepper-target config">
 
             <?php
-                //TODO create the final page
             if ($authenticator->isDatadirSetup()) {
                 if ($authenticator->databaseExists()) {
                     if ($authenticator->doesUserExist()) {
@@ -641,15 +657,21 @@ if (isset($_POST['action'])) {
 
         <!-- Enable/disable tabs based on config completion: -->
         <?php
-            if ($authenticator->isConfigComplete()) {
+            if ($authenticator->doesDataDirExist()) {
 
                 echo "<script type='text/javascript'>";
                 echo "usercomplete();";
                 echo "$('#datadirstep').addClass('cursorpoint');";
-                echo "$('#configstep').addClass('hidden');";
                 echo "$('#usersteplink').addClass('cursorpoint');";
                 echo "</script>";
-            }
+            };
+
+            if ($authenticator->databaseExists()) {
+
+                echo "<script type='text/javascript'>";
+                echo "$('#configstep').addClass('hidden');";
+                echo "</script>";
+            };
         ?>
 
 </body>
