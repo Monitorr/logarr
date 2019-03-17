@@ -1,0 +1,63 @@
+#!/usr/bin/with-contenv bash
+# Clone directory, If Directory Exists, Git Pull
+if [[ ! -d /config/www/logarr/.git ]]; then
+  echo '---------------------'
+  echo '| Installing Logarr |'
+  echo '---------------------'
+  git clone -b docker-alpha --single-branch https://github.com/Monitorr/logarr.git /config/www/logarr
+elif [[ -d /config/www/logarr/.git ]]; then
+  echo '-------------------'
+  echo '| Updating Logarr |'
+  echo '-------------------'
+  cd /config/www/logarr || return
+  git reset --hard
+  git pull --rebase
+fi
+
+# Make Directories
+# USER DATA
+echo 'Processing /app/data/ . . .'
+if [[ ! -d /app/userdata/ ]]; then
+  echo '-----------------------------------'
+  echo '| No User Data Directory Detected |'
+  echo '-----------------------------------'
+  #mv /config/www/logarr/assets/data/ /app/data/
+elif [[ -d /app/data/ ]]; then
+  echo '--------------------------------'
+  echo '| User Data Directory Detected |'
+  echo '--------------------------------'
+  #rm -rf /config/www/logarr/assets/data/
+else
+  :
+fi
+sleep 1
+# LOGS DIR Check
+echo 'Processing /app/logs/ . . .'
+if [[ ! -d /app/logs/ ]]; then
+  echo '------------------------------------------'
+  echo '| No Log Directory Detected. Creating... |'
+  echo '------------------------------------------'
+  mkdir /app/logs
+elif [[ -d /app/logs/ ]]; then
+  echo '--------------------------'
+  echo '| Log Directory Detected |'
+  echo '--------------------------'
+else
+  :
+fi
+sleep 1
+
+echo '------------------------------'
+echo '| Linking Data Dir to Logarr |'
+echo '------------------------------'
+sleep 3
+#ln -s  /app/data/ /config/www/logarr/assets/data/
+echo 'Installation Complete. Thanks for using Logarr!'
+sleep 1
+
+
+# Permissions
+chown -R abc:abc /config
+chown -R abc:abc /app
+chmod -R 777 /app
+chmod -R 777 /config/www/logarr/assets/data/
