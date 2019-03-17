@@ -2,6 +2,10 @@ FROM lsiobase/alpine.nginx:3.9
 
 MAINTAINER Monitorr
 
+# Set version label
+ARG BUILD_DATE
+ARG VERSION
+
 # Install packages
 RUN \
  apk add --no-cache \
