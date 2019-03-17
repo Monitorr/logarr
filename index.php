@@ -143,6 +143,7 @@ include('assets/php/auth_check.php');
         <div id="left" class="Column">
 
             <div id="clock">
+                <i class="fas fa-exclamation-triangle hidden" id="synctimeerror" title="An error occurred while synchronizing time!"> </i>
                 <canvas id="canvas" width="120" height="120"></canvas>
                 <div class="dtg" id="timer"></div>
             </div>

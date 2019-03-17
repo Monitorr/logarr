@@ -2,8 +2,6 @@
 require_once(__DIR__ . "/assets/php/auth_check.php");
 require_once(__DIR__ . "/assets/php/functions/configuration.functions.php");
 
-//TODO: If datadir is created and user is logged out / forward to settings.php
-
 if (isset($_POST['action'])) {
     $result = array("status" => "failed");
     switch ($_POST['action']) {
@@ -70,6 +68,17 @@ if (isset($_POST['action'])) {
     <script src="assets/js/logarr.main.js"></script>
 
     <?php appendLog($logentry = "Logarr Configuration page loaded"); ?>
+
+    <style>
+        .input {
+            width: 20vw !important;
+            max-width: 15rem !important;
+        }
+        .swal2-loading {
+            position: fixed;
+            padding-bottom: 1rem;
+        }
+    </style>
 
     <script>
         function toastwelcome() {
@@ -140,7 +149,6 @@ if (isset($_POST['action'])) {
     <script>
         $(document).ready(function() {
             if (datadir == true) {
-
             } else {
                 $('#registration-header').removeClass('hidden');
                 $('#extensions').removeClass('hidden');
@@ -193,6 +201,8 @@ if (isset($_POST['action'])) {
                             $("#users").load(location.href + " #users>*", "");
                             $('#response').addClass('regsuccess');
                             $("#response").text("Data directory created successfully: " + data.response);
+                            $('#datadircircle').addClass('circlecomplete');
+                            usercomplete();
                             switchTabs("#users");
                             datadirsuccess();
                         } else {
@@ -231,14 +241,21 @@ if (isset($_POST['action'])) {
                 success: function(data) {
                     console.log(data);
                     if (data.status === "success") {
-                        console.log("Success: " + data.responseuser);
+                        console.log("Success: " + data.responseuser); 
+                        $('.config').removeClass('hidden');
                         $("#config").load(location.href + " #config>*", "");
                         $('#responseuser').addClass('regsuccess');
                         $("#responseuser").text("User created successfully!");
+                        $('#usercircle').addClass('circlecomplete');
+                        $('#configcircle').addClass('circlecomplete');
+                        configcomplete();
                         switchTabs("#config");
                         usersuccess();
-                        //TODO:  Force winodow reload after user create
-                        configreload();
+
+                        // Reload settings page after user creation / config complete:
+                        setTimeout(function() {
+                            sareload();
+                        }, 3000);
 
                     } else {
                         $('#responseuser').addClass('regerror');
@@ -278,14 +295,18 @@ if (isset($_POST['action'])) {
         });
     </script>
 
-    <!-- Reload settings page after user creation: -->
+        <!-- //enables user tab if config complete: -->
     <script>
-        function configreload() {
-            console.log("Reloading Logarr in 10 seconds");
-            setTimeout(function() {
-                //TODO : forward to index or settings ??
-                top.location = "settings.php";
-            }, 5000);
+        function usercomplete() {
+            document.getElementById("userstep").onclick = function() {
+                switchTabs('#users');
+            };
+        }
+
+        function configcomplete() {
+            document.getElementById("configstep").onclick = function() {
+                switchTabs('#config');
+            };
         }
     </script>
 
@@ -299,7 +320,6 @@ if (isset($_POST['action'])) {
             $('body').removeClass('fade-out');
         });
     </script>
-
 
     <div id="registration-header" class="flex-grid hidden">
         <div id="logo-reg" class="col">
@@ -340,26 +360,26 @@ if (isset($_POST['action'])) {
                     ?>
 
                     <!-- First Step -->
-                    <li class="<?php echo $datadirStepClass; ?>" onclick="switchTabs('#datadir');">
-                        <a href="#datadir">
-                            <span class="circle">1</span>
-                            <span class="label">Datadir</span>
+                    <li id="datadirstep" class="<?php echo $datadirStepClass; ?>" onclick="switchTabs('#datadir');">
+                        <a class="cursorpoint" href="#datadir">
+                            <span id="datadircircle" class="circle">1</span>
+                            <span class="label">Data Directory</span>
                         </a>
                     </li>
 
                     <!-- Second Step -->
-                    <li class="<?php echo $userStepClass; ?>" onclick="switchTabs('#users');">
-                        <a href="#users">
-                            <span class="circle">2</span>
-                            <span class="label">User management</span>
+                    <li id="userstep" class="<?php echo $userStepClass; ?>">
+                        <a id="usersteplink" href="#users">
+                            <span id="usercircle" class="circle">2</span>
+                            <span class="label">User Management</span>
                         </a>
                     </li>
 
                     <!-- Third Step -->
-                    <li class="<?php echo $configStepClass; ?>" onclick="switchTabs('#config');">
+                    <li id="configstep" class="config <?php echo $configStepClass; ?>">
                         <a href="#config">
-                            <span class="circle"><i class="fas fa-exclamation"></i></span>
-                            <span class="label">Config</span>
+                            <span id="configcircle" class="circle"><i class="fas fa-check"></i></span>
+                            <span class="label">Complete</span>
                         </a>
                     </li>
 
@@ -378,11 +398,13 @@ if (isset($_POST['action'])) {
             <?php
             if ($authenticator->isDatadirSetup()) {
                 echo '<div id="loginerror" class="warning">';
+                echo '<p id="datadirwarn">';
                 echo '<i class="fa fa-fw fa-exclamation-triangle"> </i> WARNING: An existing data directory is detected at: ';
                 echo $authenticator->datadir;
-                echo ' <br> If a new data directory is created, the current data directory will NOT be altered, however, Logarr will use all default resources from the newly created data directory.';
-                echo ' <br> All settings and user credentials will be reset to default.';
-                echo ' <br> After creating a new data directory, you must create a user within 2 minutes.';
+                echo '</p>';
+                echo ' + If a new data directory is created, the current data directory will NOT be altered, however, Logarr will use all default resources from the newly created data directory.';
+                echo ' <br> + All settings and user credentials will be reset to default.';
+                echo ' <br> + After creating a new data directory, you must create a user within 2 minutes.';
                 echo '<br>';
                 echo '</div>';
             } else { }
@@ -394,8 +416,7 @@ if (isset($_POST['action'])) {
                     <i class='fa fa-fw fa-folder-open'> </i> <input type='search' class="input" name='datadir' id="datadir-input" fv-not-empty=" This field cannot be empty" fv-advanced='{"regex": "\\s", "regex_reverse": true, "message": "  Value cannot contain spaces"}' spellcheck="false" autocomplete="off" placeholder=' Data dir path' required>
                     <br>
                     <i class="fa fa-fw fa-info-circle"> </i>
-                    <i>
-                        <?php echo "The current absolute path is: " . getcwd() ?> </i>
+                    <?php echo "Current absolute path is: " . getcwd() ?>
                 </div>
                 <br>
                 <div id='response'></div>
@@ -412,27 +433,15 @@ if (isset($_POST['action'])) {
 
             <div id="datadirnotes">
                 <i>
-                    + The directory that is chosen must NOT already exist, however CAN be a sub directory of an
-                    exisiting
-                    directory.
+                    + The directory that is chosen must NOT already exist, however CAN be a sub directory of an existing directory.
                     <br>
-                    + Path value must include a trailing slash.
+                    + Value must be an absolute path on the server's filesystem with the exception of Docker - use a relative path.
                     <br>
                     + For security purposes, this directory should NOT be within the webserver's filesystem hierarchy.
-                    However, if a path is chosen outside the webserver's filesystem, the PHP process must have
-                    read/write
-                    privileges to whatever location is chosen to create the data directory.
-                    <br>
-                    + Value must be an absolute path on the server's filesystem with the exception of Docker - use a
-                    relative path with trailing slash.
-                    <br>
-                    Good: c:\datadir\, /var/datadir/
-                    <br>
-                    Bad: wwwroot\datadir, ../datadir
+                    However, if a path is chosen outside the webserver's filesystem, the PHP process must have read/write privileges to whatever location is chosen to create the data directory.
                 </i>
             </div>
 
-            <br>
         </div>
         <!--  END datadir create form -->
 
@@ -460,7 +469,7 @@ if (isset($_POST['action'])) {
                         <tbody id="registrationform">
 
                             <tr id="usernameinput">
-                                <td><i class="fa fa-fw fa-user"> </i> <input id="login_input_username" type="search" class="input" pattern="[a-zA-Z0-9]{2,64}" name="user_name" placeholder=" Username" title="Enter a username" required spellcheck="false" autocomplete="off" /></td>
+                                <td><i class="fa fa-fw fa-user"> </i> <input id="login_input_username" type="search" class="input" pattern="[a-zA-Z0-9]{2,64}" name="user_name" placeholder=" Username" title="Enter a username" fv-not-empty='' required spellcheck="false" autocomplete="off" /></td>
                                 <td><label for="login_input_username"><i> Letters and numbers only, 2 to 64 characters </i></label></td>
                             </tr>
 
@@ -471,7 +480,7 @@ if (isset($_POST['action'])) {
 
                             <tr id="userpassword">
                                 <td><i class='fa fa-fw fa-key'> </i> <input id='login_input_password_new' class='login_input input' type='password' name='user_password_new' pattern='.{6,}' required autocomplete='off' placeholder=' Password' title='Enter a password' /></td>
-                                <td><input id='login_input_password_repeat' class='login_input input' type='password' name='user_password_repeat' pattern='.{6,}' fv-not-empty='' fv-advanced='{"regex": "\\s", "regex_reverse": true, "message": "  Value cannot contain spaces"}' fv-valid-func='$( "#registerbtn" ).prop( "disabled", false )' fv-invalid-func='$( "#registerbtn" ).prop( "disabled", true )' required autocomplete='off' placeholder=' Repeat password' title='Repeat password' /><i> Minimum 6 characters </i></td>
+                                <td><input id='login_input_password_repeat' class='login_input input' type='password' name='user_password_repeat' pattern='.{6,}' fv-not-empty='' fv-advanced='{"regex": "\\s", "regex_reverse": true, "message": "Value cannot contain spaces"}' fv-valid-func='$( "#registerbtn" ).prop( "disabled", false )' fv-invalid-func='$( "#registerbtn" ).prop( "disabled", true )' required autocomplete='off' placeholder=' Repeat password' title='Repeat password' /><i> Minimum 6 characters </i></td>
                             </tr>
                         </tbody>
                     </table>
@@ -486,8 +495,9 @@ if (isset($_POST['action'])) {
                 </div>
                 <div id="usernotes">
                     + It is NOT possible to change a user's credentials after creation.<br>
-                    + If credentials need to be changed or reset, rename the file in your data directory
-                    to "users.old". Once that file is renamed, browse to this page again to recreate desired credentials.
+                    + If credentials need to be changed or reset, rename the file "users.db" to "users.db.old" in your data directory. <br>
+                    + Once that file is renamed, browse to index.php, and you will be automatically prompted to create a new user. <br>
+                    + This process will NOT reset your settings. 
                 </div>
             </div>
             <?php
@@ -499,7 +509,7 @@ if (isset($_POST['action'])) {
         <!-- END user create form -->
 
         <!-- START config -->
-        <div id="config" class="stepper-target">
+        <div id="config" class="hidden stepper-target config">
 
             <?php
                 //TODO create the final page
@@ -511,20 +521,20 @@ if (isset($_POST['action'])) {
                         }
                         ?>
 
-            <!-- //TODO Change me: -->
-            <div> Logarr configuration is complete! </div>
-            <div> Logarr will now reload in 10 seconds </div>
+                <img id="config-icon" src="assets/images/logarr_white_text_crop.png" alt="Logarr">
+                <div id="configcomplete"> Logarr configuration is complete! </div>
+                <div id="configreload"> Logarr will reload in 10 seconds </div>
 
-            <p id='regsettingnote'>
-                <i class='fas fa-exclamation-triangle'></i> For security purposes, ensure to change the Authentication Setting: 'Enable Configuration Access' to ('FALSE') after initial configuration.
-            </p>
-            
-            <button class="btn btn-primary">
-            <a href='index.php'>go to homepage</a>
-            </button>
-            
+                <p id='regsettingnote'>
+                    <i class='fas fa-exclamation-triangle'></i> For security purposes, ensure to change the Authentication Setting: 'Enable Configuration Access' to ('FALSE') after initial configuration.
+                </p>
+
+                <!-- //TODO / TESTING / REMOVE -->
+                <!-- <button class="btn btn-primary" onclick="sareload();">
+                    SA reload
+                </button> -->
+
             <?php
-
         }
     }
 }
@@ -628,6 +638,19 @@ if (isset($_POST['action'])) {
             <br>
         </div>
     </div>
+
+        <!-- Enable/disable tabs based on config completion: -->
+        <?php
+            if ($authenticator->isConfigComplete()) {
+
+                echo "<script type='text/javascript'>";
+                echo "usercomplete();";
+                echo "$('#datadirstep').addClass('cursorpoint');";
+                echo "$('#configstep').addClass('hidden');";
+                echo "$('#usersteplink').addClass('cursorpoint');";
+                echo "</script>";
+            }
+        ?>
 
 </body>
 
