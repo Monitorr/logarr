@@ -2911,6 +2911,7 @@ ul.stepper>li:not(:last-of-type) {
     -ms-flex: 1;
     flex: 1;
     position: relative;
+    cursor: default !important;
 }
 
 .stepper-horizontal li:hover {
