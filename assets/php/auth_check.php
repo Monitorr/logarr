@@ -76,7 +76,6 @@ class OneFileLoginApplication
 		if(!$this->doesUserExist()) return false;
 		if(!$this->isConfigComplete()) return false;
 		return true;
-
 	}
 
 	public function isDatadirSetup()
@@ -93,6 +92,26 @@ class OneFileLoginApplication
 				$datafile = $datadir . 'users.db';
 				$this->db_sqlite_path = $datafile;
 
+				$datadir = rtrim($this->datadir, "\\/" . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+				if (file_exists($datadir)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public function doesDataDirExist()
+	{
+		if (is_file(__DIR__ . "/../data/datadir.json")) {
+			$str = file_get_contents(__DIR__ . "/../data/datadir.json");
+			$json = json_decode($str, true);
+
+			if(!isset($json['datadir'])) return false;
+
+			$datadir = $json['datadir'];
+			if (file_exists($datadir)) {
+				$this->datadir = $datadir;
 				$datadir = rtrim($this->datadir, "\\/" . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 				if (file_exists($datadir)) {
 					return true;
@@ -128,6 +147,7 @@ class OneFileLoginApplication
 
 	private function appendLog($logentry)
 	{
+		ini_set('error_reporting', E_ERROR);
 		mkdir(__DIR__ . '/../data/logs/');
 		$logfile = 'logarr.log';
 		$logdir = __DIR__ . '/../data/logs/';
@@ -256,8 +276,6 @@ class OneFileLoginApplication
 					if ($this->getUserLoginStatus()) {
 						return true;
 					} else {
-						//TODO: If datadir is created and user is logged out / forward to settings.php
-						//$this->showPageLoginForm();
 						header("location: settings.php#configuration");
 						exit();
 					}
