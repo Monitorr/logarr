@@ -1,9 +1,5 @@
+![Logarr](https://raw.githubusercontent.com/Monitorr/Logos/master/Logarr-white-greybg.png)
 
-<!-- ![logarr](https://i.imgur.com/BxmpBtA.png) -->
-
-![logarr](https://i.imgur.com/l2sM0Ag.png) 
-
-![Imgur](https://i.imgur.com/TUvwSKq.png)
 
 ## - *Logarr* is a Self-hosted, single-page, log consolidation tool written in PHP 
 
@@ -14,7 +10,7 @@
 
 [![GitHub (pre-)release](https://img.shields.io/github/release/monitorr/logarr/all.svg)](https://github.com/monitorr/logarr/releases) [DEVELOP]
 
-
+**Logarr ALPHA is currently in TESTING phase. As of: 17 MAR 19**
 
 **NOTICE (06 June 18)**: If updating to version **4.5** from ANY previous version, you will need to re-create your config.php file in the /assets/config/ directory after updating. You can do this by renaming your old config.php file, copying the file config.sample-06jun18.php to config.php, and then edit the newly created config.php file with your values. See the [Wiki](https://github.com/Monitorr/logarr/wiki/NOTICE:-Updating-Logarr) for more information.
 
