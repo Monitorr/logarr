@@ -68,6 +68,10 @@ input[type=radio] {
     cursor: progress !important;
 }
 
+.cursorpoint {
+    cursor: pointer !important;
+}
+
 /* SCROLL BARS */
 
 body::-webkit-scrollbar {
@@ -292,6 +296,16 @@ h6,
     margin: auto;
     text-align: center;
     cursor: default;
+}
+
+/* TODO: */
+#synctimeerror {
+    color: red;
+    position: fixed;
+    display: flex;
+    left: 2em;
+    margin: 0 auto;
+    cursor: help;
 }
 
 #line {
@@ -999,6 +1013,7 @@ input[type="checkbox"] {
     margin-right: 2em;
 }
 
+
 /* Unlink response modal: */
 
 #rolllogtitle {
@@ -1386,6 +1401,27 @@ ul.nav.sidebar-nav>li>a>i {
     transition: all .2s ease;
 }
 
+#reloadtitle {
+    /* color: rgba(255, 255, 0, 0.5) !important; */
+    color: yellow !important;
+    font-weight: 600;
+    margin-bottom: .5rem;
+    margin-right: 1rem;
+}
+
+#reload-btn {
+    margin-top: 3rem;
+    margin-bottom: .5rem;
+    width: 8.5rem;
+    cursor: pointer;
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    transition: all .3s ease;
+}
+
+
 /* Modal Content/Box */
 
 .modal-content {
@@ -1394,7 +1430,8 @@ ul.nav.sidebar-nav>li>a>i {
     align-items: center;
 }
 
-input[name="imginput"] {
+/* todo: this can be remove? */
+/* input[name="imginput"] {
     color: white !important;
     background-color: transparent !important;
     border: none !important;
@@ -1406,7 +1443,7 @@ input[name="imginput"] {
 input[name="imginput"]:focus {
     color: white !important;
     background-color: transparent !important;
-}
+} */
 
 /* Modal Close Button */
 
@@ -1915,6 +1952,8 @@ input[name="imginput"]:focus {
 #regsettingnote {
     color: red !important;
     font-style: italic;
+    font-weight: 600;
+    cursor: default;
 }
 
 #authnote {
@@ -2188,7 +2227,11 @@ h5.heading {
 }
 
 h2.heading {
+    margin-bottom: 1rem;
     text-align: left;
+    text-shadow: 0 0 5px black;
+    font-weight: 600;
+    cursor: default;
 }
 
 .login-warning>p {
@@ -2360,9 +2403,13 @@ h2.heading {
 
 #datadirbtn {
     width: 6em;
-    /* cursor: pointer; */
 }
 
+#datadirwarn {
+    margin: .5rem;
+    font-weight: 600;
+    cursor: default;
+}
 
 /*** Mobile fixes ***/
 
@@ -2788,12 +2835,16 @@ a {
 }
 
 /*** Begin Steppers ***/
+
 ul.stepper {
     counter-reset: section;
     overflow-y: auto;
     overflow-x: hidden;
-    margin: 1em -1.5rem;
-    padding: 1.5rem;
+    /* margin: 1em -1.5rem; */
+    /* padding: 1.5rem; */
+    padding: 0;
+    margin: 0 auto;
+    text-align: center;
 }
 
 .stepper-horizontal {
@@ -2869,11 +2920,14 @@ ul.stepper>li:not(:last-of-type) {
 
 .stepper-horizontal li a:hover {
     text-decoration: none;
+    font-weight: 700;
 }
 
 ul.stepper li a {
+    text-shadow: 0 0 5px black;
     padding: 1.5rem;
     text-align: center;
+    cursor: default;
 }
 
 .primary-color,
@@ -2895,6 +2949,10 @@ ul.stepper li a .circle {
     margin-right: .5rem;
 }
 
+.circlecomplete {
+    background: lightgreen !important;
+}
+
 ul.stepper li.active {
     background-color: rgba(0, 0, 0, .06);
 }
@@ -2906,6 +2964,7 @@ ul.stepper li.completed a .label {
 }
 
 ul.stepper li a .label {
+    font-weight: 600;
     display: inline-block;
     color: rgba(255, 255, 255, .6);
 }
@@ -2925,6 +2984,47 @@ ul.stepper li.success a .circle {
 
 .stepper-target {
     display: none;
+}
+
+/* //TODO: testing */
+
+.config {
+    background-color: inherit;
+}
+
+#config-icon {
+    width: 20vw !important;
+    max-width: 25rem;
+    display: flex;
+    filter: drop-shadow(.1rem .1rem .1rem black);
+    -webkit-filter: drop-shadow(.1rem .1rem .1rem black);
+    text-align: center;
+    margin: 0 auto;
+    cursor: default !important;
+}
+
+#configcomplete {
+    margin: 1rem;
+    color: lightgreen;
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: center;
+    text-shadow: 0 0 5px black;
+    cursor: default;
+}
+
+#configreload {
+    color: yellow;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-align: center;
+    text-shadow: 0 0 5px black;
+    margin: 1rem;
+    cursor: default;
+}
+
+#datadirstep {
+    cursor: pointer;
 }
 
 /*** End Steppers ***/
