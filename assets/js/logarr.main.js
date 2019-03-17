@@ -224,7 +224,7 @@ function synctimeerror() {
         type: 'error',
         title: 'An error occurred <br> while synchronizing time!',
         background: 'rgba(207, 0, 0, 0.75)',
-        timer: 5000
+        timer: 10000
     })
 };
 
@@ -234,7 +234,7 @@ function syncconfigerror() {
         type: 'error',
         title: 'An error occurred <br> while synchronizing settings!',
         background: 'rgba(207, 0, 0, 0.75)',
-        timer: 5000
+        timer: 10000
     })
 };
 
@@ -244,7 +244,7 @@ function exterror() {
         type: 'error',
         title: 'PHP extension not loaded!',
         background: 'rgba(207, 0, 0, 0.75)',
-        timer: 5000
+        timer: 10000
     })
 };
 
@@ -254,7 +254,7 @@ function ghajaxerror() {
         type: 'error',
         title: 'An error occurred while <br> retrieving releases from GitHub!',
         background: 'rgba(207, 0, 0, 0.75)',
-        timer: 5000
+        timer: 10000
     })
 };
 
@@ -289,6 +289,44 @@ function nosearch() {
         timer: 3000
     })
 };
+
+
+function sareload() {
+    let timerInterval
+    Toast.fire({
+        toast: true,
+        showCloseButton: false,
+        showCancelButton: false,
+        html:   '<p id="reloadtitle">Reloading Logarr in <strong></strong> seconds </p>' +
+                '<button id="reload-btn" class="btn btn-primary" title="Reload Logarr">' +
+                    'Reload Logarr' +
+                '</button>',
+        timer: 10000,
+        onBeforeOpen: () => {
+            console.log("Reloading Logarr in 10 seconds");
+            const content = Swal.getContent()
+            const $ = content.querySelector.bind(content)
+            const reload = $('#reload-btn')
+
+            Swal.showLoading()
+
+            reload.addEventListener('click', () => {
+                top.location = "settings.php";
+            })
+
+            timerInterval = setInterval(() => {
+                Swal.getContent().querySelector('strong')
+                    .textContent = (Swal.getTimerLeft() / 1000)
+                    .toFixed(0)
+            }, 100)
+        },
+        onClose: () => {
+            clearInterval(timerInterval);
+            top.location = "settings.php";
+        }
+    })
+}
+
 
 function refreshblockUI() {
     $('#body').addClass("cursorwait");
@@ -868,10 +906,13 @@ function syncServerTime() {
             // setTimeout(function () {
             //     syncServerTime()
             // }, settings.rftime); //delay is rftime
+            $("#synctimeerror").addClass("hidden");
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log('ERROR: Time update');
+            $("#synctimeerror").removeClass("hidden");
             synctimeerror();
+            //TODO: Add error icon when synctime fails
         }
     });
 }
