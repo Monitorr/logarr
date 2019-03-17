@@ -165,6 +165,8 @@ function checkLoginsettings() {
 
 function settingsValues()
 {
+	appendLog($logentry = "Timezone: " . $GLOBALS['preferences']['timezone']);
+	
 	appendLog($logentry = "Config refresh interval: " . $GLOBALS['settings']['rfconfig'] . " ms");
 
 	appendLog($logentry = "Time refresh interval: " . $GLOBALS['settings']['rftime'] . " ms");

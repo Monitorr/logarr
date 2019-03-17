@@ -17,7 +17,7 @@
 
     <link rel="manifest" href="webmanifest.json">
 
-    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="icon" type="image/png" href="../../../favicon.png">
 
     <meta name="Logarr" content="Logarr: Self-hosted, single-page, log consolidation tool." />
     <meta name="application-name" content="Logarr" />

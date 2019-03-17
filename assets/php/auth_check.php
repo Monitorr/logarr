@@ -193,6 +193,8 @@ class OneFileLoginApplication
 			return false;
 			$this->appendLog($logentry = "ERROR: PDO database setup!");
 		} else {
+			//TODO:  How to log when PDO db is set up INITIALLY only??
+			//$this->appendLog($logentry = "Logarr created new PDO database!");
 			return true;
 		}
 	}
@@ -202,6 +204,7 @@ class OneFileLoginApplication
 		$config_path = $this->datadir . DIRECTORY_SEPARATOR . "config.json";
 		if(file_exists($config_path)) {
 			//TODO: write implementation, check if all config keys are accounted for
+			//$this->appendLog($logentry = "Logarr configuration: COMPLETE");
 			return true;
 		}
 		return false;
@@ -253,7 +256,9 @@ class OneFileLoginApplication
 					if ($this->getUserLoginStatus()) {
 						return true;
 					} else {
-						$this->showPageLoginForm();
+						//TODO: If datadir is created and user is logged out / forward to settings.php
+						//$this->showPageLoginForm();
+						header("location: settings.php#configuration");
 						exit();
 					}
 				} else {
