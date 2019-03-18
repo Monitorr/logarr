@@ -912,7 +912,6 @@ function syncServerTime() {
             console.log('ERROR: Time update');
             $("#synctimeerror").removeClass("hidden");
             synctimeerror();
-            //TODO: Add error icon when synctime fails
         }
     });
 }
