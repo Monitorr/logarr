@@ -81,8 +81,6 @@ https://github.com/Monitorr/Logarr
     <?php appendLog($logentry = "Logarr settings loaded"); ?>
 
     <!-- Check if Logarr settings auth is enabled / if TRUE, check login status every 10s -->
-
-    <!-- //TODO:  testing -->
     <?php checkLoginsettings(); ?>
 
     <script>

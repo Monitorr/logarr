@@ -364,11 +364,12 @@ if (isset($_POST['action'])) {
                     } else if (!$authenticator->isConfigComplete()) {
                         $datadirStepClass = "completed";
                         $userStepClass = "completed";
-                        $configStepClass = "active";
+                        $datadirStepClass = "active";
                     } else {
                         $datadirStepClass = "completed";
                         $userStepClass = "completed";
                         $configStepClass = "success";
+                        $userStepClass = "active";
                     }
                     ?>
 

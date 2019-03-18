@@ -1412,7 +1412,7 @@ ul.nav.sidebar-nav>li>a>i {
 #reload-btn {
     margin-top: 3rem;
     margin-bottom: .5rem;
-    width: 8.5rem;
+    width: 9rem;
     cursor: pointer;
     -webkit-transition: all .3s ease;
     -moz-transition: all .3s ease;
@@ -1429,21 +1429,6 @@ ul.nav.sidebar-nav>li>a>i {
     padding: .5rem 2rem 0;
     align-items: center;
 }
-
-/* todo: this can be remove? */
-/* input[name="imginput"] {
-    color: white !important;
-    background-color: transparent !important;
-    border: none !important;
-    padding-left: .2rem;
-    text-align: center;
-    cursor: text;
-}
-
-input[name="imginput"]:focus {
-    color: white !important;
-    background-color: transparent !important;
-} */
 
 /* Modal Close Button */
 
@@ -2988,8 +2973,6 @@ ul.stepper li.success a .circle {
     display: none;
 }
 
-/* //TODO: testing */
-
 .config {
     background-color: inherit;
 }
@@ -3027,6 +3010,10 @@ ul.stepper li.success a .circle {
 
 #datadirstep {
     cursor: pointer;
+}
+
+#registerbtn {
+    width: 6.5rem;
 }
 
 /*** End Steppers ***/

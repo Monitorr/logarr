@@ -1,7 +1,4 @@
 <?php
-
-//TODO:  Remove this when done testing
-
 ini_set('error_reporting', E_WARNING);
 
 include('functions.php');
