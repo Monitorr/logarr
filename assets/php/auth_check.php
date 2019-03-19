@@ -80,27 +80,36 @@ class OneFileLoginApplication
 	}
 
 	public function isDatadirSetup()
-	{
-		if (is_file(__DIR__ . "/../data/datadir.json")) {
-			$str = file_get_contents(__DIR__ . "/../data/datadir.json");
-			$json = json_decode($str, true);
+    {
+        if (is_file(__DIR__ . "/../data/datadir.json")) {
+            $str = file_get_contents(__DIR__ . "/../data/datadir.json");
+            $json = json_decode($str, true);
 
-			if(!isset($json['datadir'])) return false;
+            if(!isset($json['datadir'])) return false;
 
-			$datadir = $json['datadir'];
-			if (file_exists($datadir)) {
-				$this->datadir = $datadir;
-				$datafile = $datadir . 'users.db';
-				$this->db_sqlite_path = $datafile;
+            $datadir = $json['datadir'];
+            if($this->isRelativePath($datadir)) {
+                $datadir = __DIR__ . $datadir;
+            }
+            if (file_exists($datadir)) {
+                $datadir = rtrim($datadir, "\\/" . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+                $this->datadir = $datadir;
+                $datafile = $datadir . 'users.db';
+                $this->db_sqlite_path = $datafile;
 
-				$datadir = rtrim($this->datadir, "\\/" . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-				if (file_exists($datadir)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
+                if (file_exists($datadir)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    private function isRelativePath($path) {
+        if(substr( $path, 0, 2 ) === "./") return true;
+        if(substr( $path, 0, 3 ) === "../") return true;
+        return false;
+    }
 
 	public function doesDataDirExist()
 	{
