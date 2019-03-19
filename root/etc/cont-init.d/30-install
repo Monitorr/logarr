@@ -22,6 +22,7 @@ if [[ ! -d /app/userdata/ ]]; then
   echo '-----------------------------------'
   echo '| No User Data Directory Detected |'
   echo '-----------------------------------'
+  mkdir /app/userdata/ # Dir for User Data
 elif [[ -d /app/userdata/ ]]; then
   echo '--------------------------------'
   echo '| User Data Directory Detected |'
