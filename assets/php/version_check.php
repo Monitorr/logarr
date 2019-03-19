@@ -25,7 +25,7 @@ if (!$file) {
 		$logentry = "ERROR: Logarr was unable check GitHub for the latest version"
 	);
 } else {
-	if ($user_vnum == $vnum || ((($user_version-$ext_version)/$ext_version) >= 0)) {
+	if ($user_vnum == $vnum || ((($user_version - $ext_version) / $ext_version) >= 0)) {
 		// data
 		//User has latest version:
 		$data = array("version" => 0);
