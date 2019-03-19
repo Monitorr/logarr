@@ -83,9 +83,6 @@ function updatewriteerror() {
 $(document).ready(function () {
 
     //Check if application is updated on page load:
-
-    //TODO: UID Causing problems on docker?
-
     var uid = $(this).attr("id");
     var info = "uid=" + uid + "&vcheck=1";
     const versionCheckAuto = $('#version_check_auto');
