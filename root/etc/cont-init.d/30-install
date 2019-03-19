@@ -1,5 +1,8 @@
 #!/usr/bin/with-contenv bash
 
+# Logarr Docker installation
+# https://github.com/Monitorr/logarr
+
 # Clone directory, If Directory Exists, Git Pull
 if [[ ! -d /config/www/logarr/.git ]]; then
   echo '---------------------'
