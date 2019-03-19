@@ -2920,15 +2920,16 @@ ul.stepper li a {
 .primary-color,
 li.active a .circle,
 ul.stepper li.completed a .circle {
-    background-color: #4285f4 !important;
-}
+    background-color: #4285f4;
+} 
+
 
 ul.stepper li a .circle {
     display: inline-block;
     color: #fff;
     -webkit-border-radius: 50%;
     border-radius: 50%;
-    background: rgba(0, 0, 0, .38);
+    /* background: rgba(0, 0, 0, .38); */
     width: 1.75rem;
     height: 1.75rem;
     text-align: center;
@@ -2936,8 +2937,20 @@ ul.stepper li a .circle {
     margin-right: .5rem;
 }
 
+.circleblue {
+    background: #4285f4;
+    background-color: #4285f4;
+}
+
+
 .circlecomplete {
     background: lightgreen !important;
+    background-color: lightgreen !important;
+}
+
+.circlenotcomplete {
+    background: red;
+    background-color: red !important;
 }
 
 ul.stepper li.active {

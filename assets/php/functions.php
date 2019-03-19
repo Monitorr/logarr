@@ -94,7 +94,9 @@ function checkLoginindex() {
 		echo "ERROR: Logarr could not check authentication settings";
 		// If authentication sttings are missing forward to unauthorized.php:
 		echo "<script type='text/javascript'>";
-		echo "window.location.href = 'assets/php/authentication/unauthorized.php';";
+		//TO DO: Change me:
+		//echo "window.location.href = 'assets/php/authentication/unauthorized.php';";
+		echo "window.location.href = 'settings.php';";
 		echo "</script>";
 
 	} else {
@@ -137,8 +139,10 @@ function checkLoginsettings() {
 		);
 		echo "ERROR: Logarr could not check authentication settings";
 		echo "<script type='text/javascript'>";
-		echo "window.location.href = 'assets/php/authentication/unauthorized.php';";
+		//TODO: 
+		//echo "window.location.href = 'assets/php/authentication/unauthorized.php';";
 		//echo "window.location.href = '../authentication/unauthorized.php';";
+		echo "window.location.href = 'settings.php';";
 		echo "</script>";
 
 	} else {
