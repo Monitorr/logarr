@@ -48,6 +48,22 @@ function appendLog($logentry) {
 	}
 }
 
+
+//Check if Logarr is running on DOCKER, if TRUE, disable datadir change function
+function isDocker() {
+
+	if (is_file(__DIR__ . "/../../../Dockerfile")) {
+
+	echo "<script type='text/javascript'>";
+	echo "console.log('Logarr detected DOCKER enviroment');";
+	echo "</script>";
+
+	appendLog($logentry = "Logarr detected DOCKER enviroment");
+
+	return true;
+	}
+}
+
 function createDatadir($datadir) {
 
 	$datadir = trim($datadir, " \t\n\r");
