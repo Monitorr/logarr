@@ -22,11 +22,12 @@ if [[ ! -d /app/userdata/ ]]; then
   echo '-----------------------------------'
   echo '| No User Data Directory Detected |'
   echo '-----------------------------------'
-  mkdir /app/userdata/ # Dir for User Data
+  mv /config/www/logarr/assets/data/ /app/userdata
 elif [[ -d /app/userdata/ ]]; then
   echo '--------------------------------'
   echo '| User Data Directory Detected |'
   echo '--------------------------------'
+  rm -rf /config/www/logarr/assets/data
 else
   :
 fi
@@ -61,5 +62,5 @@ sleep 1
 # Permissions
 chown -R abc:abc /config
 chown -R abc:abc /app
-chmod -R 777 /app
+chmod -R 777 /app/userdata/
 chmod -R 777 /config/www/logarr/assets/data/
