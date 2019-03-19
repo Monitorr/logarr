@@ -1,0 +1,2 @@
+Logarr PHP Datadir write permissions O.K 
+This file can be safely removed, however it will be regenerated every time a user logs into Logarr Settings. 

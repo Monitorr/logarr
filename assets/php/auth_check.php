@@ -60,6 +60,7 @@ class OneFileLoginApplication
 			if($currentPage != "configuration") {
 				//TODO: This works for index and settings, but not for nested pages like /assets/php/settings/authentication.php
 				// Determine how many directories we need to go up
+				//TODO: This breaks docker
 				header("Location: configuration.php");
 			}
 		}
@@ -280,6 +281,7 @@ class OneFileLoginApplication
 						exit();
 					}
 				} else {
+					//todo: change me:
 					$this->showPageUnauthorized();
 					exit();
 				}
