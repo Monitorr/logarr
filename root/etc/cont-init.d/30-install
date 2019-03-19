@@ -22,27 +22,41 @@ if [[ ! -d /app/userdata/ ]]; then
   echo '-----------------------------------'
   echo '| No User Data Directory Detected |'
   echo '-----------------------------------'
-  mv /config/www/logarr/assets/data/ /app/userdata
 elif [[ -d /app/userdata/ ]]; then
   echo '--------------------------------'
   echo '| User Data Directory Detected |'
   echo '--------------------------------'
+else
+  :
+fi
+sleep 1
+# APPLICATION DATA
+echo 'Processing /app/data/ . . .'
+if [[ ! -d /app/data/ ]]; then
+  echo '----------------------------------'
+  echo '| No APP Data Directory Detected |'
+  echo '----------------------------------'
+  mv /config/www/logarr/assets/data/ /app/data
+elif [[ -d /app/data/ ]]; then
+  echo '-------------------------------'
+  echo '| APP Data Directory Detected |'
+  echo '-------------------------------'
   rm -rf /config/www/logarr/assets/data
 else
   :
 fi
 sleep 1
 # DATA DIR Check
-echo 'Processing /app/datadir.json . . .'
-if [[ ! -e /app/datadir.json ]]; then
-  echo '----------------------------------------------'
-  echo '| No /app/datadir.json detected. Creating... |'
-  echo '----------------------------------------------'
-  cp /datadir.json /app/datadir.json
+echo 'Processing /app/data/datadir.json . . .'
+if [[ ! -e /app/data/datadir.json ]]; then
+  echo '---------------------------------------------------'
+  echo '| No /app/data/datadir.json detected. Creating... |'
+  echo '---------------------------------------------------'
+  cp /datadir.json /app/data/datadir.json
 elif [[ -e /app/datadir.json ]]; then
-  echo '---------------------------------------'
-  echo '| We have detected /app/datadir.json! |'
-  echo '---------------------------------------'
+  echo '--------------------------------------------'
+  echo '| We have detected /app/data/datadir.json! |'
+  echo '--------------------------------------------'
   rm -rf /config/www/logarr/assets/data/datadir.json
 else
   :
@@ -53,8 +67,7 @@ echo '------------------------------'
 echo '| Linking Data Dir to Logarr |'
 echo '------------------------------'
 sleep 3
-ln -s  /app/userdata/ /config/www/logarr/assets/data
-ln -s  /app/datadir.json /config/www/logarr/assets/data/datadir.json
+ln -s  /app/data/ /config/www/logarr/assets/data
 echo 'Installation Complete. Thanks for using Logarr!'
 sleep 1
 
@@ -62,5 +75,5 @@ sleep 1
 # Permissions
 chown -R abc:abc /config
 chown -R abc:abc /app
-chmod -R 777 /app/userdata/
+chmod -R 777 /app/
 chmod -R 777 /config/www/logarr/assets/data/
