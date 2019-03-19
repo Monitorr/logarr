@@ -135,7 +135,7 @@ if (isset($_POST['action'])) {
     <?php
     //TODO: 
     //if ($authenticator->isDatadirSetup()) {
-    if ($authenticator->databaseExists()) {
+    if ($authenticator->doesUserExist()) {
 
         echo '<script>';
         echo '$(document).ready(function () {';
@@ -667,7 +667,7 @@ if (isset($_POST['action'])) {
                 echo "</script>";
             };
 
-            if ($authenticator->databaseExists()) {
+            if ($authenticator->doesUserExist()) {
 
                 echo "<script type='text/javascript'>";
                 echo "$('#configstep').addClass('hidden');";
