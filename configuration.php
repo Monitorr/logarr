@@ -2,9 +2,6 @@
 require_once(__DIR__ . "/assets/php/auth_check.php");
 require_once(__DIR__ . "/assets/php/functions/configuration.functions.php");
 
-    // TODO:  Disable datadir change if on docker -->
-    // Include file in docker repo  - IF exists then disable datadir change ?
-
 if (isset($_POST['action'])) {
     $result = array("status" => "failed");
     switch ($_POST['action']) {
@@ -133,22 +130,35 @@ if (isset($_POST['action'])) {
     </script>
 
     <?php
-    //TODO: 
-    //if ($authenticator->isDatadirSetup()) {
-    if ($authenticator->doesUserExist()) {
+        if ($authenticator->doesUserExist()) {
+            echo '<script>';
+            echo '$(document).ready(function () {';
+            echo 'datadir = true;';
+            echo '});';
+            echo '</script>';
+        } else {
+            echo '<script>';
+            echo '$(document).ready(function() {';
+            echo 'datadir = false;';
+            echo '});';
+            echo '</script>';
+        }
+    ?>
 
-        echo '<script>';
-        echo '$(document).ready(function () {';
-        echo 'datadir = true;';
-        echo '});';
-        echo '</script>';
-    } else {
-        echo '<script>';
-        echo '$(document).ready(function() {';
-        echo 'datadir = false;';
-        echo '});';
-        echo '</script>';
-    }
+    <?php
+        if (isDocker() == true) {
+            echo '<script>';
+            echo '$(document).ready(function () {';
+            echo 'docker = true;';
+            echo '});';
+            echo '</script>';
+        } else {
+            echo '<script>';
+            echo '$(document).ready(function() {';
+            echo 'docker = false;';
+            echo '});';
+            echo '</script>';
+        }
     ?>
 
     <script>
@@ -158,8 +168,15 @@ if (isset($_POST['action'])) {
                 $('#registration-header').removeClass('hidden');
                 $('#extensions').removeClass('hidden');
                 $('#footer').removeClass('hidden');
+                $('#usercircle').addClass('circlenotcomplete');
                 toastwelcome();
                 console.log("Welcome to Logarr!");
+            };
+
+            if (docker == true) {
+                $('#docker').addClass('dockerwarn');
+                $('.dockerinput').removeClass('hidden');
+                $('.standardinput').addClass('hidden');
             }
         });
     </script>
@@ -207,6 +224,7 @@ if (isset($_POST['action'])) {
                             $('#response').addClass('regsuccess');
                             $("#response").text("Data directory created successfully: " + data.response);
                             $('#datadircircle').addClass('circlecomplete');
+                            $('#usernext').removeClass('disabled');
                             usercomplete();
                             switchTabs("#users");
                             datadirsuccess();
@@ -251,6 +269,7 @@ if (isset($_POST['action'])) {
                         $("#config").load(location.href + " #config>*", "");
                         $('#responseuser').addClass('regsuccess');
                         $("#responseuser").text("User created successfully!");
+                        $('#usercircle').removeClass('circlenotcomplete');
                         $('#usercircle').addClass('circlecomplete');
                         $('#configcircle').addClass('circlecomplete');
                         configcomplete();
@@ -410,7 +429,6 @@ if (isset($_POST['action'])) {
             <h2 class="heading">Create a data directory:</h2>
 
             <?php
-            //TODO:  Testing / 
             if ($authenticator->isDatadirSetup()) {
                 echo '<div id="loginerror" class="warning">';
                 echo '<p id="datadirwarn">';
@@ -428,7 +446,9 @@ if (isset($_POST['action'])) {
             <form id="datadirform" method="post">
 
                 <div>
-                    <i class='fa fa-fw fa-folder-open'> </i> <input type='search' class="input" name='datadir' id="datadir-input" fv-not-empty=" This field cannot be empty" fv-advanced='{"regex": "\\s", "regex_reverse": true, "message": "  Value cannot contain spaces"}' spellcheck="false" autocomplete="off" placeholder=' Data dir path' required>
+                    <i class='fa fa-fw fa-folder-open'> </i> 
+                    <input type='search' class="input standardinput" name='datadir' id="datadir-input" fv-not-empty=" This field cannot be empty" fv-advanced='{"regex": "\\s", "regex_reverse": true, "message": "  Value cannot contain spaces"}' spellcheck="false" autocomplete="off" placeholder=' Data dir path' value="<?php echo $authenticator->datadir; ?>" required>
+                    <input type='search' class="input dockerinput hidden" disabled readonly name='datadir' id="datadir-input" title="Changing the Data Directory while using Docker is not possible." fv-not-empty=" This field cannot be empty" fv-advanced='{"regex": "\\s", "regex_reverse": true, "message": "  Value cannot contain spaces"}' spellcheck="false" autocomplete="off" placeholder=' Data dir path' value="<?php echo $authenticator->datadir; ?>" required>
                     <br>
                     <i class="fa fa-fw fa-info-circle"> </i>
                     <?php echo "Current absolute path is: " . getcwd() ?>
@@ -438,6 +458,7 @@ if (isset($_POST['action'])) {
                 <div>
                     <input type="hidden" name="action" value="datadir">
                     <input type='submit' id="datadirbtn" class="btn btn-primary" title="Create data directory" value='Create' />
+                    <button type='button' id="usernext" class="btn btn-primary disabled buttonchange" title="Create User" onClick='switchTabs("#users");'>Next</button>
                 </div>
 
             </form>
@@ -450,10 +471,9 @@ if (isset($_POST['action'])) {
                 <i>
                     + The directory that is chosen must NOT already exist, however CAN be a sub directory of an existing directory.
                     <br>
-                    + Value must be an absolute path on the server's filesystem. <!-- with the exception of Docker - use a relative path. -->
+                    + Value must be an absolute path on the server's filesystem.
                     <br>
-                    + It is NOT possible to change the data directory location if using Docker. <!-- //TODO Change me -->
-                    <br>
+                    <p id="docker">+ It is NOT possible to change the data directory location if using Docker.</p> 
                     + For security purposes, this directory should NOT be within the webserver's filesystem hierarchy.
                     However, if a path is chosen outside the webserver's filesystem, the PHP process must have read/write privileges to whatever location is chosen to create the data directory.
                 </i>
@@ -526,7 +546,6 @@ if (isset($_POST['action'])) {
         <!-- END user create form -->
 
         <!-- START config -->
-        <!-- //TODO testing  / add hidden -->
         <div id="config" class="hidden stepper-target config">
 
             <?php
@@ -545,11 +564,6 @@ if (isset($_POST['action'])) {
                 <p id='regsettingnote'>
                     <i class='fas fa-exclamation-triangle'></i> For security purposes, ensure to change the Authentication Setting: 'Enable Configuration Access' to ('FALSE') after initial configuration.
                 </p>
-
-                <!-- //TODO / TESTING / REMOVE -->
-                <!-- <button class="btn btn-primary" onclick="sareload();">
-                    SA reload
-                </button> -->
 
             <?php
         }
@@ -664,6 +678,7 @@ if (isset($_POST['action'])) {
                 echo "usercomplete();";
                 echo "$('#datadirstep').addClass('cursorpoint');";
                 echo "$('#usersteplink').addClass('cursorpoint');";
+                echo "$('#usernext').removeClass('disabled');";
                 echo "</script>";
             };
 
