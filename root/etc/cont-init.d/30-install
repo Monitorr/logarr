@@ -53,7 +53,7 @@ echo '------------------------------'
 echo '| Linking Data Dir to Logarr |'
 echo '------------------------------'
 sleep 3
-ln -s  /app/datadir.json /config/www/monitorr/assets/data/datadir.json
+ln -s  /app/datadir.json /config/www/logarr/assets/data/datadir.json
 ln -s  /app/userdata/ /config/www/logarr/assets/data
 echo 'Installation Complete. Thanks for using Logarr!'
 sleep 1
