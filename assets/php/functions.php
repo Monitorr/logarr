@@ -32,7 +32,8 @@ $branch = $preferences['updateBranch'];
 $remote_file_url = 'https://github.com/monitorr/logarr/zipball/' . $branch . '';
 
 // rename version location/name
-$local_file = '../../assets/data/tmp/logarr-' . $branch . '.zip'; //download path for udpate zip file
+//$local_file = '../../assets/data/tmp/logarr-' . $branch . '.zip'; //download path for udpate zip file
+$local_file = __DIR__  . '/../data/tmp/logarr-' . $branch . '.zip'; //download path for udpate zip file
 
 // version check information
 // url to external verification of version number as a .TXT file
@@ -41,7 +42,8 @@ $ext_version_loc = 'https://raw.githubusercontent.com/monitorr/logarr/' . $branc
 
 // users local version number:
 
-$vnum_loc = "../js/version/version.txt"; 
+//$vnum_loc = "../js/version/version.txt";
+$vnum_loc = __DIR__  . '/../js/version/version.txt';
 
 
 function configExists()
