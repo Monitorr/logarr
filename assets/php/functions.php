@@ -78,6 +78,21 @@ function appendLog($logentry) {
 	}
 }
 
+
+function isDocker() {
+
+	if (is_file(__DIR__ . "/../../../Dockerfile")) {
+
+		echo "<script type='text/javascript'>";
+		echo "console.log('Logarr detected DOCKER enviroment');";
+		echo "</script>";
+
+		appendLog($logentry = "Logarr detected DOCKER enviroment");
+
+		return true;
+	}
+}
+
 // Check if Logarr authenticaiton is enabled / if TRUE, check login status every 10s:
 function checkLoginindex() {
 
