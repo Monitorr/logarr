@@ -1565,6 +1565,22 @@ ul.nav.sidebar-nav>li>a>i {
     cursor: not-allowed;
 }
 
+.btn-primary.disabled {
+    opacity: unset !important;
+    background-color: grey !important;
+    color: black !important;
+    border: .2rem solid rgb(90, 90, 90) !important;
+    cursor: not-allowed;
+}
+
+.btn-primary.disabled:hover {
+    background-color: grey !important;
+    color: black !important;
+    font-weight: 500 !important;
+    border: .2rem solid rgb(90, 90, 90) !important;
+    cursor: not-allowed;
+}
+
 .settingscolumn {
     float: left;
     width: min-content;
@@ -2344,23 +2360,15 @@ h2.heading {
     display: flex;
     white-space: nowrap;
     float: left;
-    /* justify-content: center; */
-    /* direction: rtl; */
     font-size: 4rem;
-    /* padding: .5rem 0 0; */
     text-shadow: 0 0 5px #FF0104;
-    /* position: absolute; */
-    /* left: 0;
-    right: 0; */
     margin: auto;
     background-color: inherit;
     cursor: default;
 }
 
 #logo-reg {
-    /* text-align: center; */
     vertical-align: middle;
-    /* width: 90%; */
 }
 
 #logo-reg>img {
@@ -2371,7 +2379,6 @@ h2.heading {
     -webkit-filter: drop-shadow(.2rem .2rem .2rem black);
     cursor: default;
 }
-
 
 #reginstructions {
     background-color: inherit;
@@ -2391,11 +2398,39 @@ h2.heading {
     width: 6em;
 }
 
+#usernext {
+    width: 5em;
+    margin-left: 1rem;
+    background-color: green;
+}
+
+#usernext:hover {
+    color: white;
+    font-weight: 700;
+    border: .2rem solid darkgreen;
+}
+
 #datadirwarn {
     margin: .5rem;
     font-weight: 600;
     cursor: default;
 }
+
+.dockerwarn {
+    color: yellow;
+    font-weight: 800;
+}
+
+.dockerinput {
+    cursor: not-allowed;
+    background-color: lightgrey;
+    border: none
+}
+
+.dockerinput:hover {
+    border: none;
+}
+
 
 /*** Mobile fixes ***/
 
