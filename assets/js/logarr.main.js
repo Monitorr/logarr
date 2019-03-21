@@ -902,10 +902,6 @@ function syncServerTime() {
             timeZone = response.timezoneSuffix;
             rftime = response.rftime;
             date = new Date(servertime);
-            //TODO: Moved to child pages
-            // setTimeout(function () {
-            //     syncServerTime()
-            // }, settings.rftime); //delay is rftime
             $("#synctimeerror").addClass("hidden");
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -1046,8 +1042,6 @@ function parseGithubToHTML(result) {
 
     var i = 0;
     for (i = 0; i < changeItems.length; i++) {
-        //TODO: Pencil ??
-        // result += "<li><i class='fa fa-lightbulb'></i> CHANGE: " + changeItems[i] + "</li>";
         result += "<li><i class='fas fa-pencil-alt'></i> CHANGE: " + changeItems[i] + "</li>";
     }
 
