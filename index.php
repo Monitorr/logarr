@@ -135,9 +135,6 @@ include('assets/php/auth_check.php');
         });
     </script>
 
-    <!-- // TODO:  This can me removed - NOT tied to any function?? -->
-    <div id="ajaxtimestamp" title="Analog clock timeout. Refresh page."></div>
-
     <div class="header">
 
         <div id="left" class="Column">
