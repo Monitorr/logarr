@@ -34,6 +34,10 @@ include(__DIR__ . '/../auth_check.php');
             color: white !important;
         }
 
+        td {
+            font-size: 1rem;
+        }
+
         .swal2-popup.swal2-toast {
             cursor: default !important;
         }
@@ -128,7 +132,6 @@ include(__DIR__ . '/../auth_check.php');
                         }
 
                         //Check if datadir is writable:
-
                         $str = file_get_contents(__DIR__ . "/../../data/datadir.json");
                         $json = json_decode($str, true);
                         $datadir = $json['datadir'];
@@ -228,7 +231,7 @@ include(__DIR__ . '/../auth_check.php');
                             ?>
                         </strong>
 
-                        <a id="version_check" class="btn btn-primary" style="cursor: pointer" title="Execute Update">Check for Update</a>
+                        <a id="version_check" class="btn btn-primary updatebtn" style="cursor: pointer" title="Execute Update">Check for Update</a>
                     </td>
                     <td class="infotitle">Install Path:</td>
                     <td>
@@ -241,7 +244,13 @@ include(__DIR__ . '/../auth_check.php');
 
                 <tr>
                     <td class="infotitle">Resources:</td>
-                    <td><a href="https://github.com/Monitorr/logarr" target="_blank" title="Logarr GitHub Repo"> <img src="https://img.shields.io/badge/GitHub-repo-green.svg" style="width:4rem;height:1rem;" alt="Logarr GitHub Repo"></a> | <a href="https://hub.docker.com/r/monitorr/logarr/" target="_blank" title="Logarr Docker Repo"> <img src="https://img.shields.io/docker/build/monitorr/logarr.svg?maxAge=2592000" style="width:6rem;height:1rem;" alt="Logarr Docker Repo"></a> | <a href="https://feathub.com/Monitorr/logarr" target="_blank" title="Logarr Feature Request"> <img src="https://img.shields.io/badge/FeatHub-suggest-blue.svg" style="width:5rem;height:1rem;" alt="Logarr Feature Request"></a> | <a href="https://discord.gg/j2XGCtH" target="_blank" title="Logarr Discord Channel"> <img src="https://img.shields.io/discord/102860784329052160.svg" style="width:5rem;height:1rem;" alt="Logarr on Discord"></a> | <a href="https://paypal.me/monitorrapp" target="_blank" title="Buy us a beer!"> <img src="https://img.shields.io/badge/Donate-PayPal-green.svg" style="width:4rem;height:1rem;" alt="PayPal"></a></td>
+                    <td id="resources">
+                        <a href="https://github.com/Monitorr/logarr" target="_blank" title="Logarr GitHub Repo"> <img class="resourceimg" src="https://img.shields.io/badge/GitHub-repo-green.svg" style="width:4rem;height:1rem;" alt="Logarr GitHub Repo"></a> | 
+                        <a href="https://hub.docker.com/r/monitorr/logarr/" target="_blank" title="Logarr Docker Repo"> <img class="resourceimg" src="https://img.shields.io/docker/build/monitorr/logarr.svg?maxAge=2592000" style="width:6rem;height:1rem;" alt="Logarr Docker Repo"></a> | 
+                        <a href="https://feathub.com/Monitorr/logarr" target="_blank" title="Logarr Feature Request"> <img class="resourceimg" src="https://img.shields.io/badge/FeatHub-suggest-blue.svg" style="width:5rem;height:1rem;" alt="Logarr Feature Request"></a> | 
+                        <a href="https://discord.gg/j2XGCtH" target="_blank" title="Logarr Discord Channel"> <img class="resourceimg" src="https://img.shields.io/discord/102860784329052160.svg" style="width:5rem;height:1rem;" alt="Logarr on Discord"></a> | 
+                        <a href="https://paypal.me/monitorrapp" target="_blank" title="Buy us a beer!"> <img class="resourceimg" src="https://img.shields.io/badge/Donate-PayPal-green.svg" style="width:4rem;height:1rem;" alt="PayPal"></a>
+                    </td>
 
                     <td class="infotitle">Database Path:</td>
                     <td>

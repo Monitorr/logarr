@@ -295,7 +295,6 @@ class OneFileLoginApplication
 						exit();
 					}
 				} else {
-					//todo: change me:
 					$this->showPageUnauthorized();
 					exit();
 				}

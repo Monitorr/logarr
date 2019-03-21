@@ -74,8 +74,6 @@ function createDatadir($datadir) {
 	appendLog($logentry = "Logarr is creating data directory: " . json_encode($_POST));
 
 	if (!mkdir($datadir, 0777, FALSE)) {
-		//TODO: Why rename datadir.json if fail?
-		//rename($datadir_file, $datadir_file_fail);
 		file_put_contents($datadir_file_fail, json_encode($_POST));
 		appendLog($logentry = "Logarr failed to create data directory");
 		return false;
@@ -88,6 +86,8 @@ function createDatadir($datadir) {
 }
 
 function copyDefaultConfig($datadir) {
+
+	//TODO:  Not working
 
 	//$default_config_file = __DIR__ . "/../../data/default.json";
 	$default_config_file = __DIR__ . "/../../php/functions/default.json";

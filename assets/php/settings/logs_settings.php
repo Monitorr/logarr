@@ -309,6 +309,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "type": "text",
                                     "validate": true,
                                     "showMessages": true,
+                                    "focus": true,
                                     "label": "Log Path:",
                                     //"helpers": ["Can be dynamic - see <a class='footer' href='https://github.com/Monitorr/logarr/wiki/Settings#dynamic-paths' target='_blank'>wiki</a>"],
                                     "name": "path",
