@@ -156,9 +156,6 @@ function checkLoginsettings() {
 		);
 		echo "ERROR: Logarr could not check authentication settings";
 		echo "<script type='text/javascript'>";
-		//TODO: 
-		//echo "window.location.href = 'assets/php/authentication/unauthorized.php';";
-		//echo "window.location.href = '../authentication/unauthorized.php';";
 		echo "window.location.href = 'settings.php';";
 		echo "</script>";
 
@@ -171,7 +168,6 @@ function checkLoginsettings() {
 				$logentry = "Logarr settings auth: ENABLED"
 			);
 			echo "<script src='assets/js/login-status-settings.js'></script>";
-			//echo "<script src='../../js/login-status-settings.js'></script>";
 
 		} else {
 			echo "<script type='text/javascript'>";
@@ -263,7 +259,7 @@ function unlinkLog($file, $print)
 	$today = date("D d M Y | H:i:s");
 	if ($print) echo "<br><br>";
 
-	if (in_array_recursive($file, $GLOBALS['logs'])) {   // check if log file exists in config.php:
+	if (in_array_recursive($file, $GLOBALS['logs'])) {   // check if log file exists:
 		if (is_file($file)) { // check if log file exists:
 			$newfile = "$file.bak";
 

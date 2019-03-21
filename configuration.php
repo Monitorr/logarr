@@ -130,7 +130,8 @@ if (isset($_POST['action'])) {
     </script>
 
     <?php
-        if ($authenticator->doesUserExist()) {
+
+        if ($authenticator->doesDataDirExist()) {
             echo '<script>';
             echo '$(document).ready(function () {';
             echo 'datadir = true;';
@@ -142,10 +143,22 @@ if (isset($_POST['action'])) {
             echo 'datadir = false;';
             echo '});';
             echo '</script>';
-        }
-    ?>
+        };
 
-    <?php
+        if ($authenticator->doesUserExist()) {
+            echo '<script>';
+            echo '$(document).ready(function () {';
+            echo 'datauser = true;';
+            echo '});';
+            echo '</script>';
+        } else {
+            echo '<script>';
+            echo '$(document).ready(function() {';
+            echo 'datauser = false;';
+            echo '});';
+            echo '</script>';
+        };
+
         if (isDocker() == true) {
             echo '<script>';
             echo '$(document).ready(function () {';
@@ -158,12 +171,22 @@ if (isset($_POST['action'])) {
             echo 'docker = false;';
             echo '});';
             echo '</script>';
-        }
+        };
     ?>
 
     <script>
         $(document).ready(function() {
+
             if (datadir == true) {
+                window.location.href = 'configuration.php#users';
+                $('#datadircircle').removeClass('circlenotcomplete');
+                $('#datadircircle').addClass('circlecomplete');
+            } else {
+                $('#datadircircle').addClass('circlenotcomplete');
+            };
+
+            if (datauser == true) {
+                $('#datadircircle').removeClass('circlecomplete');
             } else {
                 $('#registration-header').removeClass('hidden');
                 $('#extensions').removeClass('hidden');
@@ -223,6 +246,7 @@ if (isset($_POST['action'])) {
                             $("#users").load(location.href + " #users>*", "");
                             $('#response').addClass('regsuccess');
                             $("#response").text("Data directory created successfully: " + data.response);
+                            $('#datadircircle').removeClass('circlenotcomplete');
                             $('#datadircircle').addClass('circlecomplete');
                             $('#usernext').removeClass('disabled');
                             usercomplete();
@@ -269,6 +293,7 @@ if (isset($_POST['action'])) {
                         $("#config").load(location.href + " #config>*", "");
                         $('#responseuser').addClass('regsuccess');
                         $("#responseuser").text("User created successfully!");
+                        $('#datadircircle').addClass('circlecomplete');
                         $('#usercircle').removeClass('circlenotcomplete');
                         $('#usercircle').addClass('circlecomplete');
                         $('#configcircle').addClass('circlecomplete');
@@ -367,10 +392,8 @@ if (isset($_POST['action'])) {
                     $userStepClass = "";
                     $configStepClass = "";
 
-                    //TODO: TESTING / set step to userstep if datadir exists, NOT user.db exists
-
                     if (!$authenticator->doesDataDirExist()) {
-                        $datadirStepClass = "active";
+                        //$datadirStepClass = "active";
                     } 
 
                    //else if (!$authenticator->isDatadirSetup()) {
@@ -379,16 +402,16 @@ if (isset($_POST['action'])) {
 
                     else if (!$authenticator->databaseExists()) {
                         $datadirStepClass = "completed";
-                        $userStepClass = "active";
+                        //$userStepClass = "active";
                     } else if (!$authenticator->isConfigComplete()) {
                         $datadirStepClass = "completed";
                         $userStepClass = "completed";
-                        $datadirStepClass = "active";
+                        //$datadirStepClass = "active";
                     } else {
                         $datadirStepClass = "completed";
                         $userStepClass = "completed";
                         $configStepClass = "success";
-                        $userStepClass = "active";
+                        //$userStepClass = "active";
                     }
                     ?>
 
@@ -426,7 +449,7 @@ if (isset($_POST['action'])) {
         <!--  START datadir create form -->
         <div id="datadir" class="stepper-target">
 
-            <h2 class="heading">Create a data directory:</h2>
+            <h2 class="heading configheader">Create a data directory:</h2>
 
             <?php
             if ($authenticator->isDatadirSetup()) {
@@ -447,18 +470,20 @@ if (isset($_POST['action'])) {
 
                 <div>
                     <i class='fa fa-fw fa-folder-open'> </i> 
-                    <input type='search' class="input standardinput" name='datadir' id="datadir-input" fv-not-empty=" This field cannot be empty" fv-advanced='{"regex": "\\s", "regex_reverse": true, "message": "  Value cannot contain spaces"}' spellcheck="false" autocomplete="off" placeholder=' Data dir path' value="<?php echo $authenticator->datadir; ?>" required>
+                    <input type='search' class="input standardinput" name='datadir' id="datadir-input" title="Data directory path" fv-not-empty=" This field cannot be empty" fv-advanced='{"regex": "\\s", "regex_reverse": true, "message": "  Value cannot contain spaces"}' spellcheck="false" autocomplete="off" placeholder=' Data dir path' value="<?php echo $authenticator->datadir; ?>" required>
                     <input type='search' class="input dockerinput hidden" disabled readonly name='datadir' id="datadir-input" title="Changing the Data Directory while using Docker is not possible." fv-not-empty=" This field cannot be empty" fv-advanced='{"regex": "\\s", "regex_reverse": true, "message": "  Value cannot contain spaces"}' spellcheck="false" autocomplete="off" placeholder=' Data dir path' value="<?php echo $authenticator->datadir; ?>" required>
                     <br>
-                    <i class="fa fa-fw fa-info-circle"> </i>
-                    <?php echo "Current absolute path is: " . getcwd() ?>
+                    <p id="configpath">
+                        <i class="fa fa-fw fa-info-circle"> </i> 
+                        <?php echo "Current absolute path: " . getcwd() ?>
+                    </p>
                 </div>
                 <br>
                 <div id='response'></div>
                 <div>
                     <input type="hidden" name="action" value="datadir">
                     <input type='submit' id="datadirbtn" class="btn btn-primary" title="Create data directory" value='Create' />
-                    <button type='button' id="usernext" class="btn btn-primary disabled buttonchange" title="Create User" onClick='switchTabs("#users");'>Next</button>
+                    <button type='button' id="usernext" class="btn btn-primary disabled buttonchange" title="Create user" onClick='switchTabs("#users");'>Next  <i class="fas fa-angle-right"></i></button>
                 </div>
 
             </form>
@@ -492,7 +517,7 @@ if (isset($_POST['action'])) {
             <div id="multiform">
 
                 <div id="loginmessage">
-                    <h2 class="heading">Create a new user:</h2>
+                    <h2 class="heading configheader">Create a new user:</h2>
                     <i class="fa fa-fw fa-info-circle"> </i>
                     Current database:
                     <?php echo $authenticator->datadir . "users.db"; ?>
@@ -506,7 +531,7 @@ if (isset($_POST['action'])) {
                         <tbody id="registrationform">
 
                             <tr id="usernameinput">
-                                <td><i class="fa fa-fw fa-user"> </i> <input id="login_input_username" type="search" class="input" pattern="[a-zA-Z0-9]{2,64}" name="user_name" placeholder=" Username" title="Enter a username" fv-not-empty='' required spellcheck="false" autocomplete="off" /></td>
+                                <td><i class="fa fa-fw fa-user"> </i> <input id="login_input_username" type="search" class="input" pattern="[a-zA-Z0-9]{2,64}" name="user_name" placeholder=" Username" title="Enter a username" fv-not-empty='' required spellcheck="false" autocomplete="off" autofocus></td>
                                 <td><label for="login_input_username"><i> Letters and numbers only, 2 to 64 characters </i></label></td>
                             </tr>
 
@@ -673,7 +698,6 @@ if (isset($_POST['action'])) {
         <!-- Enable/disable tabs based on config completion: -->
         <?php
             if ($authenticator->doesDataDirExist()) {
-
                 echo "<script type='text/javascript'>";
                 echo "usercomplete();";
                 echo "$('#datadirstep').addClass('cursorpoint');";
@@ -683,7 +707,6 @@ if (isset($_POST['action'])) {
             };
 
             if ($authenticator->doesUserExist()) {
-
                 echo "<script type='text/javascript'>";
                 echo "$('#configstep').addClass('hidden');";
                 echo "</script>";

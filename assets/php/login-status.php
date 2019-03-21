@@ -8,10 +8,6 @@ if (!$authenticator->getUserLoginStatus()) {
 } else {
     if ($authenticator->getUserLoginStatus()) {
         echo "true";
-        //TODO Returns error?
-        // appendLog(
-        //     $somecontent = "User is logged in"
-        // );
     } else {
         echo "false";
     };

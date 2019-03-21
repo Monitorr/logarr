@@ -86,10 +86,8 @@ include_once(__DIR__ . "/../auth_check.php");
         });
     </script>
 
-    <!-- // TODO CHANGE ME: -->
     <?php
     ini_set('error_reporting', E_WARN);
-    //error_reporting(0);
     ?>
 
     <title>
@@ -144,9 +142,6 @@ include_once(__DIR__ . "/../auth_check.php");
             $('body').removeClass('fade-out');
         });
     </script>
-
-    <!-- // TODO:  This can me removed - NOT tied to any function?? -->
-    <div id="ajaxtimestamp" title="Analog clock timeout. Refresh page."></div>
 
     <div class="header-login">
         <div id="logo-login" class="Column">
