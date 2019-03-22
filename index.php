@@ -64,6 +64,7 @@ include('assets/php/auth_check.php');
     </style>
 
     <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/vendor/jquery-ui.min.js"></script>
     <script src="assets/js/vendor/sweetalert2.min.js"></script>
     <script src="assets/js/jquery.highlight.js" async></script>
     <script src="assets/js/jquery.mark.min.js" async></script>
@@ -97,10 +98,6 @@ include('assets/php/auth_check.php');
             $dateTime = new DateTime();
             $dateTime->setTimeZone(new DateTimeZone($timezone));
             $timezone_suffix = $dateTime->format('T');
-            //TODO:
-            // appendLog(
-            // 	$logentry = "ERROR: Could not load time standard value"
-            // );
         }
         $serverTime = $dt->format("D d M Y H:i:s");
         ?>
