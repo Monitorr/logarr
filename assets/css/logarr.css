@@ -3134,3 +3134,7 @@ ul.stepper li.success a .circle {
         transform: rotate(360deg);
     }
 }
+
+#draggable {
+    width: 3rem;
+}
