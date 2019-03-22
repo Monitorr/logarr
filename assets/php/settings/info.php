@@ -44,6 +44,7 @@ include(__DIR__ . '/../auth_check.php');
     </style>
 
     <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/vendor/jquery-ui.min.js"></script>
     <script src="../../js/vendor/sweetalert2.min.js"></script>
 
     <script>
