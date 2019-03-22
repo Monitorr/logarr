@@ -75,7 +75,7 @@ https://github.com/Monitorr/Logarr
     </style>
 
     <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/vendor/jquery-ui.min.js" async></script>
+    <script src="assets/js/vendor/jquery-ui.min.js"></script>
     <script src="assets/js/vendor/sweetalert2.min.js"></script>
     <script src="assets/js/logarr.main.js"></script>
 

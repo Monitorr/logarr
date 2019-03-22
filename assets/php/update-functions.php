@@ -2,6 +2,8 @@
 require("functions.php");
 include("auth_check.php");
 
+ini_set('max_execution_time', 60);
+
 //TODO: Migrate to functions.php
 //TODO: Append outputs to appendLog function
 
