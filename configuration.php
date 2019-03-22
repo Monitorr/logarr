@@ -63,6 +63,7 @@ if (isset($_POST['action'])) {
     <title>Logarr | Configuration</title>
 
     <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/vendor/jquery-ui.min.js"></script>
     <script src="assets/js/vendor/sweetalert2.min.js"></script>
     <script src="assets/js/vendor/formValidation.js"></script>
     <script src="assets/js/logarr.main.js"></script>

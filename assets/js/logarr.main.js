@@ -15,7 +15,6 @@ let rfconfig = (typeof settings !== "undefined") ? settings.rfconfig : 10000;
 
 //nIntervId["refreshConfig"] = setInterval(refreshConfig, rfconfig);
 
-
 ///Swal.fire('Logarr is loading ...');
 
 const Toast = Swal.mixin({
@@ -23,8 +22,13 @@ const Toast = Swal.mixin({
     position: 'bottom-start',
     showConfirmButton: false,
     showCloseButton: true,
-    background: 'rgba(50, 1, 25, 0.75)'
-    //timer: 10000
+    background: 'rgba(50, 1, 25, 0.75)',
+    onBeforeOpen: () => {
+        $(".swal2-container").draggable({
+            containment: "#containment-wrapper",
+            scroll: false
+        });
+    }
 });
 
 function logupdatetoast() {
@@ -34,7 +38,7 @@ function logupdatetoast() {
         showCloseButton: false,
         background: 'rgba(50, 1, 25, 0.75)',
         onBeforeOpen: () => {
-            Swal.showLoading()
+            Swal.showLoading();
         }
     })
 };

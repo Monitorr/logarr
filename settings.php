@@ -75,6 +75,7 @@ https://github.com/Monitorr/Logarr
     </style>
 
     <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/vendor/jquery-ui.min.js" async></script>
     <script src="assets/js/vendor/sweetalert2.min.js"></script>
     <script src="assets/js/logarr.main.js"></script>
 
@@ -166,15 +167,6 @@ https://github.com/Monitorr/Logarr
 
     <script src="assets/js/clock.js" async></script>
     <script src="assets/data/custom.js"></script>
-
-    <!-- <script>
-        $(document).ready(function() {
-
-            clearInterval(checkLoginSettings);
-        });
-    </script> -->
-
-
 
 </head>
 

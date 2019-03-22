@@ -39,6 +39,7 @@ include_once(__DIR__ . "/../auth_check.php");
     <link rel="stylesheet" href="assets/data/custom.css">
 
     <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/vendor/jquery-ui.min.js"></script>
     <script src="assets/js/vendor/sweetalert2.min.js"></script>
     <script src="assets/js/logarr.main.js"></script>
 
