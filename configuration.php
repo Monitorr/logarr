@@ -52,6 +52,7 @@ if (isset($_POST['action'])) {
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/vendor/sweetalert2.min.css">
+    <link rel="stylesheet" href="assets/css/vendor/jquery-ui.min.css">
     <link rel="stylesheet" href="assets/css/logarr.css">
     <link rel="stylesheet" href="assets/data/custom.css">
 
@@ -63,12 +64,12 @@ if (isset($_POST['action'])) {
     <title>Logarr | Configuration</title>
 
     <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/vendor/jquery-ui.min.js"></script>
     <script src="assets/js/vendor/sweetalert2.min.js"></script>
     <script src="assets/js/vendor/formValidation.js"></script>
+    <script src="assets/js/vendor/jquery-ui.min.js"></script>
     <script src="assets/js/logarr.main.js"></script>
 
-    <?php appendLog($logentry = "Logarr Configuration page loaded"); ?>
+    <?php appendLog($logentry = "Logarr Configuration loaded"); ?>
 
     <style>
         .input {
@@ -189,12 +190,15 @@ if (isset($_POST['action'])) {
             if (datauser == true) {
                 $('#datadircircle').removeClass('circlecomplete');
             } else {
+                console.log("Welcome to Logarr!");
+                console.log("User NOT established in users.db database");
                 $('#registration-header').removeClass('hidden');
                 $('#extensions').removeClass('hidden');
                 $('#footer').removeClass('hidden');
                 $('#usercircle').addClass('circlenotcomplete');
+                $('#configcircle').removeClass('circlecomplete');
+                $('#configcircle').addClass('circlenotcomplete');
                 toastwelcome();
-                console.log("Welcome to Logarr!");
             };
 
             if (docker == true) {
@@ -297,6 +301,7 @@ if (isset($_POST['action'])) {
                         $('#datadircircle').addClass('circlecomplete');
                         $('#usercircle').removeClass('circlenotcomplete');
                         $('#usercircle').addClass('circlecomplete');
+                        $('#configcircle').removeClass('circlenotcomplete');
                         $('#configcircle').addClass('circlecomplete');
                         configcomplete();
                         switchTabs("#config");
@@ -345,7 +350,7 @@ if (isset($_POST['action'])) {
         });
     </script>
 
-        <!-- //enables user tab if config complete: -->
+    <!-- //enables user tab if config complete: -->
     <script>
         function usercomplete() {
             document.getElementById("userstep").onclick = function() {
@@ -358,6 +363,13 @@ if (isset($_POST['action'])) {
                 switchTabs('#config');
             };
         }
+    </script>
+
+    <!-- Tooltips: -->
+    <script>
+        $(function() {
+            $(document).tooltip();
+        });
     </script>
 
 </head>
@@ -418,7 +430,7 @@ if (isset($_POST['action'])) {
 
                     <!-- First Step -->
                     <li id="datadirstep" class="<?php echo $datadirStepClass; ?>" onclick="switchTabs('#datadir');">
-                        <a class="cursorpoint" href="#datadir">
+                        <a class="cursorpoint" href="#datadir" title="Data Directory">
                             <span id="datadircircle" class="circle">1</span>
                             <span class="label">Data Directory</span>
                         </a>
@@ -426,7 +438,7 @@ if (isset($_POST['action'])) {
 
                     <!-- Second Step -->
                     <li id="userstep" class="<?php echo $userStepClass; ?>">
-                        <a id="usersteplink" href="#users">
+                        <a id="usersteplink" href="#users" title="User Management">
                             <span id="usercircle" class="circle">2</span>
                             <span class="label">User Management</span>
                         </a>
@@ -434,7 +446,7 @@ if (isset($_POST['action'])) {
 
                     <!-- Third Step -->
                     <li id="configstep" class="config <?php echo $configStepClass; ?>">
-                        <a href="#config">
+                        <a href="#config" title="Complete">
                             <span id="configcircle" class="circle"><i class="fas fa-check"></i></span>
                             <span class="label">Complete</span>
                         </a>
@@ -532,7 +544,7 @@ if (isset($_POST['action'])) {
                         <tbody id="registrationform">
 
                             <tr id="usernameinput">
-                                <td><i class="fa fa-fw fa-user"> </i> <input id="login_input_username" type="search" class="input" pattern="[a-zA-Z0-9]{2,64}" name="user_name" placeholder=" Username" title="Enter a username" fv-not-empty='' required spellcheck="false" autocomplete="off" autofocus></td>
+                                <td><i class="fa fa-fw fa-user"> </i> <input id="login_input_username" type="search" class="input" pattern="[a-zA-Z0-9]{2,64}" name="user_name" placeholder=" Username" title="Enter a username" fv-not-empty='' required spellcheck="false" autocomplete="off"></td>
                                 <td><label for="login_input_username"><i> Letters and numbers only, 2 to 64 characters </i></label></td>
                             </tr>
 

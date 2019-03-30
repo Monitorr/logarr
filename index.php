@@ -28,20 +28,21 @@ include('assets/php/auth_check.php');
 
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="180x180" href="assets/images/favicon/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicon/apple-touch-icon.png">
     <link rel="mask-icon" href="assets/images/favicon/icon.svg" color="blue">
 
-    <link rel="icon" type="image/png" href="assets/images/favicon/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="assets/images/favicon/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon/favicon-16x16.png">
     <meta name="msapplication-square150x150logo" content="assets/images/favicon/mstile-150x150.png">
 
-    <meta name="theme-color" content="#464646" />
-    <meta name="theme_color" content="#464646" />
-    <meta name="msapplication-TileColor" content="#464646" />
+    <meta name="theme-color" content="#464646">
+    <meta name="theme_color" content="#464646">
+    <meta name="msapplication-TileColor" content="#464646">
 
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/vendor/sweetalert2.min.css">
     <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/vendor/jquery-ui.min.css">
     <link rel="stylesheet" href="assets/css/logarr.css">
     <link rel="stylesheet" href="assets/data/custom.css">
 
@@ -64,13 +65,13 @@ include('assets/php/auth_check.php');
     </style>
 
     <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/vendor/jquery-ui.min.js"></script>
     <script src="assets/js/vendor/sweetalert2.min.js"></script>
     <script src="assets/js/jquery.highlight.js" async></script>
     <script src="assets/js/jquery.mark.min.js" async></script>
+    <script src="assets/js/vendor/jquery-ui.min.js"></script>
     <script src="assets/js/logarr.main.js"></script>
 
-    <?php appendLog($logentry = "Logarr index loaded"); ?>
+    <?php appendLog($logentry = "Logarr Index loaded"); ?>
 
     <!-- Check if Logarr auth is enabled / if TRUE, check login status every 10s -->
     <?php checkLoginindex(); ?>
@@ -120,6 +121,13 @@ include('assets/php/auth_check.php');
 
     <!-- Append settings values to Logarr log: -->
     <?php settingsValues(); ?>
+
+    <!-- Tooltips: -->
+    <script>
+        $(function() {
+            $(document).tooltip();
+        });
+    </script>
 
 </head>
 

@@ -39,6 +39,7 @@ https://github.com/Monitorr/Logarr
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/vendor/sweetalert2.min.css">
     <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/vendor/jquery-ui.min.css">
     <link rel="stylesheet" href="assets/css/logarr.css">
     <link rel="stylesheet" href="assets/data/custom.css">
 
@@ -167,6 +168,13 @@ https://github.com/Monitorr/Logarr
 
     <script src="assets/js/clock.js" async></script>
     <script src="assets/data/custom.js"></script>
+
+    <!-- Tooltips: -->
+    <script>
+        $(function() {
+            $(document).tooltip();
+        });
+    </script>
 
 </head>
 
