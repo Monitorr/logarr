@@ -45,11 +45,11 @@
 <body id="body" style="color: #FFFFFF;">
 
     <?php
-    $str = file_get_contents(__DIR__ . "/../../data/datadir.json");
-    $json = json_decode($str, true);
-    $datadir = $json['datadir'];
-    $datafile = $datadir . 'users.db';
-    $db_sqlite_path = $datafile;
+        $str = file_get_contents(__DIR__ . "/../../data/datadir.json");
+        $json = json_decode($str, true);
+        $datadir = $json['datadir'];
+        $datafile = $datadir . 'users.db';
+        $db_sqlite_path = $datafile;
     ?>
 
     <div class="header-login">

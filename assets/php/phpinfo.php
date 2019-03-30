@@ -4,7 +4,7 @@
 	<link rel="icon" type="image/png" href="../../favicon.png">
 
 	<title> Logarr | PHP Info </title>
-
+	
 	<link rel="stylesheet" href="../css/logarr.css">
 	<link rel="stylesheet" href="../data/custom.css">
 
