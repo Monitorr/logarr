@@ -17,6 +17,7 @@ include(__DIR__ . '/../auth_check.php');
     <link rel="stylesheet" href="../../css/alpaca.min.css">
     <link rel="stylesheet" href="../../css/font-awesome.min.css">
     <link rel="stylesheet" href="../../css/vendor/sweetalert2.min.css">
+    <link rel="stylesheet" href="../../css/vendor/jquery-ui.min.css">
     <link rel="stylesheet" href="../../css/logarr.css">
     <link rel="stylesheet" href="../../data/custom.css">
 
@@ -29,6 +30,7 @@ include(__DIR__ . '/../auth_check.php');
     <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../js/alpaca.min.js"></script>
     <script type="text/javascript" src="../../js/vendor/ace.js"></script>
+    <script type="text/javascript" src="../../js/vendor/jquery-ui.min.js"></script>
 
     <title>
         <?php
@@ -44,7 +46,13 @@ include(__DIR__ . '/../auth_check.php');
             showConfirmButton: false,
             showCloseButton: true,
             position: 'bottom-end',
-            background: 'rgba(50, 1, 25, 0.75)'
+            background: 'rgba(50, 1, 25, 0.75)',
+            onBeforeOpen: () => {
+                $(".swal2-container").draggable({
+                    containment: "#containment-wrapper",
+                    scroll: false
+                });
+            }
         });
 
         function settingchange() {
@@ -87,6 +95,13 @@ include(__DIR__ . '/../auth_check.php');
                 background: 'rgba(207, 0, 0, 0.75)'
             })
         };
+    </script>
+
+    <!-- Tooltips: -->
+    <script>
+        $(function() {
+            $(document).tooltip();
+        });
     </script>
 
 </head>
@@ -561,7 +576,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "disabled": false,
                                 "hidden": false,
                                 "label": "Language:",
-                                "helpers": ["Beta"], // BETA - CHANGE ME //
+                                "helpers": ["Beta"], // BETA - TODO //
                                 "hideInitValidationError": false,
                                 "focus": false,
                                 "optionLabels": [],
@@ -625,7 +640,7 @@ include(__DIR__ . '/../auth_check.php');
                                                 setTimeout(function() {
                                                     window.top.location.reload(true);
                                                 }, 3000);
-                                                $('.alpaca-form-button-submit').removeClass('buttonchange');                                                
+                                                $('.alpaca-form-button-submit').removeClass('buttonchange');
                                             },
                                             error: function(errorThrown) {
                                                 console.log(errorThrown);
@@ -646,29 +661,29 @@ include(__DIR__ . '/../auth_check.php');
                         cssEditor.getSession().setMode("ace/mode/css");
                         cssEditor.setTheme("ace/theme/idle_fingers");
 
-                        //load the custom css file into the form
+                        //load custom css file into the form
                         $.when($.get("../../data/custom.css"))
-                        .done(function(response) {
-                            cssEditor.getSession().setValue(response);
-                            cssEditor.getSession().on('change', function() {
-                                settingchange()
-                                $('.alpaca-form-button-submit').addClass('buttonchange');
+                            .done(function(response) {
+                                cssEditor.getSession().setValue(response);
+                                cssEditor.getSession().on('change', function() {
+                                    settingchange()
+                                    $('.alpaca-form-button-submit').addClass('buttonchange');
+                                });
                             });
-                        });
 
                         let jsEditor = ace.edit("customJSEditor");
                         jsEditor.getSession().setMode("ace/mode/javascript");
                         jsEditor.setTheme("ace/theme/idle_fingers");
 
-                        //load the custom css file into the form
+                        //load custom js file into the form
                         $.when($.get("../../data/custom.js"))
-                        .done(function(response) {
-                            jsEditor.getSession().setValue(response);
-                            jsEditor.getSession().on('change', function() {
-                                settingchange();
-                                $('.alpaca-form-button-submit').addClass('buttonchange');
+                            .done(function(response) {
+                                jsEditor.getSession().setValue(response);
+                                jsEditor.getSession().on('change', function() {
+                                    settingchange();
+                                    $('.alpaca-form-button-submit').addClass('buttonchange');
+                                });
                             });
-                        });
                     }
                 });
             });

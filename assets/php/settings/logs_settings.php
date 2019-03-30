@@ -17,6 +17,7 @@ include(__DIR__ . '/../auth_check.php');
     <link rel="stylesheet" href="../../css/alpaca.min.css">
     <link rel="stylesheet" href="../../css/font-awesome.min.css">
     <link rel="stylesheet" href="../../css/vendor/sweetalert2.min.css">
+    <link rel="stylesheet" href="../../css/vendor/jquery-ui.min.css">
     <link rel="stylesheet" href="../../css/logarr.css">
     <link rel="stylesheet" href="../../data/custom.css">
 
@@ -28,6 +29,7 @@ include(__DIR__ . '/../auth_check.php');
     <script type="text/javascript" src="../../js/handlebars.js"></script>
     <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../js/alpaca.min.js"></script>
+    <script type="text/javascript" src="../../js/vendor/jquery-ui.min.js"></script>
 
     <title>
         <?php
@@ -119,6 +121,13 @@ include(__DIR__ . '/../auth_check.php');
     <script>
         $(document).ready(function() {
             logloadinganimate();
+        });
+    </script>
+
+    <!-- Tooltips: -->
+    <script>
+        $(function() {
+            $(document).tooltip();
         });
     </script>
 

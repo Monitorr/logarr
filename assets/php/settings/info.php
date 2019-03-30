@@ -15,6 +15,7 @@ include(__DIR__ . '/../auth_check.php');
 
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
     <link rel="stylesheet" href="../../css/vendor/sweetalert2.min.css">
+    <link rel="stylesheet" href="../../css/vendor/jquery-ui.min.css">
     <link rel="stylesheet" href="../../css/logarr.css">
     <link rel="stylesheet" href="../../data/custom.css">
 
@@ -65,6 +66,13 @@ include(__DIR__ . '/../auth_check.php');
                 timer: 5000
             })
         };
+    </script>
+
+    <!-- Tooltips: -->
+    <script>
+        $(function() {
+            $(document).tooltip();
+        });
     </script>
 
 </head>

@@ -54,13 +54,13 @@ function isDocker() {
 
 	if (is_file(__DIR__ . "/../../../Dockerfile")) {
 
-	echo "<script type='text/javascript'>";
-	echo "console.log('Logarr detected DOCKER enviroment');";
-	echo "</script>";
+		echo "<script type='text/javascript'>";
+		echo "console.log('Logarr detected DOCKER enviroment');";
+		echo "</script>";
 
-	appendLog($logentry = "Logarr detected DOCKER enviroment");
+		appendLog($logentry = "Logarr detected DOCKER enviroment");
 
-	return true;
+		return true;
 	}
 }
 
