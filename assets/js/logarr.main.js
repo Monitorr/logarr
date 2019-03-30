@@ -294,7 +294,6 @@ function nosearch() {
     })
 };
 
-
 function sareload() {
     let timerInterval
     Toast.fire({
