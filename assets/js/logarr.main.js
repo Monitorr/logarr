@@ -154,14 +154,14 @@ function logrollmodal() {
             $("#autoUpdateSlider").attr("data-enabled", "false");
             clearInterval(nIntervId["logRefresh"]);
             clearInterval(nIntervId);
-            clearInterval(refreshblockUI, settings.rflog);
-            clearInterval(refreshblockUI);
+            clearInterval(refreshLogs, settings.rflog);
+            clearInterval(refreshLogs);
             logInterval = false;
 
         },
         onClose: () => {
 
-            refreshblockUI();
+            refreshLogs();
             //TODO:
             //Re-enable autorefresh IF ON
         }
@@ -331,7 +331,7 @@ function sareload() {
 }
 
 
-function refreshblockUI() {
+function refreshLogs() {
     $('#body').addClass("cursorwait");
     logupdatetoast();
     setTimeout(function () {
@@ -690,7 +690,7 @@ $(function () {
     // filter logs
     $(document).on('click', ".category-filter-item", function (event) {
         //TODO why refresh blockUI on log filter ??
-        refreshblockUI();
+        refreshLogs();
         setTimeout(function () {
             console.log('Filtering logs on: ' + window.location.hash);
         }, 500);
@@ -728,7 +728,7 @@ function refreshConfig() {
             if(home) {
                 if (settings.logRefresh === "true" && (logInterval === false || settings.rflog !== current_rflog)) {
                     clearInterval(nIntervId["logRefresh"]);
-                    nIntervId["logRefresh"] = setInterval(refreshblockUI, settings.rflog);
+                    nIntervId["logRefresh"] = setInterval(refreshLogs, settings.rflog);
                     logInterval = true;
                     $("#autoUpdateSlider").attr("data-enabled", "true");
                     current_rflog = settings.rflog;
@@ -737,7 +737,7 @@ function refreshConfig() {
                 } else if (settings.logRefresh === "false" && logInterval === true) {
                     clearInterval(nIntervId["logRefresh"]);
                     clearInterval(nIntervId);
-                    clearInterval(refreshblockUI, settings.rflog);
+                    clearInterval(refreshLogs, settings.rflog);
                     logInterval = false;
                     $("#autoUpdateSlider").attr("data-enabled", "false");
                     console.log("Log auto update: Disabled");
@@ -851,21 +851,21 @@ function overwriteLogUpdate() {
     if ($("#autoUpdateSlider").attr("data-enabled") === "false") {
         $("#autoUpdateSlider").attr("data-enabled", "true");
         clearInterval(nIntervId);
-        nIntervId = setInterval(refreshblockUI, settings.rflog);
+        nIntervId = setInterval(refreshLogs, settings.rflog);
         logInterval = true;
         console.log("Log auto update: Enabled | Interval: " + settings.rflog + " ms");
         uetoast();
         //TODO CHANGE ME
         // setTimeout(function () {
-        //     refreshblockUI();
+        //     refreshLogs();
         // }, 1000);
     } else {
         $("#autoUpdateSlider").attr("data-enabled", "false");
         //TODO: Adding everything possible to stop rfconfig from re-applying values:
         clearInterval(nIntervId["logRefresh"]);
         clearInterval(nIntervId);
-        clearInterval(refreshblockUI, settings.rflog);
-        clearInterval(refreshblockUI);
+        clearInterval(refreshLogs, settings.rflog);
+        clearInterval(refreshLogs);
         logInterval = false;
         console.log("Log auto update: Disabled");
         udtoast();

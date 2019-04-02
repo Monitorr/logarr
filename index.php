@@ -131,7 +131,7 @@ include('assets/php/auth_check.php');
 
 </head>
 
-<body id="body" onscroll="scrollFunction()" onload="refreshblockUI();">
+<body id="body" onscroll="scrollFunction()" onload="refreshLogs();">
 
     <script>
         document.body.className += ' fade-out';
@@ -197,7 +197,7 @@ include('assets/php/auth_check.php');
                         <span class="slider round" id="autoUpdateSlider" data-enabled="false" onclick="overwriteLogUpdate();"></span>
                     </label>
 
-                    <input id="Update" type="button" name="updateBtn" class="button2 btn btn-primary" value="Update" title="Trigger log manual update" onclick="refreshblockUI(); this.blur(); return false" />
+                    <input id="Update" type="button" name="updateBtn" class="button2 btn btn-primary" value="Update" title="Trigger log manual update" onclick="refreshLogs(); this.blur(); return false" />
                 </div>
 
             </div>
