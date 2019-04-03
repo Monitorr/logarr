@@ -63,6 +63,10 @@ input[type=radio] {
     cursor: pointer;
 }
 
+select {
+    cursor: pointer;
+}
+
 .cursorwait {
     cursor: progress !important;
 }
@@ -1003,7 +1007,7 @@ input[type="checkbox"] {
     display: inline-block;
     width: 2em;
     height: 2em;
-    cursor: pointer;
+    cursor: row-resize;
 }
 
 #logmissing {
@@ -1836,7 +1840,12 @@ ul.nav.sidebar-nav>li>a>i {
 #customCSSEditor {
     height: 22rem;
     max-width: 100%;
-    border: 2px solid rgb(200, 200, 200);
+    border: .2rem solid rgb(200, 200, 200);
+}
+
+#customCSSEditor:hover {
+    border: .2rem solid #007bff;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
 #customcsslabel {
@@ -1853,7 +1862,12 @@ ul.nav.sidebar-nav>li>a>i {
 #customJSEditor {
     height: 22rem;
     max-width: 100%;
-    border: 2px solid rgb(200, 200, 200);
+    border: .2rem solid rgb(200, 200, 200);
+}
+
+#customJSEditor:hover {
+    border: .2rem solid #007bff;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 
 #customjslabel {
@@ -2214,8 +2228,12 @@ div[data-alpaca-container-item-name="category"] {
     white-space: nowrap;
 }
 
-#loginbtn>button {
-    margin: auto 0.25rem;
+#loginbtn {
+    width: 5em;
+}
+
+#returnbtn {
+    margin-left: 1rem;
     width: 5em;
 }
 

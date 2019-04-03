@@ -89,7 +89,7 @@ include_once(__DIR__ . "/../auth_check.php");
     </script>
 
     <?php
-    ini_set('error_reporting', E_WARN);
+        ini_set('error_reporting', E_WARN);
     ?>
 
     <title>
@@ -100,24 +100,25 @@ include_once(__DIR__ . "/../auth_check.php");
     <script>
         let settings = <?php echo json_encode($GLOBALS['settings']); ?>;
         let preferences = <?php echo json_encode($GLOBALS['preferences']); ?>;
+        let authentication = <?php echo json_encode($GLOBALS['authentication']); ?>;
     </script>
 
     <!-- UI clock functions: -->
     <script>
         <?php
-        $timezoneconfig = $GLOBALS['preferences']['timezone'];
-        date_default_timezone_set($timezoneconfig);
-        $timezone = date_default_timezone_get();
-        $dt = new DateTime("now", new DateTimeZone("$timezone"));
-        $timeStandard = (int)($GLOBALS['preferences']['timestandard']);
-        $rftime = $GLOBALS['settings']['rftime'];
-        $timezone_suffix = '';
-        if (!$timeStandard) {
-            $dateTime = new DateTime();
-            $dateTime->setTimeZone(new DateTimeZone($timezone));
-            $timezone_suffix = $dateTime->format('T');
-        }
-        $serverTime = $dt->format("D d M Y H:i:s");
+            $timezoneconfig = $GLOBALS['preferences']['timezone'];
+            date_default_timezone_set($timezoneconfig);
+            $timezone = date_default_timezone_get();
+            $dt = new DateTime("now", new DateTimeZone("$timezone"));
+            $timeStandard = (int) ($GLOBALS['preferences']['timestandard']);
+            $rftime = $GLOBALS['settings']['rftime'];
+            $timezone_suffix = '';
+            if (!$timeStandard) {
+                $dateTime = new DateTime();
+                $dateTime->setTimeZone(new DateTimeZone($timezone));
+                $timezone_suffix = $dateTime->format('T');
+            }
+            $serverTime = $dt->format("D d M Y H:i:s");
         ?>
         let servertime = "<?php echo $serverTime; ?>";
         let timeStandard = <?php echo $timeStandard; ?>;
@@ -139,6 +140,22 @@ include_once(__DIR__ . "/../auth_check.php");
         $(function() {
             $(document).tooltip();
         });
+    </script>
+
+    <!-- Return to index.php when cancel button is clicked: -->
+    <script>
+        $(document).ready(function() {
+            var location = window.location.href;
+            var current = location.substring(location.lastIndexOf("/") + 1, location.length);
+            if (current.startsWith("settings.php")) {
+            } else {
+                $('#returnbtn').addClass('hidden');
+            }
+        });
+
+        function returnIndex() {
+            top.location = "index.php";
+        };
     </script>
 
 </head>
@@ -167,7 +184,7 @@ include_once(__DIR__ . "/../auth_check.php");
         <div id="loginbrand">
             <div id="brand" class="navbar-brand" onclick='window.location.href="index.php";' title="Return to Logarr">
                 <?php
-                echo $GLOBALS['preferences']['sitetitle'];
+                    echo $GLOBALS['preferences']['sitetitle'];
                 ?>
             </div>
         </div>
@@ -184,9 +201,9 @@ include_once(__DIR__ . "/../auth_check.php");
     <div id='login-container'>
 
         <?php
-        if (isset($this->feedback) && !empty($this->feedback)) {
-            echo "<div class='login-warning'><p>" . $this->feedback . "</p></div>";
-        }
+            if (isset($this->feedback) && !empty($this->feedback)) {
+                echo "<div class='login-warning'><p>" . $this->feedback . "</p></div>";
+            }
         ?>
 
         <form method="post" id="login-form" action="" name="loginform">
@@ -200,10 +217,24 @@ include_once(__DIR__ . "/../auth_check.php");
                 <input id="login_input_password" class="input" type="password" placeholder="Password" name="user_password" required autocomplete="off" />
             </div>
 
-            <div id="loginbtn">
-                <button type="submit" class="btn btn-primary" name="login" title="Log In">Log in</button>
+            <div id="login">
+                <button type="submit" id="loginbtn" class="btn btn-primary" name="login" title="Log In">Log In</button>
+                <button type="button" id="returnbtn" class="btn btn-primary" name="return" title="Return to Logarr" onclick="returnIndex();">Cancel</button>
             </div>
+
         </form>
+
     </div>
 
-    <?php include(__DIR__ . "/footer.php"); ?> 
+    <!-- Hide Cancel button if Index auth is enabled: -->
+    <?php
+        $auth = $GLOBALS['authentication']['logsEnabled'];
+
+        if ($auth == 'true') {
+            echo '<script>';
+            echo '$("#returnbtn").addClass("hidden");';
+            echo '</script>';
+        }
+    ?>
+
+    <?php include(__DIR__ . "/footer.php"); ?>
