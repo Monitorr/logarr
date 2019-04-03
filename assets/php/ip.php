@@ -1,18 +1,21 @@
 <?php
 
-//TODO / Add to login logs ?
+//TODO / Add to login logs / REMOVE ME
 
-function getUserIpAddr(){
+function getUserIpAddr()
+{
+    ini_set('error_reporting', E_ERROR);
+
     if(!empty($_SERVER['HTTP_CLIENT_IP'])){
         //ip from share internet
-        $ip = $_SERVER['HTTP_CLIENT_IP'];
+        return $_SERVER['HTTP_CLIENT_IP'];
     }elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
         //ip pass from proxy
-        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        return $_SERVER['HTTP_X_FORWARDED_FOR'];
     }else{
-        $ip = $_SERVER['REMOTE_ADDR'];
+        return $_SERVER['REMOTE_ADDR'];
     }
-    return $ip;
 }
 
 echo 'User Real IP - '.getUserIpAddr();
+
