@@ -160,9 +160,15 @@ function logrollmodal() {
         },
         onClose: () => {
 
-            refreshblockUI();
-            //TODO:
-            //Re-enable autorefresh IF ON
+            //TODO / TESTING :
+
+            //refreshblockUI();
+
+            //Re-enable LOG auto-update IF ON:
+            refreshLog();
+
+            loadLogs();
+            
         }
     })
 };
@@ -293,6 +299,7 @@ function nosearch() {
     })
 };
 
+// Reload configuration page after user creation / config complete:
 function sareload() {
     let timerInterval
     Toast.fire({
@@ -313,7 +320,7 @@ function sareload() {
             Swal.showLoading()
 
             reload.addEventListener('click', () => {
-                top.location = "settings.php";
+                top.location = "settings.php";                
             })
 
             timerInterval = setInterval(() => {
@@ -324,6 +331,13 @@ function sareload() {
         },
         onClose: () => {
             clearInterval(timerInterval);
+            var win = window.open('index.php', '_blank');
+            if (win) {
+                win.focus();
+            } else {
+                //Browser has blocked popup:
+                alert('Please allow popups for this website');
+            };
             top.location = "settings.php";
         }
     })
@@ -816,7 +830,7 @@ function refreshLog() {
 
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            console.log("ERROR: Config refresh failed!");
+            console.log("ERROR: Log refresh failed!");
 
             setTimeout(function () {
 
@@ -828,6 +842,33 @@ function refreshLog() {
 }
 
 
+function overwriteLogUpdate() {
+
+    //TODO:  Not working:
+
+    if ($("#autoUpdateSlider").attr("data-enabled") === "false") {
+        $("#autoUpdateSlider").attr("data-enabled", "true");
+        clearInterval(nIntervId);
+        nIntervId = setInterval(refreshblockUI, settings.rflog);
+        logInterval = true;
+        console.log("Log auto update: Enabled | Interval: " + settings.rflog + " ms");
+        uetoast();
+        //TODO CHANGE ME
+        // setTimeout(function () {
+        //     refreshblockUI();
+        // }, 1000);
+    } else {
+        $("#autoUpdateSlider").attr("data-enabled", "false");
+        //TODO: Adding everything possible to stop rfconfig from re-applying values:
+        clearInterval(nIntervId["logRefresh"]);
+        clearInterval(nIntervId);
+        clearInterval(refreshblockUI, settings.rflog);
+        clearInterval(refreshblockUI);
+        logInterval = false;
+        console.log("Log auto update: Disabled");
+        udtoast();
+    }
+}
 
 // Check if authentication settings have changed:
 function refreshAuth() {
@@ -906,34 +947,6 @@ function refreshAuth() {
             }, 3000);
         }
     });
-}
-
-function overwriteLogUpdate() {
-
-    //TODO:  Not working:
-
-    if ($("#autoUpdateSlider").attr("data-enabled") === "false") {
-        $("#autoUpdateSlider").attr("data-enabled", "true");
-        clearInterval(nIntervId);
-        nIntervId = setInterval(refreshblockUI, settings.rflog);
-        logInterval = true;
-        console.log("Log auto update: Enabled | Interval: " + settings.rflog + " ms");
-        uetoast();
-        //TODO CHANGE ME
-        // setTimeout(function () {
-        //     refreshblockUI();
-        // }, 1000);
-    } else {
-        $("#autoUpdateSlider").attr("data-enabled", "false");
-        //TODO: Adding everything possible to stop rfconfig from re-applying values:
-        clearInterval(nIntervId["logRefresh"]);
-        clearInterval(nIntervId);
-        clearInterval(refreshblockUI, settings.rflog);
-        clearInterval(refreshblockUI);
-        logInterval = false;
-        console.log("Log auto update: Disabled");
-        udtoast();
-    }
 }
 
 function updateTime() {
