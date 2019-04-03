@@ -98,7 +98,7 @@ https://github.com/Monitorr/Logarr
         };
 
         $(document).ready(function() {
-            console.log("Welcome to Logarr!");
+            console.log("Welcome to %cLogarr","color: #FF0104; font-size: 2em;");
             toastwelcome();
         });
     </script>

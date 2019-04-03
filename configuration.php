@@ -190,7 +190,7 @@ if (isset($_POST['action'])) {
             if (datauser == true) {
                 $('#datadircircle').removeClass('circlecomplete');
             } else {
-                console.log("Welcome to Logarr!");
+                console.log("Welcome to %cLogarr","color: #FF0104; font-size: 2em;");
                 console.log("User NOT established in users.db database");
                 $('#registration-header').removeClass('hidden');
                 $('#extensions').removeClass('hidden');
