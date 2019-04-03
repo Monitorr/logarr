@@ -392,6 +392,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "showMessages": true,
                                 "disabled": false,
                                 "hidden": false,
+                                "fieldClass": "timezone",
                                 "label": "Timezone:",
                                 "helpers": ["Timezone to use for UI display."],
                                 "hideInitValidationError": false,

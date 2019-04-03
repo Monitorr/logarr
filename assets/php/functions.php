@@ -51,8 +51,6 @@ function configExists()
 	return is_file($GLOBALS['config_file']);
 }
 
-//TODO:  Add roll log above 1MB
-
 function appendLog($logentry) {
 
 	mkdir (__DIR__ . '/../data/logs/');
