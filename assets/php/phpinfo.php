@@ -196,7 +196,7 @@ if (extension_loaded('openssl')) {
 	echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP openssl extension NOT loaded'>";
 	echo "OpenSSL";
 	echo "</a>";
-	echo "<script>console.log( 'ERROR: PHP openssl extension NOT loaded' );</script>";
+	echo "<script>console.log( '%cERROR: PHP openssl extension NOT loaded','color: #FF0104;' );</script>";
 }
 
 

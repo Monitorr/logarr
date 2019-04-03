@@ -71,6 +71,12 @@ include('assets/php/auth_check.php');
     <script src="assets/js/vendor/jquery-ui.min.js"></script>
     <script src="assets/js/logarr.main.js"></script>
 
+    <script>
+        $(document).ready(function() {
+            console.log("Welcome to %cLogarr","color: #FF0104; font-size: 2em;");
+        });
+    </script>
+
     <?php appendLog($logentry = "Logarr Index loaded"); ?>
 
     <!-- Check if Logarr auth is enabled / if TRUE, check login status every 10s -->
@@ -127,6 +133,11 @@ include('assets/php/auth_check.php');
         $(function() {
             $(document).tooltip();
         });
+    </script>
+
+        <!-- TODO: / TESTING -->
+    <script>
+        refreshLog();
     </script>
 
 </head>

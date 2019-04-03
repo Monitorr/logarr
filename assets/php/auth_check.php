@@ -187,6 +187,21 @@ class OneFileLoginApplication
 		};
 	}
 
+	public function getUserIpAddr()
+	{
+		ini_set('error_reporting', E_ERROR);
+
+		if(!empty($_SERVER['HTTP_CLIENT_IP'])){
+			//ip from share internet
+			return $_SERVER['HTTP_CLIENT_IP'];
+		}elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+			//ip pass from proxy
+			return $_SERVER['HTTP_X_FORWARDED_FOR'];
+		}else{
+			return $_SERVER['REMOTE_ADDR'];
+		}
+	}
+
 	/**
 	 * Creates a PDO database connection (in this case to a SQLite flat-file database)
 	 * @return bool Database creation success status, false by default
@@ -366,7 +381,7 @@ class OneFileLoginApplication
 	 */
 	private function doLoginWithSessionData()
 	{
-		$this->user_is_logged_in = true; // ?
+		$this->user_is_logged_in = true;
 		if (!isset($_COOKIE['Logarr_AUTH'])) {
 			if ($this->createDatabaseConnection()) {
 				// remember: the user can log in with username or email address
@@ -381,7 +396,7 @@ class OneFileLoginApplication
 				if ($result_row) {
 					$cookie_value = $result_row->auth_token;
 					setcookie("Logarr_AUTH", $cookie_value, time() + 60 * 60 * 24 * 7, "/"); //store login cookie for 7 days
-					$this->appendLog($logentry = "Logarr user has logged in");
+					$this->appendLog($logentry = "Logarr user logged in with session from IP: " . $this->getUserIpAddr());
 					return true;
 				} else {
 					$this->feedback = "Invalid Auth Token";
@@ -445,7 +460,7 @@ class OneFileLoginApplication
 				$this->user_is_logged_in = true;
 				$cookie_value = $result_row->auth_token;
 				setcookie("Logarr_AUTH", $cookie_value, time() + 60 * 60 * 24 * 7, "/"); //store login cookie for 7 days
-				$this->appendLog($logentry = "Logarr user has logged in");
+				$this->appendLog($logentry = "Logarr user logged in with credentials from IP: " . $this->getUserIpAddr());
 				return true;
 			} else {
 				$this->feedback = "Invalid password";
@@ -483,7 +498,7 @@ class OneFileLoginApplication
 				$this->user_is_logged_in = true;
 				$cookie_value = $result_row->auth_token;
 				setcookie("Logarr_AUTH", $cookie_value, time() + 60 * 60 * 24 * 7, "/"); //store login cookie for 7 days
-				$this->appendLog($logentry = "Logarr user has logged in");
+				$this->appendLog($logentry = "Logarr user logged in with Cookie from IP: " . $this->getUserIpAddr());
 				return true;
 			} else {
 				$this->feedback = "Invalid Auth Token";
