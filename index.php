@@ -96,7 +96,6 @@ include('assets/php/auth_check.php');
     <script>
         <?php
         //initial values for clock:
-        //$timezone = $GLOBALS['preferences']['timezone'];
         $dt = new DateTime("now", new DateTimeZone("$timezone"));
         $timeStandard = (int)($GLOBALS['preferences']['timestandard']);
         $rftime = $GLOBALS['settings']['rftime'];
