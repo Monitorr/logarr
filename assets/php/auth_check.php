@@ -187,7 +187,6 @@ class OneFileLoginApplication
 		};
 	}
 
-	//TODO / testing
 	public function getUserIpAddr()
 	{
 		ini_set('error_reporting', E_ERROR);
@@ -461,8 +460,6 @@ class OneFileLoginApplication
 				$this->user_is_logged_in = true;
 				$cookie_value = $result_row->auth_token;
 				setcookie("Logarr_AUTH", $cookie_value, time() + 60 * 60 * 24 * 7, "/"); //store login cookie for 7 days
-				
-				//TODO / testing
 				$this->appendLog($logentry = "Logarr user logged in with credentials from IP: " . $this->getUserIpAddr());
 				return true;
 			} else {

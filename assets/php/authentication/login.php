@@ -80,7 +80,7 @@ include_once(__DIR__ . "/../auth_check.php");
                 position: 'bottom-start',
                 timer: 5000
             });
-            console.log("Welcome to Logarr!");
+            console.log("Welcome to %cLogarr", "color: #FF0104; font-size: 2em;");
         }
 
         $(document).ready(function() {
