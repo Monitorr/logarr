@@ -129,6 +129,11 @@ include('assets/php/auth_check.php');
         });
     </script>
 
+        <!-- TODO: / TESTING -->
+    <script>
+        refreshLog();
+    </script>
+
 </head>
 
 <body id="body" onscroll="scrollFunction()" onload="refreshblockUI();">
