@@ -672,7 +672,7 @@ class OneFileLoginApplication
 	private function showPageRegistration()
 	{
 		//TODO:  Is this still valid?
-		include_once('authentication/register.php');
+		//include_once('authentication/register.php');
 	}
 
 	/**
@@ -683,7 +683,7 @@ class OneFileLoginApplication
 	private function showPageConfiguration()
 	{
 		//TODO:  Is this still valid?
-		include_once('authentication/configuration.php');
+		//include_once('authentication/configuration.php');
 	}
 }
 

@@ -209,12 +209,12 @@ include_once(__DIR__ . "/../auth_check.php");
         <form method="post" id="login-form" action="" name="loginform">
             <div>
                 <label for="login_input_username"><i class="fa fa-fw fa-user"></i></label>
-                <input id="login_input_username" class="input" type="search" placeholder="Username" name="user_name" autofocus required autocomplete="off" spellcheck="false" />
+                <input id="login_input_username" class="input" type="search" name="user_name" placeholder="Username" title="" autofocus required autocomplete="off" spellcheck="false" />
             </div>
 
             <div>
                 <label for="login_input_password"><i class="fa fa-fw fa-key"></i></label>
-                <input id="login_input_password" class="input" type="password" placeholder="Password" name="user_password" required autocomplete="off" />
+                <input id="login_input_password" class="input" type="password" name="user_password" placeholder="Password" title="" required autocomplete="off" />
             </div>
 
             <div id="login">
@@ -236,5 +236,29 @@ include_once(__DIR__ . "/../auth_check.php");
             echo '</script>';
         }
     ?>
+
+    <!-- Disable Log In button if username and password fields are empty: -->
+    <script>
+
+        if($("#login_input_password").val() == "") {
+            $("#loginbtn").addClass("disabled");
+            $("#loginbtn").addClass("cursornotallowed");
+        } else {
+            $("#loginbtn").removeClass("disabled");
+            $("#loginbtn").removeClass("cursornotallowed");
+        }
+
+        const $source = document.querySelector('#login_input_password');
+
+        const typeHandler = function(e) {
+            $("#loginbtn").removeClass("disabled");
+            $("#loginbtn").removeClass("cursornotallowed");
+        }
+
+        $source.addEventListener('input', typeHandler) // register for oninput
+        $source.addEventListener('propertychange', typeHandler) // for IE8
+        $source.addEventListener('change', typeHandler) // fallback for Firefox
+
+    </script>
 
     <?php include(__DIR__ . "/footer.php"); ?>
