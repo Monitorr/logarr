@@ -230,12 +230,12 @@ include('assets/php/auth_check.php');
 
         <div id="logarrid">
             <a href="https://github.com/monitorr/logarr" title="Logarr GitHub repo" target="_blank" class="footer">Logarr </a> |
-            <a href="https://github.com/Monitorr/logarr/releases" title="Logarr releases" target="_blank" class="footer">
+            <a href="https://github.com/Monitorr/logarr/releases" title="Logarr Releases" target="_blank" class="footer">
                 v:
                 <?php echo file_get_contents("assets/js/version/version.txt"); ?></a> |
             <a href="settings.php" title="Logarr Settings" target="_blank" class="footer">Settings</a>
             <?php if (isset($_SESSION['user_name']) && isset($_SESSION['user_is_logged_in']) && !empty($_SESSION['user_name']) && ($_SESSION['user_is_logged_in'])) {
-                echo " | <a href='index.php?action=logout' onclick='logouttoast();'  title='Log out' class='footer'></i>Logout</a>";
+                echo " | <a href='index.php?action=logout' onclick='logouttoast();' title='Log Out' class='footer'>Log Out</a>";
             } ?>
             <br>
         </div>
