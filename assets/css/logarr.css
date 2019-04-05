@@ -75,6 +75,10 @@ select {
     cursor: pointer !important;
 }
 
+.cursornotallowed {
+    cursor: not-allowed !important;
+}
+
 /* SCROLL BARS */
 
 body::-webkit-scrollbar {
@@ -1453,21 +1457,16 @@ ul.nav.sidebar-nav>li>a>i {
 /* Tooltips: */
 
 .ui-tooltip {
-    /* background: black; */
-    /* background-color: rgba(0, 0, 0, 0.750); */
-    background: rgba(50, 1, 25, 0.90);
-    border: .1em solid #C8C8C8 !important;
-    padding: 10px 20px;
+    font-size: .85em;
     color: white;
     width: auto;
-    /* color: #C8C8C8; */
+    padding: 5px 10px;
+    background: rgba(50, 1, 25, 0.90);
+    border: .1em solid #C8C8C8 !important;
     border-radius: .2em;
-    /* font: bold 14px "Helvetica Neue", Sans-Serif; */
-    /* text-transform: uppercase; */
     box-shadow: 0 0 7px black;
     cursor: default;
 }
-
 
 #checkurl {
     float: right;
@@ -1601,6 +1600,12 @@ ul.nav.sidebar-nav>li>a>i {
     border: .2rem solid rgb(90, 90, 90) !important;
     cursor: not-allowed;
 }
+
+
+
+
+
+
 
 .settingscolumn {
     float: left;
@@ -2230,11 +2235,30 @@ div[data-alpaca-container-item-name="category"] {
 
 #loginbtn {
     width: 5em;
+    background-color: green;
+    border: .2rem solid green;
+}
+
+#loginbtn:hover {
+    background-color: green;
+    border: .2rem solid darkgreen;
+}
+
+#loginbtn.disabled {
+    color: #fff !important;
+    background-color: #007bff !important;
+    border: .2rem solid #007bff !important;
 }
 
 #returnbtn {
-    margin-left: 1rem;
+    margin-left: 2rem;
     width: 5em;
+    border: .2rem solid #007bff;
+}
+
+#returnbtn:hover {
+    background-color: #0069d9;
+    border: .2rem solid #0258b4;
 }
 
 table#regmulti>tbody>tr>td {
@@ -3103,7 +3127,9 @@ ul.stepper li.success a .circle {
 
 #registerbtn {
     width: 6.5rem;
+    border-color: #0062cc;
 }
+
 
 /*** End Steppers ***/
 
