@@ -132,7 +132,6 @@ if (isset($_POST['action'])) {
     </script>
 
     <?php
-
         if ($authenticator->doesDataDirExist()) {
             echo '<script>';
             echo '$(document).ready(function () {';
@@ -366,11 +365,25 @@ if (isset($_POST['action'])) {
     </script>
 
     <!-- Tooltips: -->
-    <script>
+
+    <!-- TODO:  / Testing: -->
+    <!-- <script>
         $(function() {
             $(document).tooltip();
         });
-    </script>
+    </script> -->
+
+        <script>
+            $(function() {
+                var tooltips = $( "[title]" ).tooltip({
+                    position: {
+                        my: "left top",
+                        at: "right+5 top-5",
+                        collision: "flipfit"
+                    }
+                });
+            });
+        </script>
 
 </head>
 
@@ -554,8 +567,14 @@ if (isset($_POST['action'])) {
                             </tr>
 
                             <tr id="userpassword">
-                                <td><i class='fa fa-fw fa-key'> </i> <input id='login_input_password_new' class='login_input input' type='password' name='user_password_new' pattern='.{6,}' required autocomplete='off' placeholder=' Password' title='Enter a password' /></td>
-                                <td><input id='login_input_password_repeat' class='login_input input' type='password' name='user_password_repeat' pattern='.{6,}' fv-not-empty='' fv-advanced='{"regex": "\\s", "regex_reverse": true, "message": "Value cannot contain spaces"}' fv-valid-func='$( "#registerbtn" ).prop( "disabled", false )' fv-invalid-func='$( "#registerbtn" ).prop( "disabled", true )' required autocomplete='off' placeholder=' Repeat password' title='Repeat password' /><i> Minimum 6 characters </i></td>
+                                <td>
+                                    <i class='fa fa-fw fa-key'></i>
+                                    <input id='login_input_password_new' class='login_input input' type='password' name='user_password_new' pattern='.{6,}' fv-not-empty='' required autocomplete='off' placeholder=' Password' title='Enter a password' />
+                                </td>
+                                <td>
+                                    <input id='login_input_password_repeat' class='login_input input' type='password' name='user_password_repeat' pattern='.{6,}' fv-not-empty='' fv-advanced='{"regex": "\\s", "regex_reverse": true, "message": "Value cannot contain spaces"}' fv-valid-func='$( "#registerbtn" ).prop( "disabled", false )' fv-invalid-func='$( "#registerbtn" ).prop( "disabled", true )' required autocomplete='off' placeholder=' Repeat password' title='Repeat password' />
+                                    <i> Minimum 6 characters </i>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
