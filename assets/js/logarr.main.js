@@ -52,7 +52,6 @@ function logoutwarning() {
     })
 };
 
-
 function logouttoast() {
     Toast.fire({
         toast: true,
@@ -697,6 +696,9 @@ $(function () {
     });
 });
 
+
+//TODO: Testing:
+
 function refreshConfig() {
     $.ajax({
         url: "assets/php/sync-config.php",
@@ -722,6 +724,71 @@ function refreshConfig() {
                 }
             }
 
+            //$("#auto-update-status").attr("data-enabled", settings.logRefresh);
+
+            //TODO: this can probably be handled better
+            // if(home) {
+            //     if (settings.logRefresh === "true" && (logInterval === false || settings.rflog !== current_rflog)) {
+            //         clearInterval(nIntervId["logRefresh"]);
+            //         nIntervId["logRefresh"] = setInterval(refreshblockUI, settings.rflog);
+            //         logInterval = true;
+            //         $("#autoUpdateSlider").attr("data-enabled", "true");
+            //         current_rflog = settings.rflog;
+            //         console.log("Log auto update: Enabled | Interval: " + settings.rflog + " ms");
+            //         uetoast();
+            //     } else if (settings.logRefresh === "false" && logInterval === true) {
+            //         clearInterval(nIntervId["logRefresh"]);
+            //         clearInterval(nIntervId);
+            //         clearInterval(refreshblockUI, settings.rflog);
+            //         logInterval = false;
+            //         $("#autoUpdateSlider").attr("data-enabled", "false");
+            //         console.log("Log auto update: Disabled");
+            //         udtoast();
+            //     }
+            // }
+
+            if(home) {
+                document.title = preferences.sitetitle; //update index.php page title to configured site title
+            }
+
+            document.getElementById("brand").innerHTML = preferences.sitetitle; //update header title to configured site title
+            console.log("Refreshed config variables | Interval: " + settings.rfconfig + " ms");
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("ERROR: Config refresh failed!");
+
+            setTimeout(function () {
+
+                syncconfigerror();
+
+            }, 120000);
+        }
+    });
+}
+
+//TODO / TESTING:
+
+function refreshLog() {
+    $.ajax({
+        url: "assets/php/sync-config.php",
+        type: "GET",
+        success: function (response) {
+
+            let json = JSON.parse(response);
+            settings = json.settings;
+            //preferences = json.preferences;
+            //authentication = json.authentication;
+            logs = json.logs;
+
+            // if (home, settings) {
+            //     if (settings.rfconfig !== rfconfig) {
+            //         rfconfig = settings.rfconfig;
+            //         clearInterval(nIntervId["refreshConfig"]);
+            //         nIntervId["refreshConfig"] = setInterval(refreshConfig, rfconfig);
+            //     }
+            // }
+
             $("#auto-update-status").attr("data-enabled", settings.logRefresh);
 
             //TODO: this can probably be handled better
@@ -745,12 +812,7 @@ function refreshConfig() {
                 }
             }
 
-            if(home) {
-                document.title = preferences.sitetitle; //update index.php page title to configured site title
-            }
-
-            document.getElementById("brand").innerHTML = preferences.sitetitle; //update header title to configured site title
-            console.log("Refreshed config variables | Interval: " + settings.rfconfig + " ms");
+            //console.log("Refreshed config variables | Interval: " + settings.rfconfig + " ms");
 
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -764,6 +826,8 @@ function refreshConfig() {
         }
     });
 }
+
+
 
 // Check if authentication settings have changed:
 function refreshAuth() {

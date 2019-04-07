@@ -195,7 +195,6 @@ function settingsValues()
 	}
 }
 
-
 function parseLogPath($path)
 {
 	if (substr_count($path, '*') == 1) { //check to see if the path contains only 1 *
