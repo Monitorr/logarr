@@ -299,7 +299,7 @@ function nosearch() {
     })
 };
 
-// Reload configuration page after user creation / config complete:
+// Reload Setup page after user creation / Setup complete:
 function sareload() {
     let timerInterval
     Toast.fire({
@@ -343,6 +343,54 @@ function sareload() {
     })
 }
 
+function toastwelcome() {
+    Toast.fire({
+        toast: true,
+        type: 'success',
+        title: 'Welcome to Logarr!',
+        position: 'bottom-start',
+        background: 'rgba(50, 1, 25, 0.75)',
+        timer: 10000
+    })
+};
+
+function datadirsuccess() {
+    Toast.fire({
+        toast: true,
+        type: 'success',
+        title: 'Data directory <br> created successfully!',
+        background: 'rgba(0, 184, 0, 0.75)'
+    })
+};
+
+function datadirerror() {
+    Toast.fire({
+        toast: true,
+        type: 'error',
+        title: 'Error creating <br> data directory!',
+        background: 'rgba(207, 0, 0, 0.75)'
+    })
+};
+
+function usersuccess() {
+    Toast.fire({
+        toast: true,
+        type: 'success',
+        title: 'User created successfully!',
+        background: 'rgba(0, 184, 0, 0.75)'
+    })
+};
+
+function usererror() {
+    Toast.fire({
+        toast: true,
+        type: 'error',
+        title: 'Error creating user!',
+        background: 'rgba(207, 0, 0, 0.75)'
+    })
+};
+
+
 
 function refreshblockUI() {
     $('#body').addClass("cursorwait");
@@ -365,6 +413,7 @@ function refreshblockUI() {
         $('#count').removeClass("hidden");
     } else {
         $('#count').addClass("hidden");
+        $('#searchBtn').removeClass("marksearchInput");
     }
 }
 
@@ -440,6 +489,7 @@ function loadLogs() {
 }
 
 function loadLog(log) {
+
     var logTitle = log.logTitle;
 
     $.ajax({
@@ -607,6 +657,7 @@ $(function () {
     // Clears the search
     $("button[data-search='clear']").on("click", function () {
         clearsearch();
+        $('#searchBtn').removeClass("marksearchInput");
         $(".slide").unmark();
         $("input[name='markinput']").val("");
         $('.count').removeClass("countresults");
@@ -632,6 +683,10 @@ $(function () {
     let timeoutID = null;
     $("input[name='markinput']").keyup(function (e) {
         if ($("input[name='markinput']").val() !== "") {
+
+            //Color search button BLUE on keyup:
+            $('#searchBtn').addClass("marksearchInput");
+
             clearTimeout(timeoutID);
             if (settings.liveSearch === "true") {
                 $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search
@@ -702,7 +757,6 @@ $(function () {
 
     // filter logs
     $(document).on('click', ".category-filter-item", function (event) {
-        //TODO why refresh blockUI on log filter ??
         refreshblockUI();
         setTimeout(function () {
             console.log('Filtering logs on: ' + window.location.hash);
@@ -781,9 +835,8 @@ function refreshConfig() {
     });
 }
 
-//TODO / TESTING:
+function refreshLog() {    
 
-function refreshLog() {
     $.ajax({
         url: "assets/php/sync-config.php",
         type: "GET",
@@ -1007,14 +1060,14 @@ function load_preferences() {
 }
 
 function load_settings() {
-    document.getElementById("settings-page-title").innerHTML = 'Logarr Settings';
+    document.getElementById("settings-page-title").innerHTML = 'Settings';
     document.getElementById("includedContent").innerHTML = '<object type="text/html" class="object" data="assets/php/settings/site_settings.php" ></object>';
     $(".sidebar-nav-item").removeClass('active');
     $("li[data-item='logarr-settings']").addClass("active");
 }
 
 function load_authentication() {
-    document.getElementById("settings-page-title").innerHTML = 'Logarr Authentication';
+    document.getElementById("settings-page-title").innerHTML = 'Authentication';
     document.getElementById("includedContent").innerHTML = '<object type="text/html" class="object" data="assets/php/settings/authentication.php" ></object>';
     $(".sidebar-nav-item").removeClass('active');
     $("li[data-item='logarr-authentication']").addClass("active");
@@ -1027,11 +1080,11 @@ function load_logs() {
     $("li[data-item='logs-configuration']").addClass("active");
 }
 
-function load_configuration() {
-    document.getElementById("settings-page-title").innerHTML = 'Configuration';
-    $("#includedContent").html('<object type="text/html" class="object" data="configuration.php" ></object>');
+function load_setup() {
+    document.getElementById("settings-page-title").innerHTML = 'Setup';
+    $("#includedContent").html('<object type="text/html" class="object" data="setup.php" ></object>');
     $(".sidebar-nav-item").removeClass('active');
-    $("li[data-item='configuration']").addClass("active");
+    $("li[data-item='setup']").addClass("active");
 }
 
 function scrollFunction() {
