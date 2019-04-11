@@ -379,7 +379,6 @@ h6,
     text-align: right;
     vertical-align: middle;
     width: 40%;
-    /* margin-top: 1rem; */
     margin-bottom: auto;
     margin-right: 1em;
 }
@@ -557,6 +556,13 @@ mark.current {
     background-color: #8E8B8B;
     font-size: .85rem;
     width: 5.5em;
+}
+
+.marksearchInput {
+    color: #fff;
+    font-weight: 600;
+    background-color: #0069d9;
+    border-color: #0062cc;
 }
 
 .search-button {
@@ -1324,6 +1330,10 @@ ul.nav.sidebar-nav>li>a>i {
     background-color: transparent;
     color: #ffffff;
     text-decoration: none;
+}
+
+.sidebarTitleError{
+    color: red !important;
 }
 
 /* Modals: */
@@ -2157,14 +2167,14 @@ div[data-alpaca-container-item-name="category"] {
 
 #registration-container,
 #login-container,
-#configuration-container {
+#setup-container {
     margin: 2rem auto;
     width: 75%;
     padding: 2rem;
     padding-top: 1rem;
 }
 
-#configuration-container {
+#setup-container {
     margin-top: 5vh;
 }
 
@@ -2196,10 +2206,6 @@ div[data-alpaca-container-item-name="category"] {
     text-align: center;
     justify-content: center;
     cursor: pointer;
-}
-
-#logoconfig {
-    cursor: default !important;
 }
 
 #logo-login {
@@ -2445,7 +2451,7 @@ h2.heading {
     cursor: default;
 }
 
-.configheader {
+.setupheader {
     margin-bottom: 1.5rem !important;
 }
 
@@ -3035,13 +3041,16 @@ ul.stepper li a .circle {
     text-align: center;
     line-height: 1.7rem;
     margin-right: .5rem;
+    background-color: red;
 }
 
-.circleblue {
-    background: #4285f4;
+.circle.active {
     background-color: #4285f4;
 }
 
+.circle.completed {
+    background-color: lightgreen;
+}
 
 .circlecomplete {
     background: lightgreen !important;
@@ -3082,15 +3091,11 @@ ul.stepper li.success a .circle {
     background-color: #43A047;
 }
 
-.stepper-target {
-    display: none;
-}
-
-.config {
+.setup {
     background-color: inherit;
 }
 
-#config-icon {
+#setup-icon {
     width: 20vw !important;
     max-width: 25rem;
     display: flex;
@@ -3101,7 +3106,7 @@ ul.stepper li.success a .circle {
     cursor: default !important;
 }
 
-#configcomplete {
+#setupcomplete {
     margin: 1rem;
     color: lightgreen;
     font-size: 2rem;
@@ -3111,7 +3116,7 @@ ul.stepper li.success a .circle {
     cursor: default;
 }
 
-#configreload {
+#setupreload {
     color: yellow;
     font-size: 1.2rem;
     font-weight: 600;
