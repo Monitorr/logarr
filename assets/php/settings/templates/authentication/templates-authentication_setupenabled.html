@@ -1,0 +1,29 @@
+<script type="text/x-handlebars-template">
+
+    <div id="setupenabled" class="form-group">
+
+        {{#if options.label}}
+        <label class="{{#if options.labelClass}}{{options.labelClass}}{{/if}} alpaca-control-label setupenabledlabel" for="{{id}}">
+
+            {{{options.label}}}
+
+            <i class="fa fa-fw fa-question-circle input_icon" id="setupenabled_icon" title="Enable access to the Setup page. (NOTE: For security purposes, this should be DISABLED ('false') after initial Setup.)"> </i>
+
+        </label>
+
+        {{/if}} {{#control}}{{/control}} {{#if options.helper}}
+
+        <p class="{{#if options.helperClass}}{{options.helperClass}}{{/if}}">
+            <i class="info-sign"> </i>
+
+            {{{options.helper}}}
+
+        </p>
+
+        {{/if}}
+		
+		<p id="regsettingnote"> <i class="fas fa-exclamation-triangle"> </i>  For security purposes, this should be DISABLED ('false') after initial Setup. </p>
+
+    </div>
+
+</script>

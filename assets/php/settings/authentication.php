@@ -84,12 +84,25 @@ include(__DIR__ . '/../auth_check.php');
                 background: 'rgba(207, 0, 0, 0.75)'
             })
         };
+
+        function validerror() {
+            Toast.fire({
+                type: 'error',
+                title: 'Invalid value!',
+                background: 'rgba(207, 0, 0, 0.75)'
+            })
+        };
     </script>
 
     <!-- Tooltips: -->
     <script>
         $(function() {
-            $(document).tooltip();
+            $(document).tooltip({
+                hide: { 
+                    effect: "fadeOut", 
+                    duration: 200 
+                }
+            });
         });
     </script>
 
@@ -149,18 +162,18 @@ include(__DIR__ . '/../auth_check.php');
                         "layout": {
                             "template": './templates/two-column-layout-template.html',
                             "bindings": {
-                                "configurationEnabled": "rightcolumn",
+                                "setupEnabled": "rightcolumn",
                                 "settingsEnabled": "leftcolumn",
                                 "logsEnabled": "leftcolumn"
                             }
                         },
                         "fields": {
-                            "/configurationEnabled": {
+                            "/setupEnabled": {
                                 "templates": {
-                                    "control": "./templates/authentication/templates-authentication_configurationenabled.html"
+                                    "control": "./templates/authentication/templates-authentication_setupenabled.html"
                                 },
                                 "bindings": {
-                                    "configurationEnabled": "#authentication_configurationenabled"
+                                    "setupEnabled": "#authentication_setupenabled"
                                 }
                             },
                             "/settingsEnabled": {
@@ -191,18 +204,18 @@ include(__DIR__ . '/../auth_check.php');
                         "collapsible": false,
                         "legendStyle": "button",
                         "fields": {
-                            "configurationEnabled": {
+                            "setupEnabled": {
                                 "type": "radio",
                                 "validate": true,
                                 "showMessages": true,
                                 "disabled": false,
                                 "hidden": false,
-                                "label": "Enable Configuration access:",
-                                "helpers": ["Enable access to the Configuration page. (NOTE: For security purposes, this should be DISABLED ('False') after initial configuration.)"],
+                                "label": "Enable Setup access:",
+                                "helpers": ["Enable access to the Setup page. (NOTE: For security purposes, this should be DISABLED ('False') after initial Setup.)"],
                                 "hideInitValidationError": false,
                                 "focus": false,
                                 "optionLabels": [" True", " False"],
-                                "name": "configurationEnabled",
+                                "name": "setupEnabled",
                                 "typeahead": {},
                                 "allowOptionalEmpty": false,
                                 "data": {},
@@ -214,8 +227,17 @@ include(__DIR__ . '/../auth_check.php');
                                 "events": {
                                     "change": function() {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
-                                        $('.configurationenabledlabel').addClass('settingslabelchanged');
+                                        $('.setupenabledlabel').removeClass('settingslabelerror');
+                                        $('.setupenabledlabel').addClass('settingslabelchanged');
                                         settingchange();
+                                    },
+                                    "ready": function() {
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            console.log('%cERROR: Invalid value for Enable Setup access!','color: #FF0000;');
+                                            $('.setupenabledlabel').addClass('settingslabelerror');
+                                            validerror();
+                                        }
                                     }
                                 }
                             },
@@ -226,7 +248,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "disabled": false,
                                 "hidden": false,
                                 "label": "Enable Settings authentication:",
-                                "helpers": ["Enable authentication for the settings page."],
+                                "helpers": ["Enable authentication for the Settings page."],
                                 "hideInitValidationError": false,
                                 "focus": false,
                                 "optionLabels": [" True", " False"],
@@ -242,8 +264,17 @@ include(__DIR__ . '/../auth_check.php');
                                 "events": {
                                     "change": function() {
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
+                                        $('.settingsenabledlabel').removeClass('settingslabelerror');
                                         $('.settingsenabledlabel').addClass('settingslabelchanged');
                                         settingchange();
+                                    },
+                                    "ready": function() {
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            console.log('%cERROR: Invalid value for Settings Authentication!','color: #FF0000;');
+                                            $('.settingsenabledlabel').addClass('settingslabelerror');
+                                            validerror();
+                                        }
                                     }
                                 }
                             },
@@ -271,8 +302,17 @@ include(__DIR__ . '/../auth_check.php');
                                     "change": function() {
                                         $('#authnote').removeClass('hidden');
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
+                                        $('.logsenabledlabel').removeClass('settingslabelerror');
                                         $('.logsenabledlabel').addClass('settingslabelchanged');
                                         settingchange();
+                                    },
+                                    "ready": function() {
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            console.log('%cERROR: Invalid value for Logarr Authentication!','color: #FF0000;');
+                                            $('.logsenabledlabel').addClass('settingslabelerror');
+                                            validerror();
+                                        }
                                     }
                                 }
                             }

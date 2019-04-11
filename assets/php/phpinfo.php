@@ -108,7 +108,7 @@ $date = date("D d M Y H:i T");
 
 
 if (!$myfile) {
-	echo " <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP write permissions FAIL'>";
+	echo " <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Initial-installation' target='_blank' title='PHP write permissions FAIL'>";
 	echo "Perms";
 	echo "</a>";
 	echo "<script>console.log( 'ERROR: PHP write permissions FAIL' );</script>";
@@ -116,7 +116,7 @@ if (!$myfile) {
 	echo " <div class='extok' title='PHP write permissions OK' >";
 	echo "Perms";
 	echo "</div>";
-	fwrite($myfile, "\r\n" . $date . "\r\n" . "Logarr PHP write permissions O.K \r\nThis file can be safely removed, however it will be regenerated every time a user logs into Logarr Settings.");
+	fwrite($myfile, "\r\n" . $date . "\r\n" . "Logarr PHP write permissions OK \r\nThis file can be safely removed, however it will be regenerated every time a user logs into Logarr Settings.");
 	fclose($myfile);
 }
 
@@ -130,7 +130,7 @@ $datadirfile = $datafile;
 
 if (!file_exists($datadir)) {
 	echo "<script>console.log('ERROR: Logarr Datadir not found');</script>";
-	echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='Logarr Datadir NOT found'>";
+	echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Initial-installation' target='_blank' title='Logarr Datadir NOT found'>";
 	echo "Data";
 	echo "</a>";
 } else {
@@ -141,7 +141,7 @@ if (!file_exists($datadir)) {
 	$datadircheck = fopen($datadirfile, 'w');
 
 	if (!$datadircheck) {
-		echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP Datadir write permissions FAIL'>";
+		echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Initial-installation' target='_blank' title='PHP Datadir write permissions FAIL'>";
 		echo "Data";
 		echo "</a>";
 		echo "<script>console.log( 'ERROR: Logarr PHP Datadir write permissions FAIL' );</script>";
@@ -160,7 +160,7 @@ if (extension_loaded('sqlite3')) {
 	echo "php_sqlite3";
 	echo "</div>";
 } else {
-	echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP php_sqlite3 extension NOT loaded'>";
+	echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Initial-installation' target='_blank' title='PHP php_sqlite3 extension NOT loaded'>";
 	echo "php_sqlite3";
 	echo "</a>";
 	echo "<script>console.log( 'ERROR: PHP sqlite3 extension NOT loaded' );</script>";
@@ -171,7 +171,7 @@ if (extension_loaded('pdo_sqlite')) {
 	echo "pdo_sqlite";
 	echo "</div>";
 } else {
-	echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP pdo_sqlite extension NOT loaded'>";
+	echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Initial-installation' target='_blank' title='PHP pdo_sqlite extension NOT loaded'>";
 	echo "pdo_sqlite";
 	echo "</a>";
 	echo "<script>console.log( 'ERROR: PHP pdo_sqlite extension NOT loaded' );</script>";
@@ -182,7 +182,7 @@ if (extension_loaded('zip')) {
 	echo "php7-zip";
 	echo "</div>";
 } else {
-	echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='php7-zip extension NOT loaded'>";
+	echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Initial-installation' target='_blank' title='php7-zip extension NOT loaded'>";
 	echo "php7-zip";
 	echo "</a>";
 	echo "<script>console.log( 'ERROR: PHP php7-zip extension NOT loaded' );</script>";
@@ -193,7 +193,7 @@ if (extension_loaded('openssl')) {
 	echo "OpenSSL";
 	echo "</div>";
 } else {
-	echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP openssl extension NOT loaded'>";
+	echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Initial-installation' target='_blank' title='PHP openssl extension NOT loaded'>";
 	echo "OpenSSL";
 	echo "</a>";
 	echo "<script>console.log( '%cERROR: PHP openssl extension NOT loaded','color: #FF0104;' );</script>";
@@ -208,7 +208,7 @@ if (extension_loaded('date')) {
 	echo "date";
 	echo "</div>";
 } else {
-	echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP date extension NOT loaded'>";
+	echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Initial-installation' target='_blank' title='PHP date extension NOT loaded'>";
 	echo " date";
 	echo "</a>";
 }
@@ -218,7 +218,7 @@ if (extension_loaded('json')) {
 	echo "json";
 	echo "</div>";
 } else {
-	echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP json extension NOT loaded'>";
+	echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Initial-installation' target='_blank' title='PHP json extension NOT loaded'>";
 	echo " json";
 	echo "</a>";
 }
@@ -228,7 +228,7 @@ if (extension_loaded('pcre')) {
 	echo "pcre";
 	echo "</div>";
 } else {
-	echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP pcre extension NOT loaded'>";
+	echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Initial-installation' target='_blank' title='PHP pcre extension NOT loaded'>";
 	echo " pcre";
 	echo "</a>";
 }
@@ -238,7 +238,7 @@ if (extension_loaded('session')) {
 	echo "session";
 	echo "</div>";
 } else {
-	echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP session extension NOT loaded'>";
+	echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Initial-installation' target='_blank' title='PHP session extension NOT loaded'>";
 	echo " session";
 	echo "</a>";
 }
@@ -248,7 +248,7 @@ if (extension_loaded('filter')) {
 	echo "filter";
 	echo "</div>";
 } else {
-	echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP filter extension NOT loaded'>";
+	echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Initial-installation' target='_blank' title='PHP filter extension NOT loaded'>";
 	echo " filter";
 	echo "</a>";
 }

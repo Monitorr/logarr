@@ -64,10 +64,14 @@
             Access to this page is DISABLED
         </div>
 
+        <!-- //TODO:  Fix relative links  -->
+
         <div id="regbody">
-            + If you are the administrator and are trying to access the Logarr Configuration tool, change the 'Enable Configuration Access' setting to 'True' in the <a class="footer reglink" href='settings.php#logarr-authentication' title="Authentication Settings" target="_blank">Authentication Settings page</a>.
+            + If you are the Administrator and are trying to access the Logarr Setup tool, change the 'Enable Setup Access' setting to 'True' in the <a class="footer reglink" href='settings.php#logarr-authentication' title="Authentication Settings" target="_blank">Authentication Settings page</a>.
             <br><br>
-            + If you cannot access the Logarr settings page, rename the database file: "<strong> <i> <?php echo $db_sqlite_path; ?> </i> </strong>" and browse to this page again.
+            + If you cannot access the Logarr Settings page, rename the database file: "<strong> <i> <?php echo $db_sqlite_path; ?> </i> </strong>" and browse to this page again.
+            <br><br>
+            + If invalid values are detected in the Logarr Configuration File ("config.json") in the Data Directory, this page will automatically load to prevent unauthorized  access to Logarr.
             <br><br>
             + <a class="footer reglink" href='index.php' title="Logarr" target='_blank'> Return to the Logarr UI. </a>
         </div>

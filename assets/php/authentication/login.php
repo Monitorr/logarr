@@ -138,7 +138,12 @@ include_once(__DIR__ . "/../auth_check.php");
     <!-- Tooltips: -->
     <script>
         $(function() {
-            $(document).tooltip();
+            $(document).tooltip({
+                hide: { 
+                    effect: "fadeOut", 
+                    duration: 200 
+                }
+            });
         });
     </script>
 
@@ -248,16 +253,16 @@ include_once(__DIR__ . "/../auth_check.php");
             $("#loginbtn").removeClass("cursornotallowed");
         }
 
-        const $source = document.querySelector('#login_input_password');
+        const $password_input = document.querySelector('#login_input_password');
 
         const typeHandler = function(e) {
             $("#loginbtn").removeClass("disabled");
             $("#loginbtn").removeClass("cursornotallowed");
         }
 
-        $source.addEventListener('input', typeHandler) // register for oninput
-        $source.addEventListener('propertychange', typeHandler) // for IE8
-        $source.addEventListener('change', typeHandler) // fallback for Firefox
+        $password_input.addEventListener('input', typeHandler) // register for oninput
+        $password_input.addEventListener('propertychange', typeHandler) // for IE8
+        $password_input.addEventListener('change', typeHandler) // fallback for Firefox
 
     </script>
 
