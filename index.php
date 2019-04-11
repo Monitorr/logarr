@@ -73,7 +73,7 @@ include('assets/php/auth_check.php');
 
     <script>
         $(document).ready(function() {
-            console.log("Welcome to %cLogarr","color: #FF0104; font-size: 2em;");
+            console.log("Welcome to %cLogarr", "color: #FF0104; font-size: 2em;");
         });
     </script>
 
@@ -130,11 +130,16 @@ include('assets/php/auth_check.php');
     <!-- Tooltips: -->
     <script>
         $(function() {
-            $(document).tooltip();
+            $(document).tooltip({
+                hide: {
+                    effect: "fadeOut",
+                    duration: 200
+                },
+            });
         });
     </script>
 
-        <!-- TODO: / TESTING -->
+    <!-- TODO: / TESTING -->
     <script>
         refreshLog();
     </script>
@@ -233,7 +238,7 @@ include('assets/php/auth_check.php');
             <a href="https://github.com/Monitorr/logarr/releases" title="Logarr Releases" target="_blank" class="footer">
                 v:
                 <?php echo file_get_contents("assets/js/version/version.txt"); ?></a> |
-            <a href="settings.php" title="Logarr Settings" target="_blank" class="footer">Settings</a>
+            <a href="settings.php" id="footerlink" title="Logarr Settings" target="_blank" class="footer">Settings</a>
             <?php if (isset($_SESSION['user_name']) && isset($_SESSION['user_is_logged_in']) && !empty($_SESSION['user_name']) && ($_SESSION['user_is_logged_in'])) {
                 echo " | <a href='index.php?action=logout' onclick='logouttoast();' title='Log Out' class='footer'>Log Out</a>";
             } ?>
@@ -242,6 +247,13 @@ include('assets/php/auth_check.php');
 
     </div>
 
+    <!-- Close persistant tooltips: -->
+    <script>
+        $(window).blur(function(){
+            $('a').blur();
+        });
+    </script>
+
 </body>
 
-</html> 
+</html>
