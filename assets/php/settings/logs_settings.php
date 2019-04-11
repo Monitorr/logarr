@@ -127,7 +127,12 @@ include(__DIR__ . '/../auth_check.php');
     <!-- Tooltips: -->
     <script>
         $(function() {
-            $(document).tooltip();
+            $(document).tooltip({
+                hide: { 
+                    effect: "fadeOut", 
+                    duration: 200 
+                }
+            });
         });
     </script>
 
@@ -377,7 +382,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "validate": true,
                                     "showMessages": true,
                                     "label": "Maximum lines:",
-                                    //"helpers": ["Default line maximum for logs."],
+                                    //"helpers": ["Maximum line display for this log."],
                                     "name": "maxLines",
                                     "placeholder": "1000",
                                     "size": "10",

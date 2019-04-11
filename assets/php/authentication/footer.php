@@ -17,6 +17,13 @@
 
     </div>
 
+    <!-- Close persistant tooltips: -->
+    <script>
+        $(window).blur(function(){
+            $('a').blur();
+        });
+    </script>
+
 </body>
 
 </html>

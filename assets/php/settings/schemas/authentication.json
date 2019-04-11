@@ -2,7 +2,7 @@
   "type": "object",
   "required": false,
   "properties": {
-    "configurationEnabled": {
+    "setupEnabled": {
       "type": "string",
       "enum": [
         "true",

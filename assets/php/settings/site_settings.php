@@ -104,7 +104,12 @@ include(__DIR__ . '/../auth_check.php');
     <!-- Tooltips: -->
     <script>
         $(function() {
-            $(document).tooltip();
+            $(document).tooltip({
+                hide: { 
+                    effect: "fadeOut", 
+                    duration: 200 
+                }
+            });
         });
     </script>
 
@@ -331,8 +336,8 @@ include(__DIR__ . '/../auth_check.php');
                                 "showMessages": true,
                                 "disabled": false,
                                 "hidden": false,
-                                "label": "Maximum amount of lines:",
-                                "helper": "Default line maximum for logs.",
+                                "label": "Maximum lines:",
+                                "helper": "Default maximum line display for all logs.",
                                 "hideInitValidationError": false,
                                 "focus": false,
                                 "optionLabels": [],
@@ -527,7 +532,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "disabled": false,
                                 "hidden": false,
                                 "label": "Highlight Terms:",
-                                "helper": "Highlight these terms. ('Auto Highlight' must be set to TRUE)",
+                                "helper": "Highlight these terms. (NOTE: Terms must be comma separated and 'Auto Highlight' must be set to TRUE. Instructions for setting custom highlight colors can be found on the Logarr Wiki.)",
                                 "hideInitValidationError": false,
                                 "focus": false,
                                 "optionLabels": [],
@@ -596,7 +601,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "disabled": false,
                                 "hidden": false,
                                 "label": "Jump on Search:",
-                                "helpers": ["Jump to 1st search result when a search is performed."],
+                                "helpers": ["Jump to first search result when a search is performed."],
                                 "hideInitValidationError": false,
                                 "focus": false,
                                 "optionLabels": [" True", " False"],

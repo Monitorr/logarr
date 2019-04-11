@@ -19,7 +19,7 @@
         "language": "EN"
     },
     "authentication": {
-        "configurationEnabled": "true",
+        "setupEnabled": "true",
         "settingsEnabled": "true",
         "logsEnabled": "false"
     },

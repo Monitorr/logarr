@@ -38,9 +38,9 @@ class OneFileLoginApplication
 	 */
 	private $user_is_logged_in = false;
 	/**
-	 * @var bool Configured status.
+	 * @var bool Setup status.
 	 */
-	private $is_configured = false;
+	private $is_setup = false;
 	/**
 	 * @var array Copy of authentication settings.
 	 */
@@ -51,16 +51,16 @@ class OneFileLoginApplication
 	 */
 	public function __construct()
 	{
-		if ($this->isConfigured()) {
+		if ($this->isSetup()) {
 			$config_file = $this->datadir . '/config.json';
 			$this->auth_settings = json_decode(file_get_contents($config_file), 1)['authentication'];
 		} else {
 			$urlParts = explode("/", strtok($_SERVER["REQUEST_URI"], '?'));
 			$currentPage = strtok(end($urlParts), ".");
-			if($currentPage != "configuration") {
+			if($currentPage != "setup") {
 				//TODO: This works for index and settings, but not for nested pages like /assets/php/settings/authentication.php
 				// Determine how many directories we need to go up
-				header("Location: configuration.php");
+				header("Location: setup.php");
 			}
 		}
 
@@ -69,12 +69,12 @@ class OneFileLoginApplication
 		}
 	}
 
-	public function isConfigured()
+	public function isSetup()
 	{
 		if(!$this->isDatadirSetup()) return false;
 		if(!$this->databaseExists()) return false;
 		if(!$this->doesUserExist()) return false;
-		if(!$this->isConfigComplete()) return false;
+		if(!$this->isSetupComplete()) return false;
 		return true;
 	}
 
@@ -225,14 +225,14 @@ class OneFileLoginApplication
 	private function databaseSetup() {
 		// create new empty table inside the database (if table does not already exist)
 		$sql = 'CREATE TABLE IF NOT EXISTS `users` (
-                        `user_id` INTEGER PRIMARY KEY,
-                        `user_name` varchar(64),
-                        `user_password_hash` varchar(255),
-                        `user_email` varchar(64),
-                        `auth_token` varchar(64));
-                        CREATE UNIQUE INDEX `user_name_UNIQUE` ON `users` (`user_name` ASC);
-                        CREATE UNIQUE INDEX `user_email_UNIQUE` ON `users` (`user_email` ASC);
-                        ';
+			`user_id` INTEGER PRIMARY KEY,
+			`user_name` varchar(64),
+			`user_password_hash` varchar(255),
+			`user_email` varchar(64),
+			`auth_token` varchar(64));
+			CREATE UNIQUE INDEX `user_name_UNIQUE` ON `users` (`user_name` ASC);
+			CREATE UNIQUE INDEX `user_email_UNIQUE` ON `users` (`user_email` ASC);
+			';
 
 		// execute the above query
 
@@ -249,17 +249,17 @@ class OneFileLoginApplication
 		}
 	}
 
-	public function isConfigComplete()
+	public function isSetupComplete()
 	{
 		$config_path = $this->datadir . DIRECTORY_SEPARATOR . "config.json";
 		if(file_exists($config_path)) {
 			//TODO: write implementation, check if all config keys are accounted for
-			//$this->appendLog($logentry = "Logarr configuration: COMPLETE");
+			//$this->appendLog($logentry = "Logarr setup: COMPLETE");
 			return true;
 		}
 		return false;
 	}
-
+	
 	/**
 	 * Performs a check for minimum requirements to run this application.
 	 * Does not run the further application when PHP version is lower than 5.3.7
@@ -297,16 +297,16 @@ class OneFileLoginApplication
 		$currentPage = strtok(end($urlParts), ".");
 		$homePageURLs = array("index", "", "load-log", "version_check", "sync-config", "time", "download", "unlink", "login-status");
 
-		// check is user wants to see configuration page (etc.)
-		if ($currentPage == "configuration") {
-			if (!$this->isConfigured()) {
+		// check is user wants to see setup page (etc.)
+		if ($currentPage == "setup") {
+			if (!$this->isSetup()) {
 				return true;
 			} else {
-				if (isset($this->auth_settings) && (!isset($this->auth_settings['configurationEnabled']) || $this->auth_settings['configurationEnabled'] != "false")) {
+				if (isset($this->auth_settings) && (!isset($this->auth_settings['setupEnabled']) || $this->auth_settings['setupEnabled'] != "false")) {
 					if ($this->getUserLoginStatus()) {
 						return true;
 					} else {
-						header("location: settings.php#configuration");
+						header("location: settings.php#setup");
 						exit();
 					}
 				} else {
@@ -669,22 +669,22 @@ class OneFileLoginApplication
 	 * In a real application you would probably include an html-template here, but for this extremely simple
 	 * demo the "echo" statements are totally okay.
 	 */
-	private function showPageRegistration()
-	{
+	//private function showPageRegistration()
+	//{
 		//TODO:  Is this still valid?
 		//include_once('authentication/register.php');
-	}
+	//}
 
 	/**
 	 * Simple demo-"page" with the registration form.
 	 * In a real application you would probably include an html-template here, but for this extremely simple
 	 * demo the "echo" statements are totally okay.
 	 */
-	private function showPageConfiguration()
-	{
+	//private function showPageConfiguration()
+	//{
 		//TODO:  Is this still valid?
 		//include_once('authentication/configuration.php');
-	}
+	//}
 }
 
 // run the application

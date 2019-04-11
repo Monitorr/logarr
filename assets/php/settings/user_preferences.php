@@ -100,10 +100,15 @@ include(__DIR__ . '/../auth_check.php');
     <!-- Tooltips: -->
     <script>
         $(function() {
-            $(document).tooltip();
+            $(document).tooltip({
+                hide: { 
+                    effect: "fadeOut", 
+                    duration: 200 
+                }
+            });
         });
     </script>
-
+    
 </head>
 
 <body id="settings-frame-wrapper">
