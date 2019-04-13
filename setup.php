@@ -14,7 +14,7 @@ if (isset($_POST['action'])) {
 			}
 			break;
 		case "registerUser":
-			appendLog($logentry = "Logarr is creating a new user");
+			appendLog("Logarr is creating a new user");
 			$result["status"] = $authenticator->doRegistration() ? "success" : "failed";
 			$result["responseuser"] = $authenticator->feedback;
 			break;
@@ -82,52 +82,16 @@ appendLog("Logarr Setup loaded");
         }
     </style>
 
-    <?php
-        if ($authenticator->doesDataDirExist()) {
-            echo '<script>';
-            echo '$(document).ready(function () {';
-            echo 'datadir = true;';
-            echo '});';
-            echo '</script>';
-        } else {
-            echo '<script>';
-            echo '$(document).ready(function() {';
-            echo 'datadir = false;';
-            echo '});';
-            echo '</script>';
-        };
-
-        if ($authenticator->doesUserExist()) {
-            echo '<script>';
-            echo '$(document).ready(function () {';
-            echo 'datauser = true;';
-            echo '});';
-            echo '</script>';
-        } else {
-            echo '<script>';
-            echo '$(document).ready(function() {';
-            echo 'datauser = false;';
-            echo '});';
-            echo '</script>';
-        };
-
-        if (isDocker() == true) {
-            echo '<script>';
-            echo '$(document).ready(function () {';
-            echo 'docker = true;';
-            echo '});';
-            echo '</script>';
-        } else {
-            echo '<script>';
-            echo '$(document).ready(function() {';
-            echo 'docker = false;';
-            echo '});';
-            echo '</script>';
-        };
-    ?>
+    <script>
+		<?php
+		echo "var datadir = " . $authenticator->doesDataDirExist();
+		echo "var datauser = " . $authenticator->doesUserExist();
+		echo "var docker = " . isDocker();
+		?>
+    </script>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
 
             if (datadir == true) {
                 window.location.href = 'setup.php#users';
@@ -135,12 +99,13 @@ appendLog("Logarr Setup loaded");
                 $('#datadircircle').addClass('circlecomplete');
             } else {
                 $('#datadircircle').addClass('circlenotcomplete');
-            };
+            }
+            ;
 
             if (datauser == true) {
                 $('#datadircircle').removeClass('circlecomplete');
             } else {
-                console.log("Welcome to %cLogarr","color: #FF0104; font-size: 2em;");
+                console.log("Welcome to %cLogarr", "color: #FF0104; font-size: 2em;");
                 console.log("User NOT established in users.db database");
                 $('#registration-header').removeClass('hidden');
                 $('#extensions').removeClass('hidden');
@@ -149,7 +114,8 @@ appendLog("Logarr Setup loaded");
                 $('#setupcircle').removeClass('circlecomplete');
                 $('#setupcircle').addClass('circlenotcomplete');
                 toastwelcome();
-            };
+            }
+            ;
 
             if (docker == true) {
                 $('#docker').addClass('dockerwarn');
@@ -310,13 +276,13 @@ appendLog("Logarr Setup loaded");
     <!-- Enables user mgmt tab if setup complete: -->
     <script>
         function usercomplete() {
-            document.getElementById("userstep").onclick = function() {
+            document.getElementById("userstep").onclick = function () {
                 switchTabs('#users');
             };
         }
 
         function setupcomplete() {
-            document.getElementById("setupstep").onclick = function() {
+            document.getElementById("setupstep").onclick = function () {
                 switchTabs('#setup');
             };
         }
@@ -375,7 +341,7 @@ appendLog("Logarr Setup loaded");
 				if (!$authenticator->doesDataDirExist()) {
 					$datadirStepClass = "active";
 				} else if (!$authenticator->isDatadirSetup()) {
-				    $datadirStepClass = "active";
+					$datadirStepClass = "active";
 				} else if (!$authenticator->databaseExists()) {
 					$datadirStepClass = "completed";
 					$userStepClass = "active";
@@ -446,14 +412,13 @@ appendLog("Logarr Setup loaded");
             <div>
                 <i class='fa fa-fw fa-folder-open'> </i>
 
-                <?php
-                if(isDocker()) {
-                    echo "<input type='search' class=\"input dockerinput\" disabled readonly name='datadir' id=\"datadir-input\" title=\"Changing the Data Directory while using Docker is not possible.\" fv-not-empty=\" This field cannot be empty\" fv-advanced='{\"regex\": \"\\\s\", \"regex_reverse\": true, \"message\": \"  Value cannot contain spaces\"}' spellcheck=\"false\" autocomplete=\"off\" placeholder=' Data dir path' value=\"$authenticator->datadir\" required>";
-                }
-                else {
-                    echo "<input type='search' class=\"input standardinput\" name='datadir' id=\"datadir-input\" title=\"Data directory path\" fv-not-empty=\" This field cannot be empty\" fv-advanced='{\"regex\": \"\\\s\", \"regex_reverse\": true, \"message\": \"  Value cannot contain spaces\"}' spellcheck=\"false\" autocomplete=\"off\" placeholder=' Data dir path' value=\"$authenticator->datadir\" required>";
-                }
-                ?><br>
+				<?php
+				if (isDocker()) {
+					echo "<input type='search' class=\"input dockerinput\" disabled readonly name='datadir' id=\"datadir-input\" title=\"Changing the Data Directory while using Docker is not possible.\" fv-not-empty=\" This field cannot be empty\" fv-advanced='{\"regex\": \"\\\s\", \"regex_reverse\": true, \"message\": \"  Value cannot contain spaces\"}' spellcheck=\"false\" autocomplete=\"off\" placeholder=' Data dir path' value=\"$authenticator->datadir\" required>";
+				} else {
+					echo "<input type='search' class=\"input standardinput\" name='datadir' id=\"datadir-input\" title=\"Data directory path\" fv-not-empty=\" This field cannot be empty\" fv-advanced='{\"regex\": \"\\\s\", \"regex_reverse\": true, \"message\": \"  Value cannot contain spaces\"}' spellcheck=\"false\" autocomplete=\"off\" placeholder=' Data dir path' value=\"$authenticator->datadir\" required>";
+				}
+				?><br>
                 <p id="configpath">
                     <i class="fa fa-fw fa-info-circle"> </i>
 					<?php echo "Current absolute path: " . getcwd() ?>
@@ -479,7 +444,7 @@ appendLog("Logarr Setup loaded");
                 <br>
                 + Value must be an absolute path on the server's filesystem.
                 <br>
-                <p id="docker" class="<?php if (isDocker()) echo 'dockerwarn';?>">+ It is NOT possible to change the data directory location if using Docker.</p>
+                <p id="docker" class="<?php if (isDocker()) echo 'dockerwarn'; ?>">+ It is NOT possible to change the data directory location if using Docker.</p>
                 + For security purposes, this directory should NOT be within the webserver's filesystem hierarchy.
                 However, if a path is chosen outside the webserver's filesystem, the PHP process must have read/write privileges to whatever location is chosen to create the data directory.
             </i>
@@ -508,26 +473,26 @@ appendLog("Logarr Setup loaded");
                 <form id="userform" method="post">
                     <table id="registrationtable">
                         <tbody id="registrationform">
-                            <tr id="usernameinput">
-                                <td><i class="fa fa-fw fa-user"> </i> <input id="login_input_username" type="search" class="input" pattern="[a-zA-Z0-9]{2,64}" name="user_name" placeholder=" Username" title="Enter a username" fv-not-empty='' required spellcheck="false" autocomplete="off"></td>
-                                <td><label for="login_input_username"><i> Letters and numbers only, 2 to 64 characters </i></label></td>
-                            </tr>
+                        <tr id="usernameinput">
+                            <td><i class="fa fa-fw fa-user"> </i> <input id="login_input_username" type="search" class="input" pattern="[a-zA-Z0-9]{2,64}" name="user_name" placeholder=" Username" title="Enter a username" fv-not-empty='' required spellcheck="false" autocomplete="off"></td>
+                            <td><label for="login_input_username"><i> Letters and numbers only, 2 to 64 characters </i></label></td>
+                        </tr>
 
-                            <tr id="useremail">
-                                <td><i class='fa fa-fw fa-envelope'> </i> <input id='login_input_email' type='email' class="input" name='user_email' placeholder=' User e-mail' spellcheck="false"></td>
-                                <td><label for="login_input_email"> <i> Not required </i></label></td>
-                            </tr>
+                        <tr id="useremail">
+                            <td><i class='fa fa-fw fa-envelope'> </i> <input id='login_input_email' type='email' class="input" name='user_email' placeholder=' User e-mail' spellcheck="false"></td>
+                            <td><label for="login_input_email"> <i> Not required </i></label></td>
+                        </tr>
 
-                            <tr id="userpassword">
-                                <td>
-                                    <i class='fa fa-fw fa-key'></i>
-                                    <input id='login_input_password_new' class='login_input input' type='password' name='user_password_new' pattern='.{6,}' fv-not-empty='' required autocomplete='off' placeholder=' Password' title='Enter a password'/>
-                                </td>
-                                <td>
-                                    <input id='login_input_password_repeat' class='login_input input' type='password' name='user_password_repeat' pattern='.{6,}' fv-not-empty='' fv-advanced='{"regex": "\\s", "regex_reverse": true, "message": "Value cannot contain spaces"}' fv-valid-func='$( "#registerbtn" ).prop( "disabled", false )' fv-invalid-func='$( "#registerbtn" ).prop( "disabled", true )' required autocomplete='off' placeholder=' Repeat password' title='Repeat password'/>
-                                    <i> Minimum 6 characters </i>
-                                </td>
-                            </tr>
+                        <tr id="userpassword">
+                            <td>
+                                <i class='fa fa-fw fa-key'></i>
+                                <input id='login_input_password_new' class='login_input input' type='password' name='user_password_new' pattern='.{6,}' fv-not-empty='' required autocomplete='off' placeholder=' Password' title='Enter a password'/>
+                            </td>
+                            <td>
+                                <input id='login_input_password_repeat' class='login_input input' type='password' name='user_password_repeat' pattern='.{6,}' fv-not-empty='' fv-advanced='{"regex": "\\s", "regex_reverse": true, "message": "Value cannot contain spaces"}' fv-valid-func='$( "#registerbtn" ).prop( "disabled", false )' fv-invalid-func='$( "#registerbtn" ).prop( "disabled", true )' required autocomplete='off' placeholder=' Repeat password' title='Repeat password'/>
+                                <i> Minimum 6 characters </i>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
 
@@ -679,23 +644,23 @@ echo "</div>";
     </div>
 </div>
 
-    <!-- Enable/disable tabs based on setup completion: -->
-    <?php
-        if ($authenticator->doesDataDirExist()) {
-            echo "<script type='text/javascript'>";
-            echo "usercomplete();";
-            echo "$('#datadirstep').addClass('cursorpoint');";
-            echo "$('#usersteplink').addClass('cursorpoint');";
-            echo "$('#usernext').removeClass('disabled');";
-            echo "</script>";
-        };
+<!-- Enable/disable tabs based on setup completion: -->
+<?php
+if ($authenticator->doesDataDirExist()) {
+	echo "<script type='text/javascript'>";
+	echo "usercomplete();";
+	echo "$('#datadirstep').addClass('cursorpoint');";
+	echo "$('#usersteplink').addClass('cursorpoint');";
+	echo "$('#usernext').removeClass('disabled');";
+	echo "</script>";
+};
 
-        if ($authenticator->doesUserExist()) {
-            echo "<script type='text/javascript'>";
-            echo "$('#setupstep').addClass('hidden');";
-            echo "</script>";
-        };
-    ?>
+if ($authenticator->doesUserExist()) {
+	echo "<script type='text/javascript'>";
+	echo "$('#setupstep').addClass('hidden');";
+	echo "</script>";
+};
+?>
 
 <!-- Close persistant tooltips: -->
 <script>

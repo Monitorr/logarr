@@ -77,7 +77,7 @@ include('assets/php/auth_check.php');
         });
     </script>
 
-    <?php appendLog($logentry = "Logarr Index loaded"); ?>
+    <?php appendLog( "Logarr Index loaded"); ?>
 
     <!-- Check if Logarr auth is enabled / if TRUE, check login status every 10s -->
     <?php checkLoginindex(); ?>
