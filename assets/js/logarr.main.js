@@ -786,7 +786,7 @@ function refreshConfig() {
 
             if(home, settings) {
                 if (settings.rfconfig !== rfconfig) {
-                    rfconfig = settings.rfconfig;
+                    rfconfig = settings.rfconfig > 300 ? settings.rfconfig : 30000;
                     clearInterval(nIntervId["refreshConfig"]);
                     nIntervId["refreshConfig"] = setInterval(refreshConfig, rfconfig);
                 }

@@ -123,8 +123,9 @@ include_once(__DIR__ . "/../auth_check.php");
         let servertime = "<?php echo $serverTime; ?>";
         let timeStandard = <?php echo $timeStandard; ?>;
         let timeZone = "<?php echo $timezone_suffix; ?>";
-        let rftime = <?php echo $GLOBALS['settings']['rftime']; ?>;
-        rftime = rftime > 300 ? rftime : 30000;
+        let rftime = <?php echo $GLOBALS['settings']['rftime']; ?>
+
+        rftime = rftime > 300 ? rftime : 30000; //minimum value, if not set default value will be used
 
         $(document).ready(function() {
             syncServerTime();

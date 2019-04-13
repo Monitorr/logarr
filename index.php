@@ -110,7 +110,9 @@ include('assets/php/auth_check.php');
         let servertime = "<?php echo $serverTime; ?>";
         let timeStandard = <?php echo $timeStandard; ?>;
         let timeZone = "<?php echo $timezone_suffix; ?>";
-        let rftime = <?php echo $GLOBALS['settings']['rftime']; ?>;
+        let rftime = <?php echo $GLOBALS['settings']['rftime']; ?>
+
+        rftime = rftime > 300 ? rftime : 30000; //minimum value, if not set default value will be used
 
         $(document).ready(function() {
             syncServerTime()
@@ -249,7 +251,7 @@ include('assets/php/auth_check.php');
 
     <!-- Close persistant tooltips: -->
     <script>
-        $(window).blur(function(){
+        $(window).blur(function() {
             $('a').blur();
         });
     </script>

@@ -24,6 +24,12 @@ if ($preferences['timezone'] == "") {
 	$timezone = date_default_timezone_get();
 }
 
+if (!$settings['rfconfig'] || !$settings['rftime'] || !$settings['rflog'] || !$settings['maxLines'] || !$settings['logRefresh'] || !$settings['autoHighlight'] || !$settings['jumpOnSearch'] || !$settings['liveSearch']) {
+	appendLog($logentry = "ERROR: Invalid Settings value");
+} else {
+}
+
+
 // New version download information
 
 $branch = $preferences['updateBranch'];
@@ -32,7 +38,6 @@ $branch = $preferences['updateBranch'];
 $remote_file_url = 'https://github.com/monitorr/logarr/zipball/' . $branch . '';
 
 // rename version location/name
-//$local_file = '../../assets/data/tmp/logarr-' . $branch . '.zip'; //download path for udpate zip file
 $local_file = __DIR__  . '/../data/tmp/logarr-' . $branch . '.zip'; //download path for udpate zip file
 
 // version check information
@@ -41,8 +46,6 @@ $local_file = __DIR__  . '/../data/tmp/logarr-' . $branch . '.zip'; //download p
 $ext_version_loc = 'https://raw.githubusercontent.com/monitorr/logarr/' . $branch . '/assets/js/version/version.txt';
 
 // users local version number:
-
-//$vnum_loc = "../js/version/version.txt";
 $vnum_loc = __DIR__  . '/../js/version/version.txt';
 
 
@@ -69,7 +72,6 @@ function appendLog($logentry) {
 	} else {
 
 		if (is_writable($logpath)) {
-			//echo "<script>console.log('Logarr log: wrote: $logentry | Log file: $logfile');</script>";
 			fclose($handle);
 
 		} else {
@@ -92,69 +94,133 @@ function isDocker() {
 	}
 }
 
-	// When user logs into SETTINGS, check config.json for all requiared values and validity:
+// When user logs into SETTINGS, check config.json for all required AUTHENTICATION values and validity:
+function isMissingKeys() {
 
-		//TODO / Add all required values:
+	$setupEnabled = $GLOBALS['authentication']['setupEnabled'];
+	$settingsEnabled = $GLOBALS['authentication']['settingsEnabled'];
+	$logsEnabled = $GLOBALS['authentication']['logsEnabled'];
 
-	function isMissingKeys() {
+	if (!$setupEnabled || !$settingsEnabled || !$logsEnabled) {
+		echo "<script>console.log('%cError: Invalid Authentication Settings value!', 'color: #FF0104;');</script>";
+		echo "<script>$('#sidebarAuthTitle').addClass('sidebarTitleError');</script>";
+		appendLog($logentry = "ERROR: Invalid Authentication Settings value!");
+	} else {
+	};
 
-		$setupEnabled = $GLOBALS['authentication']['setupEnabled'];
-		$settingsEnabled = $GLOBALS['authentication']['settingsEnabled'];
-		$logsEnabled = $GLOBALS['authentication']['logsEnabled'];
-
-		if (!$setupEnabled || !$settingsEnabled || !$logsEnabled) {
-			echo "<script>console.log('%cError: Invalid Authentication Settings value!', 'color: #FF0104;');</script>";
+	// Check if Logs Enabled has valid value:
+	if ($logsEnabled == 'true') {
+	} else {
+		if ($logsEnabled == 'false') {
+		} else {
+			echo "<script>console.log('%cError: Invalid Authentication Settings value: logsEnabled', 'color: #FF0104;');</script>";
 			echo "<script>$('#sidebarAuthTitle').addClass('sidebarTitleError');</script>";
-			appendLog($logentry = "ERROR: Invalid Authentication Settings value!");
-		} else {
-		};
-
-		// Check if Logs Enabled has valid value:
-		if ($logsEnabled == 'true') {
-		} else {
-			if ($logsEnabled == 'false') {
-			} else {
-				echo "<script>console.log('%cError: Invalid Authentication Settings value: logsEnabled', 'color: #FF0104;');</script>";
-				echo "<script>$('#sidebarAuthTitle').addClass('sidebarTitleError');</script>";
-				appendLog($logentry = "ERROR: Invalid Authentication Settings value: 'logsEnabled'.");
-			}
+			appendLog($logentry = "ERROR: Invalid Authentication Settings value: 'logsEnabled'.");
 		}
+	}
 
-		// Check if Settings Enabled has valid value:
-		if ($settingsEnabled == 'true') {
+	// Check if Settings Enabled has valid value:
+	if ($settingsEnabled == 'true') {
+	} else {
+		if ($settingsEnabled == 'false') {
 		} else {
-			if ($settingsEnabled == 'false') {
-			} else {
-				echo "<script>console.log('%cError: Invalid Authentication Settings value: settingsEnabled', 'color: #FF0104;');</script>";
-				echo "<script>$('#sidebarAuthTitle').addClass('sidebarTitleError');</script>";
-				appendLog($logentry = "ERROR: Invalid Authentication Settings value: 'settingsEnabled'.");
-			}
+			echo "<script>console.log('%cError: Invalid Authentication Settings value: settingsEnabled', 'color: #FF0104;');</script>";
+			echo "<script>$('#sidebarAuthTitle').addClass('sidebarTitleError');</script>";
+			appendLog($logentry = "ERROR: Invalid Authentication Settings value: 'settingsEnabled'.");
 		}
+	}
 
-		// Check if Setup Access has valid value:
-		if ($setupEnabled == 'true') {
+	// Check if Setup Access has valid value:
+	if ($setupEnabled == 'true') {
+	} else {
+		if ($setupEnabled == 'false') {
 		} else {
-			if ($setupEnabled == 'false') {
+			echo "<script>console.log('%cError: Invalid Authentication Settings value: setupEnabled', 'color: #FF0104;');</script>";
+			echo "<script>$('#sidebarAuthTitle').addClass('sidebarTitleError');</script>";
+			appendLog($logentry = "ERROR: Invalid Authentication Settings value: 'setupEnabled'.");
+		}
+	}
+}
+
+// When sync-config executes, check if required values are missing from config.json and write to Logarr Log:
+function isMissingKeyslog() {
+
+	$setupEnabled = $GLOBALS['authentication']['setupEnabled'];
+	$settingsEnabled = $GLOBALS['authentication']['settingsEnabled'];
+	$logsEnabled = $GLOBALS['authentication']['logsEnabled'];
+
+	if (!$setupEnabled || !$settingsEnabled || !$logsEnabled) {
+		appendLog($logentry = "ERROR: Invalid Authentication Settings value!");
+	} else {
+	};
+}
+
+function isMissingPrefs() {
+
+	$sitetitle = $GLOBALS['preferences']['sitetitle'];
+	$updateBranch = $GLOBALS['preferences']['updateBranch'];
+	$timezone = $GLOBALS['preferences']['timezone'];
+	$timestandard = $GLOBALS['preferences']['timestandard'];
+
+	if (!$sitetitle || !$updateBranch || !$timezone || !$timestandard) {
+		appendLog($logentry = "ERROR: Invalid Preferences Settings value!");
+		echo "<script>console.log('%cError: Invalid Preferences Settings value!', 'color: #FF0104;');</script>";
+		echo "<script>$('#sidebarUserPrefsTitle').addClass('sidebarTitleError');</script>";
+	} else {
+	};
+
+	// Check if Update Branch has valid value:
+	if ($updateBranch == 'master') {
+	} else {
+		if ($updateBranch == 'develop') {
+		} else {
+			if ($updateBranch == 'alpha') {
 			} else {
-				echo "<script>console.log('%cError: Invalid Authentication Settings value: setupEnabled', 'color: #FF0104;');</script>";
-				echo "<script>$('#sidebarAuthTitle').addClass('sidebarTitleError');</script>";
-				appendLog($logentry = "ERROR: Invalid Authentication Settings value: 'setupEnabled'.");
+				echo "<script>console.log('%cError: Invalid Preferences Settings value: updateBranch', 'color: #FF0104;');</script>";
+				echo "<script>$('#sidebarUserPrefsTitle').addClass('sidebarTitleError');</script>";
+				appendLog($logentry = "ERROR: Invalid Preferences Settings value: 'updateBranch'.");
 			}
 		}
 	}
 
-	// When sync-config executes, check if required values are missing from config.json and write to Logarr Log:
-	function isMissingKeyslog() {
-
-		$setupEnabled = $GLOBALS['authentication']['setupEnabled'];
-		$settingsEnabled = $GLOBALS['authentication']['settingsEnabled'];
-		$logsEnabled = $GLOBALS['authentication']['logsEnabled'];
-
-		if (!$setupEnabled || !$settingsEnabled || !$logsEnabled) {
-			appendLog($logentry = "ERROR: Invalid Authentication Settings value!");
+	// Check if Time Standard has valid value:
+	if ($timestandard == 'True') {
+	} else {
+		if ($timestandard == 'False') {
 		} else {
-		};
+			echo "<script>console.log('%cError: Invalid Preferences Settings value: timestandard', 'color: #FF0104;');</script>";
+			echo "<script>$('#sidebarUserPrefsTitle').addClass('sidebarTitleError');</script>";
+			appendLog($logentry = "ERROR: Invalid Preferences Settings value: 'timestandard'.");
+		}
 	}
+}
+
+// When sync-config executes, check if required User preferences values are missing from config.json and write to Logarr Log:
+function isMissingPrefslog() {
+
+	$sitetitle = $GLOBALS['preferences']['sitetitle'];
+	$updateBranch = $GLOBALS['preferences']['updateBranch'];
+	$timezone = $GLOBALS['preferences']['timezone'];
+	$timestandard = $GLOBALS['preferences']['timestandard'];
+
+	if (!$sitetitle || !$updateBranch || !$timezone || !$timestandard) {
+		appendLog($logentry = "ERROR: Invalid Preferences Settings value!");
+	} else {
+	};
+}
+
+// When user logs into SETTINGS, check config.json for all required SETTINGS values and validity:
+function isMissingSettings() {
+
+	global $settings;
+
+	if (!$settings['rfconfig'] || !$settings['rftime'] || !$settings['rflog'] || !$settings['maxLines'] || !$settings['logRefresh'] || !$settings['autoHighlight'] || !$settings['jumpOnSearch'] || !$settings['liveSearch']) {
+		appendLog($logentry = "ERROR: Invalid Settings value");
+		echo "<script>console.log('%cError: Invalid Settings value', 'color: #FF0104;');</script>";
+		echo "<script>$('#sidebarSettingsTitle').addClass('sidebarTitleError');</script>";
+	} else {
+	}
+}
 
 
 // Check if Logarr authenticaiton is enabled / if TRUE, check login status every 10s:
@@ -173,7 +239,6 @@ function checkLoginindex() {
 		echo "ERROR: Logarr could not check authentication settings";
 		// If authentication settings are invalid forward to settings.php:
 		echo "<script type='text/javascript'>";
-		//TO DO: Change me:
 		//echo "window.location.href = 'assets/php/authentication/unauthorized.php';";
 		echo "window.location.href = 'settings.php';";
 		echo "</script>";
@@ -304,7 +369,7 @@ function parseLogPath($path)
 					$last_edited_file = $file;
 				}
 			}
-			if ($file_time == 0 || !isset($last_edited_file)) return 'ERROR: Something went wrong, no file found'; //Using this in other code to see if a file exists
+			if ($file_time == 0 || !isset($last_edited_file)) return 'ERROR: Log not found'; //Using this in other code to see if a file exists
 
 			return $dir . DIRECTORY_SEPARATOR . $last_edited_file; //return the merged dir and filename
 		} else {
@@ -568,7 +633,3 @@ function convertToBytes($from)
 			return $from;
 	}
 }
-
-
-
-
