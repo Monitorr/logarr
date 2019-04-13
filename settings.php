@@ -131,7 +131,8 @@ https://github.com/Monitorr/Logarr
         let servertime = "<?php echo $serverTime; ?>";
         let timeStandard = <?php echo $timeStandard; ?>;
         let timeZone = "<?php echo $timezone_suffix; ?>";
-        let rftime = <?php echo $settings['rftime']; ?>;
+        let rftime = <?php echo $GLOBALS['settings']['rftime']; ?>
+
         rftime = rftime > 300 ? rftime : 30000; //minimum value, if not set default value will be used
 
         $(document).ready(function() {
@@ -299,8 +300,8 @@ https://github.com/Monitorr/Logarr
 
     </div>
 
-    <!-- Check if required values are missing from config.json: -->
-    <?php isMissingKeys(); ?>
+    <!-- Check if required values are valid in config.json: -->
+    <?php isMissingKeys(); isMissingPrefs(); isMissingSettings(); ?>
 
     <!-- Close persistant tooltips: -->
     <script>

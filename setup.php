@@ -111,8 +111,6 @@ appendLog("Logarr Setup loaded");
             echo '</script>';
         };
 
-        //TODO / Testing
-
         if (isDocker() == true) {
             echo '<script>';
             echo '$(document).ready(function () {';
@@ -153,12 +151,8 @@ appendLog("Logarr Setup loaded");
                 toastwelcome();
             };
 
-            //TODO : Testing
-
             if (docker == true) {
                 $('#docker').addClass('dockerwarn');
-                //$('.dockerinput').removeClass('hidden');
-                //$('.standardinput').addClass('hidden');
             }
         });
     </script>
