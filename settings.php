@@ -98,9 +98,10 @@ https://github.com/Monitorr/Logarr
         };
 
         $(document).ready(function() {
-            console.log("Welcome to Logarr!");
+            console.log("Welcome to %cLogarr","color: #FF0104; font-size: 2em;");
             toastwelcome();
         });
+
     </script>
 
     <!-- sync config with javascript -->
@@ -130,7 +131,8 @@ https://github.com/Monitorr/Logarr
         let servertime = "<?php echo $serverTime; ?>";
         let timeStandard = <?php echo $timeStandard; ?>;
         let timeZone = "<?php echo $timezone_suffix; ?>";
-        let rftime = <?php echo $settings['rftime']; ?>;
+        let rftime = <?php echo $GLOBALS['settings']['rftime']; ?>
+
         rftime = rftime > 300 ? rftime : 30000; //minimum value, if not set default value will be used
 
         $(document).ready(function() {
@@ -157,8 +159,8 @@ https://github.com/Monitorr/Logarr
                 case "#logs-configuration":
                     load_logs();
                     break;
-                case "#configuration":
-                    load_configuration();
+                case "#setup":
+                    load_setup();
                     break;
                 default:
                     load_info();
@@ -172,13 +174,18 @@ https://github.com/Monitorr/Logarr
     <!-- Tooltips: -->
     <script>
         $(function() {
-            $(document).tooltip();
+            $(document).tooltip({
+                hide: { 
+                    effect: "fadeOut", 
+                    duration: 200 
+                }
+            });
         });
     </script>
 
 </head>
 
-<body>
+<body id="body">
 
     <script>
         document.body.className += ' fade-out';
@@ -222,31 +229,31 @@ https://github.com/Monitorr/Logarr
                 <ul class="nav sidebar-nav">
 
                     <li class="sidebar-nav-item" data-item="info">
-                        <a href="#info" onclick="load_info()" title="Information"><i class="fa fa-fw fa-info"></i>Info</a>
+                        <a href="#info" id="sidebarInfoTitle" onclick="load_info();"><i class="fa fa-fw fa-info"></i>Info</a>
                     </li>
                     <li class="sidebar-nav-item" data-item="user-preferences">
-                        <a href="#user-preferences" onclick="load_preferences()" title="Preferences"><i class="fa fa-fw fa-user"></i>User Preferences</a>
+                        <a href="#user-preferences" id="sidebarUserPrefsTitle" onclick="load_preferences();"><i class="fa fa-fw fa-user"></i>User Preferences</a>
                     </li>
                     <li class="sidebar-nav-item" data-item="logarr-settings">
-                        <a href="#logarr-settings" onclick="load_settings()" title="Settings"><i class="fa fa-fw fa-cog"></i>Logarr Settings</a>
+                        <a href="#logarr-settings" id="sidebarSettingsTitle" onclick="load_settings();"><i class="fa fa-fw fa-cog"></i>Settings</a>
                     </li>
                     <li class="sidebar-nav-item" data-item="logarr-authentication">
-                        <a href="#logarr-authentication" onclick="load_authentication()" title="Authentication"><i class="fa fa-fw fa-lock"></i>Authentication</a>
+                        <a href="#logarr-authentication" id="sidebarAuthTitle" onclick="load_authentication();"><i class="fa fa-fw fa-lock"></i>Authentication</a>
                     </li>
                     <li class="sidebar-nav-item" data-item="logs-configuration">
-                        <a href="#logs-configuration" onclick="load_logs()" title="Log Configuration"><i class="fa fa-fw fa-book"></i>Log Configuration</a>
+                        <a href="#logs-configuration" id="sidebarLogsConfigTitle" onclick="load_logs();"><i class="fa fa-fw fa-book"></i>Log Configuration</a>
                     </li>
-                    <li class="sidebar-nav-item" data-item="configuration">
-                        <a href="#configuration" onclick="load_configuration()" title="Configuration"><i class="fas fa-user-plus"></i>Configuration</a>
+                    <li class="sidebar-nav-item" data-item="setup">
+                        <a href="#setup" id="sidebarSetupTitle" onclick="load_setup();"><i class="fas fa-user-plus"></i>Setup</a>
                     </li>
                     <?php if (isset($_SESSION['user_name']) && isset($_SESSION['user_is_logged_in']) && !empty($_SESSION['user_name']) && ($_SESSION['user_is_logged_in'])) { ?>
                     <li class="sidebar-nav-item" data-item="log-out">
-                        <a href="settings.php?action=logout" onclick='logouttoast();' title="Log Out"><i class="fas fa-sign-out-alt"></i>Log Out</a>
+                        <a href="settings.php?action=logout" id="sidebarLogOutTitle" onclick='logouttoast();'><i class="fas fa-sign-out-alt"></i>Log Out</a>
                     </li>
                     <?php 
-                } ?>
+                    } ?>
                     <li class="sidebar-nav-item" data-item="logarr">
-                        <a href="index.php" title="Return to Logarr"><i class="fa fa-fw fa-home"></i>Logarr</a>
+                        <a href="index.php"><i class="fa fa-fw fa-home"></i>Logarr</a>
                     </li>
 
                 </ul>
@@ -275,28 +282,33 @@ https://github.com/Monitorr/Logarr
         </div>
     </div>
 
-    <div id="includedContent">
-
-        <script>
-        </script>
-
-    </div>
+    <div id="includedContent"></div>
 
     <div id="footer" class="settings-footer">
 
         <div id="logarrid">
             <a href="https://github.com/monitorr/logarr" title="Logarr GitHub repo" target="_blank" class="footer">Logarr </a> |
-            <a href="https://github.com/Monitorr/logarr/releases" title="Logarr releases" target="_blank" class="footer">
+            <a href="https://github.com/Monitorr/logarr/releases" title="Logarr Releases" target="_blank" class="footer">
                 v:
                 <?php echo file_get_contents("assets/js/version/version.txt"); ?></a> |
             <a href="settings.php" title="Logarr Settings" target="_blank" class="footer">Settings</a>
             <?php if (isset($_SESSION['user_name']) && isset($_SESSION['user_is_logged_in']) && !empty($_SESSION['user_name']) && ($_SESSION['user_is_logged_in'])) {
-                echo " | <a href='index.php?action=logout' onclick='logouttoast(); 'title='Log out' class='footer'></i>Logout</a>";
+                echo " | <a href='index.php?action=logout' onclick='logouttoast();' title='Log Out' class='footer'>Log Out</a>";
             } ?>
             <br>
         </div>
 
     </div>
+
+    <!-- Check if required values are valid in config.json: -->
+    <?php isMissingKeys(); isMissingPrefs(); isMissingSettings(); ?>
+
+    <!-- Close persistant tooltips: -->
+    <script>
+        $(window).blur(function(){
+            $('a').blur();
+        });
+    </script>
 
 </body>
 

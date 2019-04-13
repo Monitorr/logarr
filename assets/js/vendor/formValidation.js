@@ -23,6 +23,24 @@ $(document).ready(function() {
                     addSuccess(this);
                 }
             });
+
+            $(this).onfocus = function() {
+                if($(this).val().length == 0) {
+                    addError(this, message);
+                    return;
+                } else {
+                    addSuccess(this);
+                }
+            };
+
+            $(this).onblur = function() {
+                if($(this).val().length == 0) {
+                    addError(this, message);
+                    return;
+                } else {
+                    addSuccess(this);
+                }
+            };
         }
 
         /**

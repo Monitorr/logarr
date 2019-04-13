@@ -24,6 +24,12 @@ if ($preferences['timezone'] == "") {
 	$timezone = date_default_timezone_get();
 }
 
+if (!$settings['rfconfig'] || !$settings['rftime'] || !$settings['rflog'] || !$settings['maxLines'] || !$settings['logRefresh'] || !$settings['autoHighlight'] || !$settings['jumpOnSearch'] || !$settings['liveSearch']) {
+	appendLog($logentry = "ERROR: Invalid Settings value");
+} else {
+}
+
+
 // New version download information
 
 $branch = $preferences['updateBranch'];
@@ -32,7 +38,6 @@ $branch = $preferences['updateBranch'];
 $remote_file_url = 'https://github.com/monitorr/logarr/zipball/' . $branch . '';
 
 // rename version location/name
-//$local_file = '../../assets/data/tmp/logarr-' . $branch . '.zip'; //download path for udpate zip file
 $local_file = __DIR__  . '/../data/tmp/logarr-' . $branch . '.zip'; //download path for udpate zip file
 
 // version check information
@@ -41,8 +46,6 @@ $local_file = __DIR__  . '/../data/tmp/logarr-' . $branch . '.zip'; //download p
 $ext_version_loc = 'https://raw.githubusercontent.com/monitorr/logarr/' . $branch . '/assets/js/version/version.txt';
 
 // users local version number:
-
-//$vnum_loc = "../js/version/version.txt";
 $vnum_loc = __DIR__  . '/../js/version/version.txt';
 
 
@@ -50,8 +53,6 @@ function configExists()
 {
 	return is_file($GLOBALS['config_file']);
 }
-
-//TODO:  Add roll log above 1MB
 
 function appendLog($logentry) {
 
@@ -71,7 +72,6 @@ function appendLog($logentry) {
 	} else {
 
 		if (is_writable($logpath)) {
-			//echo "<script>console.log('Logarr log: wrote: $logentry | Log file: $logfile');</script>";
 			fclose($handle);
 
 		} else {
@@ -80,20 +80,148 @@ function appendLog($logentry) {
 	}
 }
 
-
 function isDocker() {
 
 	if (is_file(__DIR__ . "/../../../Dockerfile")) {
 
 		echo "<script type='text/javascript'>";
-		echo "console.log('Logarr detected DOCKER enviroment');";
+		echo "console.log('Logarr detected DOCKER environment');";
 		echo "</script>";
 
-		appendLog($logentry = "Logarr detected DOCKER enviroment");
+		appendLog($logentry = "Logarr detected DOCKER environment");
 
 		return true;
 	}
 }
+
+// When user logs into SETTINGS, check config.json for all required AUTHENTICATION values and validity:
+function isMissingKeys() {
+
+	$setupEnabled = $GLOBALS['authentication']['setupEnabled'];
+	$settingsEnabled = $GLOBALS['authentication']['settingsEnabled'];
+	$logsEnabled = $GLOBALS['authentication']['logsEnabled'];
+
+	if (!$setupEnabled || !$settingsEnabled || !$logsEnabled) {
+		echo "<script>console.log('%cError: Invalid Authentication Settings value!', 'color: #FF0104;');</script>";
+		echo "<script>$('#sidebarAuthTitle').addClass('sidebarTitleError');</script>";
+		appendLog($logentry = "ERROR: Invalid Authentication Settings value!");
+	} else {
+	};
+
+	// Check if Logs Enabled has valid value:
+	if ($logsEnabled == 'true') {
+	} else {
+		if ($logsEnabled == 'false') {
+		} else {
+			echo "<script>console.log('%cError: Invalid Authentication Settings value: logsEnabled', 'color: #FF0104;');</script>";
+			echo "<script>$('#sidebarAuthTitle').addClass('sidebarTitleError');</script>";
+			appendLog($logentry = "ERROR: Invalid Authentication Settings value: 'logsEnabled'.");
+		}
+	}
+
+	// Check if Settings Enabled has valid value:
+	if ($settingsEnabled == 'true') {
+	} else {
+		if ($settingsEnabled == 'false') {
+		} else {
+			echo "<script>console.log('%cError: Invalid Authentication Settings value: settingsEnabled', 'color: #FF0104;');</script>";
+			echo "<script>$('#sidebarAuthTitle').addClass('sidebarTitleError');</script>";
+			appendLog($logentry = "ERROR: Invalid Authentication Settings value: 'settingsEnabled'.");
+		}
+	}
+
+	// Check if Setup Access has valid value:
+	if ($setupEnabled == 'true') {
+	} else {
+		if ($setupEnabled == 'false') {
+		} else {
+			echo "<script>console.log('%cError: Invalid Authentication Settings value: setupEnabled', 'color: #FF0104;');</script>";
+			echo "<script>$('#sidebarAuthTitle').addClass('sidebarTitleError');</script>";
+			appendLog($logentry = "ERROR: Invalid Authentication Settings value: 'setupEnabled'.");
+		}
+	}
+}
+
+// When sync-config executes, check if required values are missing from config.json and write to Logarr Log:
+function isMissingKeyslog() {
+
+	$setupEnabled = $GLOBALS['authentication']['setupEnabled'];
+	$settingsEnabled = $GLOBALS['authentication']['settingsEnabled'];
+	$logsEnabled = $GLOBALS['authentication']['logsEnabled'];
+
+	if (!$setupEnabled || !$settingsEnabled || !$logsEnabled) {
+		appendLog($logentry = "ERROR: Invalid Authentication Settings value!");
+	} else {
+	};
+}
+
+function isMissingPrefs() {
+
+	$sitetitle = $GLOBALS['preferences']['sitetitle'];
+	$updateBranch = $GLOBALS['preferences']['updateBranch'];
+	$timezone = $GLOBALS['preferences']['timezone'];
+	$timestandard = $GLOBALS['preferences']['timestandard'];
+
+	if (!$sitetitle || !$updateBranch || !$timezone || !$timestandard) {
+		appendLog($logentry = "ERROR: Invalid Preferences Settings value!");
+		echo "<script>console.log('%cError: Invalid Preferences Settings value!', 'color: #FF0104;');</script>";
+		echo "<script>$('#sidebarUserPrefsTitle').addClass('sidebarTitleError');</script>";
+	} else {
+	};
+
+	// Check if Update Branch has valid value:
+	if ($updateBranch == 'master') {
+	} else {
+		if ($updateBranch == 'develop') {
+		} else {
+			if ($updateBranch == 'alpha') {
+			} else {
+				echo "<script>console.log('%cError: Invalid Preferences Settings value: updateBranch', 'color: #FF0104;');</script>";
+				echo "<script>$('#sidebarUserPrefsTitle').addClass('sidebarTitleError');</script>";
+				appendLog($logentry = "ERROR: Invalid Preferences Settings value: 'updateBranch'.");
+			}
+		}
+	}
+
+	// Check if Time Standard has valid value:
+	if ($timestandard == 'True') {
+	} else {
+		if ($timestandard == 'False') {
+		} else {
+			echo "<script>console.log('%cError: Invalid Preferences Settings value: timestandard', 'color: #FF0104;');</script>";
+			echo "<script>$('#sidebarUserPrefsTitle').addClass('sidebarTitleError');</script>";
+			appendLog($logentry = "ERROR: Invalid Preferences Settings value: 'timestandard'.");
+		}
+	}
+}
+
+// When sync-config executes, check if required User preferences values are missing from config.json and write to Logarr Log:
+function isMissingPrefslog() {
+
+	$sitetitle = $GLOBALS['preferences']['sitetitle'];
+	$updateBranch = $GLOBALS['preferences']['updateBranch'];
+	$timezone = $GLOBALS['preferences']['timezone'];
+	$timestandard = $GLOBALS['preferences']['timestandard'];
+
+	if (!$sitetitle || !$updateBranch || !$timezone || !$timestandard) {
+		appendLog($logentry = "ERROR: Invalid Preferences Settings value!");
+	} else {
+	};
+}
+
+// When user logs into SETTINGS, check config.json for all required SETTINGS values and validity:
+function isMissingSettings() {
+
+	global $settings;
+
+	if (!$settings['rfconfig'] || !$settings['rftime'] || !$settings['rflog'] || !$settings['maxLines'] || !$settings['logRefresh'] || !$settings['autoHighlight'] || !$settings['jumpOnSearch'] || !$settings['liveSearch']) {
+		appendLog($logentry = "ERROR: Invalid Settings value");
+		echo "<script>console.log('%cError: Invalid Settings value', 'color: #FF0104;');</script>";
+		echo "<script>$('#sidebarSettingsTitle').addClass('sidebarTitleError');</script>";
+	} else {
+	}
+}
+
 
 // Check if Logarr authenticaiton is enabled / if TRUE, check login status every 10s:
 function checkLoginindex() {
@@ -106,38 +234,49 @@ function checkLoginindex() {
 		echo "console.log('ERROR: Logarr could not check authentication settings');";
 		echo "</script>";
 		appendLog(
-			$logentry = "ERROR: Logarr could not check authentication settings"
+			$logentry = "ERROR: Logarr could not check authentication settings. An invalid authentication string for 'logsEnabled' is detected in 'config.json'."
 		);
 		echo "ERROR: Logarr could not check authentication settings";
-		// If authentication sttings are missing forward to unauthorized.php:
+		// If authentication settings are invalid forward to settings.php:
 		echo "<script type='text/javascript'>";
-		//TO DO: Change me:
 		//echo "window.location.href = 'assets/php/authentication/unauthorized.php';";
 		echo "window.location.href = 'settings.php';";
 		echo "</script>";
 
 	} else {
-		if ($logsEnabled == "true") {
-			echo "<script type='text/javascript'>";
-			echo "console.log('Logarr auth: ENABLED');";
-			echo "</script>";
-			echo "<script src='assets/js/login-status.js'></script>";
-			appendLog(
-				$logentry = "Logarr auth: ENABLED"
-			);
-
-		} else {
+		if ($logsEnabled == "false") {
 			echo "<script type='text/javascript'>";
 			echo "console.log('Logarr auth: DISABLED');";
 			echo "</script>";
 			appendLog(
 				$logentry = "Logarr auth: DISABLED"
 			);
+
+		} else if ($logsEnabled == "true") {
+			echo "<script type='text/javascript'>";
+			echo "console.log('Logarr auth: ENABLED');";
+			echo "</script>";
+			appendLog(
+				$logentry = "Logarr auth: ENABLED"
+			);
+			echo "<script src='assets/js/login-status.js'></script>";
+
+		} else {
+			echo "<script type='text/javascript'>";
+			echo "console.log('ERROR: Logarr could not check authentication settings');";
+			echo "</script>";
+			appendLog(
+				$logentry = "ERROR: Logarr could not check authentication settings. An invalid authentication value in 'config.json' is set for 'logsEnabled'. Access to the Logarr UI is DISABLED."
+			);
+			echo "ERROR: Logarr could not check authentication settings";
+			echo "<script type='text/javascript'>";
+			echo "window.location.href = 'settings.php';";
+			echo "</script>";
 		};
 	}
 }
 
-// Check if Logarr settings authenticaiton is enabled / if TRUE, check login status every 10s:
+// Check if Logarr Settings authenticaiton is enabled / if TRUE, check login status every 10s:
 function checkLoginsettings() {
 
 	echo "<script type='text/javascript'>";
@@ -152,15 +291,25 @@ function checkLoginsettings() {
 		echo "console.log('ERROR: Logarr could not check authentication settings');";
 		echo "</script>";
 		appendLog(
-			$logentry = "ERROR: Logarr could not check authentication settings"
+			$logentry = "ERROR: Logarr could not check authentication settings. An invalid authentication string for 'settingsEnabled' is detected in 'config.json'. Access to the Logarr Settings page is DISABLED."
 		);
 		echo "ERROR: Logarr could not check authentication settings";
+		// If authentication settings are invalid forward to unauthorized.php:
 		echo "<script type='text/javascript'>";
-		echo "window.location.href = 'settings.php';";
+		//echo "window.location.href = 'settings.php';";
+		echo "window.location.href = './assets/php/authentication/unauthorized.php';";
 		echo "</script>";
 
 	} else {
-		if ($settingsEnabled == "true") {
+		if ($settingsEnabled == "false") {
+			echo "<script type='text/javascript'>";
+			echo "console.log('Logarr settings auth: DISABLED');";
+			echo "</script>";
+			appendLog(
+				$logentry = "Logarr settings auth: DISABLED"
+			);
+
+		} else if ($settingsEnabled == "true") {
 			echo "<script type='text/javascript'>";
 			echo "console.log('Logarr settings auth: ENABLED');";
 			echo "</script>";
@@ -168,15 +317,18 @@ function checkLoginsettings() {
 				$logentry = "Logarr settings auth: ENABLED"
 			);
 			echo "<script src='assets/js/login-status-settings.js'></script>";
-
 		} else {
 			echo "<script type='text/javascript'>";
-			echo "console.log('Logarr settings auth: DISABLED');";
+			echo "console.log('ERROR: Logarr could not check authentication settings');";
 			echo "</script>";
 			appendLog(
-				$logentry = "Logarr settings auth: DISABLED"
+				$logentry = "ERROR: Logarr could not check authentication settings. An invalid authentication value in 'config.json' is set for 'settingsEnabled'. Access to the Logarr Settings page is DISABLED."
 			);
-		};
+			echo "ERROR: Logarr could not check authentication settings";
+			echo "<script type='text/javascript'>";
+			echo "window.location.href = './assets/php/authentication/unauthorized.php';";
+			echo "</script>";
+		}
 	}
 }
 
@@ -217,7 +369,7 @@ function parseLogPath($path)
 					$last_edited_file = $file;
 				}
 			}
-			if ($file_time == 0 || !isset($last_edited_file)) return 'ERROR: Something went wrong, no file found'; //Using this in other code to see if a file exists
+			if ($file_time == 0 || !isset($last_edited_file)) return 'ERROR: Log not found'; //Using this in other code to see if a file exists
 
 			return $dir . DIRECTORY_SEPARATOR . $last_edited_file; //return the merged dir and filename
 		} else {
@@ -481,7 +633,3 @@ function convertToBytes($from)
 			return $from;
 	}
 }
-
-
-
-

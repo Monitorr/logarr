@@ -16,6 +16,7 @@ if (!$timeStandard) {
 	$dateTime = new DateTime();
 	$dateTime->setTimeZone(new DateTimeZone($timezone));
 	$timezone_suffix = $dateTime->format('T');
+	//appendLog($logentry = "ERROR: Logarr could not load timestandard values. Default values have been set");
 }
 $serverTime = $dt->format("D d M Y H:i:s");
 $response = array(

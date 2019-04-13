@@ -153,16 +153,22 @@ function logrollmodal() {
             $("#autoUpdateSlider").attr("data-enabled", "false");
             clearInterval(nIntervId["logRefresh"]);
             clearInterval(nIntervId);
-            clearInterval(refreshLogs, settings.rflog);
-            clearInterval(refreshLogs);
+            clearInterval(refreshblockUI, settings.rflog);
+            clearInterval(refreshblockUI);
             logInterval = false;
 
         },
         onClose: () => {
 
-            refreshLogs();
-            //TODO:
-            //Re-enable autorefresh IF ON
+            //TODO / TESTING :
+
+            //refreshblockUI();
+
+            //Re-enable LOG auto-update IF ON:
+            refreshLog();
+
+            loadLogs();
+            
         }
     })
 };
@@ -293,6 +299,7 @@ function nosearch() {
     })
 };
 
+// Reload Setup page after user creation / Setup complete:
 function sareload() {
     let timerInterval
     Toast.fire({
@@ -313,7 +320,7 @@ function sareload() {
             Swal.showLoading()
 
             reload.addEventListener('click', () => {
-                top.location = "settings.php";
+                top.location = "settings.php";                
             })
 
             timerInterval = setInterval(() => {
@@ -324,13 +331,68 @@ function sareload() {
         },
         onClose: () => {
             clearInterval(timerInterval);
+            var win = window.open('index.php', '_blank');
+            if (win) {
+                win.focus();
+            } else {
+                //Browser has blocked popup:
+                alert('Please allow popups for this website');
+            };
             top.location = "settings.php";
         }
     })
 }
 
+function toastwelcome() {
+    Toast.fire({
+        toast: true,
+        type: 'success',
+        title: 'Welcome to Logarr!',
+        position: 'bottom-start',
+        background: 'rgba(50, 1, 25, 0.75)',
+        timer: 10000
+    })
+};
 
-function refreshLogs() {
+function datadirsuccess() {
+    Toast.fire({
+        toast: true,
+        type: 'success',
+        title: 'Data directory <br> created successfully!',
+        background: 'rgba(0, 184, 0, 0.75)'
+    })
+};
+
+function datadirerror() {
+    Toast.fire({
+        toast: true,
+        type: 'error',
+        title: 'Error creating <br> data directory!',
+        background: 'rgba(207, 0, 0, 0.75)'
+    })
+};
+
+function usersuccess() {
+    Toast.fire({
+        toast: true,
+        type: 'success',
+        title: 'User created successfully!',
+        background: 'rgba(0, 184, 0, 0.75)'
+    })
+};
+
+function usererror() {
+    Toast.fire({
+        toast: true,
+        type: 'error',
+        title: 'Error creating user!',
+        background: 'rgba(207, 0, 0, 0.75)'
+    })
+};
+
+
+
+function refreshblockUI() {
     $('#body').addClass("cursorwait");
     logupdatetoast();
     setTimeout(function () {
@@ -351,6 +413,7 @@ function refreshLogs() {
         $('#count').removeClass("hidden");
     } else {
         $('#count').addClass("hidden");
+        $('#searchBtn').removeClass("marksearchInput");
     }
 }
 
@@ -426,6 +489,7 @@ function loadLogs() {
 }
 
 function loadLog(log) {
+
     var logTitle = log.logTitle;
 
     $.ajax({
@@ -593,6 +657,7 @@ $(function () {
     // Clears the search
     $("button[data-search='clear']").on("click", function () {
         clearsearch();
+        $('#searchBtn').removeClass("marksearchInput");
         $(".slide").unmark();
         $("input[name='markinput']").val("");
         $('.count').removeClass("countresults");
@@ -618,6 +683,10 @@ $(function () {
     let timeoutID = null;
     $("input[name='markinput']").keyup(function (e) {
         if ($("input[name='markinput']").val() !== "") {
+
+            //Color search button BLUE on keyup:
+            $('#searchBtn').addClass("marksearchInput");
+
             clearTimeout(timeoutID);
             if (settings.liveSearch === "true") {
                 $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search
@@ -688,8 +757,7 @@ $(function () {
 
     // filter logs
     $(document).on('click', ".category-filter-item", function (event) {
-        //TODO why refresh blockUI on log filter ??
-        refreshLogs();
+        refreshblockUI();
         setTimeout(function () {
             console.log('Filtering logs on: ' + window.location.hash);
         }, 500);
@@ -718,7 +786,7 @@ function refreshConfig() {
 
             if(home, settings) {
                 if (settings.rfconfig !== rfconfig) {
-                    rfconfig = settings.rfconfig;
+                    rfconfig = settings.rfconfig > 300 ? settings.rfconfig : 30000;
                     clearInterval(nIntervId["refreshConfig"]);
                     nIntervId["refreshConfig"] = setInterval(refreshConfig, rfconfig);
                 }
@@ -767,9 +835,8 @@ function refreshConfig() {
     });
 }
 
-//TODO / TESTING:
+function refreshLog() {    
 
-function refreshLog() {
     $.ajax({
         url: "assets/php/sync-config.php",
         type: "GET",
@@ -795,7 +862,7 @@ function refreshLog() {
             if(home) {
                 if (settings.logRefresh === "true" && (logInterval === false || settings.rflog !== current_rflog)) {
                     clearInterval(nIntervId["logRefresh"]);
-                    nIntervId["logRefresh"] = setInterval(refreshLogs, settings.rflog);
+                    nIntervId["logRefresh"] = setInterval(refreshblockUI, settings.rflog);
                     logInterval = true;
                     $("#autoUpdateSlider").attr("data-enabled", "true");
                     current_rflog = settings.rflog;
@@ -804,7 +871,7 @@ function refreshLog() {
                 } else if (settings.logRefresh === "false" && logInterval === true) {
                     clearInterval(nIntervId["logRefresh"]);
                     clearInterval(nIntervId);
-                    clearInterval(refreshLogs, settings.rflog);
+                    clearInterval(refreshblockUI, settings.rflog);
                     logInterval = false;
                     $("#autoUpdateSlider").attr("data-enabled", "false");
                     console.log("Log auto update: Disabled");
@@ -816,7 +883,7 @@ function refreshLog() {
 
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            console.log("ERROR: Config refresh failed!");
+            console.log("ERROR: Log refresh failed!");
 
             setTimeout(function () {
 
@@ -828,6 +895,33 @@ function refreshLog() {
 }
 
 
+function overwriteLogUpdate() {
+
+    //TODO:  Not working:
+
+    if ($("#autoUpdateSlider").attr("data-enabled") === "false") {
+        $("#autoUpdateSlider").attr("data-enabled", "true");
+        clearInterval(nIntervId);
+        nIntervId = setInterval(refreshblockUI, settings.rflog);
+        logInterval = true;
+        console.log("Log auto update: Enabled | Interval: " + settings.rflog + " ms");
+        uetoast();
+        //TODO CHANGE ME
+        // setTimeout(function () {
+        //     refreshblockUI();
+        // }, 1000);
+    } else {
+        $("#autoUpdateSlider").attr("data-enabled", "false");
+        //TODO: Adding everything possible to stop rfconfig from re-applying values:
+        clearInterval(nIntervId["logRefresh"]);
+        clearInterval(nIntervId);
+        clearInterval(refreshblockUI, settings.rflog);
+        clearInterval(refreshblockUI);
+        logInterval = false;
+        console.log("Log auto update: Disabled");
+        udtoast();
+    }
+}
 
 // Check if authentication settings have changed:
 function refreshAuth() {
@@ -908,34 +1002,6 @@ function refreshAuth() {
     });
 }
 
-function overwriteLogUpdate() {
-
-    //TODO:  Not working:
-
-    if ($("#autoUpdateSlider").attr("data-enabled") === "false") {
-        $("#autoUpdateSlider").attr("data-enabled", "true");
-        clearInterval(nIntervId);
-        nIntervId = setInterval(refreshLogs, settings.rflog);
-        logInterval = true;
-        console.log("Log auto update: Enabled | Interval: " + settings.rflog + " ms");
-        uetoast();
-        //TODO CHANGE ME
-        // setTimeout(function () {
-        //     refreshLogs();
-        // }, 1000);
-    } else {
-        $("#autoUpdateSlider").attr("data-enabled", "false");
-        //TODO: Adding everything possible to stop rfconfig from re-applying values:
-        clearInterval(nIntervId["logRefresh"]);
-        clearInterval(nIntervId);
-        clearInterval(refreshLogs, settings.rflog);
-        clearInterval(refreshLogs);
-        logInterval = false;
-        console.log("Log auto update: Disabled");
-        udtoast();
-    }
-}
-
 function updateTime() {
     setInterval(function () {
         var res = date.toString().split(" ");
@@ -994,14 +1060,14 @@ function load_preferences() {
 }
 
 function load_settings() {
-    document.getElementById("settings-page-title").innerHTML = 'Logarr Settings';
+    document.getElementById("settings-page-title").innerHTML = 'Settings';
     document.getElementById("includedContent").innerHTML = '<object type="text/html" class="object" data="assets/php/settings/site_settings.php" ></object>';
     $(".sidebar-nav-item").removeClass('active');
     $("li[data-item='logarr-settings']").addClass("active");
 }
 
 function load_authentication() {
-    document.getElementById("settings-page-title").innerHTML = 'Logarr Authentication';
+    document.getElementById("settings-page-title").innerHTML = 'Authentication';
     document.getElementById("includedContent").innerHTML = '<object type="text/html" class="object" data="assets/php/settings/authentication.php" ></object>';
     $(".sidebar-nav-item").removeClass('active');
     $("li[data-item='logarr-authentication']").addClass("active");
@@ -1014,11 +1080,11 @@ function load_logs() {
     $("li[data-item='logs-configuration']").addClass("active");
 }
 
-function load_configuration() {
-    document.getElementById("settings-page-title").innerHTML = 'Configuration';
-    $("#includedContent").html('<object type="text/html" class="object" data="configuration.php" ></object>');
+function load_setup() {
+    document.getElementById("settings-page-title").innerHTML = 'Setup';
+    $("#includedContent").html('<object type="text/html" class="object" data="setup.php" ></object>');
     $(".sidebar-nav-item").removeClass('active');
-    $("li[data-item='configuration']").addClass("active");
+    $("li[data-item='setup']").addClass("active");
 }
 
 function scrollFunction() {

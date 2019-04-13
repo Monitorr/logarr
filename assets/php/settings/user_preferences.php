@@ -100,10 +100,15 @@ include(__DIR__ . '/../auth_check.php');
     <!-- Tooltips: -->
     <script>
         $(function() {
-            $(document).tooltip();
+            $(document).tooltip({
+                hide: { 
+                    effect: "fadeOut", 
+                    duration: 200 
+                }
+            });
         });
     </script>
-
+    
 </head>
 
 <body id="settings-frame-wrapper">
@@ -392,6 +397,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "showMessages": true,
                                 "disabled": false,
                                 "hidden": false,
+                                "fieldClass": "timezone",
                                 "label": "Timezone:",
                                 "helpers": ["Timezone to use for UI display."],
                                 "hideInitValidationError": false,

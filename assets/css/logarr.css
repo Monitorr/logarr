@@ -63,12 +63,20 @@ input[type=radio] {
     cursor: pointer;
 }
 
+select {
+    cursor: pointer;
+}
+
 .cursorwait {
     cursor: progress !important;
 }
 
 .cursorpoint {
     cursor: pointer !important;
+}
+
+.cursornotallowed {
+    cursor: not-allowed !important;
 }
 
 /* SCROLL BARS */
@@ -371,7 +379,6 @@ h6,
     text-align: right;
     vertical-align: middle;
     width: 40%;
-    /* margin-top: 1rem; */
     margin-bottom: auto;
     margin-right: 1em;
 }
@@ -549,6 +556,13 @@ mark.current {
     background-color: #8E8B8B;
     font-size: .85rem;
     width: 5.5em;
+}
+
+.marksearchInput {
+    color: #fff;
+    font-weight: 600;
+    background-color: #0069d9;
+    border-color: #0062cc;
 }
 
 .search-button {
@@ -1003,7 +1017,7 @@ input[type="checkbox"] {
     display: inline-block;
     width: 2em;
     height: 2em;
-    cursor: pointer;
+    cursor: row-resize;
 }
 
 #logmissing {
@@ -1318,6 +1332,10 @@ ul.nav.sidebar-nav>li>a>i {
     text-decoration: none;
 }
 
+.sidebarTitleError{
+    color: red !important;
+}
+
 /* Modals: */
 
 .logrollmodal {
@@ -1449,21 +1467,16 @@ ul.nav.sidebar-nav>li>a>i {
 /* Tooltips: */
 
 .ui-tooltip {
-    /* background: black; */
-    /* background-color: rgba(0, 0, 0, 0.750); */
-    background: rgba(50, 1, 25, 0.90);
-    border: .1em solid #C8C8C8 !important;
-    padding: 10px 20px;
+    font-size: .85em;
     color: white;
     width: auto;
-    /* color: #C8C8C8; */
+    padding: 5px 10px;
+    background: rgba(50, 1, 25, 0.90);
+    border: .1em solid #C8C8C8 !important;
     border-radius: .2em;
-    /* font: bold 14px "Helvetica Neue", Sans-Serif; */
-    /* text-transform: uppercase; */
     box-shadow: 0 0 7px black;
     cursor: default;
 }
-
 
 #checkurl {
     float: right;
@@ -1597,6 +1610,12 @@ ul.nav.sidebar-nav>li>a>i {
     border: .2rem solid rgb(90, 90, 90) !important;
     cursor: not-allowed;
 }
+
+
+
+
+
+
 
 .settingscolumn {
     float: left;
@@ -1836,7 +1855,12 @@ ul.nav.sidebar-nav>li>a>i {
 #customCSSEditor {
     height: 22rem;
     max-width: 100%;
-    border: 2px solid rgb(200, 200, 200);
+    border: .2rem solid rgb(200, 200, 200);
+}
+
+#customCSSEditor:hover {
+    border: .2rem solid #007bff;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
 #customcsslabel {
@@ -1853,7 +1877,12 @@ ul.nav.sidebar-nav>li>a>i {
 #customJSEditor {
     height: 22rem;
     max-width: 100%;
-    border: 2px solid rgb(200, 200, 200);
+    border: .2rem solid rgb(200, 200, 200);
+}
+
+#customJSEditor:hover {
+    border: .2rem solid #007bff;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 
 #customjslabel {
@@ -2138,14 +2167,14 @@ div[data-alpaca-container-item-name="category"] {
 
 #registration-container,
 #login-container,
-#configuration-container {
+#setup-container {
     margin: 2rem auto;
     width: 75%;
     padding: 2rem;
     padding-top: 1rem;
 }
 
-#configuration-container {
+#setup-container {
     margin-top: 5vh;
 }
 
@@ -2179,10 +2208,6 @@ div[data-alpaca-container-item-name="category"] {
     cursor: pointer;
 }
 
-#logoconfig {
-    cursor: default !important;
-}
-
 #logo-login {
     text-align: center;
     vertical-align: middle;
@@ -2214,9 +2239,32 @@ div[data-alpaca-container-item-name="category"] {
     white-space: nowrap;
 }
 
-#loginbtn>button {
-    margin: auto 0.25rem;
+#loginbtn {
     width: 5em;
+    background-color: green;
+    border: .2rem solid green;
+}
+
+#loginbtn:hover {
+    background-color: green;
+    border: .2rem solid darkgreen;
+}
+
+#loginbtn.disabled {
+    color: #fff !important;
+    background-color: #007bff !important;
+    border: .2rem solid #007bff !important;
+}
+
+#returnbtn {
+    margin-left: 2rem;
+    width: 5em;
+    border: .2rem solid #007bff;
+}
+
+#returnbtn:hover {
+    background-color: #0069d9;
+    border: .2rem solid #0258b4;
 }
 
 table#regmulti>tbody>tr>td {
@@ -2403,7 +2451,7 @@ h2.heading {
     cursor: default;
 }
 
-.configheader {
+.setupheader {
     margin-bottom: 1.5rem !important;
 }
 
@@ -2993,13 +3041,16 @@ ul.stepper li a .circle {
     text-align: center;
     line-height: 1.7rem;
     margin-right: .5rem;
+    background-color: red;
 }
 
-.circleblue {
-    background: #4285f4;
+.circle.active {
     background-color: #4285f4;
 }
 
+.circle.completed {
+    background-color: lightgreen;
+}
 
 .circlecomplete {
     background: lightgreen !important;
@@ -3040,15 +3091,11 @@ ul.stepper li.success a .circle {
     background-color: #43A047;
 }
 
-.stepper-target {
-    display: none;
-}
-
-.config {
+.setup {
     background-color: inherit;
 }
 
-#config-icon {
+#setup-icon {
     width: 20vw !important;
     max-width: 25rem;
     display: flex;
@@ -3059,7 +3106,7 @@ ul.stepper li.success a .circle {
     cursor: default !important;
 }
 
-#configcomplete {
+#setupcomplete {
     margin: 1rem;
     color: lightgreen;
     font-size: 2rem;
@@ -3069,7 +3116,7 @@ ul.stepper li.success a .circle {
     cursor: default;
 }
 
-#configreload {
+#setupreload {
     color: yellow;
     font-size: 1.2rem;
     font-weight: 600;
@@ -3085,7 +3132,9 @@ ul.stepper li.success a .circle {
 
 #registerbtn {
     width: 6.5rem;
+    border-color: #0062cc;
 }
+
 
 /*** End Steppers ***/
 

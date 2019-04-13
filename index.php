@@ -71,6 +71,12 @@ include('assets/php/auth_check.php');
     <script src="assets/js/vendor/jquery-ui.min.js"></script>
     <script src="assets/js/logarr.main.js"></script>
 
+    <script>
+        $(document).ready(function() {
+            console.log("Welcome to %cLogarr", "color: #FF0104; font-size: 2em;");
+        });
+    </script>
+
     <?php appendLog($logentry = "Logarr Index loaded"); ?>
 
     <!-- Check if Logarr auth is enabled / if TRUE, check login status every 10s -->
@@ -90,7 +96,6 @@ include('assets/php/auth_check.php');
     <script>
         <?php
         //initial values for clock:
-        //$timezone = $GLOBALS['preferences']['timezone'];
         $dt = new DateTime("now", new DateTimeZone("$timezone"));
         $timeStandard = (int)($GLOBALS['preferences']['timestandard']);
         $rftime = $GLOBALS['settings']['rftime'];
@@ -105,7 +110,9 @@ include('assets/php/auth_check.php');
         let servertime = "<?php echo $serverTime; ?>";
         let timeStandard = <?php echo $timeStandard; ?>;
         let timeZone = "<?php echo $timezone_suffix; ?>";
-        let rftime = <?php echo $GLOBALS['settings']['rftime']; ?>;
+        let rftime = <?php echo $GLOBALS['settings']['rftime']; ?>
+
+        rftime = rftime > 300 ? rftime : 30000; //minimum value, if not set default value will be used
 
         $(document).ready(function() {
             syncServerTime()
@@ -125,13 +132,23 @@ include('assets/php/auth_check.php');
     <!-- Tooltips: -->
     <script>
         $(function() {
-            $(document).tooltip();
+            $(document).tooltip({
+                hide: {
+                    effect: "fadeOut",
+                    duration: 200
+                },
+            });
         });
+    </script>
+
+    <!-- TODO: / TESTING -->
+    <script>
+        refreshLog();
     </script>
 
 </head>
 
-<body id="body" onscroll="scrollFunction()" onload="refreshLogs();">
+<body id="body" onscroll="scrollFunction()" onload="refreshblockUI();">
 
     <script>
         document.body.className += ' fade-out';
@@ -197,7 +214,7 @@ include('assets/php/auth_check.php');
                         <span class="slider round" id="autoUpdateSlider" data-enabled="false" onclick="overwriteLogUpdate();"></span>
                     </label>
 
-                    <input id="Update" type="button" name="updateBtn" class="button2 btn btn-primary" value="Update" title="Trigger log manual update" onclick="refreshLogs(); this.blur(); return false" />
+                    <input id="Update" type="button" name="updateBtn" class="button2 btn btn-primary" value="Update" title="Trigger log manual update" onclick="refreshblockUI(); this.blur(); return false" />
                 </div>
 
             </div>
@@ -220,18 +237,25 @@ include('assets/php/auth_check.php');
 
         <div id="logarrid">
             <a href="https://github.com/monitorr/logarr" title="Logarr GitHub repo" target="_blank" class="footer">Logarr </a> |
-            <a href="https://github.com/Monitorr/logarr/releases" title="Logarr releases" target="_blank" class="footer">
+            <a href="https://github.com/Monitorr/logarr/releases" title="Logarr Releases" target="_blank" class="footer">
                 v:
                 <?php echo file_get_contents("assets/js/version/version.txt"); ?></a> |
-            <a href="settings.php" title="Logarr Settings" target="_blank" class="footer">Settings</a>
+            <a href="settings.php" id="footerlink" title="Logarr Settings" target="_blank" class="footer">Settings</a>
             <?php if (isset($_SESSION['user_name']) && isset($_SESSION['user_is_logged_in']) && !empty($_SESSION['user_name']) && ($_SESSION['user_is_logged_in'])) {
-                echo " | <a href='index.php?action=logout' onclick='logouttoast();'  title='Log out' class='footer'></i>Logout</a>";
+                echo " | <a href='index.php?action=logout' onclick='logouttoast();' title='Log Out' class='footer'>Log Out</a>";
             } ?>
             <br>
         </div>
 
     </div>
 
+    <!-- Close persistant tooltips: -->
+    <script>
+        $(window).blur(function() {
+            $('a').blur();
+        });
+    </script>
+
 </body>
 
-</html> 
+</html>

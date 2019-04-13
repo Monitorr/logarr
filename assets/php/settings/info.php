@@ -71,7 +71,12 @@ include(__DIR__ . '/../auth_check.php');
     <!-- Tooltips: -->
     <script>
         $(function() {
-            $(document).tooltip();
+            $(document).tooltip({
+                hide: { 
+                    effect: "fadeOut", 
+                    duration: 200 
+                }
+            });
         });
     </script>
 
@@ -124,7 +129,7 @@ include(__DIR__ . '/../auth_check.php');
                         $myfile = fopen('../../data/php-perms-check.txt', 'w');
 
                         if (!$myfile) {
-                            echo " <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP write permissions FAIL'>";
+                            echo " <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Initial-installation' target='_blank' title='PHP write permissions FAIL'>";
                             echo "Perms";
                             echo "</a>";
                             echo "<script>console.log( 'ERROR: PHP write permissions FAIL' );</script>";
@@ -150,7 +155,7 @@ include(__DIR__ . '/../auth_check.php');
                         $datadircheck = fopen($datadirfile, 'w');
 
                         if (!$datadircheck) {
-                            echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP Datadir write permissions FAIL'>";
+                            echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Initial-installation' target='_blank' title='PHP Datadir write permissions FAIL'>";
                             echo "Data";
                             echo "</a>";
                             echo "<script>console.log( 'ERROR: Logarr PHP Datadir write permissions FAIL' );</script>";
@@ -172,7 +177,7 @@ include(__DIR__ . '/../auth_check.php');
                             echo "php_sqlite3";
                             echo "</div>";
                         } else {
-                            echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP php_sqlite3 extension NOT loaded'>";
+                            echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Initial-installation' target='_blank' title='PHP php_sqlite3 extension NOT loaded'>";
                             echo "php_sqlite3";
                             echo "</a>";
                             echo "<script>exterror();</script>";
@@ -186,7 +191,7 @@ include(__DIR__ . '/../auth_check.php');
                             echo "pdo_sqlite";
                             echo "</div>";
                         } else {
-                            echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP pdo_sqlite extension NOT loaded'>";
+                            echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Initial-installation' target='_blank' title='PHP pdo_sqlite extension NOT loaded'>";
                             echo "pdo_sqlite";
                             echo "</a>";
                             echo "<script>exterror();</script>";
@@ -200,7 +205,7 @@ include(__DIR__ . '/../auth_check.php');
                             echo "php7-zip";
                             echo "</div>";
                         } else {
-                            echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='php7-zip extension NOT loaded'>";
+                            echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Initial-installation' target='_blank' title='php7-zip extension NOT loaded'>";
                             echo "php7-zip";
                             echo "</a>";
                             echo "<script>exterror();</script>";
@@ -214,7 +219,7 @@ include(__DIR__ . '/../auth_check.php');
                             echo "OpenSSL";
                             echo "</div>";
                         } else {
-                            echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Config:--Initial-configuration' target='_blank' title='PHP openssl extension NOT loaded'>";
+                            echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Initial-installation' target='_blank' title='PHP openssl extension NOT loaded'>";
                             echo "OpenSSL";
                             echo "</a>";
                             echo "<script>console.log( 'ERROR: PHP openssl extension NOT loaded' );</script>";

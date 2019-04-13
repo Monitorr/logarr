@@ -59,7 +59,7 @@ echo $result;
 
 if (!readExternalLog($log)) {
     echo ( '<div id="logmissing"> <i class="fas fa-exclamation-triangle"> </i> Log not found </div>');
-    echo "<script>console.log('ERROR: Log not found');</script>";
+    echo "<script>console.log('%cERROR: Log not found','color: #FF0000;');</script>";
     echo "<script>logerror();</script>";
     appendLog(
         $logentry = "ERROR: Log not found: " . $log['logTitle']
