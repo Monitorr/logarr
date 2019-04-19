@@ -15,7 +15,6 @@ function appendLog($logentry) {
 	$logfile = 'logarr.log';
 	$logdir = 'assets/data/logs/';
 	$logpath = $logdir . $logfile;
-	//$logentry = "Add this to the file";
 	$date = date("D d M Y H:i T ");
 
 	if (file_exists($logpath)) {
@@ -116,11 +115,11 @@ function copyDefaultConfig($datadir) {
 			}
 		}
 
-		/**
-		 * TODO: Add logarr.log to config.json IF converted:
-		 * since we're merging the old and the new array, it should do this automagically
-		 */
-		$json = json_encode(array_replace_recursive($new_config, $old_config_converted), JSON_PRETTY_PRINT);
+		$old_config_converted['logs'] = array_merge($old_config_converted["logs"], $new_config["logs"]);
+
+		$old_new_merged = array_replace_recursive($new_config, $old_config_converted);
+
+		$json = json_encode($old_new_merged, JSON_PRETTY_PRINT);
 		file_put_contents($new_config_file, $json);
 		$copyDefaults = true;
 		appendLog("Logarr converted old config file to new config file: " . $new_config_file);
