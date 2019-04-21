@@ -25,7 +25,7 @@ if ($preferences['timezone'] == "") {
 }
 
 if (!$settings['rfconfig'] || !$settings['rftime'] || !$settings['rflog'] || !$settings['maxLines'] || !$settings['logRefresh'] || !$settings['autoHighlight'] || !$settings['jumpOnSearch'] || !$settings['liveSearch']) {
-	appendLog($logentry = "ERROR: Invalid Settings value");
+	appendLog( "ERROR: Invalid Settings value");
 } else {
 }
 
@@ -80,6 +80,8 @@ function appendLog($logentry) {
 	}
 }
 
+//TODO Isdocker throwing error: 
+
 function isDocker() {
 
 	if (is_file(__DIR__ . "/../../../Dockerfile")) {
@@ -88,9 +90,11 @@ function isDocker() {
 		echo "console.log('Logarr detected DOCKER environment');";
 		echo "</script>";
 
-		appendLog($logentry = "Logarr detected DOCKER environment");
+		appendLog( "Logarr detected DOCKER environment");
 
 		return true;
+	} else {
+		return false;
 	}
 }
 
@@ -104,7 +108,7 @@ function isMissingKeys() {
 	if (!$setupEnabled || !$settingsEnabled || !$logsEnabled) {
 		echo "<script>console.log('%cError: Invalid Authentication Settings value!', 'color: #FF0104;');</script>";
 		echo "<script>$('#sidebarAuthTitle').addClass('sidebarTitleError');</script>";
-		appendLog($logentry = "ERROR: Invalid Authentication Settings value!");
+		appendLog( "ERROR: Invalid Authentication Settings value!");
 	} else {
 	};
 
@@ -115,7 +119,7 @@ function isMissingKeys() {
 		} else {
 			echo "<script>console.log('%cError: Invalid Authentication Settings value: logsEnabled', 'color: #FF0104;');</script>";
 			echo "<script>$('#sidebarAuthTitle').addClass('sidebarTitleError');</script>";
-			appendLog($logentry = "ERROR: Invalid Authentication Settings value: 'logsEnabled'.");
+			appendLog( "ERROR: Invalid Authentication Settings value: 'logsEnabled'.");
 		}
 	}
 
@@ -126,7 +130,7 @@ function isMissingKeys() {
 		} else {
 			echo "<script>console.log('%cError: Invalid Authentication Settings value: settingsEnabled', 'color: #FF0104;');</script>";
 			echo "<script>$('#sidebarAuthTitle').addClass('sidebarTitleError');</script>";
-			appendLog($logentry = "ERROR: Invalid Authentication Settings value: 'settingsEnabled'.");
+			appendLog( "ERROR: Invalid Authentication Settings value: 'settingsEnabled'.");
 		}
 	}
 
@@ -137,7 +141,7 @@ function isMissingKeys() {
 		} else {
 			echo "<script>console.log('%cError: Invalid Authentication Settings value: setupEnabled', 'color: #FF0104;');</script>";
 			echo "<script>$('#sidebarAuthTitle').addClass('sidebarTitleError');</script>";
-			appendLog($logentry = "ERROR: Invalid Authentication Settings value: 'setupEnabled'.");
+			appendLog( "ERROR: Invalid Authentication Settings value: 'setupEnabled'.");
 		}
 	}
 }
@@ -150,7 +154,7 @@ function isMissingKeyslog() {
 	$logsEnabled = $GLOBALS['authentication']['logsEnabled'];
 
 	if (!$setupEnabled || !$settingsEnabled || !$logsEnabled) {
-		appendLog($logentry = "ERROR: Invalid Authentication Settings value!");
+		appendLog( "ERROR: Invalid Authentication Settings value!");
 	} else {
 	};
 }
@@ -163,7 +167,7 @@ function isMissingPrefs() {
 	$timestandard = $GLOBALS['preferences']['timestandard'];
 
 	if (!$sitetitle || !$updateBranch || !$timezone || !$timestandard) {
-		appendLog($logentry = "ERROR: Invalid Preferences Settings value!");
+		appendLog( "ERROR: Invalid Preferences Settings value!");
 		echo "<script>console.log('%cError: Invalid Preferences Settings value!', 'color: #FF0104;');</script>";
 		echo "<script>$('#sidebarUserPrefsTitle').addClass('sidebarTitleError');</script>";
 	} else {
@@ -178,7 +182,7 @@ function isMissingPrefs() {
 			} else {
 				echo "<script>console.log('%cError: Invalid Preferences Settings value: updateBranch', 'color: #FF0104;');</script>";
 				echo "<script>$('#sidebarUserPrefsTitle').addClass('sidebarTitleError');</script>";
-				appendLog($logentry = "ERROR: Invalid Preferences Settings value: 'updateBranch'.");
+				appendLog( "ERROR: Invalid Preferences Settings value: 'updateBranch'.");
 			}
 		}
 	}
@@ -190,7 +194,7 @@ function isMissingPrefs() {
 		} else {
 			echo "<script>console.log('%cError: Invalid Preferences Settings value: timestandard', 'color: #FF0104;');</script>";
 			echo "<script>$('#sidebarUserPrefsTitle').addClass('sidebarTitleError');</script>";
-			appendLog($logentry = "ERROR: Invalid Preferences Settings value: 'timestandard'.");
+			appendLog( "ERROR: Invalid Preferences Settings value: 'timestandard'.");
 		}
 	}
 }
@@ -204,7 +208,7 @@ function isMissingPrefslog() {
 	$timestandard = $GLOBALS['preferences']['timestandard'];
 
 	if (!$sitetitle || !$updateBranch || !$timezone || !$timestandard) {
-		appendLog($logentry = "ERROR: Invalid Preferences Settings value!");
+		appendLog( "ERROR: Invalid Preferences Settings value!");
 	} else {
 	};
 }
@@ -215,7 +219,7 @@ function isMissingSettings() {
 	global $settings;
 
 	if (!$settings['rfconfig'] || !$settings['rftime'] || !$settings['rflog'] || !$settings['maxLines'] || !$settings['logRefresh'] || !$settings['autoHighlight'] || !$settings['jumpOnSearch'] || !$settings['liveSearch']) {
-		appendLog($logentry = "ERROR: Invalid Settings value");
+		appendLog( "ERROR: Invalid Settings value");
 		echo "<script>console.log('%cError: Invalid Settings value', 'color: #FF0104;');</script>";
 		echo "<script>$('#sidebarSettingsTitle').addClass('sidebarTitleError');</script>";
 	} else {
@@ -334,16 +338,16 @@ function checkLoginsettings() {
 
 function settingsValues()
 {
-	appendLog($logentry = "Timezone: " . $GLOBALS['preferences']['timezone']);
+	appendLog( "Timezone: " . $GLOBALS['preferences']['timezone']);
 	
-	appendLog($logentry = "Config refresh interval: " . $GLOBALS['settings']['rfconfig'] . " ms");
+	appendLog( "Config refresh interval: " . $GLOBALS['settings']['rfconfig'] . " ms");
 
-	appendLog($logentry = "Time refresh interval: " . $GLOBALS['settings']['rftime'] . " ms");
+	appendLog( "Time refresh interval: " . $GLOBALS['settings']['rftime'] . " ms");
 
 	if ($GLOBALS['settings']['logRefresh'] == "true") {
-		appendLog($logentry = "Log auto update: Enabled | Interval: " . $GLOBALS['settings']['rflog'] . " ms");
+		appendLog( "Log auto update: Enabled | Interval: " . $GLOBALS['settings']['rflog'] . " ms");
 	} else {
-		appendLog($logentry = "Log auto update: DISABLED");
+		appendLog( "Log auto update: DISABLED");
 	}
 }
 

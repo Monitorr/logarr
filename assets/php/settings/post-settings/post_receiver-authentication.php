@@ -8,5 +8,5 @@ if (isset($_POST) && !empty($_POST)) {
 	$json['authentication'] = $_POST;
 
 	file_put_contents($config_file, json_encode($json, JSON_PRETTY_PRINT));
-	appendLog($logentry = "Logarr Settings changed: Authentication");
+	appendLog( "Logarr Settings changed: Authentication");
 }

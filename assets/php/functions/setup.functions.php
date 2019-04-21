@@ -3,69 +3,57 @@
  * LOGARR
  * By: @seanvree, @jonfinley and @rob1998
  * https://github.com/Monitorr/Logarr
+ * @return string
  */
 
- //TODO: Add logarr.log to config.json IF converted:
+/**
+ * Appends a message to the Logarr log file
+ * @param $logentry
+ * @return string
+ */
 
+ //TODO: Add error logging
 function appendLog($logentry) {
 	$logfile = 'logarr.log';
 	$logdir = 'assets/data/logs/';
+	//$logdir = '../data/logs/';
 	$logpath = $logdir . $logfile;
-	//$logentry = "Add this to the file";
 	$date = date("D d M Y H:i T ");
 
+	//if (file_exists($logpath)) {
 	if (file_exists($logdir)) {
-
-		if (!$handle = fopen($logpath, 'a+')) {
-			echo "<script>console.log('ERROR: Cannot open file ($logfile)');</script>";
+		$oldContents = file_get_contents($logpath);
+		if (file_put_contents($logpath, $oldContents . $date . " | " . $logentry . "\r\n") === false){
+			return "Error writing to Logarr log file";
+			echo "<script>console.log('%cERROR: Failed writing to Logarr log file.', 'color: #FF0104;');</script>";
+			//return $error;
 		}
 
-		if (fwrite($handle, $date . " | " . $logentry . "\r\n") === false) {
-			echo "<script>console.log('ERROR: Cannot write to file $logfile');</script>";
-		} else {
-			if (is_writable($logpath)) {
-				fclose($handle);
-			} else {
-				echo "<script>console.log('ERROR: The file $logfile is not writable');</script>";
-			}
-		}
 	} else {
 		if (!mkdir($logdir)) {
-			echo "<script>console.log('%cERROR: Cannot create log dir', 'color: #FF0104;');</script>";
+			return "ERROR: Failed to create Logarr log directory";
+			echo "<script>console.log('%cERROR: Failed to create Logarr log directory.', 'color: #FF0104;');</script>";
 		} else {
-			appendLog($logentry = "Logarr log dir created");
-			if (!$handle = fopen($logpath, 'a+')) {
-				echo "<script>console.log('ERROR: Cannot open file ($logfile)');</script>";
-			}
-			if (fwrite($handle, $date . " | " . $logentry . "\r\n") === false) {
-				echo "<script>console.log('ERROR: Cannot write to file $logfile');</script>";
-			} else {
-				if (is_writable($logpath)) {
-					fclose($handle);
-				} else {
-					echo "<script>console.log('ERROR: The file $logfile is not writable');</script>";
-				}
-			}
+			return "Logarr log directory created";
+			appendLog( "Logarr log directory created");
+			appendLog($logentry);
 		}
 	}
 }
 
-
-//Check if Logarr is running on DOCKER, if TRUE, disable datadir change function
+/**
+ * Checks if the current instance is running on Docker
+ * @return bool
+ */
 function isDocker() {
-
-	if (is_file(__DIR__ . "/../../../Dockerfile")) {
-
-		echo "<script type='text/javascript'>";
-		echo "console.log('Logarr detected DOCKER environment');";
-		echo "</script>";
-
-		appendLog($logentry = "Logarr detected DOCKER environment");
-
-		return true;
-	}
+	return is_file(__DIR__ . "/../../../Dockerfile");
 }
 
+/**
+ * Creates the datadir
+ * @param $datadir
+ * @return bool
+ */
 function createDatadir($datadir) {
 
 	$datadir = trim($datadir, " \t\n\r");
@@ -73,29 +61,39 @@ function createDatadir($datadir) {
 	$datadir_file = __DIR__ . '/../../data/datadir.json';
 	$datadir_file_fail = __DIR__ . '/../../data/datadir.fail.txt';
 
-	appendLog($logentry = "Logarr is creating data directory: " . json_encode($_POST));
+	appendLog("Logarr is creating data directory: " . json_encode($_POST));
 
 	if (!mkdir($datadir, 0777, FALSE)) {
 		file_put_contents($datadir_file_fail, json_encode($_POST));
-		appendLog($logentry = "ERROR: Logarr failed to create data directory");
+		appendLog( "ERROR: Logarr failed to create data directory");
 		return false;
 	} else {
 		file_put_contents($datadir_file, json_encode(array("datadir" => $datadir)));
 		unlink($datadir_file_fail);
-		appendLog($logentry = "Logarr created data directory: " . $datadir);
+		appendLog("Logarr created data directory: " . $datadir);
 		return true;
 	}
 }
 
+/**
+ * Copies the default config and converts the old config if existing
+ * @param $datadir
+ * @return bool
+ */
 function copyDefaultConfig($datadir) {
 
 	$default_config_file = __DIR__ . "/../../php/functions/default.json";
 	$new_config_file = $datadir . 'config.json';
-	if (is_file(__DIR__ . "/../../config/config.php") && !is_file($new_config_file)) {
-		//TODO: Add logarr.log to config.json IF converted:
-		echo "<script>console.log('Old config file detetected - attempting to convert');</script>";
-		appendLog($logentry = "Old config file detetected - attempting to convert");
-		include_once(__DIR__ . "/../../config/config.php");
+	$old_config_file = __DIR__ . "/../../config/config.php";
+	if (is_file($old_config_file) && !is_file($new_config_file)) {
+		appendLog( "Old config file detetected - attempting to convert");
+		include_once($old_config_file);
+
+		if((!isset($config) || empty($config)) || !isset($logs)){
+			appendLog("ERROR: Old config file detected, failed to convert");
+			return false;
+		}
+
 		$new_config = json_decode(file_get_contents($default_config_file), 1);
 
 		$old_config_converted = array(
@@ -105,46 +103,46 @@ function copyDefaultConfig($datadir) {
 				'maxLines' => $config['max-lines'],
 			),
 			'preferences' => array(
-				//"sitetitle" => $GLOBALS['config']['title'],
 				"sitetitle" => $config['title'],
 				"timezone" => $config['timezone'],
-				//"timestandard" => ($GLOBALS['config']['timestandard'] == 0 ? "False" : "True"),
 				"timestandard" => ($config['timestandard'] == 0 ? "False" : "True"),
 				"updateBranch" => $config['updateBranch'],
 			),
 			"logs" => array()
 		);
-		//foreach ($GLOBALS['logs'] as $logTitle => $path) {
-		foreach ($logs as $logTitle => $path) {
-			array_push($old_config_converted['logs'],
-				array(
-					"logTitle" => $logTitle,
-					"path" => $path,
-					"enabled" => "Yes",
-					//TODO: remove category?
-					"category" => "Uncategorized"
-				)
-			);
+
+		if (!empty($logs)) {
+			foreach ($logs as $logTitle => $path) {
+				array_push($old_config_converted['logs'],
+					array(
+						"logTitle" => $logTitle,
+						"path" => $path,
+						"enabled" => "Yes",
+						"category" => "Uncategorized"
+					)
+				);
+			}
 		}
-		$json = json_encode(array_replace_recursive($new_config, $old_config_converted), JSON_PRETTY_PRINT);
+
+		$old_config_converted['logs'] = array_merge($old_config_converted["logs"], $new_config["logs"]);
+
+		$old_new_merged = array_replace_recursive($new_config, $old_config_converted);
+
+		$json = json_encode($old_new_merged, JSON_PRETTY_PRINT);
 		file_put_contents($new_config_file, $json);
 		$copyDefaults = true;
-		appendLog($logentry = "Logarr converted old config file to new config file: " . $new_config_file);
+		appendLog("Logarr converted old config file to new config file: " . $new_config_file);
 
-		$myfile = fopen(__DIR__ . "/../../config/remove_this_dir.txt", 'w+');
-		$date = date("D d M Y H:i T");
-
-		//TODO : Remove old config.php file:
-		if (!$myfile) {
-			echo "<script>console.log( 'ERROR: Failed to remove old config.php file' );</script>";
+		if (unlink($old_config_file)) {
+			appendLog("Old config file has been removed");
 		} else {
-			fwrite($myfile, "\r\n" . $date . "\r\n" . "Logarr has converted the old config.php file to config.json in the Data Directory. \r\nThis directory can be safely removed.");
-			fclose($myfile);
+			appendLog("ERROR: Old config file could not be removed");
+			file_put_contents($old_config_file, "Old config was converted to the new format, you can now safely remove this file and directory");
 		}
 
 	} else {
 		$copyDefaults = copy($default_config_file, $new_config_file);
-		appendLog($logentry = "Logarr created new default config file: " . $new_config_file);
+		appendLog( "Logarr created new default config file: " . $new_config_file);
 	}
 
 	return $copyDefaults;

@@ -8,5 +8,5 @@ if (isset($_POST) && !empty($_POST)) {
 	$json['settings'] = $_POST;
 
 	file_put_contents($config_file, json_encode($json, JSON_PRETTY_PRINT));
-	appendLog($logentry = "Logarr Settings changed: Logarr Settings");
+	appendLog( "Logarr Settings changed: Logarr Settings");
 }

@@ -390,8 +390,6 @@ function usererror() {
     })
 };
 
-
-
 function refreshblockUI() {
     $('#body').addClass("cursorwait");
     logupdatetoast();
@@ -413,6 +411,7 @@ function refreshblockUI() {
         $('#count').removeClass("hidden");
     } else {
         $('#count').addClass("hidden");
+        $('.btn-visible').addClass("btn-hidden");
         $('#searchBtn').removeClass("marksearchInput");
     }
 }
@@ -584,6 +583,12 @@ function mark() {
                     count.append("'");
                     results.addClass("markresults");
                     count.addClass("countresults");
+                    //If no search results found, hide next,prev buttons:
+                    if (results.length === 0) {
+                        $('.btn-visible').addClass("btn-hidden");
+                    } else {
+                        $('.btn-visible').removeClass("btn-hidden");
+                    }
 
                     //Append search results count to SweetAlert modal:
                     let countmodal = $(".countmodal");

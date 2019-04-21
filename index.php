@@ -77,7 +77,7 @@ include('assets/php/auth_check.php');
         });
     </script>
 
-    <?php appendLog($logentry = "Logarr Index loaded"); ?>
+    <?php appendLog("Logarr Index loaded"); ?>
 
     <!-- Check if Logarr auth is enabled / if TRUE, check login status every 10s -->
     <?php checkLoginindex(); ?>
@@ -161,7 +161,7 @@ include('assets/php/auth_check.php');
 
         <div id="left" class="Column">
 
-            <div id="clock">
+            <div id="clock" title="Time refresh interval: <?php echo $settings['rftime']; ?> ms ">
                 <i class="fas fa-exclamation-triangle hidden" id="synctimeerror" title="An error occurred while synchronizing time!"> </i>
                 <canvas id="canvas" width="120" height="120"></canvas>
                 <div class="dtg" id="timer"></div>
@@ -185,13 +185,13 @@ include('assets/php/auth_check.php');
                     <div id="markform">
 
                         <input type="search" name="markinput" id="text-search2" class="input" title="Input search query" placeholder=" Search & highlight . . ." required spellcheck="false">
-                        <button data-search="search" name="searchBtn" id="searchBtn" value="Search" class="btn marksearch btn-primary" onclick="this.blur(); return false;" title="Execute search. Results will be highlighted in yellow.">Search
+                        <button data-search="search" name="searchBtn" id="searchBtn" value="Search" class="btn marksearch btn-primary indexBtn" onclick="this.blur(); return false;" title="Execute search. Results will be highlighted in yellow.">Search
                         </button>
-                        <button data-search="next" name="nextBtn" class="btn search-button btn-primary btn-visible btn-hidden" onclick="this.blur(); return false;" title="Focus to first search result">&darr;
+                        <button data-search="next" id="nextBtn" name="nextBtn" class="btn search-button btn-primary btn-visible btn-hidden indexBtn npBtn" onclick="this.blur(); return false;" title="Focus to first search result">&darr;
                         </button>
-                        <button data-search="prev" name="prevBtn" class="btn search-button btn-primary btn-visible btn-hidden" onclick="this.blur(); return false;" title="Focus to last search result">&uarr;
+                        <button data-search="prev" id="prevBtn" name="prevBtn" class="btn search-button btn-primary btn-visible btn-hidden indexBtn npBtn" onclick="this.blur(); return false;" title="Focus to last search result">&uarr;
                         </button>
-                        <button data-search="clear" class="btn search-button btn-primary" onclick="this.blur(); return false;" title="Clear search results">✖
+                        <button data-search="clear" id="searchClear" class="btn search-button btn-primary indexBtn" onclick="this.blur(); return false;" title="Clear search results">✖
                         </button>
 
                     </div>
@@ -206,15 +206,16 @@ include('assets/php/auth_check.php');
 
             <div id="rightbottom" class="rightbottom">
 
-                <div id="auto-update" title="Auto-update logs | Interval: <?php echo $settings['rflog']; ?> ms ">
+                <div id="auto-update" >
 
                     Auto Update:
 
-                    <label class="switch" id="buttonStart">
+                    <label class="switch" id="buttonStart" title="Auto-update logs | Interval: <?php echo $settings['rflog']; ?> ms ">
                         <span class="slider round" id="autoUpdateSlider" data-enabled="false" onclick="overwriteLogUpdate();"></span>
                     </label>
 
-                    <input id="Update" type="button" name="updateBtn" class="button2 btn btn-primary" value="Update" title="Trigger log manual update" onclick="refreshblockUI(); this.blur(); return false" />
+                    <input id="Update" type="button" name="updateBtn" class="button2 btn btn-primary indexBtn" value="Update" title="Trigger log manual update" onclick="refreshblockUI(); this.blur(); return false" />
+                
                 </div>
 
             </div>
@@ -251,9 +252,22 @@ include('assets/php/auth_check.php');
 
     <!-- Close persistant tooltips: -->
     <script>
+
         $(window).blur(function() {
             $('a').blur();
         });
+
+        //Close persistant tooltips on mobile:
+        $('.btn').on('touchstart', function(e){
+            $(document).tooltip( "enable" );
+        });
+
+        $('.btn').on('touchend', function(e){
+            setTimeout(function () {
+                $(document).tooltip( "disable" );
+            }, 1000);
+        });
+
     </script>
 
 </body>

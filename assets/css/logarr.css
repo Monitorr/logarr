@@ -561,14 +561,52 @@ mark.current {
 .marksearchInput {
     color: #fff;
     font-weight: 600;
+    background-color: #0069d9 !important;
+    border-color: #0062cc !important;
+}
+
+.indexBtn {
+    -webkit-tap-highlight-color: #007bff;
+}
+
+.indexBtn:active {
+    background-color: #0069d9 !important;
+    border-color: #0062cc !important;
+}
+
+.indexBtn:focus {
     background-color: #0069d9;
-    border-color: #0062cc;
+    border-color: #0062cc !important;
 }
 
 .search-button {
     background-color: #8E8B8B;
     border: .15rem solid rgb(90, 90, 90);
     font-size: .75rem;
+}
+
+#searchClear {
+    color: white;
+    border: .15rem solid rgb(90, 90, 90);
+}
+
+#searchClear:hover {
+    border-color: #0062cc;
+}
+
+.npBtn:hover {
+    border-color: #0062cc;
+}
+
+.logBtn {
+    background-color: #8E8B8B;
+    border: .15rem solid rgb(90, 90, 90);
+    box-shadow: none !important;
+}
+
+.logBtn:focus {
+    background-color: #8E8B8B;
+    border: .15rem solid rgb(90, 90, 90) !important;
 }
 
 #text-search2 {
@@ -855,6 +893,7 @@ input[type=search]::-webkit-search-cancel-button {
 }
 
 .logheader {
+    display: flex;
     color: #EEEBEC;
     font-size: 2em;
     font-weight: 300;
@@ -865,6 +904,7 @@ input[type=search]::-webkit-search-cancel-button {
     white-space: nowrap;
     margin: 0;
     text-align: center;
+    justify-content: center;
     vertical-align: middle;
     cursor: default;
 }
@@ -899,6 +939,7 @@ input[type=search]::-webkit-search-cancel-button {
 .path {
     font-size: calc(1em - 25%);
     color: #8C8C8C;
+    word-break: break-word;
 }
 
 .slide {
@@ -2506,6 +2547,10 @@ h2.heading {
 
 @media only screen and (max-width: 768px) {
 
+    body {
+        padding: 1rem !important;
+    }
+
     /** Start index page (logs) **/
     .flex-child {
         max-width: 90%;
@@ -2519,12 +2564,21 @@ h2.heading {
         margin-bottom: 1rem;
     }
 
+    #brand {
+        display: none;
+        visibility: hidden;
+    }
+
     .Column {
         display: block;
     }
 
     #left {
         display: none;
+    }
+
+    .left {
+        font-size: .75em;
     }
 
     #logincolumn {
@@ -2551,11 +2605,53 @@ h2.heading {
         float: none;
     }
 
+    .logheader {
+        font-size: 1.5em;
+        margin: auto;
+    }
+
     #markform {
         position: relative;
         padding: 0;
         margin-right: 0;
         text-align: center;
+        width: 95vw;
+    }
+
+    .expand {
+        font-size: .75rem;
+    }
+
+    .marksearch {
+        font-size: .7rem;
+        width: auto;
+    }
+
+    .search-button {
+        font-size: .40rem;
+    }
+
+    .indexBtn {
+        background-color: #8E8B8B;
+        border: .2rem solid rgb(90, 90, 90);
+    }
+
+    .indexBtn:hover {
+        background-color: #8E8B8B;
+        border: .15rem solid rgb(90, 90, 90) !important;
+    }
+
+    .npBtn {
+        border: .15rem solid rgb(90, 90, 90);
+    }
+
+    .logBtn {
+        border: .15rem solid rgb(90, 90, 90);
+        box-shadow: none !important;
+    }
+
+    .filesize {
+        font-size: .75em;
     }
 
     .input,
@@ -2576,9 +2672,6 @@ h2.heading {
 
     /** Start settings page**/
 
-    body {
-        padding: 1rem !important;
-    }
 
     .settingscolumn {
         float: none;

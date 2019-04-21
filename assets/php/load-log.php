@@ -46,7 +46,7 @@ $result = "
 	               title=\"Attempt log file roll. NOTE: This function will copy the current log file to '[logfilename].bak', delete the original log file, and create a new blank log file with the orginal log filename. This function may not succeed if log file is in use.\">
 	           Roll Log
 	       </button>
-	       <button type=\"button\" class=\"log-action-button download-button slidebutton btn btn-primary\"
+	       <button type=\"button\" class=\"log-action-button download-button slidebutton btn btn-primary indexBtn logBtn\"
 	               data-action=\"download-log\" data-service=\"" . $log['logTitle'] . "\"
 	               title=\"Download full log file\">Download
 	       </button>
