@@ -82,10 +82,12 @@ appendLog("Logarr Setup loaded");
         }
     </style>
 
+    <!-- //TODO Isdocker throwing error: -->
+
     <script>
 		<?php
-		echo "var datadir = " . $authenticator->doesDataDirExist();
-		echo "var datauser = " . $authenticator->doesUserExist();
+		echo "var datadir = " . $authenticator->doesDataDirExist() . ";";
+		echo "var datauser = " . $authenticator->doesUserExist() . ";";
 		echo "var docker = " . isDocker();
 		?>
     </script>

@@ -80,7 +80,7 @@ https://github.com/Monitorr/Logarr
     <script src="assets/js/vendor/sweetalert2.min.js"></script>
     <script src="assets/js/logarr.main.js"></script>
 
-    <?php appendLog( "Logarr settings loaded"); ?>
+    <?php appendLog( "Logarr Settings loaded"); ?>
 
     <!-- Check if Logarr settings auth is enabled / if TRUE, check login status every 10s -->
     <?php checkLoginsettings(); ?>
