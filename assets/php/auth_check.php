@@ -294,7 +294,7 @@ class OneFileLoginApplication
 		$config_path = $this->datadir . DIRECTORY_SEPARATOR . "config.json";
 		if(file_exists($config_path)) {
 			//TODO: write implementation, check if all config keys are accounted for
-			$this->appendLog( "Logarr setup: COMPLETE");
+			//$this->appendLog( "Logarr setup: COMPLETE");
 			return true;
 		}
 		return false;

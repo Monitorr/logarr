@@ -11,22 +11,31 @@
  * @param $logentry
  * @return string
  */
+
+ //TODO: Add error logging
 function appendLog($logentry) {
 	$logfile = 'logarr.log';
 	$logdir = 'assets/data/logs/';
+	//$logdir = '../data/logs/';
 	$logpath = $logdir . $logfile;
 	$date = date("D d M Y H:i T ");
 
-	if (file_exists($logpath)) {
+	//if (file_exists($logpath)) {
+	if (file_exists($logdir)) {
 		$oldContents = file_get_contents($logpath);
-		if(file_put_contents($logpath, $oldContents . $date . " | " . $logentry . "\r\n") === false){
-			return "Error while writing to log";
+		if (file_put_contents($logpath, $oldContents . $date . " | " . $logentry . "\r\n") === false){
+			return "Error writing to Logarr log file";
+			echo "<script>console.log('%cERROR: Failed writing to Logarr log file.', 'color: #FF0104;');</script>";
+			//return $error;
 		}
+
 	} else {
 		if (!mkdir($logdir)) {
-			return "Couldn't create log directory";
+			return "ERROR: Failed to create Logarr log directory";
+			echo "<script>console.log('%cERROR: Failed to create Logarr log directory.', 'color: #FF0104;');</script>";
 		} else {
-			appendLog( "Logarr log dir created");
+			return "Logarr log directory created";
+			appendLog( "Logarr log directory created");
 			appendLog($logentry);
 		}
 	}
@@ -81,7 +90,7 @@ function copyDefaultConfig($datadir) {
 		include_once($old_config_file);
 
 		if((!isset($config) || empty($config)) || !isset($logs)){
-			appendLog("Old config detected, but unable to convert");
+			appendLog("ERROR: Old config file detected, failed to convert");
 			return false;
 		}
 
@@ -127,7 +136,7 @@ function copyDefaultConfig($datadir) {
 		if (unlink($old_config_file)) {
 			appendLog("Old config file has been removed");
 		} else {
-			appendLog("Old config file could not be removed");
+			appendLog("ERROR: Old config file could not be removed");
 			file_put_contents($old_config_file, "Old config was converted to the new format, you can now safely remove this file and directory");
 		}
 

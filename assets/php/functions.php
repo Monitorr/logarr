@@ -80,6 +80,8 @@ function appendLog($logentry) {
 	}
 }
 
+//TODO Isdocker throwing error: 
+
 function isDocker() {
 
 	if (is_file(__DIR__ . "/../../../Dockerfile")) {
@@ -91,6 +93,8 @@ function isDocker() {
 		appendLog( "Logarr detected DOCKER environment");
 
 		return true;
+	} else {
+		return false;
 	}
 }
 
