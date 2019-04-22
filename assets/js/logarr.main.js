@@ -1019,10 +1019,13 @@ function updateTime() {
             }
         }
         var dateString = res[0] + ' | ' + res[2] + " " + res[1] + "<br>" + res[3];
+        var dateString2 = res[0] + ' | ' + res[2] + " " + res[1];
         var data = '<div class="dtg">' + time + ' ' + timeZone + '</div>';
         data += '<div id="line">__________</div>';
         data += '<div class="date">' + dateString + '</div>';
+        data1 = '<div class="dateRight">' + dateString2 + '</div>';
         $("#timer").html(data);
+        $("#dateRight").html(data1);
     }, 1000);
 }
 
