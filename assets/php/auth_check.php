@@ -150,6 +150,8 @@ class OneFileLoginApplication
 				}
 			}
 		}
+		//TODO / Testing:
+		return "0";
 		return false;
 	}
 
@@ -170,6 +172,8 @@ class OneFileLoginApplication
 				return true;
 			}
 		}
+		//TODO / testing:
+		return "0";
 		return false;
 	}
 
@@ -186,7 +190,7 @@ class OneFileLoginApplication
 	}
 
 	/**
-	 * Appends a message to the logarr log file
+	 * Appends a log entry to the Logarr log file
 	 * @param $logentry
 	 * @return string
 	 */
@@ -198,20 +202,21 @@ class OneFileLoginApplication
 		//$logentry = "Add this to the file";
 		$date = date("D d M Y H:i T ");
 
-		if (file_exists($logpath)) {
+		//if (file_exists($logpath)) {
+		if (file_exists($logdir)) {
 			$oldContents = file_get_contents($logpath);
 			if(file_put_contents($logpath, $oldContents . $date . " | " . $logentry . "\r\n") === false){
-				return "Error while writing to log";
+				return "Error writing to Logarr log file";
 			}
 		} else {
 			if (!mkdir($logdir)) {
-				return "Couldn't create log directory";
+				return "ERROR: Failed to create Logarr log directory";
 			} else {
-				$this->appendLog( "Logarr log dir created");
+				$this->appendLog( "Logarr log directory created");
 				$this->appendLog($logentry);
+				return "Logarr log directory created";
 			}
 		}
-
 		return "Success";
 	}
 

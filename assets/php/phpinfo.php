@@ -1,3 +1,7 @@
+<?php
+include('functions.php');
+?>
+
 <!-- phpinfo.php -->
 <head>
 
@@ -96,6 +100,8 @@ if ($GLOBALS['preferences']['timezone'] == "") {
 	date_default_timezone_set($timezoneconfig);
 	$timezone = date_default_timezone_get();
 }
+
+appendLog("Logarr PHPInfo loaded");
 
 echo "<div id='extensions'>";
 

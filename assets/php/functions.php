@@ -56,31 +56,38 @@ function configExists()
 
 function appendLog($logentry) {
 
-	mkdir (__DIR__ . '/../data/logs/');
+	//mkdir (__DIR__ . '/../data/logs/');
 	$logfile = 'logarr.log';
 	$logdir = __DIR__ . '/../data/logs/';
 	$logpath = $logdir . $logfile;
 	//$logentry = "Add this to the file";
 	$date = date("D d M Y H:i T ");
 
+	if (!file_exists($logdir)) {
+		if (!mkdir($logdir)) {
+			echo "<script>console.log('%cERROR: Failed to create Logarr log directory.', 'color: red;');</script>";
+			return "ERROR: Failed to create Logarr log directory";
+		} else {
+			appendLog( "Logarr log directory created");
+			appendLog($logentry);
+			return "Logarr log directory created";
+		}
+	};
+
 	if (!$handle = fopen($logpath, 'a+')) {
-		echo "<script>console.log('ERROR: Cannot open file ($logfile)');</script>";
+		echo "<script>console.log('ERROR: Cannot open Logarr log file ($logfile)');</script>";
 	}
 
 	if (fwrite($handle, $date . " | " . $logentry . "\r\n") === false) {
-		echo "<script>console.log('ERROR: Cannot write to file $logfile');</script>";
+		echo "<script>console.log('ERROR: Cannot write to Logarr log file $logfile');</script>";
 	} else {
-
 		if (is_writable($logpath)) {
 			fclose($handle);
-
 		} else {
-			echo "<script>console.log('ERROR: The file $logfile is not writable');</script>";
+			echo "<script>console.log('ERROR: The Logarr log file $logfile is not writable');</script>";
 		}
 	}
 }
-
-//TODO Isdocker throwing error: 
 
 function isDocker() {
 

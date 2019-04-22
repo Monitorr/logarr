@@ -311,6 +311,13 @@ include(__DIR__ . '/../auth_check.php');
 
     <script src="../../js/update-settings.js" async></script>
 
+    <!-- Close persistant tooltips: -->
+    <script>
+        $(window).blur(function() {
+            $('a').blur();
+        });
+    </script>
+
 </body>
 
 </html> 

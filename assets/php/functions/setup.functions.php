@@ -7,7 +7,7 @@
  */
 
 /**
- * Appends a message to the Logarr log file
+ * Appends a log entry to the Logarr log file
  * @param $logentry
  * @return string
  */
@@ -22,32 +22,48 @@ function appendLog($logentry) {
 
 	//if (file_exists($logpath)) {
 	if (file_exists($logdir)) {
+		ini_set('error_reporting', E_ERROR);
 		$oldContents = file_get_contents($logpath);
 		if (file_put_contents($logpath, $oldContents . $date . " | " . $logentry . "\r\n") === false){
-			return "Error writing to Logarr log file";
 			echo "<script>console.log('%cERROR: Failed writing to Logarr log file.', 'color: #FF0104;');</script>";
+			return "Error writing to Logarr log file";
 			//return $error;
 		}
 
 	} else {
 		if (!mkdir($logdir)) {
-			return "ERROR: Failed to create Logarr log directory";
 			echo "<script>console.log('%cERROR: Failed to create Logarr log directory.', 'color: #FF0104;');</script>";
+			return "ERROR: Failed to create Logarr log directory";
 		} else {
-			return "Logarr log directory created";
 			appendLog( "Logarr log directory created");
 			appendLog($logentry);
+			return "Logarr log directory created";
 		}
 	}
 }
+
+//TODO Isdocker throwing error: 
 
 /**
  * Checks if the current instance is running on Docker
  * @return bool
  */
+
+// function isDocker() {
+// 	return is_file(__DIR__ . "/../../../Dockerfile");
+// }
+
+//TODO This works:
+
 function isDocker() {
-	return is_file(__DIR__ . "/../../../Dockerfile");
+
+	if (is_file(__DIR__ . "/../../../Dockerfile")) {
+		return true;
+	} else {
+		return "0";
+	}
 }
+
 
 /**
  * Creates the datadir
