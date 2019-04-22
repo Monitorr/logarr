@@ -15,8 +15,6 @@ let rfconfig = (typeof settings !== "undefined") ? settings.rfconfig : 10000;
 
 //nIntervId["refreshConfig"] = setInterval(refreshConfig, rfconfig);
 
-///Swal.fire('Logarr is loading ...');
-
 const Toast = Swal.mixin({
     toast: true,
     position: 'bottom-start',
