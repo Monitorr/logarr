@@ -170,13 +170,16 @@ include('assets/php/auth_check.php');
         </div>
 
         <div id="logo" class="Column">
-            <img id="logo-icon" src="assets/images/logo_white_glow_text_logarr-crop.png" alt="Logarr">
+            <img id="logo-icon" src="assets/images/logo_white_glow_text_logarr-crop.png" alt="Logarr" title="Reload Logarr" onclick="window.location.reload(true);">
+            <img id="logo-icon-mobile" src="assets/images/logarr_white_text_crop.png" class="hidden" alt="Logarr" title="Reload Logarr" onclick="window.location.reload(true);">
             <div id="brand" class="header-brand" title="Reload Logarr" onclick="window.location.reload(true);">
                 <?php
                 echo $preferences['sitetitle'];
                 ?>
             </div>
         </div>
+
+        <div id="dateRight" class="hidden"></div>
 
         <div id="right" class="Column">
 
@@ -229,7 +232,7 @@ include('assets/php/auth_check.php');
         <div id='logwrapper' class='flex'></div>
     </div>
 
-    <button onclick="topFunction();checkAll1();" id="myBtn" title="Go to top"></button>
+    <button onclick="topFunction();checkAll1();" id="myBtn" class="toggle" title="Go to top"></button>
 
     <div id="footer">
 
@@ -263,6 +266,26 @@ include('assets/php/auth_check.php');
         });
 
         $('.btn').on('touchend', function(e){
+            setTimeout(function () {
+                $(document).tooltip( "disable" );
+            }, 1000);
+        });
+
+        $('.slider').on('touchstart', function(e){
+            $(document).tooltip( "enable" );
+        });
+
+        $('.slider').on('touchend', function(e){
+            setTimeout(function () {
+                $(document).tooltip( "disable" );
+            }, 1000);
+        });
+
+        $('.toggle').on('touchstart', function(e){
+            $(document).tooltip( "enable" );
+        });
+
+        $('.toggle').on('touchend', function(e){
             setTimeout(function () {
                 $(document).tooltip( "disable" );
             }, 1000);
