@@ -32,7 +32,7 @@ $result = "
         <div class=\"slide\">
             <input class=\"expandtoggle\" type=\"checkbox\" name=\"slidebox\" id=\"" . $log['logTitle'] . "\"
                    checked>
-            <label for=\"" . $log['logTitle'] . "\" class=\"expandtoggle\"
+            <label for=\"" . $log['logTitle'] . "\" class=\"expandtoggle toggle\"
                    title=\"Increase/decrease log view\"></label>
 
             <div id=\"expand\" class=\"expand\">

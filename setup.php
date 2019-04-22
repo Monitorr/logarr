@@ -86,9 +86,15 @@ appendLog("Logarr Setup loaded");
 
     <script>
 		<?php
-		echo "var datadir = " . $authenticator->doesDataDirExist() . ";";
-		echo "var datauser = " . $authenticator->doesUserExist() . ";";
-		echo "var docker = " . isDocker();
+		// echo "var datadir = " . $authenticator->doesDataDirExist();
+		// echo "var datauser = " . $authenticator->doesUserExist();
+		// echo "var docker = " . isDocker();
+
+        //TODO / This works:
+
+        echo "var datadir = " . $authenticator->doesDataDirExist() . ";";
+        echo "var datauser = " . $authenticator->doesUserExist() . ";";
+        echo "var docker = " . isDocker();
 		?>
     </script>
 
@@ -101,13 +107,11 @@ appendLog("Logarr Setup loaded");
                 $('#datadircircle').addClass('circlecomplete');
             } else {
                 $('#datadircircle').addClass('circlenotcomplete');
-            }
-            ;
+            };
 
-            if (datauser == true) {
-                $('#datadircircle').removeClass('circlecomplete');
-            } else {
+            if (typeof datauser == "undefined") {
                 console.log("Welcome to %cLogarr", "color: #FF0104; font-size: 2em;");
+                console.log("%cERROR: datauser undefined", "color: red;");
                 console.log("User NOT established in users.db database");
                 $('#registration-header').removeClass('hidden');
                 $('#extensions').removeClass('hidden');
@@ -116,12 +120,32 @@ appendLog("Logarr Setup loaded");
                 $('#setupcircle').removeClass('circlecomplete');
                 $('#setupcircle').addClass('circlenotcomplete');
                 toastwelcome();
-            }
-            ;
+            } else {
+                if (datauser == true) {
+                    console.log("User established in users.db database");
+                    $('#datadircircle').removeClass('circlecomplete');
+                } else {
+                    console.log("Welcome to %cLogarr", "color: #FF0104; font-size: 2em;");
+                    console.log("User NOT established in users.db database");
+                    $('#registration-header').removeClass('hidden');
+                    $('#extensions').removeClass('hidden');
+                    $('#footer').removeClass('hidden');
+                    $('#usercircle').addClass('circlenotcomplete');
+                    $('#setupcircle').removeClass('circlecomplete');
+                    $('#setupcircle').addClass('circlenotcomplete');
+                    toastwelcome();
+                };
+            };
 
-            if (docker == true) {
-                $('#docker').addClass('dockerwarn');
-            }
+            if (typeof docker == "undefined") {
+                console.log("%cERROR: docker undefined", "color: red;");
+            } else {
+                if (docker == true) {
+                    $('#docker').addClass('dockerwarn');
+                    console.log("Logarr detected DOCKER environment");
+                };
+            };
+
         });
     </script>
 
