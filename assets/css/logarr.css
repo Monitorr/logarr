@@ -424,6 +424,11 @@ h6,
     z-index: 2000;
 }
 
+.auto-updateError {
+    color: red !important;
+    cursor: not-allowed !important;
+}
+
 #buttonStart {
     vertical-align: middle;
     margin: 0 0.5rem;
@@ -1657,12 +1662,6 @@ ul.nav.sidebar-nav>li>a>i {
     cursor: not-allowed;
 }
 
-
-
-
-
-
-
 .settingscolumn {
     float: left;
     width: min-content;
@@ -2677,8 +2676,10 @@ h2.heading {
     }
 
     .logheader {
+        display: flex;
         font-size: 1.5em;
         margin: auto;
+        white-space: normal;
     }
 
     #markform {
@@ -3298,6 +3299,13 @@ ul.stepper li.success a .circle {
     border-color: #0062cc;
 }
 
+.setupBtn:focus {
+    box-shadow: none;
+}
+
+.setupBtn:valid {
+    border: .2rem solid #0062cc;
+}
 
 /*** End Steppers ***/
 
