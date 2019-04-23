@@ -133,7 +133,7 @@ https://github.com/Monitorr/Logarr
         let timeZone = "<?php echo $timezone_suffix; ?>";
         let rftime = <?php echo $GLOBALS['settings']['rftime']; ?>
 
-        rftime = rftime > 300 ? rftime : 30000; //minimum value, if not set default value will be used
+        settings.rftime = settings.rftime > 300 ? rftime : 60000; //minimum value, if not set default value will be used
 
         $(document).ready(function() {
             setInterval(function() {
@@ -211,7 +211,8 @@ https://github.com/Monitorr/Logarr
         <div id="summary"></div>
 
         <div class="Column left">
-            <div id="clock">
+            <div id="clock" title="Time refresh interval: <?php echo $settings['rftime']; ?> ms ">
+                <i class="fas fa-exclamation-triangle hidden" id="synctimeerror" title="An error occurred while synchronizing time!"> </i>
                 <canvas id="canvas" width="120" height="120"></canvas>
                 <div class="dtg" id="timer"></div>
             </div>

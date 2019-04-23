@@ -82,6 +82,9 @@ include('assets/php/auth_check.php');
     <!-- Check if Logarr auth is enabled / if TRUE, check login status every 10s -->
     <?php checkLoginindex(); ?>
 
+    <!-- Check for valid SETTINGS values in config.json on index.php load: -->
+    <?php isMissingSettings(); ?>
+
     <!-- sync config with javascript -->
     <script>
         let settings = <?php echo json_encode($GLOBALS['settings']); ?>;
@@ -112,13 +115,13 @@ include('assets/php/auth_check.php');
         let timeZone = "<?php echo $timezone_suffix; ?>";
         let rftime = <?php echo $GLOBALS['settings']['rftime']; ?>
 
-        rftime = rftime > 300 ? rftime : 30000; //minimum value, if not set default value will be used
+        settings.rftime = settings.rftime > 300 ? rftime : 60000; //minimum value, if not set default value will be used
 
         $(document).ready(function() {
             syncServerTime()
             setInterval(function() {
                 syncServerTime()
-            }, settings.rftime); //delay is rftime
+            }, rftime); //delay is rftime
             updateTime();
         });
     </script>
@@ -209,7 +212,7 @@ include('assets/php/auth_check.php');
 
             <div id="rightbottom" class="rightbottom">
 
-                <div id="auto-update" >
+                <div id="auto-update">
 
                     Auto Update:
 
@@ -218,7 +221,7 @@ include('assets/php/auth_check.php');
                     </label>
 
                     <input id="Update" type="button" name="updateBtn" class="button2 btn btn-primary indexBtn" value="Update" title="Trigger log manual update" onclick="refreshblockUI(); this.blur(); return false" />
-                
+
                 </div>
 
             </div>
@@ -254,43 +257,52 @@ include('assets/php/auth_check.php');
     </div>
 
     <!-- Close persistant tooltips: -->
+    <!-- //TODO / move to main.js? -->
     <script>
-
         $(window).blur(function() {
             $('a').blur();
         });
 
         //Close persistant tooltips on mobile:
-        $('.btn').on('touchstart', function(e){
-            $(document).tooltip( "enable" );
+        $('.btn').on('touchstart', function(e) {
+            $(document).tooltip("enable");
         });
 
-        $('.btn').on('touchend', function(e){
-            setTimeout(function () {
-                $(document).tooltip( "disable" );
+        $('.btn').on('touchend', function(e) {
+            setTimeout(function() {
+                $(document).tooltip("disable");
             }, 1000);
         });
 
-        $('.slider').on('touchstart', function(e){
-            $(document).tooltip( "enable" );
+        $('.slider').on('touchstart', function(e) {
+            $(document).tooltip("enable");
         });
 
-        $('.slider').on('touchend', function(e){
-            setTimeout(function () {
-                $(document).tooltip( "disable" );
+        $('.slider').on('touchend', function(e) {
+            setTimeout(function() {
+                $(document).tooltip("disable");
             }, 1000);
         });
 
-        $('.toggle').on('touchstart', function(e){
-            $(document).tooltip( "enable" );
+        $('.toggle').on('touchstart', function(e) {
+            $(document).tooltip("enable");
         });
 
-        $('.toggle').on('touchend', function(e){
-            setTimeout(function () {
-                $(document).tooltip( "disable" );
+        $('.toggle').on('touchend', function(e) {
+            setTimeout(function() {
+                $(document).tooltip("disable");
             }, 1000);
         });
 
+        $('.input').on('touchstart', function(e) {
+            $(document).tooltip("enable");
+        });
+
+        $('.input').on('touchend', function(e) {
+            setTimeout(function() {
+                $(document).tooltip("disable");
+            }, 1000);
+        });
     </script>
 
 </body>

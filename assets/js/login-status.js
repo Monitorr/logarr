@@ -30,13 +30,13 @@ function checkLogin() {
 
         error: function () {
             // error
-            console.log('ERROR: An error occurred while checking login status. You will be auto-logged out in 2 minutes');
+            console.log("%cERROR: An error occurred while checking login status. You will be auto-logged out in 2 minutes", "color: red;");
 
             logoutwarning();
 
             setTimeout(function () {
 
-                console.log('ERROR: An error occurred while checking login status. You are logged out.');
+                console.log("%cERROR: An error occurred while checking login status. You are logged out", "color: red;");
 
                 logouttoast();
 

@@ -82,16 +82,8 @@ appendLog("Logarr Setup loaded");
         }
     </style>
 
-    <!-- //TODO Isdocker throwing error: -->
-
     <script>
 		<?php
-		// echo "var datadir = " . $authenticator->doesDataDirExist();
-		// echo "var datauser = " . $authenticator->doesUserExist();
-		// echo "var docker = " . isDocker();
-
-        //TODO / This works:
-
         echo "var datadir = " . $authenticator->doesDataDirExist() . ";";
         echo "var datauser = " . $authenticator->doesUserExist() . ";";
         echo "var docker = " . isDocker();
@@ -199,11 +191,14 @@ appendLog("Logarr Setup loaded");
                             $("#userstep").addClass("active");
                             $('#usercircle').addClass('active');
                             $('#usernext').removeClass('disabled');
+                            $('#usernext').prop('disabled', false);
                             usercomplete();
                             datadirsuccess();
                             switchTabs("#users");
                         } else {
                             console.log("%cERROR: Failed to create data directory", "color: #FF0104;");
+                            $('#datadirbtn').prop('disabled', true);
+                            $('#usernext').prop('disabled', true);
                             datadirerror();
                             $('#response').addClass('regerror');
                             $("#response").text("Failed to create data directory: " + data.response);
@@ -263,6 +258,10 @@ appendLog("Logarr Setup loaded");
 
                     } else {
                         $('#responseuser').addClass('regerror');
+                        $('#registerbtn').prop('disabled', true);
+                        $("#login_input_username, #login_input_password_repeat, #login_input_password_new").keyup(function (e) {
+                            $('#registerbtn').prop('disabled', false);
+                        });
                         usererror();
                         $("#responseuser").text("Failed to create user: " + data.responseuser);
                         console.log("%cERROR: Failed to create user", "color: #FF0104;");
@@ -454,7 +453,7 @@ appendLog("Logarr Setup loaded");
             <div id='response'></div>
             <div>
                 <input type="hidden" name="action" value="datadir">
-                <input type='submit' id="datadirbtn" class="btn btn-primary" title="Create data directory" value='Create'/>
+                <input type='submit' id="datadirbtn" class="btn btn-primary setupBtn" title="Create data directory" value='Create'/>
                 <button type='button' id="usernext" class="btn btn-primary disabled buttonchange" title="Create user" onClick='switchTabs("#users");'>Next <i class="fas fa-angle-right"></i></button>
             </div>
 
@@ -471,8 +470,9 @@ appendLog("Logarr Setup loaded");
                 + Value must be an absolute path on the server's filesystem.
                 <br>
                 <p id="docker" class="<?php if (isDocker()) echo 'dockerwarn'; ?>">+ It is NOT possible to change the data directory location if using Docker.</p>
-                + For security purposes, this directory should NOT be within the webserver's filesystem hierarchy.
-                However, if a path is chosen outside the webserver's filesystem, the PHP process must have read/write privileges to whatever location is chosen to create the data directory.
+                + For security purposes, this directory should NOT be within the webserver's filesystem hierarchy. 
+                However, if a path is chosen outside the webserver's filesystem, the PHP process must have read/write privileges to the chosen data directory.
+                
             </i>
         </div>
 
@@ -524,7 +524,7 @@ appendLog("Logarr Setup loaded");
 
                     <div id='responseuser'></div>
                     <br>
-                    <input id="registerbtn" type="submit" class="btn btn-primary" name="register" value="Register" title="Create user">
+                    <input id="registerbtn" type="submit" class="btn btn-primary setupBtn" name="register" value="Register" title="Create user">
                 </form>
 
                 <div id="loginerror" class="warning">
@@ -572,6 +572,7 @@ appendLog("Logarr Setup loaded");
 		?>
     </div>
     <!-- END Setup -->
+
 </div>
 
 <?php
@@ -677,7 +678,12 @@ if ($authenticator->doesDataDirExist()) {
 	echo "usercomplete();";
 	echo "$('#datadirstep').addClass('cursorpoint');";
 	echo "$('#usersteplink').addClass('cursorpoint');";
-	echo "$('#usernext').removeClass('disabled');";
+    echo "$('#usernext').removeClass('disabled');";
+    echo "$('#usernext').prop('disabled', false);";
+	echo "</script>";
+} else {
+    echo "<script type='text/javascript'>";
+	echo "$('#usernext').prop('disabled', true);";
 	echo "</script>";
 };
 
@@ -693,6 +699,27 @@ if ($authenticator->doesUserExist()) {
     $(window).blur(function () {
         $('a').blur();
     });
+
+    $('#registerbtn').on('click', function(e) {
+        $(document).tooltip("enable");
+    });
+
+    $('#registerbtn').on('click', function(e) {
+        setTimeout(function() {
+            $(document).tooltip("disable");
+        }, 1000);
+    });
+
+    $('#datadirbtn').on('click', function(e) {
+        $(document).tooltip("enable");
+    });
+
+    $('#datadirbtn').on('click', function(e) {
+        setTimeout(function() {
+            $(document).tooltip("disable");
+        }, 1000);
+    });
+
 </script>
 
 </body>

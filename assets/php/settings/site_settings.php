@@ -43,7 +43,7 @@ include(__DIR__ . '/../auth_check.php');
     <style>
         .swal2-popup.swal2-toast {
             cursor: default !important;
-        } 
+        }
 
         #settings-frame-wrapper {
             margin-top: 10vh;
@@ -105,9 +105,9 @@ include(__DIR__ . '/../auth_check.php');
     <script>
         $(function() {
             $(document).tooltip({
-                hide: { 
-                    effect: "fadeOut", 
-                    duration: 200 
+                hide: {
+                    effect: "fadeOut",
+                    duration: 200
                 }
             });
         });
@@ -153,7 +153,7 @@ include(__DIR__ . '/../auth_check.php');
 
                     error: function(errorThrown) {
                         console.log(errorThrown);
-                        document.getElementById("response").innerHTML = "GET failed (ajax)";
+                        document.getElementById("response").innerHTML = "ERROR: GET failed (ajax)";
                         //alert("GET failed (ajax)");
                         ajaxerror();
                     },
@@ -293,7 +293,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "change": function() {
                                         this.refreshValidationState(true);
                                         if (!this.isValid(true)) {
-                                            console.log("ERROR: Invalid value for Config refresh interval.");
+                                            console.log("%cERROR: Invalid value for Config refresh interval.", "color: red;");
                                             $('.rfconfiglabel').addClass('settingslabelerror');
                                             validerror();
                                             this.focus();
@@ -322,7 +322,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "ready": function() {
                                         this.refreshValidationState(true);
                                         if (!this.isValid(true)) {
-                                            console.log("ERROR: Invalid value for Config refresh interval.");
+                                            console.log("%cERROR: Invalid value for Config refresh interval.", "color: red;");
                                             $('.rfconfiglabel').addClass('settingslabelerror');
                                             validerror();
                                             this.focus();
@@ -342,7 +342,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "focus": false,
                                 "optionLabels": [],
                                 "name": "maxLines",
-                                "placeholder": "1000",
+                                "placeholder": "2000",
                                 "typeahead": {},
                                 "size": "10",
                                 "allowOptionalEmpty": false,
@@ -358,7 +358,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "change": function() {
                                         this.refreshValidationState(true);
                                         if (!this.isValid(true)) {
-                                            console.log("ERROR: Invalid value for Maximum amount of lines.");
+                                            console.log("%cERROR: Invalid value for Maximum Lines.", "color: red;");
                                             $('.maxlineslabel').addClass('settingslabelerror');
                                             validerror();
                                             this.focus();
@@ -387,7 +387,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "ready": function() {
                                         this.refreshValidationState(true);
                                         if (!this.isValid(true)) {
-                                            console.log("ERROR: Invalid value for Maximum amount of lines.");
+                                            console.log("%cERROR: Invalid value for Maximum Lines.", "color: red;");
                                             $('.maxlineslabel').addClass('settingslabelerror');
                                             validerror();
                                             this.focus();
@@ -423,7 +423,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "change": function() {
                                         this.refreshValidationState(true);
                                         if (!this.isValid(true)) {
-                                            console.log("ERROR: Invalid value for Log regresh interval.");
+                                            console.log("%cERROR: Invalid value for Log refresh interval.", "color: red;");
                                             $('.rflog_inputlabel').addClass('settingslabelerror');
                                             validerror();
                                             this.focus();
@@ -452,7 +452,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "ready": function() {
                                         this.refreshValidationState(true);
                                         if (!this.isValid(true)) {
-                                            console.log("ERROR: Invalid value for Log regresh interval.");
+                                            console.log("%cERROR: Invalid value for Log refresh interval.", "color: red;");
                                             $('.rflog_inputlabel').addClass('settingslabelerror');
                                             validerror();
                                             this.focus();
@@ -472,7 +472,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "focus": false,
                                 "optionLabels": [],
                                 "name": "rftime",
-                                "placeholder": "30000",
+                                "placeholder": "60000",
                                 "typeahead": {},
                                 "size": "10",
                                 "allowOptionalEmpty": false,
@@ -488,7 +488,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "change": function() {
                                         this.refreshValidationState(true);
                                         if (!this.isValid(true)) {
-                                            console.log("ERROR: Invalid value for Time refresh interval.");
+                                            console.log("%cERROR: Invalid value for Time refresh interval.", "color: red;");
                                             $('.rftime_inputlabel').addClass('settingslabelerror');
                                             validerror();
                                             this.focus();
@@ -517,7 +517,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "ready": function() {
                                         this.refreshValidationState(true);
                                         if (!this.isValid(true)) {
-                                            console.log("ERROR: Invalid value for Time refresh interval.");
+                                            console.log("%cERROR: Invalid value for Time refresh interval.", "color: red;");
                                             $('.rftime_inputlabel').addClass('settingslabelerror');
                                             validerror();
                                             this.focus();
@@ -587,7 +587,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "ready": function() {
                                         this.refreshValidationState(true);
                                         if (!this.isValid(true)) {
-                                            console.log("ERROR: Invalid value for Auto Highlight.");
+                                            console.log("%cERROR: Invalid value for Auto Highlight.", "color: red;");
                                             $('.autohighlightlabel').addClass('settingslabelerror');
                                             validerror();
                                         }
@@ -624,7 +624,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "ready": function() {
                                         this.refreshValidationState(true);
                                         if (!this.isValid(true)) {
-                                            console.log("ERROR: Invalid value for Jump on Search.");
+                                            console.log("%cERROR: Invalid value for Jump on Search.", "color: red;");
                                             $('.jumponsearchlabel').addClass('settingslabelerror');
                                             validerror();
                                         }
@@ -661,7 +661,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "ready": function() {
                                         this.refreshValidationState(true);
                                         if (!this.isValid(true)) {
-                                            console.log("ERROR: Invalid value for Auto Refresh Logs");
+                                            console.log("%cERROR: Invalid value for Auto Refresh Logs.", "color: red;");
                                             $('.logrefreshlabel').addClass('settingslabelerror');
                                             validerror();
                                         }
@@ -698,7 +698,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "ready": function() {
                                         this.refreshValidationState(true);
                                         if (!this.isValid(true)) {
-                                            console.log("ERROR: Invalid value for Live Search.");
+                                            console.log("%cERROR: Invalid value for Live Search.", "color: red;");
                                             $('.livesearchlabel').addClass('settingslabelerror');
                                             validerror();
                                         }
@@ -745,7 +745,8 @@ include(__DIR__ . '/../auth_check.php');
                                     }
                                 },
                                 "reset": {
-                                    "label": "Clear Values"
+                                    //TODO:  Add validation after click
+                                    "label": "Clear Values",
                                 }
                             },
                         }
@@ -758,4 +759,4 @@ include(__DIR__ . '/../auth_check.php');
 
 </body>
 
-</html> 
+</html>
