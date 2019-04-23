@@ -42,19 +42,10 @@ function appendLog($logentry) {
 	}
 }
 
-//TODO Isdocker throwing error: 
-
 /**
  * Checks if the current instance is running on Docker
  * @return bool
  */
-
-// function isDocker() {
-// 	return is_file(__DIR__ . "/../../../Dockerfile");
-// }
-
-//TODO This works:
-
 function isDocker() {
 
 	if (is_file(__DIR__ . "/../../../Dockerfile")) {

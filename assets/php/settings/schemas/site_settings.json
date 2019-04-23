@@ -13,7 +13,7 @@
 	"rftime": {
       "type": "integer",
       "required": true,
-      "default": 30000,
+      "default": 60000,
       "minimum": 1000,
       "exclusiveMinimum": true,
       "properties": {}
@@ -29,7 +29,7 @@
     "maxLines": {
       "type": "integer",
       "required": true,
-      "default": 5000,
+      "default": 2000,
       "minimum": 1,
       "exclusiveMinimum": true,
       "properties": {}

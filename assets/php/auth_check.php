@@ -150,7 +150,6 @@ class OneFileLoginApplication
 				}
 			}
 		}
-		//TODO / Testing:
 		return "0";
 		return false;
 	}
@@ -172,7 +171,6 @@ class OneFileLoginApplication
 				return true;
 			}
 		}
-		//TODO / testing:
 		return "0";
 		return false;
 	}

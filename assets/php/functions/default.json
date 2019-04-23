@@ -2,7 +2,7 @@
     "settings": {
         "rfconfig": "15000",
         "rftime": "60000",
-        "rflog": "45000",
+        "rflog": "30000",
         "maxLines": "2000",
         "customHighlightTerms": "error",
         "logRefresh": "false",

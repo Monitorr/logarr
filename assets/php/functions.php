@@ -25,7 +25,7 @@ if ($preferences['timezone'] == "") {
 }
 
 if (!$settings['rfconfig'] || !$settings['rftime'] || !$settings['rflog'] || !$settings['maxLines'] || !$settings['logRefresh'] || !$settings['autoHighlight'] || !$settings['jumpOnSearch'] || !$settings['liveSearch']) {
-	appendLog( "ERROR: Invalid Settings value");
+	appendLog( "ERROR: Invalid Settings value!");
 } else {
 }
 
@@ -220,14 +220,14 @@ function isMissingPrefslog() {
 	};
 }
 
-// When user logs into SETTINGS, check config.json for all required SETTINGS values and validity:
+// Check for valid SETTINGS values in config.json when settings.php or index.php is loaded:
 function isMissingSettings() {
 
 	global $settings;
 
-	if (!$settings['rfconfig'] || !$settings['rftime'] || !$settings['rflog'] || !$settings['maxLines'] || !$settings['logRefresh'] || !$settings['autoHighlight'] || !$settings['jumpOnSearch'] || !$settings['liveSearch']) {
-		appendLog( "ERROR: Invalid Settings value");
-		echo "<script>console.log('%cError: Invalid Settings value', 'color: #FF0104;');</script>";
+	if (!$settings['rfconfig'] || $settings['rfconfig'] < 1001 || !$settings['rftime'] || $settings['rftime'] < 1001 || !$settings['rflog'] || $settings['rflog'] < 3001 || !$settings['maxLines'] || !$settings['logRefresh'] || !$settings['autoHighlight'] || !$settings['jumpOnSearch'] || !$settings['liveSearch']) {
+		appendLog( "ERROR: Invalid Settings value!");
+		echo "<script>console.log('%cError: Invalid Settings value', 'color: red;');</script>";
 		echo "<script>$('#sidebarSettingsTitle').addClass('sidebarTitleError');</script>";
 	} else {
 	}
@@ -432,7 +432,7 @@ function unlinkLog($file, $print)
 				fclose($fh);
 
 				if ($print) echo "<script type='text/javascript'>";
-				if ($print) echo "console.log('ERROR: Logarr was unable to copy log file:  $file');";
+				if ($print) echo "console.log('ERROR: Logarr failed to copy log file:  $file');";
 				if ($print) echo "</script>";
 
 				if ($print) echo('<br> <p class="rolllogfail"> Roll log file FAIL: ' . $file  . '</p>');

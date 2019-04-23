@@ -19,10 +19,10 @@ if (!$file) {
 	$data = array("version" => 0);
 
 	echo "<script type='text/javascript'>";
-	echo "console.log('ERROR: Logarr was unable check GitHub for the latest version');";
+	echo 'console.log("%cERROR: Logarr failed to check GitHub for latest version", "color: #red;")';
 	echo "</script>";
 	appendLog(
-		$logentry = "ERROR: Logarr was unable check GitHub for the latest version"
+		$logentry = "ERROR: Logarr failed to check GitHub for latest version"
 	);
 } else {
 	if ($user_vnum == $vnum || ((($user_version - $ext_version) / $ext_version) >= 0)) {
