@@ -30,12 +30,12 @@ function checkLoginSettings() {
 
         error: function () {
             // error
-            console.log('ERROR: An error occurred while checking login status.');
+            console.log("%cERROR: An error occurred while checking login status", "color: red;");
 
             // If logged-in user creates NEW data dir, must create new user within 2 minutes:
             setTimeout(function () {
 
-                console.log('ERROR: An error occurred while checking login status. You will be auto-logged out in 2 minutes');
+                console.log("%cERROR: An error occurred while checking login status. You will be auto-logged out in 2 minutes", "color: red;");
 
                 logoutwarning();
 
@@ -43,7 +43,7 @@ function checkLoginSettings() {
 
             setTimeout(function () {
 
-                console.log('ERROR: An error occurred while checking login status. You are logged out.');
+                console.log("%cERROR: An error occurred while checking login status. You are logged out", "color: red;");
 
                 logouttoast();
 

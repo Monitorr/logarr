@@ -9,7 +9,7 @@ let current_rflog = 60000;
 let nIntervId = [];
 let home = false;
 
-let rfconfig = (typeof settings !== "undefined") ? settings.rfconfig : 10000;
+let rfconfig = (typeof settings !== "undefined") ? settings.rfconfig : 15000;
 
 //TODO Can we remove this so rfconfig doesn't load automatically on child pages we don't want it to?
 
@@ -85,6 +85,15 @@ function uetoast() {
         type: 'warning',
         title: 'Auto-update enabled',
         timer: 3000
+    })
+};
+
+function validerror() {
+    Toast.fire({
+        type: 'error',
+        title: 'Invalid Settings value!',
+        background: 'rgba(207, 0, 0, 0.75)',
+        timer: 15000
     })
 };
 
@@ -847,46 +856,50 @@ function refreshLog() {
 
             let json = JSON.parse(response);
             settings = json.settings;
-            //preferences = json.preferences;
-            //authentication = json.authentication;
             logs = json.logs;
-
-            // if (home, settings) {
-            //     if (settings.rfconfig !== rfconfig) {
-            //         rfconfig = settings.rfconfig;
-            //         clearInterval(nIntervId["refreshConfig"]);
-            //         nIntervId["refreshConfig"] = setInterval(refreshConfig, rfconfig);
-            //     }
-            // }
 
             $("#auto-update-status").attr("data-enabled", settings.logRefresh);
 
-            //TODO: this can probably be handled better
             if(home) {
-                if (settings.logRefresh === "true" && (logInterval === false || settings.rflog !== current_rflog)) {
-                    clearInterval(nIntervId["logRefresh"]);
-                    nIntervId["logRefresh"] = setInterval(refreshblockUI, settings.rflog);
-                    logInterval = true;
-                    $("#autoUpdateSlider").attr("data-enabled", "true");
-                    current_rflog = settings.rflog;
-                    console.log("Log auto update: Enabled | Interval: " + settings.rflog + " ms");
-                    uetoast();
-                } else if (settings.logRefresh === "false" && logInterval === true) {
+                //Check if rflog has valid value, if not, disable log auto refresh:
+
+                if (settings.rflog < 3001 || settings.rflog == null || settings.rflog === false) {
+                    console.log("%cERROR: Log refresh settings value is INVALID", "color: red;");
+                    console.log("Log auto update: Disabled");
                     clearInterval(nIntervId["logRefresh"]);
                     clearInterval(nIntervId);
                     clearInterval(refreshblockUI, settings.rflog);
                     logInterval = false;
                     $("#autoUpdateSlider").attr("data-enabled", "false");
-                    console.log("Log auto update: Disabled");
-                    udtoast();
+                    $('#auto-update').addClass("auto-updateError");
+                    $('#autoUpdateSlider').addClass("auto-updateError");
+                    document.getElementById("autoUpdateSlider").onclick = function () {
+                        return false;
+                    };
+                    validerror();
+                } else {
+                    if (settings.logRefresh === "true" && (logInterval === false || settings.rflog !== current_rflog)) {
+                        clearInterval(nIntervId["logRefresh"]);
+                        nIntervId["logRefresh"] = setInterval(refreshblockUI, settings.rflog);
+                        logInterval = true;
+                        $("#autoUpdateSlider").attr("data-enabled", "true");
+                        current_rflog = settings.rflog;
+                        console.log("Log auto update: Enabled | Interval: " + settings.rflog + " ms");
+                        uetoast();
+                    } else if (settings.logRefresh === "false" && logInterval === true) {
+                        clearInterval(nIntervId["logRefresh"]);
+                        clearInterval(nIntervId);
+                        clearInterval(refreshblockUI, settings.rflog);
+                        logInterval = false;
+                        $("#autoUpdateSlider").attr("data-enabled", "false");
+                        console.log("Log auto update: Disabled");
+                        udtoast();
+                    }
                 }
             }
-
-            //console.log("Refreshed config variables | Interval: " + settings.rfconfig + " ms");
-
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            console.log("ERROR: Log refresh failed!");
+            console.log("%cERROR: Log refresh failed!", "color: red;");
 
             setTimeout(function () {
 
@@ -976,7 +989,7 @@ function refreshAuth() {
 
                         error: function () {
                             // error
-                            console.log('ERROR: An error occurred while checking login status!');
+                            console.log("%cERROR: An error occurred while checking login status", "color: red;");
 
                             logouttoast();
 
@@ -1042,9 +1055,16 @@ function syncServerTime() {
             rftime = response.rftime;
             date = new Date(servertime);
             $("#synctimeerror").addClass("hidden");
+            if (response.rftime < 1001 || response.rftime == null || response.rftime === false) {
+                rftime : 60000;
+                console.log("%cERROR: Time refresh settings value is INVALID", "color: red;");
+                console.log("Time refresh interval is set to default: 60000 ms");
+                $("#synctimeerror").removeClass("hidden");
+                validerror();
+            }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            console.log('ERROR: Time update');
+            console.log("%cERROR: Time update failed!", "color: red;");
             $("#synctimeerror").removeClass("hidden");
             synctimeerror();
         }
