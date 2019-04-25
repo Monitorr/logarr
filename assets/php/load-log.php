@@ -41,16 +41,16 @@ $result = "
         </div>
         
 		<div class='log-buttons'>
-	       <button type=\"button\" class=\"log-action-button slidebutton btn btn-primary\"
+	       <button type=\"button\" id=\"unlinkBtn\" class=\"log-action-button slidebutton btn btn-primary\"
 	               data-action=\"unlink-log\" data-service=\"" . $log['logTitle'] . "\"
 	               title=\"Attempt log file roll. NOTE: This function will copy the current log file to '[logfilename].bak', delete the original log file, and create a new blank log file with the orginal log filename. This function may not succeed if log file is in use.\">
 	           Roll Log
 	       </button>
-	       <button type=\"button\" class=\"log-action-button download-button slidebutton btn btn-primary indexBtn logBtn\"
+	       <button type=\"button\" id=\"downloadBtn\" class=\"log-action-button download-button slidebutton btn btn-primary indexBtn logBtn\"
 	               data-action=\"download-log\" data-service=\"" . $log['logTitle'] . "\"
 	               title=\"Download full log file\">Download
 	       </button>
-	       <button type=\"button\" class=\"log-action-button slidebutton btn btn-primary\"
+	       <button type=\"button\" id=\"updateLogBtn\" class=\"log-action-button slidebutton btn btn-primary\"
 	               data-action=\"update-log\" data-index=\"" . $log['logTitle'] . "\"
                    title=\"Update individual log\">Update
 	       </button>
@@ -60,6 +60,7 @@ echo $result;
 if (!readExternalLog($log)) {
     echo ( '<div id="logmissing"> <i class="fas fa-exclamation-triangle"> </i> Log not found </div>');
     echo "<script>console.log('%cERROR: Log not found','color: #FF0000;');</script>";
+    echo "<script>$('#unlinkBtn').prop('disabled', true); $('#downloadBtn').prop('disabled', true); $('#updateLogBtn').prop('disabled', true);</script>";
     echo "<script>logerror();</script>";
     appendLog(
         $logentry = "ERROR: Log not found: " . $log['logTitle']

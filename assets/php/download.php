@@ -1,11 +1,14 @@
 <?php
+include('functions.php');
+include("auth_check.php");
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+ini_set('error_reporting', E_ALL);
+$date = date("D d M Y H:i T ");
 
-include('functions.php');
-include("auth_check.php");
+set_error_handler("LogarrErrorHandler");
 
 $file = $_GET['file'];
 
@@ -28,11 +31,12 @@ if (in_array_recursive($file, $logs)) {
 		);
 		exit;
 	} else {
-		echo 'file: ' . $file . ' does not exist.';
+		echo 'ERROR: file: ' . $file . ' does not exist.';
 
-		echo "<script type='text/javascript'>";
-		echo "console.log('ERROR: file: '" . $file . "' does not exist.');";
-		echo "</script>";
+		echo "<script>console.log('%cERROR: Log file does not exist: ', 'color: red;');</script>";
+		echo "<script>console.log('%c" .  $file . "', 'color: red;');</script>";
+
+		phpLog($phpLogMessage = "Logarr ERROR: Downloading log file: " . $file . " does NOT exist");
 
 		appendLog(
 			$logentry = "ERROR: Downloading log file: " . $file . " does NOT exist"
@@ -43,12 +47,11 @@ if (in_array_recursive($file, $logs)) {
 else {
 	echo 'ERROR: Illegal File';
 
-	echo "<script type='text/javascript'>";
-	echo "console.log('ERROR:  Illegal File');";
-	echo "</script>";
+	echo "<script>console.log('%cERROR: Illegal file', 'color: red;');</script>";
+
+	phpLog($phpLogMessage = "Logarr ERROR: Downloading log file: Illegal File");
 
 	appendLog(
 		$logentry = "ERROR: Downloading log file: Illegal File"
 	);
 }
-
