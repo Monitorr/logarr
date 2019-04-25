@@ -1,8 +1,51 @@
 <?php
 
 ini_set('error_reporting', E_ERROR);
-
 ini_set('memory_limit', '-1');
+
+//Append webserver's PHP errors to Logarr Log file:
+function LogarrErrorHandler($errno, $errstr, $errfile, $errline) {
+	$date = date("D d M Y H:i T ");
+	if (!(error_reporting() & $errno)) {
+		return false;
+	}
+	$logFile = __DIR__ . "/../data/logs/logarr.log";
+	switch ($errno) {
+		case E_USER_ERROR:
+			$logFile;
+			exit(1);
+			break;
+
+		case E_USER_WARNING:
+			$logFile;
+			break;
+
+		case E_USER_NOTICE:
+			$logFile;
+			break;
+
+		default:
+			$logFile;
+			break;
+	}
+
+	error_log($date . " | " . "Webserver PHP log: " . $errstr . "\r\n", 3, $logFile);
+	return true;
+}
+
+//TODO: / Add this function to all PHP files:
+set_error_handler("LogarrErrorHandler");
+
+//Append Logarr errors to webserver's PHP error log file IF defined in php.ini:
+
+//TODO : Add this fuction to all critial Logarr errors:
+function phpLog($phpLogMessage) {
+    if (!get_cfg_var('error_log')) {
+    } else {
+		error_log($errstr = $phpLogMessage);
+    }
+};
+
 
 // Data Dir
 $datadir_json = json_decode(file_get_contents(__DIR__ . '../../data/datadir.json'), 1);
@@ -233,7 +276,6 @@ function isMissingSettings() {
 	}
 }
 
-
 // Check if Logarr authenticaiton is enabled / if TRUE, check login status every 10s:
 function checkLoginindex() {
 
@@ -384,13 +426,13 @@ function parseLogPath($path)
 
 			return $dir . DIRECTORY_SEPARATOR . $last_edited_file; //return the merged dir and filename
 		} else {
-			return "ERROR: path is dynamic, only dynamic filenames are allowed!";
 			appendLog(
 				$logentry = "ERROR: path is dynamic, only dynamic filenames are allowed!"
 			);
+			return "ERROR: path is dynamic, only dynamic filenames are allowed!";
 		}
 	} else {
-		return $path; //if path doesn't contain *, just return the path. Nothing fancy here
+		return $path; //if path doesn't contain *, return the path
 	}
 }
 
@@ -413,7 +455,6 @@ function readExternalLog($log)
 
 function unlinkLog($file, $print)
 {
-
 	if ($print) echo('Unlink file: ' . $file  . '<br>');
 	if ($print) echo('Server received unlink file: ' . $file . '<br>');
 	if ($print) echo('Server attempting to unlink: ' . $file . '<br>');
@@ -552,11 +593,13 @@ function unlinkLog($file, $print)
 			if ($print) echo "console.log('ERROR: file: $file does not exist.');";
 			if ($print) echo "</script>";
 
+			if ($print) echo("<br> <p class='rolllogfail'> ERROR: file: ' " . $file . " ' does not exist. </p>");
+
 			appendLog(
 				$logentry = "Roll Log: ERROR: file: $file does not exist "
 			);
 
-			if ($print) echo("<br> <p class='rolllogfail'> ERROR: file: ' " . $file . " ' does not exist. </p>");
+			phpLog($phpLogMessage = "Logarr Roll Log ERROR: file: $file does not exist");
 		}
 	} else {  // Deny access if log file does NOT exist:
 		if ($print) echo 'ERROR:  Illegal File';
@@ -567,6 +610,8 @@ function unlinkLog($file, $print)
 		appendLog(
 			$logentry = "Roll Log: ERROR: Illegal File "
 		);
+
+		phpLog($phpLogMessage = "Logarr Roll Log ERROR: Illegal file.");
 
 		if ($print) echo("<br> <p class='rolllogfail'> ERROR:  Illegal File </p>");
 	}
@@ -605,7 +650,7 @@ function delTree($dir)
 }
 
 function in_array_recursive($needle, $haystack)
-{   //For checking if the file is indeed a configured log file
+{   //Check if file is valid configured log file
 	$it = new RecursiveIteratorIterator(new RecursiveArrayIterator($haystack));
 	foreach ($it AS $element) {
 		$element = parseLogPath($element);

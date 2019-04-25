@@ -6,6 +6,11 @@
  * @return string
  */
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('error_reporting', E_ALL);
+
 /**
  * Appends a log entry to the Logarr log file
  * @param $logentry
@@ -25,14 +30,14 @@ function appendLog($logentry) {
 		ini_set('error_reporting', E_ERROR);
 		$oldContents = file_get_contents($logpath);
 		if (file_put_contents($logpath, $oldContents . $date . " | " . $logentry . "\r\n") === false){
-			echo "<script>console.log('%cERROR: Failed writing to Logarr log file.', 'color: #FF0104;');</script>";
+			echo "<script>console.log('%cERROR: Failed writing to Logarr log file.', 'color: red;');</script>";
 			return "Error writing to Logarr log file";
 			//return $error;
 		}
 
 	} else {
 		if (!mkdir($logdir)) {
-			echo "<script>console.log('%cERROR: Failed to create Logarr log directory.', 'color: #FF0104;');</script>";
+			echo "<script>console.log('%cERROR: Failed to create Logarr log directory.', 'color: red;');</script>";
 			return "ERROR: Failed to create Logarr log directory";
 		} else {
 			appendLog( "Logarr log directory created");
