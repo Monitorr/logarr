@@ -294,6 +294,16 @@ include('assets/php/auth_check.php');
             }, 1000);
         });
 
+        $('.expandtoggle').on('touchstart', function(e) {
+            $(document).tooltip("enable");
+        });
+
+        $('.expandtoggle').on('touchend', function(e) {
+            setTimeout(function() {
+                $(document).tooltip("disable");
+            }, 1000);
+        });
+
         $('.input').on('touchstart', function(e) {
             $(document).tooltip("enable");
         });
