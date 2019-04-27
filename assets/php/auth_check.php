@@ -188,6 +188,19 @@ class OneFileLoginApplication
 	}
 
 	/**
+	 * Append Logarr errors to webserver's PHP error log file IF defined in php.ini:
+	 * @param $phpLogMessage
+	 * @return string
+	 */
+
+	private function phpLog($phpLogMessage) {
+    if (!get_cfg_var('error_log')) {
+		} else {
+			error_log($errstr = $phpLogMessage);
+		}
+	}
+
+	/**
 	 * Appends a log entry to the Logarr log file
 	 * @param $logentry
 	 * @return string
@@ -249,9 +262,11 @@ class OneFileLoginApplication
 			return true;
 		} catch (PDOException $e) {
 			$this->feedback = "PDO database connection problem: " . $e->getMessage();
+			$this->phpLog("Logarr ERROR: PDO database connection problem");
 			$this->appendLog( "ERROR: PDO database connection problem");
 		} catch (Exception $e) {
 			$this->feedback = "General problem: " . $e->getMessage();
+			$this->phpLog("Logarr ERROR: PDO database general problem");
 			$this->appendLog( "ERROR: PDO database general problem");
 		}
 		return false;
@@ -279,8 +294,9 @@ class OneFileLoginApplication
 		$query->execute();
 
 		if (!$query) {
-			return false;
+			$this->phpLog("Logarr ERROR: PDO database setup!");
 			$this->appendLog( "ERROR: PDO database setup!");
+			return false;
 		} else {
 			//TODO:  How to log when PDO db is set up INITIALLY only??
 			//$this->appendLog( "Logarr created new PDO database!");
@@ -313,8 +329,9 @@ class OneFileLoginApplication
 	private function performMinimumRequirementsCheck()
 	{
 		if (version_compare(PHP_VERSION, '5.3.7', '<')) {
-			echo "ERROR: Simple PHP Login does not run on a PHP version older than 5.3.7 !";
-			appendLog( "ERROR: PHP Login does not run on a PHP version older than 5.3.7");
+			echo "ERROR: Logarr does not run on PHP version older than 5.3.7 !";
+			phpLog( "Logarr ERROR: Logarr does not run on PHP version older than 5.3.7");
+			appendLog( "ERROR: Logarr does not run on PHP version older than 5.3.7");
 		} elseif (version_compare(PHP_VERSION, '5.5.0', '<')) {
 			require_once(__DIR__ . "/../libraries/password_compatibility_library.php");
 			return true;
@@ -439,6 +456,7 @@ class OneFileLoginApplication
 				if ($result_row) {
 					$cookie_value = $result_row->auth_token;
 					setcookie("Logarr_AUTH", $cookie_value, time() + 60 * 60 * 24 * 7, "/"); //store login cookie for 7 days
+					$this->phpLog("Logarr warning: Logarr user logged in with session from IP: " . $this->getUserIpAddr());
 					$this->appendLog( "Logarr user logged in with session from IP: " . $this->getUserIpAddr());
 					return true;
 				} else {
@@ -503,10 +521,12 @@ class OneFileLoginApplication
 				$this->user_is_logged_in = true;
 				$cookie_value = $result_row->auth_token;
 				setcookie("Logarr_AUTH", $cookie_value, time() + 60 * 60 * 24 * 7, "/"); //store login cookie for 7 days
+				$this->phpLog( "Logarr warning: Logarr user logged in with credentials from IP: " . $this->getUserIpAddr());
 				$this->appendLog( "Logarr user logged in with credentials from IP: " . $this->getUserIpAddr());
 				return true;
 			} else {
 				$this->feedback = "Invalid password";
+				$this->phpLog( "Logarr ERROR: Login attempt: Invalid password from IP: " . $this->getUserIpAddr());
 				$this->appendLog( "Logarr login attempt: ERROR: Invalid password");
 			}
 		} else {
@@ -541,6 +561,7 @@ class OneFileLoginApplication
 				$this->user_is_logged_in = true;
 				$cookie_value = $result_row->auth_token;
 				setcookie("Logarr_AUTH", $cookie_value, time() + 60 * 60 * 24 * 7, "/"); //store login cookie for 7 days
+				$this->phpLog( "Logarr warning: Logarr user logged in with Cookie from IP: " . $this->getUserIpAddr());
 				$this->appendLog( "Logarr user logged in with Cookie from IP: " . $this->getUserIpAddr());
 				return true;
 			} else {
@@ -674,6 +695,7 @@ class OneFileLoginApplication
 		// As there is no numRows() in SQLite/PDO (!!) we have to do it this way:
 		// If you meet the inventor of PDO, punch him. Seriously.
 		$result_row = $query->fetchObject();
+		
 		if ($result_row) {
 			$this->feedback = "ERROR: Username / email is already used.";
 			$this->appendLog( "ERROR: Username / email is already used.");
@@ -699,12 +721,13 @@ class OneFileLoginApplication
 			// @link http://stackoverflow.com/q/1661863/1114320
 			$registration_success_state = $query->execute();
 			if ($registration_success_state) {
+				$this->phpLog( "Logarr warning: User credentials have been created");
 				$this->appendLog( "User credentials have been created successfully!");
 				$this->feedback = 'User credentials have been created successfully.';
 				return true;
 			} else {
-				$this->feedback = "ERROR: registration failed. Check the webserver PHP logs and try again.";
-				$this->appendLog( "ERROR: registration failed. Check the webserver PHP logs and try again");
+				$this->feedback = "ERROR: Registration failed. Check the webserver PHP logs and try again.";
+				$this->appendLog( "ERROR: Registration failed. Check the webserver PHP logs and try again");
 			}
 		}
 		// default return

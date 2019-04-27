@@ -37,6 +37,7 @@ include(__DIR__ . '/../auth_check.php');
 
         td {
             font-size: 1rem;
+            vertical-align: middle !important;
         }
 
         .swal2-popup.swal2-toast {
@@ -72,9 +73,9 @@ include(__DIR__ . '/../auth_check.php');
     <script>
         $(function() {
             $(document).tooltip({
-                hide: { 
-                    effect: "fadeOut", 
-                    duration: 200 
+                hide: {
+                    effect: "fadeOut",
+                    duration: 200
                 }
             });
         });
@@ -259,10 +260,10 @@ include(__DIR__ . '/../auth_check.php');
                 <tr>
                     <td class="infotitle">Resources:</td>
                     <td id="resources">
-                        <a href="https://github.com/Monitorr/logarr" target="_blank" title="Logarr GitHub Repo"> <img class="resourceimg" src="https://img.shields.io/badge/GitHub-repo-green.svg" style="width:4rem;height:1rem;" alt="Logarr GitHub Repo"></a> | 
-                        <a href="https://hub.docker.com/r/monitorr/logarr/" target="_blank" title="Logarr Docker Repo"> <img class="resourceimg" src="https://img.shields.io/docker/build/monitorr/logarr.svg?maxAge=2592000" style="width:6rem;height:1rem;" alt="Logarr Docker Repo"></a> | 
-                        <a href="https://feathub.com/Monitorr/logarr" target="_blank" title="Logarr Feature Request"> <img class="resourceimg" src="https://img.shields.io/badge/FeatHub-suggest-blue.svg" style="width:5rem;height:1rem;" alt="Logarr Feature Request"></a> | 
-                        <a href="https://discord.gg/j2XGCtH" target="_blank" title="Logarr Discord Channel"> <img class="resourceimg" src="https://img.shields.io/discord/102860784329052160.svg" style="width:5rem;height:1rem;" alt="Logarr on Discord"></a> | 
+                        <a href="https://github.com/Monitorr/logarr" target="_blank" title="Logarr GitHub Repo"> <img class="resourceimg" src="https://img.shields.io/badge/GitHub-repo-green.svg" style="width:4rem;height:1rem;" alt="Logarr GitHub Repo"></a> |
+                        <a href="https://hub.docker.com/r/monitorr/logarr/" target="_blank" title="Logarr Docker Repo"> <img class="resourceimg" src="https://img.shields.io/docker/build/monitorr/logarr.svg?maxAge=2592000" style="width:6rem;height:1rem;" alt="Logarr Docker Repo"></a> |
+                        <a href="https://feathub.com/Monitorr/logarr" target="_blank" title="Logarr Feature Request"> <img class="resourceimg" src="https://img.shields.io/badge/FeatHub-suggest-blue.svg" style="width:5rem;height:1rem;" alt="Logarr Feature Request"></a> |
+                        <a href="https://discord.gg/j2XGCtH" target="_blank" title="Logarr Discord Channel"> <img class="resourceimg" src="https://img.shields.io/discord/102860784329052160.svg" style="width:5rem;height:1rem;" alt="Logarr on Discord"></a> |
                         <a href="https://paypal.me/monitorrapp" target="_blank" title="Buy us a beer!"> <img class="resourceimg" src="https://img.shields.io/badge/Donate-PayPal-green.svg" style="width:4rem;height:1rem;" alt="PayPal"></a>
                     </td>
 
@@ -320,4 +321,4 @@ include(__DIR__ . '/../auth_check.php');
 
 </body>
 
-</html> 
+</html>

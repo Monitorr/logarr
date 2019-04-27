@@ -101,14 +101,14 @@ include(__DIR__ . '/../auth_check.php');
     <script>
         $(function() {
             $(document).tooltip({
-                hide: { 
-                    effect: "fadeOut", 
-                    duration: 200 
+                hide: {
+                    effect: "fadeOut",
+                    duration: 200
                 }
             });
         });
     </script>
-    
+
 </head>
 
 <body id="settings-frame-wrapper">
@@ -428,11 +428,11 @@ include(__DIR__ . '/../auth_check.php');
                                     "(GMT-02:00) Stanley",
                                     "(GMT-01:00) Azores",
                                     "(GMT-01:00) Cape Verde Is.",
-                                    "(GMT) Casablanca",
-                                    "(GMT) Dublin",
-                                    "(GMT) Lisbon",
-                                    "(GMT) London",
+                                    "(GMT) GMT",
                                     "(GMT) Monrovia",
+                                    "(GMT+01:00) Dublin",
+                                    "(GMT+01:00) Lisbon",
+                                    "(GMT+01:00) London",
                                     "(GMT+01:00) Amsterdam",
                                     "(GMT+01:00) Belgrade",
                                     "(GMT+01:00) Berlin",
@@ -451,6 +451,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "(GMT+01:00) Vienna",
                                     "(GMT+01:00) Warsaw",
                                     "(GMT+01:00) Zagreb",
+                                    "(GMT+01:00) Casablanca",
                                     "(GMT+02:00) Athens",
                                     "(GMT+02:00) Bucharest",
                                     "(GMT+02:00) Africa/Cairo",
@@ -699,4 +700,4 @@ include(__DIR__ . '/../auth_check.php');
 
 </body>
 
-</html> 
+</html>

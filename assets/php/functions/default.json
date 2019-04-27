@@ -14,7 +14,7 @@
         "sitetitle": "Logarr",
         "siteurl": "http:\/\/localhost\/logarr",
         "updateBranch": "alpha",
-        "timezone": "Europe\/London",
+        "timezone": "Etc\/GMT",
         "timestandard": "False",
         "language": "EN"
     },

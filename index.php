@@ -313,6 +313,7 @@ include('assets/php/auth_check.php');
                 $(document).tooltip("disable");
             }, 1000);
         });
+
     </script>
 
 </body>
