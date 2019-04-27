@@ -141,7 +141,7 @@ function logrollmodal() {
         toast: false,
         position: 'center',
         title: '<div id="rolllogtitle">Roll Log results:</div>',
-        html: 
+        html:
             '<div id="responseModal">' +
             '<div id="modalContent"></div>' +
             '</div>',
@@ -175,7 +175,7 @@ function logrollmodal() {
             refreshLog();
 
             loadLogs();
-            
+
         }
     })
 };
@@ -280,7 +280,7 @@ function searchresults() {
         type: 'info',
         position: 'bottom-start',
         title: '<div id="searchtitle">Search results:</div>',
-        html: 
+        html:
             '<div id="countmodal" class="countmodal">' +
             '</div>',
         width: "auto",
@@ -313,10 +313,10 @@ function sareload() {
         toast: true,
         showCloseButton: false,
         showCancelButton: false,
-        html:   '<p id="reloadtitle">Reloading Logarr in <strong></strong> seconds </p>' +
-                '<button id="reload-btn" class="btn btn-primary" title="Reload Logarr">' +
-                    'Reload Logarr' +
-                '</button>',
+        html: '<p id="reloadtitle">Reloading Logarr in <strong></strong> seconds </p>' +
+            '<button id="reload-btn" class="btn btn-primary" title="Reload Logarr">' +
+            'Reload Logarr' +
+            '</button>',
         timer: 10000,
         onBeforeOpen: () => {
             console.log("Reloading Logarr in 10 seconds");
@@ -327,13 +327,13 @@ function sareload() {
             Swal.showLoading()
 
             reload.addEventListener('click', () => {
-                top.location = "settings.php";                
+                top.location = "settings.php";
             })
 
             timerInterval = setInterval(() => {
                 Swal.getContent().querySelector('strong')
                     .textContent = (Swal.getTimerLeft() / 1000)
-                    .toFixed(0)
+                        .toFixed(0)
             }, 100)
         },
         onClose: () => {
@@ -500,7 +500,7 @@ function loadLog(log) {
 
     $.ajax({
         url: "assets/php/load-log.php",
-        data: {'log': log},
+        data: { 'log': log },
         type: "POST",
         success: function (response) {
             $("#" + logTitle.replace(/\s/g, "-") + "-log-container").html(response);
@@ -515,7 +515,7 @@ function loadLog(log) {
 
 // highlight terms:
 function highlightjs() {
-    
+
     if ('customHighlightTerms' in settings && settings.customHighlightTerms !== "") {
         var array = settings.customHighlightTerms.split(",");
         for (let i = 0; i < array.length; i++) {
@@ -632,9 +632,9 @@ $(function () {
             console.log('Logarr is performing search');
             $('#count').removeClass("hidden");
             $('#body').addClass("cursorwait");
-            
+
             searchtoast();
-            
+
             $('#buttonStart :checkbox').prop('checked', false).change();
             setTimeout(function () {
                 $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search
@@ -789,14 +789,14 @@ function refreshConfig() {
             if (home) {
                 refreshAuth();
             }
-            
+
             let json = JSON.parse(response);
             settings = json.settings;
             preferences = json.preferences;
             authentication = json.authentication;
             logs = json.logs;
 
-            if(home, settings) {
+            if (home, settings) {
                 if (settings.rfconfig !== rfconfig) {
                     rfconfig = settings.rfconfig > 300 ? settings.rfconfig : 30000;
                     clearInterval(nIntervId["refreshConfig"]);
@@ -827,7 +827,7 @@ function refreshConfig() {
             //     }
             // }
 
-            if(home) {
+            if (home) {
                 document.title = preferences.sitetitle; //update index.php page title to configured site title
             }
 
@@ -847,7 +847,7 @@ function refreshConfig() {
     });
 }
 
-function refreshLog() {    
+function refreshLog() {
 
     $.ajax({
         url: "assets/php/sync-config.php",
@@ -860,7 +860,7 @@ function refreshLog() {
 
             $("#auto-update-status").attr("data-enabled", settings.logRefresh);
 
-            if(home) {
+            if (home) {
                 //Check if rflog has valid value, if not, disable log auto refresh:
 
                 if (settings.rflog < 3001 || settings.rflog == null || settings.rflog === false) {
@@ -1056,7 +1056,7 @@ function syncServerTime() {
             date = new Date(servertime);
             $("#synctimeerror").addClass("hidden");
             if (response.rftime < 1001 || response.rftime == null || response.rftime === false) {
-                rftime : 60000;
+                rftime: 60000;
                 console.log("%cERROR: Time refresh settings value is INVALID", "color: red;");
                 console.log("Time refresh interval is set to default: 60000 ms");
                 $("#synctimeerror").removeClass("hidden");

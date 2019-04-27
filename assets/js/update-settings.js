@@ -105,6 +105,7 @@ $(document).ready(function () {
                     '<a class="updatelink" href="https://github.com/Monitorr/Logarr/releases" target="_blank" title="Click CHECK FOR UPDATE below to update Logarr" style="cursor: pointer;"> <b>An update is available </b></a>',
                 );
                 $('#version_check').addClass('version_check-update');
+
             } else {
                 // user has the latest version already installed
                 versionCheckAuto.html("");
