@@ -158,6 +158,7 @@ function isMissingKeys() {
 	if (!$setupEnabled || !$settingsEnabled || !$logsEnabled) {
 		echo "<script>console.log('%cError: Invalid Authentication Settings value!', 'color: #FF0104;');</script>";
 		echo "<script>$('#sidebarAuthTitle').addClass('sidebarTitleError');</script>";
+		phpLog($phpLogMessage = "Logarr ERROR: Invalid Authentication Settings value!");
 		appendLog( "ERROR: Invalid Authentication Settings value!");
 	} else {
 	};
@@ -292,7 +293,6 @@ function checkLoginindex() {
 		echo "ERROR: Logarr could not check authentication settings";
 		// If authentication settings are invalid forward to settings.php:
 		echo "<script type='text/javascript'>";
-		//echo "window.location.href = 'assets/php/authentication/unauthorized.php';";
 		echo "window.location.href = 'settings.php';";
 		echo "</script>";
 

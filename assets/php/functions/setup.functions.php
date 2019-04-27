@@ -11,6 +11,14 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 ini_set('error_reporting', E_ALL);
 
+//Append Logarr errors to webserver's PHP error log file IF defined in php.ini:
+function phpLog($phpLogMessage) {
+    if (!get_cfg_var('error_log')) {
+    } else {
+		error_log($errstr = $phpLogMessage);
+    }
+};
+
 /**
  * Appends a log entry to the Logarr log file
  * @param $logentry
@@ -21,7 +29,6 @@ ini_set('error_reporting', E_ALL);
 function appendLog($logentry) {
 	$logfile = 'logarr.log';
 	$logdir = 'assets/data/logs/';
-	//$logdir = '../data/logs/';
 	$logpath = $logdir . $logfile;
 	$date = date("D d M Y H:i T ");
 
@@ -38,6 +45,7 @@ function appendLog($logentry) {
 	} else {
 		if (!mkdir($logdir)) {
 			echo "<script>console.log('%cERROR: Failed to create Logarr log directory.', 'color: red;');</script>";
+			phpLog($phpLogMessage = "Logarr ERROR: Failed to create Logarr log directory");
 			return "ERROR: Failed to create Logarr log directory";
 		} else {
 			appendLog( "Logarr log directory created");
@@ -52,14 +60,12 @@ function appendLog($logentry) {
  * @return bool
  */
 function isDocker() {
-
 	if (is_file(__DIR__ . "/../../../Dockerfile")) {
 		return true;
 	} else {
 		return "0";
 	}
 }
-
 
 /**
  * Creates the datadir
@@ -77,6 +83,7 @@ function createDatadir($datadir) {
 
 	if (!mkdir($datadir, 0777, FALSE)) {
 		file_put_contents($datadir_file_fail, json_encode($_POST));
+		phpLog($phpLogMessage = "Logarr ERROR: Failed to create data directory");
 		appendLog( "ERROR: Logarr failed to create data directory");
 		return false;
 	} else {
@@ -102,6 +109,7 @@ function copyDefaultConfig($datadir) {
 		include_once($old_config_file);
 
 		if((!isset($config) || empty($config)) || !isset($logs)){
+			phpLog($phpLogMessage = "Logarr ERROR: Old config file detected, failed to convert");
 			appendLog("ERROR: Old config file detected, failed to convert");
 			return false;
 		}
@@ -148,6 +156,7 @@ function copyDefaultConfig($datadir) {
 		if (unlink($old_config_file)) {
 			appendLog("Old config file has been removed");
 		} else {
+			phpLog($phpLogMessage = "Logarr ERROR: Old config file could not be removed");
 			appendLog("ERROR: Old config file could not be removed");
 			file_put_contents($old_config_file, "Old config was converted to the new format, you can now safely remove this file and directory");
 		}
