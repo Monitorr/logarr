@@ -797,7 +797,7 @@ input[type=search]::-webkit-search-cancel-button {
 
 .highlightterms {
     color: red;
-    font-size: 1.2rem;
+    font-size: 1.2em;
     font-weight: 600;
 }
 
@@ -1076,6 +1076,12 @@ input[type="checkbox"] {
     float: right;
     margin-top: -3em;
     margin-right: 2em;
+}
+
+#logmissingtxt {
+    display: inline-flex;
+    text-align: center;
+    margin: 0;
 }
 
 
@@ -2231,7 +2237,6 @@ div[data-alpaca-container-item-name="category"] {
     justify-content: center;
     text-align: center;
     width: 100%;
-    /* background-color: transparent; */
     background-color: inherit;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
@@ -2651,12 +2656,20 @@ h2.heading {
         display: none;
     }
 
+    #login-container {
+        margin-top: 10vh;
+    }
+
     #logo {
         display: inline-flex;
         width: auto;
         margin-left: 8vw;
         position: static;
         justify-content: center;        
+    }
+
+    #logo-login>img {
+        height: 6em;
     }
 
     #right {
@@ -2680,6 +2693,11 @@ h2.heading {
         font-size: 1.5em;
         margin: auto;
         white-space: normal;
+    }
+
+    #logmissingtxt {
+        display: none;
+        visibility: hidden;
     }
 
     #markform {
@@ -2738,6 +2756,19 @@ h2.heading {
 
     .validity {
         margin-left: -3rem;
+    }
+
+    #modalContent {
+        font-size: 1rem !important;
+        white-space: normal;
+    }
+
+    .rolllogfail {
+        font-size: 1rem !important;
+    }
+
+    .rolllogsuccess {
+        font-size: 1rem !important;
     }
 
     /** End index page (logs) **/
