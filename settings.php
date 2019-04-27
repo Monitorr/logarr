@@ -269,7 +269,8 @@ https://github.com/Monitorr/Logarr
 
             <p><a class="footer a" href="https://github.com/monitorr/Logarr" target="_blank" title="Logarr Repo">
                     Logarr | </a> <a class="footer a" href="https://github.com/Monitorr/logarr/releases" target="_blank" title="Logarr Releases">
-                    <?php echo file_get_contents("assets/js/version/version.txt"); ?> </a>
+                    <?php echo file_get_contents("assets/js/version/version.txt"); ?> 
+                </a>
             </p>
 
             <div id="version_check_auto"></div>
