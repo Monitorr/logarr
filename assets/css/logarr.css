@@ -2593,9 +2593,12 @@ h2.heading {
     }
 
     #left {
+        position: absolute;
         width: auto;
-        margin-top: auto;
-        margin-left: 0;
+        margin-top: 2vh;
+        margin-left: 1rem;
+        top: 0;
+        left: 0;
     }
 
     .left {
@@ -2632,6 +2635,7 @@ h2.heading {
 
     #dateRight {
         visibility: visible !important;
+        position: absolute;
         display: flex !important;
         float: right;
         width: auto;
@@ -2639,6 +2643,10 @@ h2.heading {
         height: auto;
         vertical-align: middle;
         justify-content: center;
+        top: 0;
+        right: 0;
+        margin-top: 2vh;
+        margin-right: 1rem;
         padding: .5rem 1rem;
         color: #c8c8c8;
         font-size: .75rem;
@@ -2648,9 +2656,9 @@ h2.heading {
         border-radius: .3rem;
         box-shadow: 2px 2px 2px black;
         text-shadow: 1px 1px black;
-        z-index: 2000;
         cursor: default;
     }
+
 
     #logincolumn {
         display: none;
@@ -2661,11 +2669,8 @@ h2.heading {
     }
 
     #logo {
-        display: inline-flex;
         width: auto;
-        margin-left: 8vw;
-        position: static;
-        justify-content: center;        
+        margin: 0 auto;
     }
 
     #logo-login>img {
@@ -3127,8 +3132,6 @@ ul.stepper {
     counter-reset: section;
     overflow-y: auto;
     overflow-x: hidden;
-    /* margin: 1em -1.5rem; */
-    /* padding: 1.5rem; */
     padding: 0;
     margin: 0 auto;
     text-align: center;
