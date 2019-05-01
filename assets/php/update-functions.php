@@ -12,6 +12,9 @@ mkdir('../../assets/data/tmp');
 $copy = copy($remote_file_url, $local_file);
 // check for success or fail
 if (!$copy) {
+	appendLog(
+		$logentry = "ERROR: Logarr update failed to copy files from GitHub"
+	);
 	// data message if failed to copy from external server
 	$data = array("copy" => 0);
 } else {
@@ -41,14 +44,20 @@ if ($copy == 1) {
 		$filejsbk = $base_path . '/assets/data/tmp/custom.js';
 
 		if (!copy($filecss, $filecssbk)) {
+			appendLog(
+				$logentry = "ERROR: Logarr update failed to backup custom CSS file"
+			);
 			//echo "failed to copy $filecss...\n";
 		}
 
 		if (!copy($filejs, $filejsbk)) {
+			appendLog(
+				$logentry = "ERROR: Logarr update failed to backup custom JS file"
+			);
 			//echo "failed to copy $filejs...\n";
 		}
 
-		// copy files from /assets/data/temp to Logarr root:
+		// copy files from /assets/data/tmp to Logarr root:
 		$scanPath = array_diff(scandir($extractPath), array('..', '.'));
 		$fullPath = $extractPath . $scanPath[2];
 		recurse_copy($fullPath, $base_path);
@@ -56,10 +65,16 @@ if ($copy == 1) {
 		//restore users custom files:
 
 		if (!copy($filecssbk, $filecss)) {
+			appendLog(
+				$logentry = "ERROR: Logarr update failed to restore custom CSS file"
+			);
 			//echo "failed to copy $filecssnk...\n";
 		}
 
 		if (!copy($filejsbk, $filejs)) {
+			appendLog(
+				$logentry = "ERROR: Logarr update failed to restore custom JS file"
+			);
 			//echo "failed to copy $filejsbk...\n";
 		}
 

@@ -37,6 +37,7 @@ function appendLog($logentry) {
 		ini_set('error_reporting', E_ERROR);
 		$oldContents = file_get_contents($logpath);
 		if (file_put_contents($logpath, $oldContents . $date . " | " . $logentry . "\r\n") === false){
+			phpLog($phpLogMessage = "Logarr ERROR: Failed writing to Logarr log file");
 			echo "<script>console.log('%cERROR: Failed writing to Logarr log file.', 'color: red;');</script>";
 			return "Error writing to Logarr log file";
 			//return $error;
@@ -104,13 +105,14 @@ function copyDefaultConfig($datadir) {
 	$default_config_file = __DIR__ . "/../../php/functions/default.json";
 	$new_config_file = $datadir . 'config.json';
 	$old_config_file = __DIR__ . "/../../config/config.php";
+	$old_config_file_note = __DIR__ . "/../../config/remove_this_dir.txt";
 	if (is_file($old_config_file) && !is_file($new_config_file)) {
-		appendLog( "Old config file detetected - attempting to convert");
+		appendLog( "Logarr legacy config file detetected - attempting to convert");
 		include_once($old_config_file);
 
 		if((!isset($config) || empty($config)) || !isset($logs)){
-			phpLog($phpLogMessage = "Logarr ERROR: Old config file detected, failed to convert");
-			appendLog("ERROR: Old config file detected, failed to convert");
+			phpLog($phpLogMessage = "Logarr ERROR: Legacy config file detected, failed to convert");
+			appendLog("ERROR: Logarr legacy config file detected, failed to convert");
 			return false;
 		}
 
@@ -151,14 +153,16 @@ function copyDefaultConfig($datadir) {
 		$json = json_encode($old_new_merged, JSON_PRETTY_PRINT);
 		file_put_contents($new_config_file, $json);
 		$copyDefaults = true;
-		appendLog("Logarr converted old config file to new config file: " . $new_config_file);
+		appendLog("Logarr converted legacy config file to new config file: " . $new_config_file);
 
 		if (unlink($old_config_file)) {
-			appendLog("Old config file has been removed");
+			appendLog( "Logarr legacy config file has been converted and removed. The '/assets/config' directory can be safely removed. ");
+			file_put_contents($old_config_file_note, "Logarr legacy config file was converted to new format, you can safely remove this file and 'config' directory");
 		} else {
-			phpLog($phpLogMessage = "Logarr ERROR: Old config file could not be removed");
-			appendLog("ERROR: Old config file could not be removed");
-			file_put_contents($old_config_file, "Old config was converted to the new format, you can now safely remove this file and directory");
+			phpLog($phpLogMessage = "Logarr ERROR: Legacy config file could not be removed");
+			appendLog("ERROR: Logarr legacy config file could not be removed");
+			file_put_contents($old_config_file_note, "Logarr legacy config file was converted to new format, you can safely remove this file and 'config' directory");
+			file_put_contents($old_config_file, "Logarr legacy config was converted to new format, you can safely remove this file and 'config' directory");
 		}
 
 	} else {

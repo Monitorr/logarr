@@ -141,7 +141,6 @@ appendLog("Logarr Setup loaded");
         });
     </script>
 
-
     <script>
         function switchTabs(newHash) {
 
@@ -150,10 +149,10 @@ appendLog("Logarr Setup loaded");
             if (newHash === "" || newHash === "#") newHash = "#datadir";
             let newTarget = $(newHash);
 
+            //TODO / BUG / If user removes users.db and re-creates, complete step will not be shown after user creation:
             targets.hide();
 
             newTarget.fadeIn();
-
             window.location.hash = newHash;
         }
 
@@ -243,10 +242,12 @@ appendLog("Logarr Setup loaded");
                         $("#userstep").addClass("completed");
                         $('#usercircle').addClass('completed');
                         $("#setupstep").addClass("active");
+                        $("#setupstep").removeClass("hidden");
                         $('#usercircle').removeClass('circlenotcomplete');
                         $('#usercircle').addClass('circlecomplete');
                         $('#setupcircle').removeClass('circlenotcomplete');
                         $('#setupcircle').addClass('circlecomplete');
+
                         setupcomplete();
                         usersuccess();
                         switchTabs("#setup");
@@ -546,29 +547,30 @@ appendLog("Logarr Setup loaded");
     <!-- END user create form -->
 
     <!-- START Setup -->
+
     <div id="setup" class="hidden stepper-target setup">
 
 		<?php
-		if ($authenticator->isDatadirSetup()) {
-			if ($authenticator->databaseExists()) {
-				if ($authenticator->doesUserExist()) {
-					if (!$authenticator->isSetupComplete()) {
-						copyDefaultConfig($authenticator->datadir);
-					}
-					?>
+            if ($authenticator->isDatadirSetup()) {
+                if ($authenticator->databaseExists()) {
+                    if ($authenticator->doesUserExist()) {
+                        if (!$authenticator->isSetupComplete()) {
+                            copyDefaultConfig($authenticator->datadir);
+                        }
+                        ?>
 
-                    <img id="setup-icon" src="assets/images/logarr_white_text_crop.png" alt="Logarr">
-                    <div id="setupcomplete"> Logarr Setup is complete!</div>
-                    <div id="setupreload"> Logarr will reload in 10 seconds</div>
+                        <img id="setup-icon" src="assets/images/logarr_white_text_crop.png" alt="Logarr">
+                        <div id="setupcomplete"> Logarr Setup is complete!</div>
+                        <div id="setupreload"> Logarr will reload in 10 seconds</div>
 
-                    <p id='regsettingnote'>
-                        <i class='fas fa-exclamation-triangle'></i> For security purposes, ensure to change the Authentication Setting: 'Enable Setup Access' to ('FALSE') after initial setup.
-                    </p>
+                        <p id='regsettingnote'>
+                            <i class='fas fa-exclamation-triangle'></i> For security purposes, ensure to change the Authentication Setting: 'Enable Setup Access' to ('FALSE') after initial setup.
+                        </p>
 
-					<?php
-				}
-			}
-		}
+                        <?php
+                    }
+                }
+            }
 		?>
     </div>
     <!-- END Setup -->
@@ -688,7 +690,7 @@ if ($authenticator->doesDataDirExist()) {
 };
 
 if ($authenticator->doesUserExist()) {
-	echo "<script type='text/javascript'>";
+    echo "<script type='text/javascript'>";
 	echo "$('#setupstep').addClass('hidden');";
 	echo "</script>";
 };
