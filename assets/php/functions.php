@@ -108,6 +108,7 @@ function appendLog($logentry) {
 
 	if (!file_exists($logdir)) {
 		if (!mkdir($logdir)) {
+			phpLog($phpLogMessage = "Logarr ERROR: Failed to create Logarr log directory");
 			echo "<script>console.log('%cERROR: Failed to create Logarr log directory.', 'color: red;');</script>";
 			return "ERROR: Failed to create Logarr log directory";
 		} else {
@@ -118,16 +119,20 @@ function appendLog($logentry) {
 	};
 
 	if (!$handle = fopen($logpath, 'a+')) {
-		echo "<script>console.log('ERROR: Cannot open Logarr log file ($logfile)');</script>";
+		phpLog($phpLogMessage = "Logarr ERROR: Failed to open Logarr log file ");
+		echo "<script>console.log('%cERROR: Failed to open Logarr log file: ($logfile).', 'color: red;');</script>";
 	}
 
 	if (fwrite($handle, $date . " | " . $logentry . "\r\n") === false) {
-		echo "<script>console.log('ERROR: Cannot write to Logarr log file $logfile');</script>";
+		phpLog($phpLogMessage = "Logarr ERROR: Failed to write to Logarr log file");
+		echo "<script>console.log('%cERROR: Cannot write to Logarr log file: ($logfile).', 'color: red;');</script>";
+
 	} else {
 		if (is_writable($logpath)) {
 			fclose($handle);
 		} else {
-			echo "<script>console.log('ERROR: The Logarr log file $logfile is not writable');</script>";
+			phpLog($phpLogMessage = "Logarr ERROR: The Logarr log file $logfile is not writable");
+			echo "<script>console.log('%cERROR: The Logarr log file is not writable: ($logfile).', 'color: red;');</script>";
 		}
 	}
 }
