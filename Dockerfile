@@ -1,5 +1,4 @@
-FROM lsiobase/alpine.nginx:3.9
-
+FROM Monitorr/base-alpine-nginx
 MAINTAINER Monitorr
 
 # Set version label
@@ -15,8 +14,6 @@ RUN \
          php7-sqlite3 \
          php7-pdo_sqlite \
          git
-
-
 
 # Add local files
 COPY root/ /
