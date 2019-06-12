@@ -1,9 +1,12 @@
 FROM Monitorr/base-alpine-nginx
-MAINTAINER Monitorr
 
 # Set version label
 ARG BUILD_DATE
 ARG VERSION
+LABEL build_version="Monitorr version:- ${VERSION} Build-date:- ${BUILD_DATE}"
+LABEL maintainer="Monitorr"
+
+
 
 # Install packages
 RUN \
