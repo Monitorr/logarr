@@ -1,4 +1,4 @@
-FROM monitorr/base-alpine-nginx
+FROM organizrtools/base-alpine-nginx
 
 # Set version label
 ARG BUILD_DATE
