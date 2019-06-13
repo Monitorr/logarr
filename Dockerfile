@@ -17,6 +17,7 @@ RUN \
          php7-sqlite3 \
          php7-pdo_sqlite \
          php7-fpm \
+         php7-xmlrpc \
          git
 
 # Add local files
