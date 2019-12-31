@@ -1,6 +1,4 @@
-######################
 # OS generated files #
-######################
 .DS_Store
 .DS_Store?
 ._*
@@ -10,11 +8,15 @@ ehthumbs.db
 Thumbs.db
 .travis.yml
 
+# Project files #
+.jshintrc
 
-######################
-# Config file #
-######################
-assets/config/config.php
+# Config files #
+assets/config/
 assets/data/datadir.json
+
+# Data files #
+assets/data/logs/
 assets/data/custom.css
 assets/data/custom.js
+assets/data/php-perms-check.txt
