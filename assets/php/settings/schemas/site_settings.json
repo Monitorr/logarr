@@ -36,7 +36,6 @@
     },
     "customHighlightTerms": {
       "type": "string",
-      "default": "error",
       "properties": {}
     },
 	"logRefresh": {

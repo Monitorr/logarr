@@ -5,16 +5,23 @@ include('functions.php');
 <!-- phpinfo.php -->
 <head>
 
+	<meta name="robots" content="NOINDEX, NOFOLLOW">
+
 	<link rel="icon" type="image/png" href="../../favicon.png">
 
 	<title> Logarr | PHP Info </title>
 	
+	<link rel="stylesheet" href="../css/vendor/jquery-ui.min.css">
 	<link rel="stylesheet" href="../css/logarr.css">
 	<link rel="stylesheet" href="../data/custom.css">
 
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/vendor/jquery-ui.min.js"></script>
+
 	<style type="text/css">
 		body {
-			padding-top: 0 !important;
+			/* padding-top: 0 !important; */
+			margin-top: 0;
 			background-color: #3d3d3d !important;
 		}
 
@@ -38,7 +45,8 @@ include('functions.php');
 		}
 
 		a {
-			color: black;
+			/* color: black; */
+			color: white;
 		}
 
 		#phpinfo {
@@ -77,7 +85,7 @@ include('functions.php');
 			color: black;
 		}
 	</style>
-
+	
 </head>
 
 <body>
@@ -150,7 +158,7 @@ if (!file_exists($datadir)) {
 		echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Initial-installation' target='_blank' title='PHP Datadir write permissions FAIL'>";
 		echo "Data";
 		echo "</a>";
-		echo "<script>console.log( 'ERROR: Logarr PHP Datadir write permissions FAIL' );</script>";
+		echo "<script>console.log( 'ERROR: Logarr PHP Data dir write permissions FAIL' );</script>";
 	} else {
 		echo " | <div class='extok' title='PHP Datadir write permissions OK' >";
 		echo "Data";
@@ -264,9 +272,18 @@ echo "</div>";
 ?>
 
 <div id="phpinfo">
-
     <?php phpinfo(); ?>
-
 </div>
+
+    <script>
+        $(function() {
+            $(document).tooltip({
+                hide: {
+                    effect: "fadeOut",
+                    duration: 200
+                },
+            });
+        });
+	</script>
 
 </body>

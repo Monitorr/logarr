@@ -2,6 +2,7 @@
 include('../functions.php');
 include(__DIR__ . '/../auth_check.php');
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -116,6 +117,14 @@ include(__DIR__ . '/../auth_check.php');
                 background: 'rgba(207, 0, 0, 0.75)'
             })
         };
+
+        function clearsettings() {
+            Toast.fire({
+                type: 'warning',
+                title: 'Cleared Setting Values!',
+                background: 'rgba(207, 0, 0, 0.75)'
+            })
+        };
     </script>
 
     <script>
@@ -128,11 +137,20 @@ include(__DIR__ . '/../auth_check.php');
     <script>
         $(function() {
             $(document).tooltip({
-                hide: { 
-                    effect: "fadeOut", 
-                    duration: 200 
+                hide: {
+                    effect: "fadeOut",
+                    duration: 200
                 }
             });
+        });
+    </script>
+
+    <!-- if clear button is fired, prevent form sumbit if required setting values are not valid -->
+    <script>
+        $(document).on('click', "button[data-key='reset']", function(event) {
+            document.getElementById("submitbtn").disabled = true;
+            console.log("Cleared setting values");
+            clearsettings();
         });
     </script>
 
@@ -273,6 +291,16 @@ include(__DIR__ . '/../auth_check.php');
                                                 settingchange();
                                             }
                                         },
+                                        "keyup": function(e) {
+                                            this.refreshValidationState(true);
+                                            if (!this.isValid(true)) {
+                                                validerror();
+                                                console.log("ERROR: Invalid value for Log Title");
+                                            } else {
+                                                $('.alpaca-form-button-submit').addClass('buttonchange');
+                                                settingchange();
+                                            }
+                                        },
                                         "blur": function() {
                                             this.refreshValidationState(true);
                                             if (!this.isValid(true)) {
@@ -342,6 +370,16 @@ include(__DIR__ . '/../auth_check.php');
                                                 settingchange();
                                             }
                                         },
+                                        "keyup": function(e) {
+                                            this.refreshValidationState(true);
+                                            if (!this.isValid(true)) {
+                                                validerror();
+                                                console.log("ERROR: Invalid value for Log Path.");
+                                            } else {
+                                                $('.alpaca-form-button-submit').addClass('buttonchange');
+                                                settingchange();
+                                            }
+                                        },
                                         "blur": function() {
                                             this.refreshValidationState(true);
                                             if (!this.isValid(true)) {
@@ -391,7 +429,17 @@ include(__DIR__ . '/../auth_check.php');
                                         "change": function() {
                                             $('.alpaca-form-button-submit').addClass('buttonchange');
                                             settingchange();
-                                        }
+                                        },
+                                        "keyup": function(e) {
+                                            this.refreshValidationState(true);
+                                            if (!this.isValid(true)) {
+                                                validerror();
+                                                console.log("ERROR: Invalid value for Max Lines");
+                                            } else {
+                                                $('.alpaca-form-button-submit').addClass('buttonchange');
+                                                settingchange();
+                                            }
+                                        },
                                     }
                                 },
                                 "autoRollSize": {
@@ -423,7 +471,11 @@ include(__DIR__ . '/../auth_check.php');
                                         "change": function() {
                                             $('.alpaca-form-button-submit').addClass('buttonchange');
                                             settingchange();
-                                        }
+                                        },
+                                        "keyup": function(e) {
+                                            $('.alpaca-form-button-submit').addClass('buttonchange');
+                                            settingchange();
+                                        },
                                     }
                                 }
                             },
@@ -434,6 +486,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "type": "button",
                                     "label": "Submit",
                                     "name": "submit",
+                                    "id": "submitbtn",
                                     "value": "submit",
                                     "click": function formsubmit() {
                                         var data = $('#logssettings').alpaca().getValue();
@@ -455,7 +508,8 @@ include(__DIR__ . '/../auth_check.php');
                                     }
                                 },
                                 "reset": {
-                                    "label": "Clear Values"
+                                    "label": "Clear Values",
+                                    "id": "clearbtn",
                                 }
                             }
                         }
@@ -480,4 +534,4 @@ include(__DIR__ . '/../auth_check.php');
 
 </body>
 
-</html> 
+</html>

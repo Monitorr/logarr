@@ -12,6 +12,8 @@ set_error_handler("LogarrErrorHandler");
 
 $file = $_GET['file'];
 
+//TODO / BUG / Browser will hang after dowloading log during next log update using Chrome or IE Edge on mobile device:
+
 // check if log file exists in config.json:
 
 if (in_array_recursive($file, $logs)) {

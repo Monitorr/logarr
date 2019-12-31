@@ -5,7 +5,6 @@ include("auth_check.php");
 ini_set('max_execution_time', 60);
 
 //TODO: Migrate to functions.php
-//TODO: Append outputs to appendLog function
 
 // copy the file from source server
 mkdir('../../assets/data/tmp');

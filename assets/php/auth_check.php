@@ -1,65 +1,90 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
+//error_reporting(E_ALL);
+//ini_set('error_reporting', E_ALL);
+
+error_reporting(E_ERROR);
+ini_set('error_reporting', E_ERROR);
+
 /**
- * Class OneFileLoginApplication
- *
- * An entire php application with user registration, login and logout in one file.
- * Uses very modern password hashing via the PHP 5.5 password hashing functions.
- * This project includes a compatibility file to make these functions available in PHP 5.3.7+ and PHP 5.4+.
- *
- * @author Panique
- * @link https://github.com/panique/php-login-one-file/
- * @license http://opensource.org/licenses/MIT MIT License
- */
+* Class OneFileLoginApplication
+*
+* An entire php application with user registration, login and logout in one file.
+* Uses very modern password hashing via the PHP 5.5 password hashing functions.
+* This project includes a compatibility file to make these functions available in PHP 5.3.7+ and PHP 5.4+.
+*
+* @author Panique
+* @link https://github.com/panique/php-login-one-file/
+* @license http://opensource.org/licenses/MIT MIT License
+*/
 class OneFileLoginApplication
 {
 	/**
-	 * @var string System messages, likes errors, notices, etc.
-	 */
-	public $feedback = ""; //
-	/**
-	 * @var string Path of the database file
-	 */
-	private $db_sqlite_path = "";
-	/**
-	 * @var string Path of the datadir
-	 */
-	public $datadir = "";
-	/**
-	 * @var string Type of used database (currently only SQLite, but feel free to expand this with mysql etc)
-	 */
-	private $db_type = "sqlite";
-	/**
-	 * @var object Database connection
-	 */
-	private $db_connection = null;
-	/**
-	 * @var bool Login status of user
-	 */
-	private $user_is_logged_in = false;
-	/**
-	 * @var bool Setup status.
-	 */
-	private $is_setup = false;
-	/**
-	 * @var array Copy of authentication settings.
-	 */
+		* @var string System messages, likes errors, notices, etc.
+		*/
+		public $feedback = "";
+		/**
+		* @var string Path of the data dir definition file (datadir.json)
+		*/
+		public $datadir_file = "";
+		/**
+		* @var string Path of the data dir
+		*/
+		public $datadir = "";
+		/**
+		* @var string Path of the database flat file (users.db)
+		*/
+		private $datafile = "";
+		/**
+		* @var string Path of the user PDO database file (users.db)
+		*/
+		private $db_sqlite_path = "";
+		/**
+		* @var string Type of used database (currently only SQLite, but feel free to expand this with mysql etc)
+		*/
+		private $db_type = "sqlite";
+		/**
+		 *@var string Path of the user config file in the data dir (config.json)
+		*/
+		private $config_file_path = "";
+		/**
+		* @var object Database connection
+		*/
+		private $db_connection = null;
+		/**
+		* @var bool Login status of user
+		*/
+		private $user_is_logged_in = false;
+		/**
+		* @var bool Setup status.
+		*/
+		private $is_setup = false;
+		/**
+		* @var array Copy of authentication settings.
+	*/
+
 	private $auth_settings = false;
 
 	/**
-	 * Does necessary checks for PHP version and PHP password compatibility library and runs the application
-	 */
+		* Does necessary checks for PHP version and PHP password compatibility library and runs the application
+		*/
 	public function __construct()
 	{
 		if ($this->isSetup()) {
+			// $this->appendLog("(construct) SUCCESS: Logarr Setup is complete");
 			$config_file = $this->datadir . '/config.json';
 			$this->auth_settings = json_decode(file_get_contents($config_file), 1)['authentication'];
 		} else {
+			$this->appendLog("(construct) WARNING: Logarr Setup is NOT complete");
 			$urlParts = explode("/", strtok($_SERVER["REQUEST_URI"], '?'));
 			$currentPage = strtok(end($urlParts), ".");
 			if($currentPage != "setup") {
-				//TODO: This works for index and settings, but not for nested pages like /assets/php/settings/authentication.php
+				// TODO: / BUG / This works for index and settings, but not for nested pages like /assets/php/settings/authentication.php
 				// Determine how many directories we need to go up
+				// appendLog("(isSetup) WARNING: Logarr Setup is not complete");
 				header("Location: setup.php");
 			}
 		}
@@ -70,142 +95,12 @@ class OneFileLoginApplication
 	}
 
 	/**
-	 * Checks if everything is setup
-	 * @return bool
-	 */
-	public function isSetup()
-	{
-		if(!$this->isDatadirSetup()) return false;
-		if(!$this->databaseExists()) return false;
-		if(!$this->doesUserExist()) return false;
-		if(!$this->isSetupComplete()) return false;
-		return true;
-	}
-
-	/**
-	 * Checks if the datadir exists and sets some necessary paths
-	 * @return bool
-	 */
-	public function isDatadirSetup()
-    {
-        if (is_file(__DIR__ . "/../data/datadir.json")) {
-            $str = file_get_contents(__DIR__ . "/../data/datadir.json");
-            $json = json_decode($str, true);
-
-            if(!isset($json['datadir'])) return false;
-
-			$datadir = $json['datadir'];
-			
-            if($this->isRelativePath($datadir)) {
-				$datadir = __DIR__ . DIRECTORY_SEPARATOR . $datadir;
-            }
-            if (file_exists($datadir)) {
-                $datadir = rtrim($datadir, "\\/" . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-                $this->datadir = $datadir;
-                $datafile = $datadir . 'users.db';
-                $this->db_sqlite_path = $datafile;
-
-                if (file_exists($datadir)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-	/**
-	 * Checks if a path is relative
-	 * @param $path
-	 * @return bool
-	 */
-	private function isRelativePath($path) {
-        if(substr( $path, 0, 2 ) === "./") return true;
-        if(substr( $path, 0, 3 ) === "../") return true;
-        return false;
-    }
-
-	/**
-	 * Checks if the datadir exists
-	 * @return bool
-	 */
-	public function doesDataDirExist()
-	{
-		if (is_file(__DIR__ . "/../data/datadir.json")) {
-			$str = file_get_contents(__DIR__ . "/../data/datadir.json");
-			$json = json_decode($str, true);
-
-			if(!isset($json['datadir'])) return false;
-
-			$datadir = $json['datadir'];
-
-            if($this->isRelativePath($datadir)) {
-				$datadir = __DIR__ . DIRECTORY_SEPARATOR . $datadir;
-            }
-
-			if (file_exists($datadir)) {
-				$datadir = rtrim($this->datadir, "\\/" . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-				$this->datadir = $datadir;
-				if (file_exists($datadir)) {
-					return true;
-				}
-			}
-		}
-		return "0";
-		return false;
-	}
-
-	/**
-	 * Checks if there's already a user
-	 * @return bool
-	 */
-	public function doesUserExist()
-	{
-		if ($this->createDatabaseConnection()) {
-			$sql = "SELECT COUNT(*) as count FROM users;";
-			$query = $this->db_connection->prepare($sql);
-
-			$query->execute();
-			$result = $query->fetch();
-			$rows = $result["count"];
-			if ($rows > 0) {
-				return true;
-			}
-		}
-		return "0";
-		return false;
-	}
-
-	/**
-	 * Checks if the database file exists
-	 * @return bool
-	 */
-	public function databaseExists(){
-		if(is_file($this->db_sqlite_path)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * Append Logarr errors to webserver's PHP error log file IF defined in php.ini:
-	 * @param $phpLogMessage
-	 * @return string
-	 */
-
-	private function phpLog($phpLogMessage) {
-    if (!get_cfg_var('error_log')) {
-		} else {
-			error_log($errstr = $phpLogMessage);
-		}
-	}
-
-	/**
 	 * Appends a log entry to the Logarr log file
 	 * @param $logentry
 	 * @return string
 	 */
-	private function appendLog($logentry) {
+	private function appendLog($logentry)
+	{
 		ini_set('error_reporting', E_ERROR);
 		$logfile = 'logarr.log';
 		$logdir = __DIR__ . '/../data/logs/';
@@ -213,22 +108,35 @@ class OneFileLoginApplication
 		//$logentry = "Add this to the file";
 		$date = date("D d M Y H:i T ");
 
-		//if (file_exists($logpath)) {
-		if (file_exists($logdir)) {
+		if (is_readable($logdir)) {
 			$oldContents = file_get_contents($logpath);
-			if(file_put_contents($logpath, $oldContents . $date . " | " . $logentry . "\r\n") === false){
-				return "Error writing to Logarr log file";
+			if (file_put_contents($logpath, $oldContents . $date . " | " . $logentry . "\r\n") === false) {
+				$this->phpLog("Logarr ERROR: Failed writing to Logarr log file");
+				return "ERROR writing to Logarr log file";
 			}
 		} else {
 			if (!mkdir($logdir)) {
+				$this->phpLog("Logarr ERROR: Failed to create Logarr log directory");
 				return "ERROR: Failed to create Logarr log directory";
 			} else {
-				$this->appendLog( "Logarr log directory created");
+				$this->appendLog("Logarr log directory created: " . $logdir);
 				$this->appendLog($logentry);
 				return "Logarr log directory created";
 			}
 		}
 		return "Success";
+	}
+
+	/**
+	 * Append Logarr errors to webserver's PHP error log file IF defined in php.ini:
+	 * @param $phpLogMessage
+	 * @return string
+	 */
+	private function phpLog($phpLogMessage)
+	{
+		if (!get_cfg_var('error_log')) { } else {
+			error_log($errstr = $phpLogMessage);
+		}
 	}
 
 	/**
@@ -239,35 +147,252 @@ class OneFileLoginApplication
 	{
 		ini_set('error_reporting', E_ERROR);
 
-		if(!empty($_SERVER['HTTP_CLIENT_IP'])){
+		if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
 			//ip from share internet
 			return $_SERVER['HTTP_CLIENT_IP'];
-		}elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+		} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
 			//ip pass from proxy
 			return $_SERVER['HTTP_X_FORWARDED_FOR'];
-		}else{
+		} else {
 			return $_SERVER['REMOTE_ADDR'];
 		}
 	}
 
 	/**
-	 * Creates a PDO database connection (in this case to a SQLite flat-file database)
+		* Checks if Logarr is setup
+		* @return bool
+		*/
+	public function isSetup()
+	{
+		if(!$this->datadirfileExist()) return false;
+		if(!$this->isDatadirSetup()) return false;
+		if(!$this->databaseExists()) return false;
+		if(!$this->doesUserExist()) return false;
+		if(!$this->configFileExists()) return false;
+		// $this->appendLog("isSetup(): TRUE | SUCCESS: Logarr is setup");
+		return true;
+	}
+	
+	/**
+		* Checks if data dir definition file exists (datadir.json)
+		* Checks for proper JSON value for $datadir
+		* Sets $datadir_file & $datadir_path
+		* @var string Path of the datadir definition file
+	*/
+	public function datadirfileExist()
+	{
+		if (is_readable(__DIR__ . "/../data/datadir.json")) {
+
+			$datadir_file = __DIR__ . "/../data/datadir.json";
+			$this->datadir_file = $datadir_file;
+
+			$str = file_get_contents($datadir_file);
+			$datadir_file_json = json_decode($str, true);
+
+			if (!isset($datadir_file_json['datadir'])) {
+				$this->appendLog("ERROR: datadir.json exists but is NOT valid");
+				return false;
+			} else {
+				$datadir_path = $datadir_file_json['datadir'];
+				$this->datadir_path = $datadir_path;
+				
+				// $this->appendLog("datadirfileExist4 : TRUE | is_readable : datadir.json: datadir_path: " . $datadir_path);
+				return true;
+			}
+			} else {
+				$this->appendLog("datadirfileExist5 : FALSE | is_readable : datadir.json | ERROR: datadir.json does NOT exist");
+				// TODO / BUG / does not work:
+				// header("Location: setup.php");
+				return false;
+			}
+	}
+
+	/**
+		* Checks if a path is relative
+		* @param $path
+		* @return bool
+	*/
+	private function isRelativePath($path)
+	{
+		if (substr($path, 0, 2) === "./") return true;
+		if (substr($path, 0, 3) === "../") return true;
+		return false;
+	}
+
+	/**
+		 * Checks if datadir exists
+		 * Sets $datadir var
+		 * @return bool
+	*/
+	public function doesDataDirExist()
+	{
+		
+		$datadir_path = $this->datadir_path;
+
+		if (is_readable($datadir_path)) {
+			// $this->appendLog("doesDataDirExist(): TRUE | is_readable datadir_path : " . $datadir_path);
+
+			if ($this->isRelativePath($datadir_path)) {
+				$datadir_path = __DIR__ . DIRECTORY_SEPARATOR . $datadir_path;
+				// $this->appendLog("doesDataDirExist(): TRUE | isRelativePath datadir_path : " . $datadir_path);
+			}
+
+			if (is_readable($datadir_path)) {
+				$datadir_path = rtrim($this->datadir_path, "\\/" . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+				// $this->appendLog("doesDataDirExist() : TRUE | is_readable & rtrim: datadir_path: " . $datadir_path);
+
+				if (is_readable($datadir_path)) {
+					$datadir = $datadir_path;
+					$this->datadir = $datadir;
+					// $this->appendLog("doesDataDirExist() : TRUE | is_readable: datadir_path: " . $datadir_path);
+					return true;
+				}
+			}
+		} else {
+			//$this->appendLog("doesDataDirExist() | ERROR: The data dir does NOT exist: " . $datadir_path);
+			return "0";
+			$this->appendLog("doesDataDirExist() | ERROR: The data dir does NOT exist: " . $datadir_path);
+			return false;
+		}
+	}
+
+	/**
+		* Checks if the datadir exists and sets some necessary paths
+		* @return bool
+	*/
+	public function isDatadirSetup()
+    {
+		// TODO / TESTING / REMOVE / Old method:
+
+			// $str = file_get_contents($this->datadir_file);
+			// $json = json_decode($str, true);
+
+			// if(!isset($json['datadir'])) return false;
+			// $datadir = $json['datadir'];
+
+
+		if ($this->doesDataDirExist()){
+
+			$datadir = $this->datadir;
+
+			if ($this->isRelativePath($datadir)) {
+				$datadir = __DIR__ . DIRECTORY_SEPARATOR . $datadir;
+			}
+			if (is_readable($datadir)) {
+				$datadir = rtrim($datadir, "\\/" . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+				$datadir = $datadir;
+
+				if (is_readable($datadir)) {
+					$datafile = $datadir . 'users.db';
+					$this->db_sqlite_path = $datafile;
+					// $this->appendLog("isDatadirSetup : TRUE | is_readable: datadir | SUCCESS: Logarr data dir is established: " . $datadir);
+					return true;
+				} else {
+					$this->appendLog("(isDatadirSetup) | ERROR: Logarr data dir is NOT established: " . $datadir);
+					return false;
+				}
+			}
+
+			$this->appendLog("(isDatadirSetup) | WARNING: Logarr data dir is NOT established: " . $datadir);
+			return false;
+
+		} else {
+			//$this->appendLog("(isDatadirSetup) | ERROR: The user data dir is NOT set up: " . $this->datadir);
+			return false;
+		}
+	}
+
+	/**
+		* Checks if the database file exists
+		* @return bool
+	*/
+	public function databaseExists()
+	{
+		$db_sqlite_path = $this->db_sqlite_path;
+
+		if (is_readable($db_sqlite_path)) {
+			// $this->appendLog("databaseExists : TRUE | is_readable: db_sqlite_path: " . $db_sqlite_path);
+			return true;
+		} else {
+			$this->appendLog("(databaseExists) | ERROR: The PDO database file (users.db) does NOT exist in the data dir: " . $this->db_sqlite_path);
+			return false;
+		}
+	}
+
+	/**
+	 * Checks if there's already a user
+	 * @return bool
+	 */
+	public function doesUserExist()
+	{
+		if ($this->doesDataDirExist()) {
+
+			if ($this->createDatabaseConnection()) {
+				$sql = "SELECT COUNT(*) as count FROM users;";
+				$query = $this->db_connection->prepare($sql);
+
+				$query->execute();
+				$result = $query->fetch();
+				$rows = $result["count"];
+				if ($rows > 0) {
+					//$this->appendLog("doesUserExist | TRUE | SUCCESS: User is established in the PDO database file (users.db)");
+					return true;
+				}
+
+				$this->appendLog("doesUserExist : Warning: User NOT established in the PDO database file (users.db)");
+				return "0";
+				return false;
+			}
+		} else {
+			//$this->appendLog("(doesUserExist) | ERROR: Failed to create user becuase the data dir is not setup");
+			return "0";
+			return false;
+		}
+	}
+
+	/**
+	 * 
+	 * Creates a PDO database connection to a SQLite flat-file database (users.db)
+	 * If the file does not exist, it will be automatically created on first connection.
 	 * @return bool Database creation success status, false by default
 	 */
 	private function createDatabaseConnection()
 	{
+		// $this->appendLog("(createDatabaseConnection1) | Logarr is connecting to the user PDO database: " . $this->db_sqlite_path);
+
 		try {
-			$this->db_connection = new PDO($this->db_type . ':' . $this->db_sqlite_path);
-			$this->databaseSetup();
-			return true;
+
+			// TODO / Remove / old meathod:
+				//$this->appendLog("(createDatabaseConnection1) | ERROR: Failed connection to the user PDO database (users.db). Logarr is creating a new user PDO database.");
+				//if (!$this->isDatadirSetup()) return false;
+				// $this->db_connection = new PDO($this->db_type . ':' . $this->db_sqlite_path);
+				// $this->databaseSetup();
+				// return true;
+
+			//TODO **IMPORTANT **/ this can be moved to a diff function and only executed if 0 users exists or file does not exist. / Move to databasesetup?
+
+			$createDatafile =  	$this->db_connection = new PDO($this->db_type . ':' . $this->db_sqlite_path);
+
+			if ($createDatafile) {
+
+				// $this->appendLog("(createDatabaseConnection) | SUCCESS: Logarr connected to the PDO database : " . $this->db_sqlite_path);
+				$this->databaseSetup();
+				return true;
+
+			} else {
+
+				$this->appendLog("(createDatabaseConnection) | ERROR: Failed connection to create the  PDO database (users.db) : " . $this->db_sqlite_path);
+				return false;
+			}
+			
 		} catch (PDOException $e) {
-			$this->feedback = "PDO database connection problem: " . $e->getMessage();
-			$this->phpLog("Logarr ERROR: PDO database connection problem");
-			$this->appendLog( "ERROR: PDO database connection problem");
+			$this->feedback = "Logarr PDO database connection ERROR: " . $e->getMessage();
+			$this->phpLog("Logarr ERROR: PDO database connection failure");
+			$this->appendLog("ERROR: PDO database connection failure");
 		} catch (Exception $e) {
-			$this->feedback = "General problem: " . $e->getMessage();
-			$this->phpLog("Logarr ERROR: PDO database general problem");
-			$this->appendLog( "ERROR: PDO database general problem");
+			$this->feedback = "Logarr PDO database general failure: " . $e->getMessage();
+			$this->phpLog("Logarr ERROR: PDO database general failure");
+			$this->appendLog("ERROR: PDO database general failure");
 		}
 		return false;
 	}
@@ -278,6 +403,7 @@ class OneFileLoginApplication
 	 */
 	private function databaseSetup() {
 		// create new empty table inside the database (if table does not already exist)
+		
 		$sql = 'CREATE TABLE IF NOT EXISTS `users` (
 			`user_id` INTEGER PRIMARY KEY,
 			`user_name` varchar(64),
@@ -288,34 +414,53 @@ class OneFileLoginApplication
 			CREATE UNIQUE INDEX `user_email_UNIQUE` ON `users` (`user_email` ASC);
 			';
 
-		// execute the above query
+		$db_sqlite_path = $this->db_sqlite_path;
 
+		// create empty table in database file:
 		$query = $this->db_connection->prepare($sql);
+
+
+		// TODO / BUG / IMPORTANT // if users.db exists but contents are not valid, will throw error:
 		$query->execute();
 
-		if (!$query) {
-			$this->phpLog("Logarr ERROR: PDO database setup!");
-			$this->appendLog( "ERROR: PDO database setup!");
-			return false;
-		} else {
-			//TODO:  How to log when PDO db is set up INITIALLY only??
-			//$this->appendLog( "Logarr created new PDO database!");
+			//  TODO / testing / REMOVE / old method:
+			// if (!$query) {
+			// 	echo "<script>console.log('%cERROR: users.db is invalid','color: #FF0000;');</script>";
+			// 	$this->phpLog("Logarr ERROR: PDO database setup!");
+			// 	$this->appendLog( "ERROR: PDO database setup!");
+			// 	//return false;
+			// } else {
+			// 	//echo "<script>console.log('%cLogarr created new PDO databas','color: #FF0000;');</script>";
+			// 	$this->appendLog( "Logarr created new PDO database!");
+			// 	//return true;
+			// }
+
+		if (is_readable($db_sqlite_path)) {
+			//echo "<script>console.log('%cSUCCESS: Logarr PDO database exists','color: #FF0000;');</script>";
+			//$this->appendLog("databaseSetup | TRUE | is_readable: db_sqlite_path  | SUCCESS: Logarr PDO database exists: db_sqlite_path: " . $db_sqlite_path);
 			return true;
+
+		} else {
+			echo "<script>console.log('%cWARNING: PDO database has not been setup','color: #FF0000;');</script>";
+			$this->appendLog("(databaseSetup) | WARNING: PDO database has not been setup");
+			return false;
 		}
 	}
 
 	/**
-	 * Checks if all config keys are accounted for
+	 * Checks if all config keys are accounted for in the user data dir (config.json)
+	 * Sets $config_file_path var
 	 * @return bool
 	 */
-	public function isSetupComplete()
+	public function configFileExists()
 	{
-		$config_path = $this->datadir . DIRECTORY_SEPARATOR . "config.json";
-		if(file_exists($config_path)) {
-			//TODO: write implementation, check if all config keys are accounted for
-			//$this->appendLog( "Logarr setup: COMPLETE");
+		$config_file_path = $this->datadir . DIRECTORY_SEPARATOR . "config.json";
+		if (is_readable($config_file_path)) {
+			$this->config_file_path = $config_file_path;
+			// $this->appendLog("configFileExists : TRUE | is_readable: config_file_path: " . $config_file_path);
 			return true;
 		}
+		$this->appendLog("(configFileExists) | ERROR: The Logarr config file (config.json) is not accessible in the user data dir: " . $config_file_path);
 		return false;
 	}
 	
@@ -366,6 +511,7 @@ class OneFileLoginApplication
 					if ($this->getUserLoginStatus()) {
 						return true;
 					} else {
+						// TODO / BUG / IF Logarr is setup and settings and logs auth are disabled and setup access is enabled user is unable to get to setup page:
 						header("location: settings.php#setup");
 						exit();
 					}
@@ -527,11 +673,11 @@ class OneFileLoginApplication
 			} else {
 				$this->feedback = "Invalid password";
 				$this->phpLog( "Logarr ERROR: Login attempt: Invalid password from IP: " . $this->getUserIpAddr());
-				$this->appendLog( "Logarr login attempt: ERROR: Invalid password");
+				$this->appendLog("Logarr login attempt: ERROR: Invalid password from IP: " . $this->getUserIpAddr());
 			}
 		} else {
 			$this->feedback = "User does not exist";
-			$this->appendLog( "Logarr login attempt: ERROR: User does not exist");
+			$this->appendLog("Logarr login attempt: ERROR: User does not exist from IP: " . $this->getUserIpAddr());
 		}
 		// default return
 		return false;
@@ -561,12 +707,12 @@ class OneFileLoginApplication
 				$this->user_is_logged_in = true;
 				$cookie_value = $result_row->auth_token;
 				setcookie("Logarr_AUTH", $cookie_value, time() + 60 * 60 * 24 * 7, "/"); //store login cookie for 7 days
-				$this->phpLog( "Logarr warning: Logarr user logged in with Cookie from IP: " . $this->getUserIpAddr());
-				$this->appendLog( "Logarr user logged in with Cookie from IP: " . $this->getUserIpAddr());
+				$this->phpLog( "Logarr warning: Logarr user logged in with cookie from IP: " . $this->getUserIpAddr());
+				$this->appendLog( "Logarr user logged in with cookie from IP: " . $this->getUserIpAddr());
 				return true;
 			} else {
 				$this->feedback = "Invalid Auth Token";
-				$this->appendLog( "Logarr login attempt: ERROR: Invalid Auth Token");
+				$this->appendLog("Logarr login attempt: ERROR: Invalid Auth Token from IP: " . $this->getUserIpAddr());
 			}
 		}
 		// default return
@@ -598,7 +744,8 @@ class OneFileLoginApplication
 	private function showPageUnauthorized()
 	{
 		include_once('authentication/unauthorized.php');
-		$this->appendLog( "Logarr ERROR: Unauthorized page loaded");
+
+		$this->appendLog( "Logarr warning: Unauthorized page loaded from IP: " . $this->getUserIpAddr());
 	}
 
 	/**
@@ -721,13 +868,14 @@ class OneFileLoginApplication
 			// @link http://stackoverflow.com/q/1661863/1114320
 			$registration_success_state = $query->execute();
 			if ($registration_success_state) {
-				$this->phpLog( "Logarr warning: User credentials have been created");
+				$this->phpLog("Logarr warning: User credentials have been created successfully!");
 				$this->appendLog( "User credentials have been created successfully!");
 				$this->feedback = 'User credentials have been created successfully.';
 				return true;
 			} else {
 				$this->feedback = "ERROR: Registration failed. Check the webserver PHP logs and try again.";
-				$this->appendLog( "ERROR: Registration failed. Check the webserver PHP logs and try again");
+				$this->phpLog("Logarr ERROR (createNewUser): Registration failed.");
+				$this->appendLog("ERROR (createNewUser): Registration failed. Check the webserver PHP logs and try again");
 			}
 		}
 		// default return

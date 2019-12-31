@@ -24,11 +24,12 @@ include_once(__DIR__ . "/../auth_check.php");
     <script src="assets/js/pace.js" async></script>
 
     <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicon/apple-touch-icon.png">
 
-    <meta name="Logarr" content="Logarr: Self-hosted, single-page, log consolidation tool." />
-    <meta name="application-name" content="Logarr" />
-    <meta name="theme-color" content="#464646" />
-    <meta name="theme_color" content="#464646" />
+    <meta name="Logarr" content="Logarr: Self-hosted, single-page, log consolidation tool.">
+    <meta name="application-name" content="Logarr">
+    <meta name="theme-color" content="#464646">
+    <meta name="theme_color" content="#464646">
 
     <meta name="robots" content="NOINDEX, NOFOLLOW">
 
@@ -44,7 +45,7 @@ include_once(__DIR__ . "/../auth_check.php");
     <script src="assets/js/vendor/sweetalert2.min.js"></script>
     <script src="assets/js/logarr.main.js"></script>
 
-    <?php appendLog( "Logarr Login page loaded"); ?>
+    <?php appendLog("Logarr Login page loaded"); ?>
 
     <style>
         .notification {
@@ -89,7 +90,7 @@ include_once(__DIR__ . "/../auth_check.php");
     </script>
 
     <?php
-        ini_set('error_reporting', E_WARN);
+        ini_set('error_reporting', 'E_WARN');
     ?>
 
     <title>
@@ -106,19 +107,19 @@ include_once(__DIR__ . "/../auth_check.php");
     <!-- UI clock functions: -->
     <script>
         <?php
-            $timezoneconfig = $GLOBALS['preferences']['timezone'];
-            date_default_timezone_set($timezoneconfig);
-            $timezone = date_default_timezone_get();
-            $dt = new DateTime("now", new DateTimeZone("$timezone"));
-            $timeStandard = (int) ($GLOBALS['preferences']['timestandard']);
-            $rftime = $GLOBALS['settings']['rftime'];
-            $timezone_suffix = '';
-            if (!$timeStandard) {
-                $dateTime = new DateTime();
-                $dateTime->setTimeZone(new DateTimeZone($timezone));
-                $timezone_suffix = $dateTime->format('T');
-            }
-            $serverTime = $dt->format("D d M Y H:i:s");
+        $timezoneconfig = $GLOBALS['preferences']['timezone'];
+        date_default_timezone_set($timezoneconfig);
+        $timezone = date_default_timezone_get();
+        $dt = new DateTime("now", new DateTimeZone("$timezone"));
+        $timeStandard = (int) ($GLOBALS['preferences']['timestandard']);
+        $rftime = $GLOBALS['settings']['rftime'];
+        $timezone_suffix = '';
+        if (!$timeStandard) {
+            $dateTime = new DateTime();
+            $dateTime->setTimeZone(new DateTimeZone($timezone));
+            $timezone_suffix = $dateTime->format('T');
+        }
+        $serverTime = $dt->format("D d M Y H:i:s");
         ?>
         let servertime = "<?php echo $serverTime; ?>";
         let timeStandard = <?php echo $timeStandard; ?>;
@@ -140,9 +141,9 @@ include_once(__DIR__ . "/../auth_check.php");
     <script>
         $(function() {
             $(document).tooltip({
-                hide: { 
-                    effect: "fadeOut", 
-                    duration: 200 
+                hide: {
+                    effect: "fadeOut",
+                    duration: 200
                 }
             });
         });
@@ -153,8 +154,7 @@ include_once(__DIR__ . "/../auth_check.php");
         $(document).ready(function() {
             var location = window.location.href;
             var current = location.substring(location.lastIndexOf("/") + 1, location.length);
-            if (current.startsWith("settings.php")) {
-            } else {
+            if (current.startsWith("settings.php")) {} else {
                 $('#returnbtn').addClass('hidden');
             }
         });
@@ -190,7 +190,7 @@ include_once(__DIR__ . "/../auth_check.php");
         <div id="loginbrand">
             <div id="brand" class="navbar-brand" onclick='window.location.href="index.php";' title="Return to Logarr">
                 <?php
-                    echo $GLOBALS['preferences']['sitetitle'];
+                echo $GLOBALS['preferences']['sitetitle'];
                 ?>
             </div>
         </div>
@@ -207,9 +207,9 @@ include_once(__DIR__ . "/../auth_check.php");
     <div id='login-container'>
 
         <?php
-            if (isset($this->feedback) && !empty($this->feedback)) {
-                echo "<div class='login-warning'><p>" . $this->feedback . "</p></div>";
-            }
+        if (isset($this->feedback) && !empty($this->feedback)) {
+            echo "<div class='login-warning'><p>" . $this->feedback . "</p></div>";
+        }
         ?>
 
         <form method="post" id="login-form" action="" name="loginform">
@@ -234,19 +234,18 @@ include_once(__DIR__ . "/../auth_check.php");
 
     <!-- Hide Cancel button if Index auth is enabled: -->
     <?php
-        $auth = $GLOBALS['authentication']['logsEnabled'];
+    $auth = $GLOBALS['authentication']['logsEnabled'];
 
-        if ($auth == 'true') {
-            echo '<script>';
-            echo '$("#returnbtn").addClass("hidden");';
-            echo '</script>';
-        }
+    if ($auth == 'true') {
+        echo '<script>';
+        echo '$("#returnbtn").addClass("hidden");';
+        echo '</script>';
+    }
     ?>
 
     <!-- Disable Log In button if username and password fields are empty: -->
     <script>
-
-        if($("#login_input_password").val() == "") {
+        if ($("#login_input_password").val() == "") {
             $("#loginbtn").addClass("disabled");
             $("#loginbtn").addClass("cursornotallowed");
         } else {
@@ -264,7 +263,6 @@ include_once(__DIR__ . "/../auth_check.php");
         $password_input.addEventListener('input', typeHandler) // register for oninput
         $password_input.addEventListener('propertychange', typeHandler) // for IE8
         $password_input.addEventListener('change', typeHandler) // fallback for Firefox
-
     </script>
 
     <?php include(__DIR__ . "/footer.php"); ?>
