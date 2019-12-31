@@ -363,14 +363,14 @@ function checkLoginsettings() {
 
 		if ($setupEnabled == "true") {
 			echo "<script type='text/javascript'>";
-			echo "console.log('WARNING: Loggar Setup Access is ENABLED');";
+			echo "console.log('WARNING: Logarr Setup Access is ENABLED');";
 			echo "</script>";
 			appendLog(
-				$logentry = "WARNING: Loggar Setup Access is ENABLED. This authentication setting should be DISABLED ('false') after initial Setup"
+				$logentry = "WARNING: Logarr Setup Access is ENABLED. This authentication setting should be DISABLED ('false') after initial Setup"
 			);
 		} else {
 			echo "<script type='text/javascript'>";
-			echo "console.log('Loggar Setup Access: DISABLED');";
+			echo "console.log('Logarr Setup Access: DISABLED');";
 			echo "</script>";
 		}
 		if ($settingsEnabled == "false") {
@@ -418,9 +418,9 @@ function settingsValues()
 	}
 
 	if ($GLOBALS['authentication']['setupEnabled'] == "true") {
-		appendLog("WARNING: Loggar Setup Access is ENABLED. This authentication setting should be DISABLED ('false') after initial Setup");
+		appendLog("WARNING: Logarr Setup Access is ENABLED. This authentication setting should be DISABLED ('false') after initial Setup");
 		echo "<script type='text/javascript'>";
-		echo "console.log('WARNING: Loggar Setup Access is ENABLED');";
+		echo "console.log('WARNING: Logarr Setup Access is ENABLED');";
 		echo "</script>";
 	}
 }
