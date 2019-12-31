@@ -1,5 +1,5 @@
 /* LOGARR SYLESHEET */
-/* https://github.com/Monitorr */
+/* https://github.com/Monitorr/logarr */
 
 /* Body */
 
@@ -104,20 +104,21 @@ body::-webkit-scrollbar-thumb {
 /* scroll to top  */
 
 #myBtn {
-    width: 5em;
-    height: 5em;
+    width: 3vw;
+    height: 3vw;
+    min-width: 2rem;
+    min-height: 2rem;
     display: none;
     position: fixed;
     bottom: 2em;
     right: 2em;
     border: none;
     outline: none;
-    box-shadow: 5px 5px 15px rgb(15, 15, 15);
-    background: rgba(37, 37, 37, 0.50) url(../images/up-arrow.png) no-repeat center center;
-    background-size: 4em;
+    box-shadow: .25em .25em .5em rgb(15, 15, 15);
+    background: rgba(37, 37, 37, 0.75) url(../images/up-arrow.png) no-repeat center center;
+    background-size: 80%;
     cursor: pointer;
-    padding: 15px;
-    border-radius: 10px;
+    border-radius: .25em;
     -webkit-transition: .5s;
     -moz-transition: .5s;
     transition: .5s;
@@ -339,7 +340,6 @@ h6,
     margin-right: 1em;
     filter: drop-shadow(.2rem .2rem .2rem black);
     -webkit-filter: drop-shadow(.2rem .2rem .2rem black);
-    /* cursor: default !important; */
 }
 
 #logo-icon-mobile {
@@ -388,33 +388,65 @@ h6,
     margin-right: 1em;
 }
 
-.righttop {
+/* .righttop {
     text-align: right;
     margin-bottom: .5rem
+} */
+
+.righttop {
+    text-align: right;
+    /* margin-bottom: .5rem; */
+    float: right;
+    width: 16rem;
+    margin-top: .75rem;
+    margin-right: .4rem;
+    height: auto;
+    cursor: default;
 }
 
-.rightmiddle {
+/* .rightmiddle {
     position: relative;
     text-align: right;
     margin-top: 3.8rem;
     z-index: 6000;
+} */
+
+
+.rightmiddle {
+    text-align: right;
+    margin-bottom: .5rem;
+    margin-top: 4.4rem;
+    z-index: 6000;
 }
 
-#rightbottom {
-    display: flex;
+
+/* #rightbottom {
     float: right;
+    width: 16rem;
     text-align: right;
     margin-top: .75rem;
+    margin-right: .4rem;
     height: auto;
     cursor: default;
+} */
+
+#rightbottom {
+    position: absolute;
+    /* display: inline-flex; */
+    /* text-align: right; */
+    right: 0;
+    /* margin-bottom: .5rem; */
+    margin-top: 4rem;
+    margin-right: 5rem;
+    z-index: 6000;
 }
+
 
 /* Refresh Switch */
 
 #auto-update {
     vertical-align: middle;
     white-space: nowrap;
-    margin-right: .5rem;
     color: #C8C8C8;
     text-shadow: 1px 1px black;
     border-radius: 6px;
@@ -558,9 +590,10 @@ input:focus+.slider {
 #markform {
     position: fixed;
     right: 0;
-    margin-right: 1.5rem;
+    margin-right: 1rem;
     padding: 1rem;
-    margin-top: -.5rem;
+    /* padding-right: 0; */
+    /* margin-top: -.5rem; */
     background-color: rgba(37, 37, 37, 0.750);
     border-radius: 6px;
     z-index: 5000;
@@ -589,6 +622,12 @@ mark.current {
     border-color: #0062cc !important;
 }
 
+.marksearchInput:hover {
+    font-weight: 600;
+    background-color: green !important;
+    border: .2rem solid darkgreen !important;
+}
+
 .search-button {
     background-color: #8E8B8B;
     border: .15rem solid rgb(90, 90, 90);
@@ -601,7 +640,8 @@ mark.current {
 }
 
 #searchClear:hover {
-    border-color: #0062cc;
+    background-color: orange;
+    border: .15rem solid darkorange;
 }
 
 .npBtn:hover {
@@ -748,7 +788,7 @@ input[type=search]::-webkit-search-cancel-button {
 }
 
 #count {
-    margin-right: 10em;
+    /* margin-right: 10em; */
     padding: .2rem .5rem;
     font-size: .80rem;
     font-weight: 600;
@@ -777,39 +817,10 @@ input[type=search]::-webkit-search-cancel-button {
     cursor: help;
 }
 
-/* // CHANGE ME TODO  Is this used anymore? */
-.highlight {
-    background-color: red !important;
-    color: white !important;
-    -moz-border-radius: .1rem;
-    /* FF1+ */
-    -webkit-border-radius: .1rem;
-    /* Saf3-4 */
-    border-radius: .1rem;
-    /* Opera 10.5, IE 9, Saf5, Chrome */
-    -moz-box-shadow: 0 1px .1rem rgba(0, 0, 0, 0.7);
-    /* FF3.5+ */
-    -webkit-box-shadow: 0 1px .1rem rgba(0, 0, 0, 0.7);
-    /* Saf3.0+, Chrome */
-    box-shadow: 0 1px .1rem rgba(0, 0, 0, 0.7);
-    /* Opera 10.5+, IE 9.0 */
-}
-
 .highlightterms {
     color: red;
     font-size: 1.2em;
     font-weight: 600;
-}
-
-.warn {
-    padding: .1rem;
-    background-color: yellow;
-    color: black;
-    font-style: normal;
-    font-weight: 600;
-    -moz-border-radius: .1rem;
-    -webkit-border-radius: .1rem;
-    border-radius: .1rem;
 }
 
 .info {
@@ -867,7 +878,6 @@ input[type=search]::-webkit-search-cancel-button {
 }
 
 .expand::-webkit-scrollbar-track {
-    /* border-radius: .2rem; */
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
     background-color: #252525;
@@ -909,10 +919,9 @@ input[type=search]::-webkit-search-cancel-button {
     font-weight: 300;
     text-shadow: 0 0 10px #FF0104;
     width: auto;
-    width: -webkit-fill-available;
-    width: -moz-available;
+    width: min-content;
     white-space: nowrap;
-    margin: 0;
+    margin: auto 0 auto 0;
     text-align: center;
     justify-content: center;
     vertical-align: middle;
@@ -921,10 +930,9 @@ input[type=search]::-webkit-search-cancel-button {
 
 .left {
     width: 100%;
-    margin-right: 0;
-    margin-left: 0;
+    margin: auto 0 auto 0;
     text-align: left;
-    vertical-align: bottom;
+    vertical-align: middle;
     padding: 8px;
     font-size: 1em;
     font-weight: 500;
@@ -933,12 +941,18 @@ input[type=search]::-webkit-search-cancel-button {
 
 .right {
     width: 100%;
-    margin-right: 0;
-    margin-left: 0;
+    margin: auto 0 auto 0;
     text-align: right;
     vertical-align: middle;
     padding: 8px;
     color: #8C8C8C;
+}
+
+.logdatatitle {
+    display: inline-flex;
+    color: #C8C8C8;
+    margin: 0;
+    cursor: default;
 }
 
 .filesize {
@@ -947,9 +961,11 @@ input[type=search]::-webkit-search-cancel-button {
 }
 
 .path {
+    float: right;
     font-size: calc(1em - 25%);
     color: #8C8C8C;
     word-break: break-word;
+    word-break: break-all;
 }
 
 .slide {
@@ -1535,6 +1551,10 @@ ul.nav.sidebar-nav>li>a>i {
     cursor: default;
 }
 
+#draggable {
+    width: 3rem;
+}
+
 #checkurl {
     float: right;
     margin-top: -12rem;
@@ -1798,6 +1818,7 @@ ul.nav.sidebar-nav>li>a>i {
 #extensiontitle {
     color: white;
     font-size: 2rem;
+    line-height: 1;
     text-shadow: 0.1rem 0.1rem black;
     font-weight: 600;
     text-align: center;
@@ -1988,6 +2009,14 @@ ul.nav.sidebar-nav>li>a>i {
     color: red !important;
 }
 
+.maxlineslabel {
+    margin-top: .5rem;
+}
+
+.categorylabel {
+    margin-top: .5rem;
+}
+
 .radio {
     width: 10rem;
 }
@@ -2144,6 +2173,11 @@ div[data-alpaca-container-item-name="maxLines"],
 div[data-alpaca-container-item-name="autoRollSize"],
 div[data-alpaca-container-item-name="category"] {
     flex-basis: 33rem;
+}
+
+/* TODO / Hide option until BUG is resolved */
+div[data-alpaca-container-item-name="autoRollSize"] {
+    display: none !important;
 }
 
 #logssettings>#alpaca3>.alpaca-field-array>.alpaca-container>.alpaca-container-item>div>.alpaca-field>.alpaca-container {
@@ -2586,6 +2620,7 @@ h2.heading {
     #logo-icon-mobile {
         display: unset !important;
         visibility: visible !important;
+        margin: auto;
     }
 
     .Column {
@@ -2659,7 +2694,6 @@ h2.heading {
         cursor: default;
     }
 
-
     #logincolumn {
         display: none;
     }
@@ -2679,8 +2713,18 @@ h2.heading {
 
     #right {
         width: 100%;
-        margin-top: 2rem;
+        margin-top: 1rem;
         text-align: center;
+    }
+
+    .righttop {
+        /* text-align: right; */
+        /* margin-bottom: .5rem; */
+        float: none;
+        width: 16rem;
+        /* margin-top: 0; */
+        /* margin-right: .4rem; */
+        margin: auto;
     }
 
     .rightmiddle {
@@ -2689,8 +2733,10 @@ h2.heading {
     }
 
     #rightbottom {
-        display: inline-block;
+        display: block;
+        display: contents;
         float: none;
+        margin-right: 0;
     }
 
     .logheader {
@@ -2698,6 +2744,8 @@ h2.heading {
         font-size: 1.5em;
         margin: auto;
         white-space: normal;
+        width: auto;
+        /* width: -webkit-fill-available; */
     }
 
     #logmissingtxt {
@@ -2879,12 +2927,14 @@ object {
 }
 
 #versionHistory {
+    position: relative;
     margin: 1rem;
     padding-left: 1rem;
-    background-color: inherit;
+    background-color: #3d3d3d !important;
     font-size: 1rem;
     color: white;
     text-align: left;
+    z-index: 100;
 }
 
 #release {
@@ -2900,16 +2950,18 @@ object {
 
 .releaseHeader {
     text-align: center;
-    margin-bottom: 0;
+    line-height: 1;
+    /* margin-bottom: 0; */
 }
 
 .releaseHeader a {
-    vertical-align: middle;
-    font-size: 2rem;
-    font-weight: 700;
-    text-shadow: 0.1rem 0.1rem black;
-    cursor: default;
     color: white;
+    font-size: 2rem;
+    text-shadow: 0.1rem 0.1rem black;
+    font-weight: 600;
+    text-align: center;
+    margin: auto;
+    margin-bottom: .5rem;
 }
 
 .releaseName {
@@ -2929,6 +2981,14 @@ object {
 
 .releaseBody {
     padding-left: 1rem;
+}
+
+.releaseFooter {
+    z-index: 1 !important;
+}
+
+.releaseFooter a {
+    color: #C8C8C8;
 }
 
 .releaseBody>h1,
@@ -3412,8 +3472,4 @@ ul.stepper li.success a .circle {
     99% {
         transform: rotate(360deg);
     }
-}
-
-#draggable {
-    width: 3rem;
 }

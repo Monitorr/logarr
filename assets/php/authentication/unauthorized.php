@@ -17,19 +17,14 @@
 
     <link rel="manifest" href="webmanifest.json">
 
-    <link rel="icon" type="image/png" href="../../../favicon.png">
+    <link rel="icon" type="image/png" href="favicon.png">
 
-    <meta name="Logarr" content="Logarr: Self-hosted, single-page, log consolidation tool." />
-    <meta name="application-name" content="Logarr" />
-    <meta name="theme-color" content="#464646" />
-    <meta name="theme_color" content="#464646" />
+    <meta name="Logarr" content="Logarr: Self-hosted, single-page, log consolidation tool.">
+    <meta name="application-name" content="Logarr">
+    <meta name="theme-color" content="#464646">
+    <meta name="theme_color" content="#464646">
 
     <meta name="robots" content="NOINDEX, NOFOLLOW">
-
-    <!-- <link rel="stylesheet" href="assets/css/bootstrap.min.css"> -->
-    <!-- <link rel="stylesheet" href="assets/css/font-awesome.min.css"> -->
-    <!-- <link rel="stylesheet" href="assets/css/logarr.css"> -->
-    <!-- <link rel="stylesheet" href="assets/data/custom.css"> -->
 
     <title>Logarr | Unauthorized</title>
 
@@ -57,7 +52,6 @@
             <img src="assets/images/logarr_white_text_crop.png" alt="Logarr" title="Logarr">
         </a>
     </div>
-
 
     <div id="registration-container" class="flex-child unauth-container">
         <div id="regerror">

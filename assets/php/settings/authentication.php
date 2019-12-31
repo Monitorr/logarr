@@ -21,14 +21,15 @@ include(__DIR__ . '/../auth_check.php');
     <link rel="stylesheet" href="../../css/logarr.css">
     <link rel="stylesheet" href="../../data/custom.css">
 
-    <meta name="theme-color" content="#464646" />
-    <meta name="theme_color" content="#464646" />
+    <meta name="theme-color" content="#464646">
+    <meta name="theme_color" content="#464646">
 
-    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <!-- <script type="text/javascript" src="../../js/jquery.min.js"></script> -->
+    <script src="../../js/jquery-3.3.1.min.js"></script>
     <script src="../../js/vendor/sweetalert2.min.js"></script>
-    <script type="text/javascript" src="../../js/handlebars.js"></script>
-    <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../../js/alpaca.min.js"></script>
+    <script src="../../js/handlebars.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/alpaca.min.js"></script>
     <script src="../../js/vendor/jquery-ui.min.js"></script>
 
     <title>
@@ -42,7 +43,7 @@ include(__DIR__ . '/../auth_check.php');
     <style>
         .swal2-popup.swal2-toast {
             cursor: default !important;
-        } 
+        }
     </style>
 
     <script>
@@ -98,9 +99,9 @@ include(__DIR__ . '/../auth_check.php');
     <script>
         $(function() {
             $(document).tooltip({
-                hide: { 
-                    effect: "fadeOut", 
-                    duration: 200 
+                hide: {
+                    effect: "fadeOut",
+                    duration: 200
                 }
             });
         });
@@ -234,7 +235,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "ready": function() {
                                         this.refreshValidationState(true);
                                         if (!this.isValid(true)) {
-                                            console.log('%cERROR: Invalid value for Enable Setup access!','color: #FF0000;');
+                                            console.log('%cERROR: Invalid value for Enable Setup access!', 'color: #FF0000;');
                                             $('.setupenabledlabel').addClass('settingslabelerror');
                                             validerror();
                                         }
@@ -271,7 +272,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "ready": function() {
                                         this.refreshValidationState(true);
                                         if (!this.isValid(true)) {
-                                            console.log('%cERROR: Invalid value for Settings Authentication!','color: #FF0000;');
+                                            console.log('%cERROR: Invalid value for Settings Authentication!', 'color: #FF0000;');
                                             $('.settingsenabledlabel').addClass('settingslabelerror');
                                             validerror();
                                         }
@@ -309,7 +310,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "ready": function() {
                                         this.refreshValidationState(true);
                                         if (!this.isValid(true)) {
-                                            console.log('%cERROR: Invalid value for Logarr Authentication!','color: #FF0000;');
+                                            console.log('%cERROR: Invalid value for Logarr Authentication!', 'color: #FF0000;');
                                             $('.logsenabledlabel').addClass('settingslabelerror');
                                             validerror();
                                         }
@@ -360,4 +361,4 @@ include(__DIR__ . '/../auth_check.php');
 
 </body>
 
-</html> 
+</html>

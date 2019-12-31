@@ -9,9 +9,9 @@ $result = "
         <div id=\"" . $log['logTitle'] . "-row\" class=\"row2\">
 
             <div id=\"filedate\" class=\"left\">
-            	Category: " . $category . "
+            	<p class='logdatatitle'>Category:</p> " . $category . "
                 <br>
-                Modified: " . date(" H:i | D, d M", filemtime($parsedPath)) . "
+                <p class='logdatatitle'>Modified:</p> " . date(" H:i | D, d M", filemtime($parsedPath)) . "
             </div>
 
             <div class=\"logheader\">
@@ -20,7 +20,7 @@ $result = "
 
             <div id=\"filepath\" class=\"right\">
                 <div class=\"filesize\">
-                    Log file size: " . human_filesize(filesize($parsedPath)) . "
+                    <p class='logdatatitle'>Log size:</p> " . human_filesize(filesize($parsedPath)) . "
                 </div>
                 <div class=\"path\" data-service=\"" . $log['logTitle'] . "\">
                     " . $parsedPath . "
@@ -43,7 +43,7 @@ $result = "
         <div id=\"" . $log['logTitle'] . "-buttons\" class=\"log-buttons\">
            <button type=\"button\" id=\"" . $log['logTitle'] . "-unlinkBtn\" class=\"log-action-button slidebutton btn btn-primary\"
 	               data-action=\"unlink-log\" data-service=\"" . $log['logTitle'] . "\"
-	               title=\"Attempt log file roll. NOTE: This function will copy the current log file to '[logfilename].bak', delete the original log file, and create a new blank log file with the orginal log filename. This function may not succeed if log file is in use.\">
+	               title=\"Attempt log file roll. NOTE: This function will copy the current log file to '[logfilename].bak', delete the original log file, and create a new blank log file with the original log filename. This function may not succeed if log file is in use.\">
 	           Roll Log
            </button>
 	       <button type=\"button\" id=\"" . $log['logTitle'] . "-downloadBtn\" class=\"log-action-button download-button slidebutton btn btn-primary indexBtn logBtn\"
@@ -70,3 +70,19 @@ if (!readExternalLog($log)) {
         $logentry = "ERROR: Log not found: " . $log['logTitle']
     );
 }
+
+
+// //TODO / in development
+// if (human_filesize(filesize($parsedPath)) > 60) {
+//     echo "<script>console.log('%cWARNING: Log file size is large','color: #FF0000;');</script>";
+//     appendLog(
+//         $logentry = "WARNING: Log file size is large: " . $log['logTitle'] . ": " . human_filesize(filesize($parsedPath))
+//     );
+// } else {
+//     echo "<script>console.log('%cWARNING: Log file size is NORMAL','color: #FF0000;');</script>";
+
+//     appendLog(
+//         // $logentry = "WARNING: Log file size is NORMAL: " . filesize($log);
+//         $logentry = "WARNING: Log file size is NORMAL: " . human_filesize(filesize($parsedPath))
+//     );
+// }

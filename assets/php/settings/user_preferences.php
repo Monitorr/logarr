@@ -2,6 +2,7 @@
 include('../functions.php');
 include(__DIR__ . '/../auth_check.php');
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,16 +22,17 @@ include(__DIR__ . '/../auth_check.php');
     <link rel="stylesheet" href="../../css/logarr.css">
     <link rel="stylesheet" href="../../data/custom.css">
 
-    <meta name="theme-color" content="#464646" />
-    <meta name="theme_color" content="#464646" />
+    <meta name="theme-color" content="#464646">
+    <meta name="theme_color" content="#464646">
 
-    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <!-- <script type="text/javascript" src="../../js/jquery.min.js"></script> -->
+    <script src="../../js/jquery-3.3.1.min.js"></script>
     <script src="../../js/vendor/sweetalert2.min.js"></script>
-    <script type="text/javascript" src="../../js/handlebars.js"></script>
-    <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../../js/alpaca.min.js"></script>
-    <script type="text/javascript" src="../../js/vendor/ace.js"></script>
-    <script type="text/javascript" src="../../js/vendor/jquery-ui.min.js"></script>
+    <script src="../../js/handlebars.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/alpaca.min.js"></script>
+    <script src="../../js/vendor/ace.js"></script>
+    <script src="../../js/vendor/jquery-ui.min.js"></script>
 
     <title>
         <?php
@@ -95,6 +97,15 @@ include(__DIR__ . '/../auth_check.php');
                 background: 'rgba(207, 0, 0, 0.75)'
             })
         };
+
+
+        function clearsettings() {
+            Toast.fire({
+                type: 'warning',
+                title: 'Cleared Setting Values!',
+                background: 'rgba(207, 0, 0, 0.75)'
+            })
+        };
     </script>
 
     <!-- Tooltips: -->
@@ -106,6 +117,16 @@ include(__DIR__ . '/../auth_check.php');
                     duration: 200
                 }
             });
+        });
+    </script>
+
+    <script>
+        $(document).on('click', "button[data-key='reset']", function(event) {
+            document.getElementById("submitbtn").disabled = true;
+            console.log("Cleared setting values");
+            $('.sitetitlelabel').addClass('settingslabelerror');
+            $('.siteurllabel').addClass('settingslabelchanged');
+            clearsettings();
         });
     </script>
 
@@ -267,6 +288,16 @@ include(__DIR__ . '/../auth_check.php');
                                             settingchange();
                                         }
                                     },
+                                    "keyup": function(e) {
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            $('.sitetitlelabel').addClass('settingslabelerror');
+                                        } else {
+                                            $('.sitetitlelabel').addClass('settingslabelchanged');
+                                            $('.sitetitlelabel').removeClass('settingslabelerror');
+                                            settingchange();
+                                        }
+                                    },
                                     "blur": function() {
                                         this.refreshValidationState(true);
                                         if (!this.isValid(true)) {
@@ -306,7 +337,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "name": "siteurl",
                                 "placeholder": "http://localhost/logarr",
                                 "typeahead": {},
-                                "allowOptionalEmpty": false,
+                                "allowOptionalEmpty": true,
                                 "data": {},
                                 "autocomplete": "false",
                                 "disallowEmptySpaces": true,
@@ -616,6 +647,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "type": "button",
                                     "label": "Submit",
                                     "name": "submit",
+                                    "id": "submitbtn",
                                     "value": "submit",
                                     click: function() {
                                         let preferenceSettings = $('#preferencesettings');
@@ -658,7 +690,8 @@ include(__DIR__ . '/../auth_check.php');
                                     }
                                 },
                                 "reset": {
-                                    "label": "Clear Values"
+                                    "label": "Clear Values",
+                                    "id": "clearbtn",
                                 }
                             },
                         }

@@ -22,15 +22,16 @@ include(__DIR__ . '/../auth_check.php');
     <link rel="stylesheet" href="../../css/logarr.css">
     <link rel="stylesheet" href="../../data/custom.css">
 
-    <meta name="theme-color" content="#464646" />
-    <meta name="theme_color" content="#464646" />
+    <meta name="theme-color" content="#464646">
+    <meta name="theme_color" content="#464646">
 
-    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <!-- <script type="text/javascript" src="../../js/jquery.min.js"></script> -->
+    <script src="../../js/jquery-3.3.1.min.js"></script>
     <script src="../../js/vendor/sweetalert2.min.js"></script>
-    <script type="text/javascript" src="../../js/handlebars.js"></script>
-    <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../../js/alpaca.min.js"></script>
-    <script type="text/javascript" src="../../js/vendor/jquery-ui.min.js"></script>
+    <script src="../../js/handlebars.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/alpaca.min.js"></script>
+    <script src="../../js/vendor/jquery-ui.min.js"></script>
 
     <title>
         <?php
@@ -99,6 +100,15 @@ include(__DIR__ . '/../auth_check.php');
                 background: 'rgba(207, 0, 0, 0.75)'
             })
         };
+
+        function clearsettings() {
+            Toast.fire({
+                type: 'warning',
+                title: 'Cleared Setting Values!',
+                background: 'rgba(207, 0, 0, 0.75)'
+            })
+        };
+
     </script>
 
     <!-- Tooltips: -->
@@ -110,6 +120,20 @@ include(__DIR__ . '/../auth_check.php');
                     duration: 200
                 }
             });
+        });
+    </script>
+
+    <!-- if clear button is fired, prevent form sumbit if required setting values are not valid -->
+    <script>
+        $(document).on('click', "button[data-key='reset']", function(event) {
+            document.getElementById("submitbtn").disabled = true;
+            console.log("Cleared setting values");
+            $('.rfconfiglabel').addClass('settingslabelerror');
+            $('.maxlineslabel').addClass('settingslabelerror');
+            $('.rflog_inputlabel').addClass('settingslabelerror');
+            $('.rftime_inputlabel').addClass('settingslabelerror');
+            $('.customhighlighterms_inputlabel').addClass('settingslabelchanged');
+            clearsettings();
         });
     </script>
 
@@ -305,6 +329,16 @@ include(__DIR__ . '/../auth_check.php');
                                             settingchange();
                                         }
                                     },
+                                    "keyup": function(e) {
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            $('.rfconfiglabel').addClass('settingslabelerror');
+                                        } else {
+                                            $('.rfconfiglabel').addClass('settingslabelchanged');
+                                            $('.rfconfiglabel').removeClass('settingslabelerror');
+                                            settingchange();
+                                        }
+                                    },
                                     "blur": function() {
                                         this.refreshValidationState(true);
                                         if (!this.isValid(true)) {
@@ -365,6 +399,16 @@ include(__DIR__ . '/../auth_check.php');
                                         } else {
                                             Toast.close();
                                             $('.alpaca-form-button-submit').addClass('buttonchange');
+                                            $('.maxlineslabel').addClass('settingslabelchanged');
+                                            $('.maxlineslabel').removeClass('settingslabelerror');
+                                            settingchange();
+                                        }
+                                    },
+                                    "keyup": function(e) {
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            $('.maxlineslabel').addClass('settingslabelerror');
+                                        } else {
                                             $('.maxlineslabel').addClass('settingslabelchanged');
                                             $('.maxlineslabel').removeClass('settingslabelerror');
                                             settingchange();
@@ -435,6 +479,16 @@ include(__DIR__ . '/../auth_check.php');
                                             settingchange();
                                         }
                                     },
+                                    "keyup": function(e) {
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            $('.rflog_inputlabel').addClass('settingslabelerror');
+                                        } else {
+                                            $('.rflog_inputlabel').addClass('settingslabelchanged');
+                                            $('.rflog_inputlabel').removeClass('settingslabelerror');
+                                            settingchange();
+                                        }
+                                    },
                                     "blur": function() {
                                         this.refreshValidationState(true);
                                         if (!this.isValid(true)) {
@@ -500,6 +554,16 @@ include(__DIR__ . '/../auth_check.php');
                                             settingchange();
                                         }
                                     },
+                                    "keyup": function(e) {
+                                        this.refreshValidationState(true);
+                                        if (!this.isValid(true)) {
+                                            $('.rftime_inputlabel').addClass('settingslabelerror');
+                                        } else {
+                                            $('.rftime_inputlabel').addClass('settingslabelchanged');
+                                            $('.rftime_inputlabel').removeClass('settingslabelerror');
+                                            settingchange();
+                                        }
+                                    },
                                     "blur": function() {
                                         this.refreshValidationState(true);
                                         if (!this.isValid(true)) {
@@ -540,7 +604,7 @@ include(__DIR__ . '/../auth_check.php');
                                 "placeholder": "E.g. error,warn",
                                 "typeahead": {},
                                 "size": "10",
-                                "allowOptionalEmpty": false,
+                                "allowOptionalEmpty": true,
                                 "data": {},
                                 "autocomplete": false,
                                 "disallowEmptySpaces": false,
@@ -554,7 +618,10 @@ include(__DIR__ . '/../auth_check.php');
                                         $('.alpaca-form-button-submit').addClass('buttonchange');
                                         $('.customhighlighterms_inputlabel').addClass('settingslabelchanged');
                                         settingchange();
-                                    }
+                                    },
+                                    "keyup": function(e) {
+                                        $('.customhighlighterms_inputlabel').addClass('settingslabelchanged');
+                                    },
                                 }
                             },
                             "autoHighlight": {
@@ -637,8 +704,8 @@ include(__DIR__ . '/../auth_check.php');
                                 "showMessages": true,
                                 "disabled": false,
                                 "hidden": false,
-                                "label": "Automatically Refresh Logs:",
-                                "helpers": ["Automatically Refresh Logs."],
+                                "label": "Auto Refresh Logs:",
+                                "helpers": ["Auto Refresh Logs."],
                                 "hideInitValidationError": false,
                                 "focus": false,
                                 "optionLabels": [" True", " False"],
@@ -716,6 +783,7 @@ include(__DIR__ . '/../auth_check.php');
                                     "type": "button",
                                     "label": "Submit",
                                     "name": "submit",
+                                    "id": "submitbtn",
                                     "value": "submit",
                                     click: function() {
                                         let siteSettings = $('#sitesettings');
@@ -745,8 +813,8 @@ include(__DIR__ . '/../auth_check.php');
                                     }
                                 },
                                 "reset": {
-                                    //TODO:  Add validation after click
                                     "label": "Clear Values",
+                                    "id": "clearbtn",
                                 }
                             },
                         }

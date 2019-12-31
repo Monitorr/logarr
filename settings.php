@@ -43,8 +43,8 @@ https://github.com/Monitorr/Logarr
     <link rel="stylesheet" href="assets/css/logarr.css">
     <link rel="stylesheet" href="assets/data/custom.css">
 
-    <meta name="theme-color" content="#464646" />
-    <meta name="theme_color" content="#464646" />
+    <meta name="theme-color" content="#464646">
+    <meta name="theme_color" content="#464646">
 
     <title>
         <?php
@@ -178,7 +178,7 @@ https://github.com/Monitorr/Logarr
                 hide: { 
                     effect: "fadeOut", 
                     duration: 200 
-                }
+                },
             });
         });
     </script>
@@ -267,7 +267,7 @@ https://github.com/Monitorr/Logarr
 
             <script src="assets/js/update.js" async></script>
 
-            <p><a class="footer a" href="https://github.com/monitorr/Logarr" target="_blank" title="Logarr Repo">
+            <p><a class="footer a" href="https://github.com/monitorr/Logarr" target="_blank" title="Logarr GitHub Repo">
                     Logarr | </a> <a class="footer a" href="https://github.com/Monitorr/logarr/releases" target="_blank" title="Logarr Releases">
                     <?php echo file_get_contents("assets/js/version/version.txt"); ?> 
                 </a>

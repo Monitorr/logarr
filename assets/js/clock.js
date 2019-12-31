@@ -85,8 +85,8 @@ function drawScene() { // main drawScene function
     ctx.beginPath();
     ctx.moveTo(-10, -1);
     ctx.lineTo(-10, 1);
-    ctx.lineTo(clockRadius * .9, 1);
-    ctx.lineTo(clockRadius * .9, -1);
+    ctx.lineTo(clockRadius * '.9', 1);
+    ctx.lineTo(clockRadius * '.9', -1);
     ctx.fillStyle = 'red';
     ctx.fill();
     ctx.restore();

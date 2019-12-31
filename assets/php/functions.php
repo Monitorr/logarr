@@ -122,7 +122,7 @@ function appendLog($logentry) {
 		phpLog($phpLogMessage = "Logarr ERROR: Failed to open Logarr log file ");
 		echo "<script>console.log('%cERROR: Failed to open Logarr log file: ($logfile).', 'color: red;');</script>";
 	}
-
+	
 	if (fwrite($handle, $date . " | " . $logentry . "\r\n") === false) {
 		phpLog($phpLogMessage = "Logarr ERROR: Failed to write to Logarr log file");
 		echo "<script>console.log('%cERROR: Cannot write to Logarr log file: ($logfile).', 'color: red;');</script>";
@@ -341,7 +341,8 @@ function checkLoginsettings() {
 	echo "console.log('Logarr is checking authentication settings');";
 	echo "</script>";
 
-	$settingsEnabled = $GLOBALS['authentication']['settingsEnabled']; 
+	$settingsEnabled = $GLOBALS['authentication']['settingsEnabled'];
+	$setupEnabled = $GLOBALS['authentication']['setupEnabled']; 
 
 	if (!$settingsEnabled) {
 
@@ -359,6 +360,19 @@ function checkLoginsettings() {
 		echo "</script>";
 
 	} else {
+
+		if ($setupEnabled == "true") {
+			echo "<script type='text/javascript'>";
+			echo "console.log('WARNING: Loggar Setup Access is ENABLED');";
+			echo "</script>";
+			appendLog(
+				$logentry = "WARNING: Loggar Setup Access is ENABLED. This authentication setting should be DISABLED ('false') after initial Setup"
+			);
+		} else {
+			echo "<script type='text/javascript'>";
+			echo "console.log('Loggar Setup Access: DISABLED');";
+			echo "</script>";
+		}
 		if ($settingsEnabled == "false") {
 			echo "<script type='text/javascript'>";
 			echo "console.log('Logarr settings auth: DISABLED');";
@@ -366,7 +380,6 @@ function checkLoginsettings() {
 			appendLog(
 				$logentry = "Logarr settings auth: DISABLED"
 			);
-
 		} else if ($settingsEnabled == "true") {
 			echo "<script type='text/javascript'>";
 			echo "console.log('Logarr settings auth: ENABLED');";
@@ -402,6 +415,13 @@ function settingsValues()
 		appendLog( "Log auto update: Enabled | Interval: " . $GLOBALS['settings']['rflog'] . " ms");
 	} else {
 		appendLog( "Log auto update: DISABLED");
+	}
+
+	if ($GLOBALS['authentication']['setupEnabled'] == "true") {
+		appendLog("WARNING: Loggar Setup Access is ENABLED. This authentication setting should be DISABLED ('false') after initial Setup");
+		echo "<script type='text/javascript'>";
+		echo "console.log('WARNING: Loggar Setup Access is ENABLED');";
+		echo "</script>";
 	}
 }
 
@@ -464,7 +484,7 @@ function unlinkLog($file, $print)
 	if ($print) echo('Server received unlink file: ' . $file . '<br>');
 	if ($print) echo('Server attempting to unlink: ' . $file . '<br>');
 
-	$today = date("D d M Y | H:i:s");
+	$today = date("D d M Y H:i T ");
 	if ($print) echo "<br><br>";
 
 	if (in_array_recursive($file, $GLOBALS['logs'])) {   // check if log file exists:

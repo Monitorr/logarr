@@ -2,8 +2,8 @@
 <html lang="en">
 
 <!--
-			LOGARR Changelog
-		https://github.com/Monitorr
+            LOGARR Changelog
+    https://github.com/Monitorr/logarr
 -->
 
 <!-- changelog.html -->
@@ -13,20 +13,30 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
+        <link rel="manifest" href="webmanifest.json">
+
+        <meta name="description" content="Logarr">
+        <!-- <meta name="robots" content="NOINDEX, NOFOLLOW"> -->
+
         <link rel="icon" type="image/png" href="favicon.png">
         <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 
         <link rel="stylesheet" href="assets/css/bootstrap.min.css">
         <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+        <link rel="stylesheet" href="assets/css/vendor/jquery-ui.min.css">
         <link rel="stylesheet" href="assets/css/logarr.css">
         <link rel="stylesheet" href="assets/data/custom.css">
 
-        <meta name="theme-color" content="#464646"/>
-        <meta name="theme_color" content="#464646"/>
+        <meta name="theme-color" content="#464646">
+        <meta name="theme_color" content="#464646">
 
         <title> Logarr | Releases </title>
 
         <style>
+            body {
+                margin-top: 0;
+            }
+
             .fa-plus {
                 color: lightgreen;
             }
@@ -42,64 +52,27 @@
 
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/vendor/sweetalert2.min.js"></script>
+        <script src="assets/js/vendor/jquery-ui.min.js"></script>
         <script src="assets/js/logarr.main.js" async></script>
-        
-        <script>
-            function checkGithub() {
-                console.log("Retrieving Logarr release info from GitHub.");
-                $.ajax({
-                    type: "GET",
-                    url: "https://api.github.com/repos/monitorr/logarr/releases",
-                    dataType: "json",
-                    success: function (github) {
-                        let infoTabVersionHistory = $('#about').find('#versionHistory');
-                        $.each(github, function (i, v) {
-                            if (i === 0) {
-                                //console.log(v.tag_name);
-                                githubVersion = v.tag_name;
-                                githubDescription = v.body;
-                                githubName = v.name;
-                            }
-
-                            var body = parseGithubToHTML(v.body);
-
-                            infoTabVersionHistory.append(
-                                '<li style="display: none">' +
-                                '<div class="github-item">' +
-                                '<h2 class="releaseName text-uppercase">' + v.name + '</h2>' +
-                                '<time class="github-item-time" datetime="' + v.published_at + '">' +
-                                '<span class="releasetime">Released on: ' + v.published_at.substring(0, 10) + ' at ' + v.published_at.substring(11, 19) + '</span>' +
-                                '</time>' +
-                                '<div class="releaseBody">' + body + '</div>' +
-                                '</div>' +
-                                '<hr class="releasehr"\>' +
-                                '</li>'
-                            );
-                            let size_li = $("#versionHistory > li");
-                            let x = 4; //show this many releases
-                            $('#versionHistory > li:lt(' + x + ')').show();
-                        });
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        console.log("ERROR: An error occurred while retrieving releases from GitHub!");
-                        ghajaxerror();
-                    }
-                });
-            }
-        </script>
 
     </head>
 
     <body id="release" onload="checkGithub()">
 
+        <script>
+            document.body.className += ' fade-out';
+            $(function () {
+                $('body').removeClass('fade-out');
+            });
+        </script>
+
         <div id="releaseWrapper">
 
-            <h4 class="releaseHeader">
-                <a class="releaselink" href="https://github.com/Monitorr/Logarr/releases" target="_blank"
-                title="Logarr Releases">
-                    Logarr Release Log:
+            <div class="releaseHeader">
+                <a class="releaselink" href="https://github.com/Monitorr/Logarr/releases" target="_blank" title="Logarr Releases">
+                    Logarr Releases:
                 </a>
-            </h4>
+            </div>
 
             <div id="about">
                 <ul id="versionHistory"></ul>
@@ -107,7 +80,7 @@
 
         </div>
 
-        <div id="footer">
+        <div id="footer" class="releaseFooter">
             <div id="logarrid">
                 <a href="https://github.com/monitorr/logarr" title="Logarr GitHub repo" target="_blank" class="footer">Logarr
                 </a> |
@@ -115,6 +88,23 @@
                 <br>
             </div>
         </div>
+
+        <script>
+            $(function() {
+                $(document).tooltip({
+                    hide: {
+                        effect: "fadeOut",
+                        duration: 200
+                    },
+                });
+            });
+        </script>
+
+        <script>
+            $(window).blur(function() {
+                $('a').blur();
+            });
+        </script>
 
     </body>
 

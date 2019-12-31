@@ -25,14 +25,13 @@ function phpLog($phpLogMessage) {
  * @return string
  */
 
- //TODO: Add error logging
 function appendLog($logentry) {
+	global $phpLogMessage;
 	$logfile = 'logarr.log';
 	$logdir = 'assets/data/logs/';
 	$logpath = $logdir . $logfile;
 	$date = date("D d M Y H:i T ");
 
-	//if (file_exists($logpath)) {
 	if (file_exists($logdir)) {
 		ini_set('error_reporting', E_ERROR);
 		$oldContents = file_get_contents($logpath);
@@ -60,6 +59,7 @@ function appendLog($logentry) {
  * Checks if the current instance is running on Docker
  * @return bool
  */
+
 function isDocker() {
 	if (is_file(__DIR__ . "/../../../Dockerfile")) {
 		return true;
@@ -74,13 +74,12 @@ function isDocker() {
  * @return bool
  */
 function createDatadir($datadir) {
-
 	$datadir = trim($datadir, " \t\n\r");
 	$datadir = rtrim($datadir, "\\/" . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 	$datadir_file = __DIR__ . '/../../data/datadir.json';
 	$datadir_file_fail = __DIR__ . '/../../data/datadir.fail.txt';
 
-	appendLog("Logarr is creating data directory: " . json_encode($_POST));
+	appendLog("Logarr is creating a data directory and user database: " . json_encode($_POST));
 
 	if (!mkdir($datadir, 0777, FALSE)) {
 		file_put_contents($datadir_file_fail, json_encode($_POST));
@@ -90,6 +89,7 @@ function createDatadir($datadir) {
 	} else {
 		file_put_contents($datadir_file, json_encode(array("datadir" => $datadir)));
 		unlink($datadir_file_fail);
+		phpLog($phpLogMessage = "Logarr created data directory: " . $datadir);
 		appendLog("Logarr created data directory: " . $datadir);
 		return true;
 	}
@@ -100,20 +100,38 @@ function createDatadir($datadir) {
  * @param $datadir
  * @return bool
  */
+
+	//TODO:  make two seperate functions for copying config file, and converting old config file
+
 function copyDefaultConfig($datadir) {
 
 	$default_config_file = __DIR__ . "/../../php/functions/default.json";
 	$new_config_file = $datadir . 'config.json';
 	$old_config_file = __DIR__ . "/../../config/config.php";
+	$old_config_file_renamed = __DIR__ . "/../../config/config.old.php";
 	$old_config_file_note = __DIR__ . "/../../config/remove_this_dir.txt";
+
+	appendLog("Logarr is copying the default config file to the new data directory: " . $new_config_file);
+
 	if (is_file($old_config_file) && !is_file($new_config_file)) {
-		appendLog( "Logarr legacy config file detetected - attempting to convert");
+		appendLog( "Logarr legacy config file detected - attempting to convert");
 		include_once($old_config_file);
+
+		//Copy default files if conversion fails:
 
 		if((!isset($config) || empty($config)) || !isset($logs)){
 			phpLog($phpLogMessage = "Logarr ERROR: Legacy config file detected, failed to convert");
-			appendLog("ERROR: Logarr legacy config file detected, failed to convert");
-			return false;
+			appendLog("ERROR: Logarr legacy config file detected and failed to convert. The default config file will be created.");
+
+			$copyDefaults = copy($default_config_file, $new_config_file);
+			
+			appendLog("Logarr created new default config file (Legacy config file conversion failed): " . $new_config_file);
+			appendLog("Logarr Setup is complete!");
+
+			//TODO:  Add config file and dir fail note
+			//TODO:  Add datadir and data dir warning (From Monitorr functions)
+
+			return true;
 		}
 
 		$new_config = json_decode(file_get_contents($default_config_file), 1);
@@ -155,19 +173,21 @@ function copyDefaultConfig($datadir) {
 		$copyDefaults = true;
 		appendLog("Logarr converted legacy config file to new config file: " . $new_config_file);
 
-		if (unlink($old_config_file)) {
-			appendLog( "Logarr legacy config file has been converted and removed. The '/assets/config' directory can be safely removed. ");
-			file_put_contents($old_config_file_note, "Logarr legacy config file was converted to new format, you can safely remove this file and 'config' directory");
+		//if (unlink($old_config_file)) {
+		if (rename($old_config_file, $old_config_file_renamed)) {
+			appendLog( "Logarr legacy config file has been converted and renamed to config.old.php. The '/assets/config' directory and all contents can be safely removed. ");
+			file_put_contents($old_config_file_note, "Logarr legacy config file was converted to new format and renamed to config.old.php, this file and the 'config' directory can be safely removed.");
 		} else {
-			phpLog($phpLogMessage = "Logarr ERROR: Legacy config file could not be removed");
-			appendLog("ERROR: Logarr legacy config file could not be removed");
-			file_put_contents($old_config_file_note, "Logarr legacy config file was converted to new format, you can safely remove this file and 'config' directory");
-			file_put_contents($old_config_file, "Logarr legacy config was converted to new format, you can safely remove this file and 'config' directory");
+			appendLog("WARNING: Logarr legacy config file was converted to new format, however, could not be renamed. The 'assets/config' directory and all contents can be safely removed");
+			file_put_contents($old_config_file_note, "Logarr legacy config file was converted to new format, however, could not be renamed.  This file and the 'config' directory can be safely removed.");
 		}
+
+		appendLog("Logarr Setup is complete!");
 
 	} else {
 		$copyDefaults = copy($default_config_file, $new_config_file);
 		appendLog( "Logarr created new default config file: " . $new_config_file);
+		appendLog("Logarr Setup is complete!");
 	}
 
 	return $copyDefaults;

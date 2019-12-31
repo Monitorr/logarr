@@ -159,10 +159,10 @@ include(__DIR__ . '/../auth_check.php');
                             echo " | <a class='extfail' href='https://github.com/Monitorr/logarr/wiki/01-Initial-installation' target='_blank' title='PHP Datadir write permissions FAIL'>";
                             echo "Data";
                             echo "</a>";
-                            echo "<script>console.log( 'ERROR: Logarr PHP Datadir write permissions FAIL' );</script>";
+                            echo "<script>console.log( 'ERROR: Logarr PHP Data dir write permissions FAIL' );</script>";
                             echo "<script>exterror();</script>";
                             appendLog(
-                                $logentry = "ERROR: Logarr PHP Datadir write permissions FAIL"
+                                $logentry = 'ERROR: Logarr PHP Data dir write permissions FAIL: '  . $datafile
                             );
                         } else {
                             echo " | <div class='extok' title='PHP Datadir write permissions OK' >";
