@@ -1,5 +1,3 @@
-// function to reorder
-
 function updatechecklatest() {
     Toast.fire({
         toast: true,
@@ -7,8 +5,8 @@ function updatechecklatest() {
         title: 'You have the latest <br> Logarr version',
         background: 'rgba(0, 184, 0, 0.75)',
         timer: 5000
-    })
-};
+    });
+}
 
 function updatecheck() {
     Toast.fire({
@@ -17,10 +15,10 @@ function updatecheck() {
         title: 'Logarr is checking for an <br> application update',
         showCloseButton: false,
         onBeforeOpen: () => {
-            Swal.showLoading()
+            Swal.showLoading();
         }
-    })
-};
+    });
+}
 
 function updateprogress() {
     Toast.fire({
@@ -29,10 +27,10 @@ function updateprogress() {
         title: 'Logarr is updating',
         showCloseButton: false,
         onBeforeOpen: () => {
-            Swal.showLoading()
+            Swal.showLoading();
         }
-    })
-};
+    });
+}
 
 function updatecheckerror() {
     Toast.fire({
@@ -40,8 +38,8 @@ function updatecheckerror() {
         type: 'error',
         title: 'An error occurred <br> while checking your Logarr version!',
         background: 'rgba(207, 0, 0, 0.75)'
-    })
-};
+    });
+}
 
 function updatesuccess() {
     Toast.fire({
@@ -49,8 +47,8 @@ function updatesuccess() {
         type: 'success',
         title: 'Update Successful! <br> Reloading Logarr in 5 seconds...',
         background: 'rgba(0, 184, 0, 0.75)'
-    })
-};
+    });
+}
 
 function updateextracterror() {
     Toast.fire({
@@ -58,8 +56,8 @@ function updateextracterror() {
         type: 'error',
         title: 'An error occurred <br> while extracting the update files!',
         background: 'rgba(207, 0, 0, 0.75)'
-    })
-};
+    });
+}
 
 function updatecopyerror() {
     Toast.fire({
@@ -67,8 +65,8 @@ function updatecopyerror() {
         type: 'error',
         title: 'An error occurred <br> while copying the update files!',
         background: 'rgba(207, 0, 0, 0.75)'
-    })
-};
+    });
+}
 
 function updatewriteerror() {
     Toast.fire({
@@ -76,9 +74,8 @@ function updatewriteerror() {
         type: 'error',
         title: 'An error occurred <br> while updating the Logarr files!',
         background: 'rgba(207, 0, 0, 0.75)'
-    })
-};
-
+    });
+}
 
 $(document).ready(function () {
 
@@ -102,7 +99,7 @@ $(document).ready(function () {
                 var uInfo = "uid=" + uid + "&version=" + data.version;
 
                 versionCheckAuto.html(
-                    '<a class="updatelink" href="https://github.com/Monitorr/Logarr/releases" target="_blank" title="Click CHECK FOR UPDATE below to update Logarr" style="cursor: pointer;"> <b>An update is available </b></a>',
+                    '<a class="updatelink" href="https://github.com/Monitorr/Logarr/releases" target="_blank" title="Click CHECK FOR UPDATE below to update Logarr" style="cursor: pointer;"> <b>An update is available </b></a>'
                 );
                 $('#version_check').addClass('version_check-update');
 

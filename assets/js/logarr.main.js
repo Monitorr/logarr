@@ -1,6 +1,5 @@
 // Logarr main JS script
-// https://github.com/Monitorr
-
+// https://github.com/Monitorr/logarr
 
 // Variables
 let results, currentIndex = 0;
@@ -10,10 +9,6 @@ let nIntervId = [];
 let home = false;
 
 let rfconfig = (typeof settings !== "undefined") ? settings.rfconfig : 15000;
-
-//TODO Can we remove this so rfconfig doesn't load automatically on child pages we don't want it to?
-
-//nIntervId["refreshConfig"] = setInterval(refreshConfig, rfconfig);
 
 const Toast = Swal.mixin({
     toast: true,
@@ -38,8 +33,20 @@ function logupdatetoast() {
         onBeforeOpen: () => {
             Swal.showLoading();
         }
-    })
-};
+    });
+}
+
+function loghighlight() {
+    Toast.fire({
+        toast: true,
+        title: '<p class="logupdatetoast">Highlighting Logs</p>',
+        showCloseButton: false,
+        background: 'rgba(50, 1, 25, 0.75)',
+        onBeforeOpen: () => {
+            Swal.showLoading();
+        }
+    });
+}
 
 function logoutwarning() {
     Toast.fire({
@@ -47,8 +54,8 @@ function logoutwarning() {
         type: 'warning',
         title: '<p class="logouttoast"> An error occurred while checking login status. <br> You will be auto-logged out in 2 minutes. </p>',
         background: 'rgba(255, 196, 0, 0.75)'
-    })
-};
+    });
+}
 
 function logouttoast() {
     Toast.fire({
@@ -56,8 +63,8 @@ function logouttoast() {
         type: 'warning',
         title: '<p class="logouttoast"> You have been logged out </p>',
         background: 'rgba(255, 196, 0, 0.75)'
-    })
-};
+    });
+}
 
 function logsingleupdatetoast() {
     Toast.fire({
@@ -65,10 +72,10 @@ function logsingleupdatetoast() {
         title: 'Updating Log',
         showCloseButton: false,
         onBeforeOpen: () => {
-            Swal.showLoading()
+            Swal.showLoading();
         }
-    })
-};
+    });
+}
 
 function udtoast() {
     Toast.fire({
@@ -76,8 +83,8 @@ function udtoast() {
         type: 'warning',
         title: 'Auto-update disabled',
         timer: 3000
-    })
-};
+    });
+}
 
 function uetoast() {
     Toast.fire({
@@ -85,8 +92,8 @@ function uetoast() {
         type: 'warning',
         title: 'Auto-update enabled',
         timer: 3000
-    })
-};
+    });
+}
 
 function validerror() {
     Toast.fire({
@@ -94,8 +101,8 @@ function validerror() {
         title: 'Invalid Settings value!',
         background: 'rgba(207, 0, 0, 0.75)',
         timer: 15000
-    })
-};
+    });
+}
 
 function logerror() {
     Toast.fire({
@@ -104,8 +111,8 @@ function logerror() {
         title: 'Error loading log!',
         background: 'rgba(207, 0, 0, 0.75)',
         timer: 10000
-    })
-};
+    });
+}
 
 function searchtoast() {
     Toast.fire({
@@ -113,10 +120,10 @@ function searchtoast() {
         title: 'Searching ...',
         showCloseButton: false,
         onBeforeOpen: () => {
-            Swal.showLoading()
+            Swal.showLoading();
         }
-    })
-};
+    });
+}
 
 function clearsearch() {
     Toast.fire({
@@ -124,8 +131,8 @@ function clearsearch() {
         type: 'warning',
         title: 'Clearing search results',
         timer: 3000
-    })
-};
+    });
+}
 
 function logroll() {
     Toast.fire({
@@ -133,8 +140,8 @@ function logroll() {
         type: 'warning',
         title: 'Attempting log roll',
         timer: 5000
-    })
-};
+    });
+}
 
 function logrollmodal() {
     Swal.fire({
@@ -155,14 +162,10 @@ function logrollmodal() {
         customClass: 'logrollmodal',
         onBeforeOpen: () => {
 
-            //TODO: //Turn OFF autorefresh before log roll attempt // Works but will re-enabled w/ rfconfig:
+            //TODO: //Turn OFF autorefresh before log roll attempt // Works but will re-enabled w/ rfconfig, 
+            //I.e, will revert to auto-refresh setting, not previous state:
 
-            $("#autoUpdateSlider").attr("data-enabled", "false");
-            clearInterval(nIntervId["logRefresh"]);
-            clearInterval(nIntervId);
-            clearInterval(refreshblockUI, settings.rflog);
-            clearInterval(refreshblockUI);
-            logInterval = false;
+            disableautoupdate();
 
         },
         onClose: () => {
@@ -177,8 +180,8 @@ function logrollmodal() {
             loadLogs();
 
         }
-    })
-};
+    });
+}
 
 function logrollerror() {
     Toast.fire({
@@ -186,8 +189,8 @@ function logrollerror() {
         type: 'error',
         title: 'An error occurred while attempting log roll!',
         background: 'rgba(207, 0, 0, 0.75)'
-    })
-};
+    });
+}
 
 function dllog() {
     Toast.fire({
@@ -195,16 +198,16 @@ function dllog() {
         type: 'success',
         title: 'Downloading log',
         timer: 5000
-    })
-};
+    });
+}
 
 function filtertoast() {
     Toast.fire({
         toast: true,
         type: 'warning',
         title: 'Filtering logs'
-    })
-};
+    });
+}
 
 function updateavailtoast() {
     Toast.fire({
@@ -213,8 +216,8 @@ function updateavailtoast() {
         title: '<a class="toastlink swal2-title" href="https://github.com/Monitorr/logarr/releases" title="Logarr releases" target="_blank">A Logarr update is available!</a>',
         customClass: 'updateavailtoast',
         timer: 10000
-    })
-};
+    });
+}
 
 function updatechecklatest() {
     Toast.fire({
@@ -222,8 +225,8 @@ function updatechecklatest() {
         type: 'success',
         title: 'You have the latest <br> Logarr version',
         timer: 5000
-    })
-};
+    });
+}
 
 function updatecheckerror() {
     Toast.fire({
@@ -231,8 +234,8 @@ function updatecheckerror() {
         type: 'error',
         title: 'An error occurred <br> while checking your Logarr version!',
         background: 'rgba(207, 0, 0, 0.75)'
-    })
-};
+    });
+}
 
 function synctimeerror() {
     Toast.fire({
@@ -241,8 +244,8 @@ function synctimeerror() {
         title: 'An error occurred <br> while synchronizing time!',
         background: 'rgba(207, 0, 0, 0.75)',
         timer: 10000
-    })
-};
+    });
+}
 
 function syncconfigerror() {
     Toast.fire({
@@ -251,8 +254,8 @@ function syncconfigerror() {
         title: 'An error occurred <br> while synchronizing settings!',
         background: 'rgba(207, 0, 0, 0.75)',
         timer: 10000
-    })
-};
+    });
+}
 
 function exterror() {
     Toast.fire({
@@ -261,8 +264,8 @@ function exterror() {
         title: 'PHP extension not loaded!',
         background: 'rgba(207, 0, 0, 0.75)',
         timer: 10000
-    })
-};
+    });
+}
 
 function ghajaxerror() {
     Toast.fire({
@@ -271,8 +274,8 @@ function ghajaxerror() {
         title: 'An error occurred while <br> retrieving releases from GitHub!',
         background: 'rgba(207, 0, 0, 0.75)',
         timer: 10000
-    })
-};
+    });
+}
 
 function searchresults() {
     Toast.fire({
@@ -288,8 +291,8 @@ function searchresults() {
         showCancelButton: false,
         showConfirmButton: false,
         animation: true
-    })
-};
+    });
+}
 
 function nosearch() {
     Toast.fire({
@@ -303,12 +306,12 @@ function nosearch() {
         showConfirmButton: false,
         animation: true,
         timer: 3000
-    })
-};
+    });
+}
 
 // Reload Setup page after user creation / Setup complete:
 function sareload() {
-    let timerInterval
+    let timerInterval;
     Toast.fire({
         toast: true,
         showCloseButton: false,
@@ -320,21 +323,21 @@ function sareload() {
         timer: 10000,
         onBeforeOpen: () => {
             console.log("Reloading Logarr in 10 seconds");
-            const content = Swal.getContent()
-            const $ = content.querySelector.bind(content)
-            const reload = $('#reload-btn')
+            const content = Swal.getContent();
+            const $ = content.querySelector.bind(content);
+            const reload = $('#reload-btn');
 
-            Swal.showLoading()
+            Swal.showLoading();
 
             reload.addEventListener('click', () => {
                 top.location = "settings.php";
-            })
+            });
 
             timerInterval = setInterval(() => {
                 Swal.getContent().querySelector('strong')
                     .textContent = (Swal.getTimerLeft() / 1000)
-                        .toFixed(0)
-            }, 100)
+                        .toFixed(0);
+            }, 100);
         },
         onClose: () => {
             clearInterval(timerInterval);
@@ -344,10 +347,10 @@ function sareload() {
             } else {
                 //Browser has blocked popup:
                 alert('Please allow popups for this website');
-            };
+            }
             top.location = "settings.php";
         }
-    })
+    });
 }
 
 function toastwelcome() {
@@ -357,9 +360,9 @@ function toastwelcome() {
         title: 'Welcome to Logarr!',
         position: 'bottom-start',
         background: 'rgba(50, 1, 25, 0.75)',
-        timer: 10000
-    })
-};
+        timer: 5000
+    });
+}
 
 function datadirsuccess() {
     Toast.fire({
@@ -367,8 +370,8 @@ function datadirsuccess() {
         type: 'success',
         title: 'Data directory <br> created successfully!',
         background: 'rgba(0, 184, 0, 0.75)'
-    })
-};
+    });
+}
 
 function datadirerror() {
     Toast.fire({
@@ -376,8 +379,8 @@ function datadirerror() {
         type: 'error',
         title: 'Error creating <br> data directory!',
         background: 'rgba(207, 0, 0, 0.75)'
-    })
-};
+    });
+}
 
 function usersuccess() {
     Toast.fire({
@@ -385,8 +388,8 @@ function usersuccess() {
         type: 'success',
         title: 'User created successfully!',
         background: 'rgba(0, 184, 0, 0.75)'
-    })
-};
+    });
+}
 
 function usererror() {
     Toast.fire({
@@ -394,8 +397,22 @@ function usererror() {
         type: 'error',
         title: 'Error creating user!',
         background: 'rgba(207, 0, 0, 0.75)'
-    })
-};
+    });
+}
+
+function setupwarning() {
+    console.log("%cWARNING: Logarr setup is not complete!", "color: red;");
+    setTimeout(function () {
+        Toast.fire({
+            toast: true,
+            type: 'warning',
+            title: 'Logarr setup is not complete!',
+            width: "auto",
+            showCloseButton: true,
+            showCancelButton: false
+        });
+    }, 5000);
+}
 
 function refreshblockUI() {
     $('#body').addClass("cursorwait");
@@ -407,6 +424,10 @@ function refreshblockUI() {
     //wait after log update to highlight terms:
     if (settings.autoHighlight === "true") {
         setTimeout(function () {
+
+            //TODO / Testing / show log update modal when highlighting:
+            loghighlight();
+
             highlightjs();
         }, 1500);
     }
@@ -507,15 +528,14 @@ function loadLog(log) {
             console.log("Updated log: " + logTitle);
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            console.log("ERROR: AJAX error while loading logs!");
+            console.log("%cERROR: AJAX error while loading logs", "color: red;");
             logerror();
         }
-    })
+    });
 }
 
 // highlight terms:
 function highlightjs() {
-
     if ('customHighlightTerms' in settings && settings.customHighlightTerms !== "") {
         var array = settings.customHighlightTerms.split(",");
         for (let i = 0; i < array.length; i++) {
@@ -526,7 +546,7 @@ function highlightjs() {
             });
             $('.' + array[i].trim()).addClass("highlightterms");
         }
-    };
+    }
 }
 
 // Jumps to the element matching the currentIndex
@@ -547,12 +567,6 @@ function jumpTo() {
             $('html, body').scrollTop(
                 $(parent).offset().top
             );
-
-            /*
-                $('html, body').animate({
-                    scrollTop: $(parent).offset().top
-                }, 200); //make this value bigger if you want smoother/longer scroll
-            */
 
             /* not animated scroll */
             parent.scrollTop(
@@ -613,6 +627,19 @@ function mark() {
     });
 }
 
+// TODO / Testing:
+// Disable log auto update:
+function disableautoupdate() {
+    console.log("Log auto update: DISABLED");
+    $("#autoUpdateSlider").attr("data-enabled", "false");
+    clearInterval(nIntervId["logRefresh"]);
+    clearInterval(nIntervId);
+    clearInterval(refreshblockUI, settings.rflog);
+    clearInterval(refreshblockUI);
+    logInterval = false;
+}
+
+
 // on page ready functions
 $(function () {
 
@@ -628,6 +655,9 @@ $(function () {
     $("button[data-search='search']").on("click", function () {
 
         if ($("input[name='markinput']").val() !== "") {
+
+            // TODO / Testing / Disable auto-update on search:
+            disableautoupdate();
 
             console.log('Logarr is performing search');
             $('#count').removeClass("hidden");
@@ -649,23 +679,6 @@ $(function () {
         }
     });
 
-    //TODO:  Why does ENTER keyup work without this?
-
-    // Perform search action on enter
-    // $("#text-search2").keyup(function (event) {
-    //     if (event.keyCode === 13) {
-    //         console.log('Logarr is performing search');
-    //         $('#body').addClass("cursorwait");
-    //         searchtoast();
-    //         $('#buttonStart :checkbox').prop('checked', false).change(); // TODO: BUG: if auto-update is enabled, disable it after search submit
-    //         setTimeout(function () {
-    //             $('.btn-visible').removeClass("btn-hidden"); // unhide next/previous buttons on search
-    //             mark();
-    //             $('#body').removeClass("cursorwait");
-    //         }, 300);
-    //     }
-    // });
-
     // Clears the search
     $("button[data-search='clear']").on("click", function () {
         clearsearch();
@@ -674,6 +687,7 @@ $(function () {
         $("input[name='markinput']").val("");
         $('.count').removeClass("countresults");
         $('.btn-visible').addClass("btn-hidden");
+        $('#searchClear').addClass("hidden");
         console.log('Logarr cleared search results');
     });
 
@@ -696,8 +710,11 @@ $(function () {
     $("input[name='markinput']").keyup(function (e) {
         if ($("input[name='markinput']").val() !== "") {
 
-            //Color search button BLUE on keyup:
+            // Color search button BLUE on keyup:
             $('#searchBtn').addClass("marksearchInput");
+
+            // unhide search clear button on keyup:
+            $('#searchClear').removeClass("hidden");
 
             clearTimeout(timeoutID);
             if (settings.liveSearch === "true") {
@@ -705,7 +722,11 @@ $(function () {
                 timeoutID = setTimeout(() => mark(e.target.value), 500);
                 $('#count').removeClass("hidden");
             }
+
         } else {
+            $('#searchBtn').removeClass("marksearchInput");
+            $('#searchClear').addClass("hidden");
+            $('.btn-visible').addClass("btn-hidden"); // unhide next/previous buttons on search
             $('#count').addClass("hidden");
             Toast.close();
         }
@@ -732,7 +753,7 @@ $(function () {
                 modal.fadeIn('slow');
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                console.log("ERROR: unlink ajax posting failed");
+                console.log("%cERROR: unlink ajax posting failed", "color: red;");
                 logrollerror();
             }
         });
@@ -740,6 +761,8 @@ $(function () {
     });
 
     // download log action
+
+    // TODO / BUG / testing / Browser will hang after dowloading log during next log update using Chrome or IE Edge on mobile device:
     $(document).on('click', "button[data-action='download-log']", function (event) {
         event.preventDefault();
         dllog();
@@ -760,7 +783,7 @@ $(function () {
                 setTimeout(function () {
                     highlightjs();
                 }, 500);
-            };
+            }
             $('#body').removeClass("cursorwait");
             Toast.close();
         }, 2000);
@@ -836,8 +859,7 @@ function refreshConfig() {
 
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            console.log("ERROR: Config refresh failed!");
-
+            console.log("%cERROR: Config refresh failed!", "color: red;");
             setTimeout(function () {
 
                 syncconfigerror();
@@ -865,12 +887,9 @@ function refreshLog() {
 
                 if (settings.rflog < 3001 || settings.rflog == null || settings.rflog === false) {
                     console.log("%cERROR: Log refresh settings value is INVALID", "color: red;");
-                    console.log("Log auto update: Disabled");
-                    clearInterval(nIntervId["logRefresh"]);
-                    clearInterval(nIntervId);
-                    clearInterval(refreshblockUI, settings.rflog);
-                    logInterval = false;
-                    $("#autoUpdateSlider").attr("data-enabled", "false");
+
+                    disableautoupdate();
+
                     $('#auto-update').addClass("auto-updateError");
                     $('#autoUpdateSlider').addClass("auto-updateError");
                     document.getElementById("autoUpdateSlider").onclick = function () {
@@ -887,12 +906,8 @@ function refreshLog() {
                         console.log("Log auto update: Enabled | Interval: " + settings.rflog + " ms");
                         uetoast();
                     } else if (settings.logRefresh === "false" && logInterval === true) {
-                        clearInterval(nIntervId["logRefresh"]);
-                        clearInterval(nIntervId);
-                        clearInterval(refreshblockUI, settings.rflog);
-                        logInterval = false;
-                        $("#autoUpdateSlider").attr("data-enabled", "false");
-                        console.log("Log auto update: Disabled");
+                        // TESTING:
+                        disableautoupdate();
                         udtoast();
                     }
                 }
@@ -910,7 +925,6 @@ function refreshLog() {
     });
 }
 
-
 function overwriteLogUpdate() {
 
     //TODO:  Not working:
@@ -922,19 +936,11 @@ function overwriteLogUpdate() {
         logInterval = true;
         console.log("Log auto update: Enabled | Interval: " + settings.rflog + " ms");
         uetoast();
-        //TODO CHANGE ME
-        // setTimeout(function () {
-        //     refreshblockUI();
-        // }, 1000);
+
     } else {
-        $("#autoUpdateSlider").attr("data-enabled", "false");
-        //TODO: Adding everything possible to stop rfconfig from re-applying values:
-        clearInterval(nIntervId["logRefresh"]);
-        clearInterval(nIntervId);
-        clearInterval(refreshblockUI, settings.rflog);
-        clearInterval(refreshblockUI);
-        logInterval = false;
-        console.log("Log auto update: Disabled");
+
+        disableautoupdate();
+        
         udtoast();
     }
 }
@@ -978,7 +984,7 @@ function refreshAuth() {
 
                                 logouttoast();
 
-                                // If user user is logged out, refresh index page to envoke authentication page:
+                                // If user is logged out, refresh index page to envoke authentication page:
                                 setTimeout(function () {
 
                                     window.location.href = "index.php";
@@ -1001,16 +1007,17 @@ function refreshAuth() {
                         }
                     });
                 }
+
                 checkLoginSync();
-            };
+
+            }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            console.log("ERROR: Authentication settings check error!");
+            console.log("%cERROR: Authentication settings check error!", "color: red;");
             syncconfigerror();
 
             setTimeout(function () {
 
-                //window.location.href = "index.php";
                 window.location.href = 'assets/php/authentication/unauthorized.php';
 
             }, 3000);
@@ -1114,10 +1121,12 @@ function load_setup() {
 }
 
 function scrollFunction() {
-    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    if (document.body.scrollTop > 40 || document.documentElement.scrollTop > 40) {
         document.getElementById("myBtn").style.display = "block";
+        document.getElementById("markform").style.top = "1rem";
     } else {
         document.getElementById("myBtn").style.display = "none";
+        document.getElementById("markform").style.top = "auto";
     }
 }
 
@@ -1206,6 +1215,48 @@ function parseGithubToHTML(result) {
 
     result += "</ol>";
     return result;
+}
+
+function checkGithub() {
+    console.log("Retrieving Logarr release info from GitHub.");
+    $.ajax({
+        type: "GET",
+        url: "https://api.github.com/repos/monitorr/logarr/releases",
+        dataType: "json",
+        success: function (github) {
+            let infoTabVersionHistory = $('#about').find('#versionHistory');
+            $.each(github, function (i, v) {
+                if (i === 0) {
+                    //console.log(v.tag_name);
+                    githubVersion = v.tag_name;
+                    githubDescription = v.body;
+                    githubName = v.name;
+                }
+
+                var body = parseGithubToHTML(v.body);
+
+                infoTabVersionHistory.append(
+                    '<li style="display: none">' +
+                    '<div class="github-item">' +
+                    '<h2 class="releaseName text-uppercase">' + v.name + '</h2>' +
+                    '<time class="github-item-time" datetime="' + v.published_at + '">' +
+                    '<span class="releasetime">Released on: ' + v.published_at.substring(0, 10) + ' at ' + v.published_at.substring(11, 19) + '</span>' +
+                    '</time>' +
+                    '<div class="releaseBody">' + body + '</div>' +
+                    '</div>' +
+                    '<hr class="releasehr"\>' +
+                    '</li>'
+                );
+                let size_li = $("#versionHistory > li");
+                let x = 4; //show this many releases
+                $('#versionHistory > li:lt(' + x + ')').show();
+            });
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("%cERROR: Occurred while retrieving releases from GitHub!", "color: red;");
+            ghajaxerror();
+        }
+    });
 }
 
 function toggleCategory(category, categoryList) {
