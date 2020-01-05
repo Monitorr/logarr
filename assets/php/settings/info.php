@@ -162,7 +162,7 @@ include(__DIR__ . '/../auth_check.php');
                             echo "<script>console.log( 'ERROR: Logarr PHP Data dir write permissions FAIL' );</script>";
                             echo "<script>exterror();</script>";
                             appendLog(
-                                $logentry = 'ERROR: Logarr PHP Data dir write permissions FAIL: '  . $datafile
+                                $logentry = 'ERROR: Logarr PHP Data dir write permissions FAIL: ' . $datafile
                             );
                         } else {
                             echo " | <div class='extok' title='PHP Datadir write permissions OK' >";

@@ -1,3 +1,6 @@
+/** global: servertime */
+/** global: Image */
+
 date = servertime;
 
 // inner variables:
@@ -41,12 +44,12 @@ function drawScene() { // main drawScene function
     ctx.beginPath();
 
     // draw numbers
-    ctx.font = '.5em Arial'; //changed
+    ctx.font = '.5em Arial';
     ctx.fillStyle = '#C8C8C8';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     for (var n = 1; n <= 12; n++) {
-        var theta = (n - 3) * (Math.PI * 2) / 12;
+        theta = (n - 3) * (Math.PI * 2) / 12;
         var x = clockRadius * 0.60 * Math.cos(theta);
         var y = clockRadius * 0.60 * Math.sin(theta);
         ctx.fillText(n, x, y);
@@ -67,7 +70,7 @@ function drawScene() { // main drawScene function
 
     // draw minute
     ctx.save();
-    var theta = (minute - 15) * 2 * Math.PI / 60;
+    theta = (minute - 15) * 2 * Math.PI / 60;
     ctx.rotate(theta);
     ctx.beginPath();
     ctx.moveTo(-15, -2);
@@ -80,7 +83,7 @@ function drawScene() { // main drawScene function
 
     // draw second
     ctx.save();
-    var theta = (seconds - 15) * 2 * Math.PI / 60;
+    theta = (seconds - 15) * 2 * Math.PI / 60;
     ctx.rotate(theta);
     ctx.beginPath();
     ctx.moveTo(-10, -1);
@@ -97,8 +100,6 @@ function drawScene() { // main drawScene function
 $(function () {
     canvas = document.getElementById('canvas');
     ctx = canvas.getContext('2d');
-    // var width = canvas.width;
-    // var height = canvas.height;
     clockImage = new Image();
     clockImage.src = 'assets/js/cface.png';
     setInterval(drawScene, 1000); // loop drawScene

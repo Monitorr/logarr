@@ -21,7 +21,7 @@ include_once(__DIR__ . "/../auth_check.php");
 
     <link rel="manifest" href="webmanifest.json">
 
-    <script src="assets/js/pace.js" async></script>
+    <script src="assets/js/vendor/pace.js" async></script>
 
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicon/apple-touch-icon.png">

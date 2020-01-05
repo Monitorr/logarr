@@ -31,6 +31,10 @@ class OneFileLoginApplication
 		*/
 		public $datadir_file = "";
 		/**
+		* @var string Parsed data dir path in the data dir definition file (datadir.json)
+		*/
+		public $datadir_path = "";
+		/**
 		* @var string Path of the data dir
 		*/
 		public $datadir = "";
@@ -81,7 +85,7 @@ class OneFileLoginApplication
 			$this->appendLog("(construct) WARNING: Logarr Setup is NOT complete");
 			$urlParts = explode("/", strtok($_SERVER["REQUEST_URI"], '?'));
 			$currentPage = strtok(end($urlParts), ".");
-			if($currentPage != "setup") {
+			if ($currentPage != "setup") {
 				// TODO: / BUG / This works for index and settings, but not for nested pages like /assets/php/settings/authentication.php
 				// Determine how many directories we need to go up
 				// appendLog("(isSetup) WARNING: Logarr Setup is not complete");
@@ -164,11 +168,11 @@ class OneFileLoginApplication
 		*/
 	public function isSetup()
 	{
-		if(!$this->datadirfileExist()) return false;
-		if(!$this->isDatadirSetup()) return false;
-		if(!$this->databaseExists()) return false;
-		if(!$this->doesUserExist()) return false;
-		if(!$this->configFileExists()) return false;
+		if (!$this->datadirfileExist()) return false;
+		if (!$this->isDatadirSetup()) return false;
+		if (!$this->databaseExists()) return false;
+		if (!$this->doesUserExist()) return false;
+		if (!$this->configFileExists()) return false;
 		// $this->appendLog("isSetup(): TRUE | SUCCESS: Logarr is setup");
 		return true;
 	}
@@ -200,7 +204,7 @@ class OneFileLoginApplication
 				return true;
 			}
 			} else {
-				$this->appendLog("datadirfileExist5 : FALSE | is_readable : datadir.json | ERROR: datadir.json does NOT exist");
+				$this->appendLog("datadirfileExist | ERROR: datadir.json does NOT exist");
 				// TODO / BUG / does not work:
 				// header("Location: setup.php");
 				return false;
@@ -249,7 +253,6 @@ class OneFileLoginApplication
 				}
 			}
 		} else {
-			//$this->appendLog("doesDataDirExist() | ERROR: The data dir does NOT exist: " . $datadir_path);
 			return "0";
 			$this->appendLog("doesDataDirExist() | ERROR: The data dir does NOT exist: " . $datadir_path);
 			return false;
@@ -271,7 +274,7 @@ class OneFileLoginApplication
 			// $datadir = $json['datadir'];
 
 
-		if ($this->doesDataDirExist()){
+		if ($this->doesDataDirExist()) {
 
 			$datadir = $this->datadir;
 
@@ -371,7 +374,7 @@ class OneFileLoginApplication
 
 			//TODO **IMPORTANT **/ this can be moved to a diff function and only executed if 0 users exists or file does not exist. / Move to databasesetup?
 
-			$createDatafile =  	$this->db_connection = new PDO($this->db_type . ':' . $this->db_sqlite_path);
+			$createDatafile = $this->db_connection = new PDO($this->db_type . ':' . $this->db_sqlite_path);
 
 			if ($createDatafile) {
 
@@ -475,8 +478,8 @@ class OneFileLoginApplication
 	{
 		if (version_compare(PHP_VERSION, '5.3.7', '<')) {
 			echo "ERROR: Logarr does not run on PHP version older than 5.3.7 !";
-			phpLog( "Logarr ERROR: Logarr does not run on PHP version older than 5.3.7");
-			appendLog( "ERROR: Logarr does not run on PHP version older than 5.3.7");
+			phpLog("Logarr ERROR: Logarr does not run on PHP version older than 5.3.7");
+			appendLog("ERROR: Logarr does not run on PHP version older than 5.3.7");
 		} elseif (version_compare(PHP_VERSION, '5.5.0', '<')) {
 			require_once(__DIR__ . "/../libraries/password_compatibility_library.php");
 			return true;
@@ -603,7 +606,7 @@ class OneFileLoginApplication
 					$cookie_value = $result_row->auth_token;
 					setcookie("Logarr_AUTH", $cookie_value, time() + 60 * 60 * 24 * 7, "/"); //store login cookie for 7 days
 					$this->phpLog("Logarr warning: Logarr user logged in with session from IP: " . $this->getUserIpAddr());
-					$this->appendLog( "Logarr user logged in with session from IP: " . $this->getUserIpAddr());
+					$this->appendLog("Logarr user logged in with session from IP: " . $this->getUserIpAddr());
 					return true;
 				} else {
 					$this->feedback = "Invalid Auth Token";
@@ -667,12 +670,12 @@ class OneFileLoginApplication
 				$this->user_is_logged_in = true;
 				$cookie_value = $result_row->auth_token;
 				setcookie("Logarr_AUTH", $cookie_value, time() + 60 * 60 * 24 * 7, "/"); //store login cookie for 7 days
-				$this->phpLog( "Logarr warning: Logarr user logged in with credentials from IP: " . $this->getUserIpAddr());
-				$this->appendLog( "Logarr user logged in with credentials from IP: " . $this->getUserIpAddr());
+				$this->phpLog("Logarr warning: Logarr user logged in with credentials from IP: " . $this->getUserIpAddr());
+				$this->appendLog("Logarr user logged in with credentials from IP: " . $this->getUserIpAddr());
 				return true;
 			} else {
 				$this->feedback = "Invalid password";
-				$this->phpLog( "Logarr ERROR: Login attempt: Invalid password from IP: " . $this->getUserIpAddr());
+				$this->phpLog("Logarr ERROR: Login attempt: Invalid password from IP: " . $this->getUserIpAddr());
 				$this->appendLog("Logarr login attempt: ERROR: Invalid password from IP: " . $this->getUserIpAddr());
 			}
 		} else {
@@ -707,8 +710,8 @@ class OneFileLoginApplication
 				$this->user_is_logged_in = true;
 				$cookie_value = $result_row->auth_token;
 				setcookie("Logarr_AUTH", $cookie_value, time() + 60 * 60 * 24 * 7, "/"); //store login cookie for 7 days
-				$this->phpLog( "Logarr warning: Logarr user logged in with cookie from IP: " . $this->getUserIpAddr());
-				$this->appendLog( "Logarr user logged in with cookie from IP: " . $this->getUserIpAddr());
+				$this->phpLog("Logarr warning: Logarr user logged in with cookie from IP: " . $this->getUserIpAddr());
+				$this->appendLog("Logarr user logged in with cookie from IP: " . $this->getUserIpAddr());
 				return true;
 			} else {
 				$this->feedback = "Invalid Auth Token";
@@ -745,7 +748,7 @@ class OneFileLoginApplication
 	{
 		include_once('authentication/unauthorized.php');
 
-		$this->appendLog( "Logarr warning: Unauthorized page loaded from IP: " . $this->getUserIpAddr());
+		$this->appendLog("Logarr warning: Unauthorized page loaded from IP: " . $this->getUserIpAddr());
 	}
 
 	/**
@@ -760,7 +763,7 @@ class OneFileLoginApplication
 		setcookie("Logarr_AUTH", null, time() - 1, "/");
 		$this->feedback = "You were just logged out.";
 		header("location: index.php");
-		$this->appendLog( "Logarr user has logged out");
+		$this->appendLog("Logarr user has logged out");
 	}
 
 	/**
@@ -771,7 +774,7 @@ class OneFileLoginApplication
 	{
 		if ($this->checkRegistrationData()) {
 			if ($this->createDatabaseConnection()) {
-				if($this->createNewUser()){
+				if ($this->createNewUser()) {
 					return true;
 				}
 			}
@@ -797,15 +800,15 @@ class OneFileLoginApplication
 			$this->feedback = "Empty Password";
 		} elseif ($_POST['user_password_new'] !== $_POST['user_password_repeat']) {
 			$this->feedback = "Password and password repeat are not the same";
-			$this->appendLog( "ERROR: Password and password repeat are not the same.");
+			$this->appendLog("ERROR: Password and password repeat are not the same.");
 		} elseif (strlen($_POST['user_password_new']) < 6) {
 			$this->feedback = "Password has a minimum length of 6 characters";
 		} elseif (strlen($_POST['user_name']) > 64 || strlen($_POST['user_name']) < 2) {
 			$this->feedback = "Username cannot be shorter than 2 or longer than 64 characters";
-			$this->appendLog( "ERROR: Username cannot be shorter than 2 or longer than 64 characters.");
+			$this->appendLog("ERROR: Username cannot be shorter than 2 or longer than 64 characters.");
 		} elseif (!preg_match('/^[a-z\d]{2,64}$/i', $_POST['user_name'])) {
 			$this->feedback = "Username does not fit the name scheme: only a-Z and numbers are allowed, 2 to 64 characters";
-			$this->appendLog( "ERROR: Username does not fit the name scheme: only a-Z and numbers are allowed, 2 to 64 characters.");
+			$this->appendLog("ERROR: Username does not fit the name scheme: only a-Z and numbers are allowed, 2 to 64 characters.");
 		} elseif (isset($_POST['user_email']) && !empty($_POST['user_email'])) {
 			if (strlen($_POST['user_email']) > 64) {
 				$this->feedback = "Email cannot be longer than 64 characters";
@@ -845,13 +848,13 @@ class OneFileLoginApplication
 		
 		if ($result_row) {
 			$this->feedback = "ERROR: Username / email is already used.";
-			$this->appendLog( "ERROR: Username / email is already used.");
+			$this->appendLog("ERROR: Username / email is already used.");
 		} else {
 			if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
 				try {
 					$token = bin2hex(random_bytes(32));
 				} catch (Exception $e) {
-					$this->appendLog( "PHP ERROR: " . $e->getMessage() . " ON LINE " . $e->getLine() . " OF FILE " . $e->getFile());
+					$this->appendLog("PHP ERROR: " . $e->getMessage() . " ON LINE " . $e->getLine() . " OF FILE " . $e->getFile());
 				}
 			} else {
 				$token = bin2hex(openssl_random_pseudo_bytes(32));
@@ -869,7 +872,7 @@ class OneFileLoginApplication
 			$registration_success_state = $query->execute();
 			if ($registration_success_state) {
 				$this->phpLog("Logarr warning: User credentials have been created successfully!");
-				$this->appendLog( "User credentials have been created successfully!");
+				$this->appendLog("User credentials have been created successfully!");
 				$this->feedback = 'User credentials have been created successfully.';
 				return true;
 			} else {
