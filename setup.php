@@ -26,13 +26,13 @@ if (isset($_POST['action'])) {
 }
 ?>
 
-    <!DOCTYPE html>
-    <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 
     <!--
-                LOGARR
-    by @seanvree, @rob1998, and @jonfinley
-        https://github.com/Monitorr
+                    LOGARR
+        by @seanvree, @rob1998, and @jonfinley
+            https://github.com/Monitorr
     -->
 
     <!-- setup.php -->
@@ -733,4 +733,4 @@ if (isset($_POST['action'])) {
 
     </body>
 
-    </html>
+</html>

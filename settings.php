@@ -34,7 +34,7 @@ https://github.com/Monitorr/Logarr
 
     <meta name="description" content="Logarr">
 
-    <script type="text/javascript" src="assets/js/pace.js" async></script>
+    <script type="text/javascript" src="assets/js/vendor/pace.js" async></script>
 
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/vendor/sweetalert2.min.css">
@@ -80,7 +80,7 @@ https://github.com/Monitorr/Logarr
     <script src="assets/js/vendor/sweetalert2.min.js"></script>
     <script src="assets/js/logarr.main.js"></script>
 
-    <?php appendLog( "Logarr Settings loaded"); ?>
+    <?php appendLog("Logarr Settings loaded"); ?>
 
     <!-- Check if Logarr settings auth is enabled / if TRUE, check login status every 10s -->
     <?php checkLoginsettings(); ?>
@@ -118,7 +118,7 @@ https://github.com/Monitorr/Logarr
         <?php
         //initial values for clock:
         $dt = new DateTime("now", new DateTimeZone("$timezone"));
-        $timeStandard = (int)($GLOBALS['preferences']['timestandard']);
+        $timeStandard = (int) ($GLOBALS['preferences']['timestandard']);
         $rftime = $GLOBALS['settings']['rftime'];
         $timezone_suffix = '';
         if (!$timeStandard) {

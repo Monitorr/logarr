@@ -6,149 +6,149 @@ include('assets/php/auth_check.php');
 <!DOCTYPE html>
 <html lang="en">
 
-<!--
-				LOGARR
-	by @seanvree, @jonfinley, and @rob1998
-		https://github.com/Monitorr
--->
+    <!--
+                    LOGARR
+        @seanvree | @jonfinley | @rob1998
+            https://github.com/Monitorr
+    -->
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <link rel="manifest" href="webmanifest.json">
+        <link rel="manifest" href="webmanifest.json">
 
-    <meta name="Logarr" content="Logarr: Self-hosted, single-page, log consolidation tool.">
-    <meta name="description" content="Logarr">
-    <meta name="application-name" content="Logarr">
-    <meta name="robots" content="NOINDEX, NOFOLLOW">
+        <meta name="Logarr" content="Logarr: Self-hosted, single-page, log consolidation tool.">
+        <meta name="description" content="Logarr">
+        <meta name="application-name" content="Logarr">
+        <meta name="robots" content="NOINDEX, NOFOLLOW">
 
-    <script src="assets/js/pace.js" async></script>
+        <script src="assets/js/vendor/pace.js" async></script>
 
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicon/apple-touch-icon.png">
-    <link rel="mask-icon" href="assets/images/favicon/icon.svg" color="blue">
+        <link rel="icon" type="image/png" href="favicon.png">
+        <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+        <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicon/apple-touch-icon.png">
+        <link rel="mask-icon" href="assets/images/favicon/icon.svg" color="blue">
 
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon/favicon-16x16.png">
-    <meta name="msapplication-square150x150logo" content="assets/images/favicon/mstile-150x150.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon/favicon-16x16.png">
+        <meta name="msapplication-square150x150logo" content="assets/images/favicon/mstile-150x150.png">
 
-    <meta name="theme-color" content="#464646">
-    <meta name="theme_color" content="#464646">
-    <meta name="msapplication-TileColor" content="#464646">
+        <meta name="theme-color" content="#464646">
+        <meta name="theme_color" content="#464646">
+        <meta name="msapplication-TileColor" content="#464646">
 
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/vendor/sweetalert2.min.css">
-    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/vendor/jquery-ui.min.css">
-    <link rel="stylesheet" href="assets/css/logarr.css">
-    <link rel="stylesheet" href="assets/data/custom.css">
+        <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/css/vendor/sweetalert2.min.css">
+        <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+        <link rel="stylesheet" href="assets/css/vendor/jquery-ui.min.css">
+        <link rel="stylesheet" href="assets/css/logarr.css">
+        <link rel="stylesheet" href="assets/data/custom.css">
 
-    <title>
-        <?php
-        $title = $GLOBALS['preferences']['sitetitle'];
-        echo $title . PHP_EOL;
-        ?>
-    </title>
+        <title>
+            <?php
+            $title = $GLOBALS['preferences']['sitetitle'];
+            echo $title . PHP_EOL;
+            ?>
+        </title>
 
-    <style>
-        body {
-            margin-bottom: 3rem;
-        }
+        <style>
+            body {
+                margin-bottom: 3rem;
+            }
 
-        .swal2-icon.swal2-warning {
-            color: yellow;
-            border-color: yellow;
-        }
-    </style>
+            .swal2-icon.swal2-warning {
+                color: yellow;
+                border-color: yellow;
+            }
+        </style>
 
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/vendor/sweetalert2.min.js"></script>
-    <script src="assets/js/jquery.highlight.js" async></script>
-    <script src="assets/js/jquery.mark.min.js" async></script>
-    <script src="assets/js/vendor/jquery-ui.min.js"></script>
-    <script src="assets/js/logarr.main.js"></script>
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/vendor/sweetalert2.min.js"></script>
+        <script src="assets/js/vendor/jquery.highlight.js" async></script>
+        <script src="assets/js/jquery.mark.min.js" async></script>
+        <script src="assets/js/vendor/jquery-ui.min.js"></script>
+        <script src="assets/js/logarr.main.js"></script>
 
-    <script>
-        $(document).ready(function() {
-            console.log("Welcome to %cLogarr", "color: #FF0104; font-size: 2em;");
-        });
-    </script>
-
-    <?php appendLog("Logarr Index loaded"); ?>
-
-    <!-- Check if Logarr auth is enabled / if TRUE, check login status every 10s -->
-    <?php checkLoginindex(); ?>
-
-    <!-- Check for valid SETTINGS values in config.json on index.php load: -->
-    <?php isMissingSettings(); ?>
-
-    <!-- sync config with javascript -->
-    <script>
-        let settings = <?php echo json_encode($GLOBALS['settings']); ?>;
-        let preferences = <?php echo json_encode($GLOBALS['preferences']); ?>;
-        let logs = <?php echo json_encode($GLOBALS['logs']); ?>;
-        let authentication = <?php echo json_encode($GLOBALS['authentication']); ?>;
-        home = true;
-        refreshConfig();
-    </script>
-
-    <!-- UI clock functions: -->
-    <script>
-        <?php
-        //initial values for clock:
-        $dt = new DateTime("now", new DateTimeZone("$timezone"));
-        $timeStandard = (int) ($GLOBALS['preferences']['timestandard']);
-        $rftime = $GLOBALS['settings']['rftime'];
-        $timezone_suffix = '';
-        if (!$timeStandard) {
-            $dateTime = new DateTime();
-            $dateTime->setTimeZone(new DateTimeZone($timezone));
-            $timezone_suffix = $dateTime->format('T');
-        }
-        $serverTime = $dt->format("D d M Y H:i:s");
-        ?>
-        let servertime = "<?php echo $serverTime; ?>";
-        let timeStandard = <?php echo $timeStandard; ?>;
-        let timeZone = "<?php echo $timezone_suffix; ?>";
-        let rftime = <?php echo $GLOBALS['settings']['rftime']; ?>
-
-        settings.rftime = settings.rftime > 300 ? rftime : 60000; //minimum value, if not set default value will be used
-
-        $(document).ready(function() {
-            syncServerTime()
-            setInterval(function() {
-                syncServerTime()
-            }, rftime); //delay is rftime
-            updateTime();
-        });
-    </script>
-
-    <script src="assets/js/clock.js" async></script>
-    <script src="assets/data/custom.js"></script>
-
-    <!-- Append settings values to Logarr log: -->
-    <?php settingsValues(); ?>
-
-    <!-- Tooltips: -->
-    <script>
-        $(function() {
-            $(document).tooltip({
-                hide: {
-                    effect: "fadeOut",
-                    duration: 200
-                },
+        <script>
+            $(document).ready(function() {
+                console.log("Welcome to %cLogarr", "color: #FF0104; font-size: 2em;");
             });
-        });
-    </script>
+        </script>
 
-    <script>
-        refreshLog();
-    </script>
+        <?php appendLog("Logarr Index loaded"); ?>
 
-</head>
+        <!-- Check if Logarr auth is enabled / if TRUE, check login status every 10s -->
+        <?php checkLoginindex(); ?>
+
+        <!-- Check for valid SETTINGS values in config.json on index.php load: -->
+        <?php isMissingSettings(); ?>
+
+        <!-- sync config with javascript -->
+        <script>
+            let settings = <?php echo json_encode($GLOBALS['settings']); ?>;
+            let preferences = <?php echo json_encode($GLOBALS['preferences']); ?>;
+            let logs = <?php echo json_encode($GLOBALS['logs']); ?>;
+            let authentication = <?php echo json_encode($GLOBALS['authentication']); ?>;
+            home = true;
+            refreshConfig();
+        </script>
+
+        <!-- UI clock functions: -->
+        <script>
+            <?php
+            //initial values for clock:
+            $dt = new DateTime("now", new DateTimeZone("$timezone"));
+            $timeStandard = (int) ($GLOBALS['preferences']['timestandard']);
+            $rftime = $GLOBALS['settings']['rftime'];
+            $timezone_suffix = '';
+            if (!$timeStandard) {
+                $dateTime = new DateTime();
+                $dateTime->setTimeZone(new DateTimeZone($timezone));
+                $timezone_suffix = $dateTime->format('T');
+            }
+            $serverTime = $dt->format("D d M Y H:i:s");
+            ?>
+            let servertime = "<?php echo $serverTime; ?>";
+            let timeStandard = <?php echo $timeStandard; ?>;
+            let timeZone = "<?php echo $timezone_suffix; ?>";
+            let rftime = <?php echo $GLOBALS['settings']['rftime']; ?>
+
+            settings.rftime = settings.rftime > 300 ? rftime : 60000; //minimum value, if not set default value will be used
+
+            $(document).ready(function() {
+                syncServerTime()
+                setInterval(function() {
+                    syncServerTime()
+                }, rftime); //delay is rftime
+                updateTime();
+            });
+        </script>
+
+        <script src="assets/js/clock.js" async></script>
+        <script src="assets/data/custom.js"></script>
+
+        <!-- Append settings values to Logarr log: -->
+        <?php settingsValues(); ?>
+
+        <!-- Tooltips: -->
+        <script>
+            $(function() {
+                $(document).tooltip({
+                    hide: {
+                        effect: "fadeOut",
+                        duration: 200
+                    },
+                });
+            });
+        </script>
+
+        <script>
+            refreshLog();
+        </script>
+
+    </head>
 
     <body id="body" onscroll="scrollFunction()" onload="refreshblockUI();">
 
