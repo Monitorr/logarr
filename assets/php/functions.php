@@ -1,10 +1,13 @@
 <?php
 
 ini_set('error_reporting', E_ERROR);
+
+// TODO / IMPORTANT / Are we sure we want to set this??
 ini_set('memory_limit', '-1');
 
-//Append webserver's PHP errors to Logarr Log file:
-function LogarrErrorHandler($errno, $errstr, $errfile, $errline) {
+// Append webserver's PHP errors to Logarr Log file:
+function LogarrErrorHandler($errno, $errstr, $errfile, $errline)
+{
 	$date = date("D d M Y H:i T ");
 	if (!(error_reporting() & $errno)) {
 		return false;
@@ -38,14 +41,53 @@ set_error_handler("LogarrErrorHandler");
 
 //Append Logarr errors to webserver's PHP error log file IF defined in php.ini:
 
-//TODO : Add this fuction to all critial Logarr errors:
-function phpLog($phpLogMessage) {
-    if (!get_cfg_var('error_log')) {
-    } else {
+//TODO : Add this function to all critial Logarr errors:
+function phpLog($phpLogMessage)
+{
+	if (!get_cfg_var('error_log')) {
+	} else {
 		error_log($errstr = $phpLogMessage);
-    }
+	}
 };
 
+function appendLog($logentry)
+{
+
+	$logfile = 'logarr.log';
+	$logdir = __DIR__ . '/../data/logs/';
+	$logpath = $logdir . $logfile;
+	//$logentry = "Add this to the file";
+	$date = date("D d M Y H:i T ");
+
+	if (!file_exists($logdir)) {
+		if (!mkdir($logdir)) {
+			phpLog($phpLogMessage = "Logarr ERROR: Failed to create Logarr log directory");
+			echo "<script>console.log('%cERROR: Failed to create Logarr log directory.', 'color: red;');</script>";
+			return "ERROR: Failed to create Logarr log directory";
+		} else {
+			appendLog("Logarr log directory created");
+			appendLog($logentry);
+			return "Logarr log directory created";
+		}
+	};
+
+	if (!$handle = fopen($logpath, 'a+')) {
+		phpLog($phpLogMessage = "Logarr ERROR: Failed to open Logarr log file ");
+		echo "<script>console.log('%cERROR: Failed to open Logarr log file: ($logfile).', 'color: red;');</script>";
+	}
+
+	if (fwrite($handle, $date . " | " . $logentry . "\r\n") === false) {
+		phpLog($phpLogMessage = "Logarr ERROR: Failed to write to Logarr log file");
+		echo "<script>console.log('%cERROR: Cannot write to Logarr log file: ($logfile).', 'color: red;');</script>";
+	} else {
+		if (is_writable($logpath)) {
+			fclose($handle);
+		} else {
+			phpLog($phpLogMessage = "Logarr ERROR: The Logarr log file $logfile is not writable");
+			echo "<script>console.log('%cERROR: The Logarr log file is not writable: ($logfile).', 'color: red;');</script>";
+		}
+	}
+}
 
 // Data Dir
 $datadir_json = json_decode(file_get_contents(__DIR__ . '../../data/datadir.json'), 1);
@@ -68,7 +110,7 @@ if ($preferences['timezone'] == "") {
 }
 
 if (!$settings['rfconfig'] || !$settings['rftime'] || !$settings['rflog'] || !$settings['maxLines'] || !$settings['logRefresh'] || !$settings['autoHighlight'] || !$settings['jumpOnSearch'] || !$settings['liveSearch']) {
-	appendLog( "ERROR: Invalid Settings value!");
+	appendLog("ERROR: Invalid Settings value!");
 } else {
 }
 
@@ -81,7 +123,7 @@ $branch = $preferences['updateBranch'];
 $remote_file_url = 'https://github.com/monitorr/logarr/zipball/' . $branch . '';
 
 // rename version location/name
-$local_file = __DIR__  . '/../data/tmp/logarr-' . $branch . '.zip'; //download path for udpate zip file
+$local_file = __DIR__ . '/../data/tmp/logarr-' . $branch . '.zip'; //download path for udpate zip file
 
 // version check information
 // url to external verification of version number as a .TXT file
@@ -89,7 +131,7 @@ $local_file = __DIR__  . '/../data/tmp/logarr-' . $branch . '.zip'; //download p
 $ext_version_loc = 'https://raw.githubusercontent.com/monitorr/logarr/' . $branch . '/assets/js/version/version.txt';
 
 // users local version number:
-$vnum_loc = __DIR__  . '/../js/version/version.txt';
+$vnum_loc = __DIR__ . '/../js/version/version.txt';
 
 
 function configExists()
@@ -97,47 +139,8 @@ function configExists()
 	return is_file($GLOBALS['config_file']);
 }
 
-function appendLog($logentry) {
-
-	//mkdir (__DIR__ . '/../data/logs/');
-	$logfile = 'logarr.log';
-	$logdir = __DIR__ . '/../data/logs/';
-	$logpath = $logdir . $logfile;
-	//$logentry = "Add this to the file";
-	$date = date("D d M Y H:i T ");
-
-	if (!file_exists($logdir)) {
-		if (!mkdir($logdir)) {
-			phpLog($phpLogMessage = "Logarr ERROR: Failed to create Logarr log directory");
-			echo "<script>console.log('%cERROR: Failed to create Logarr log directory.', 'color: red;');</script>";
-			return "ERROR: Failed to create Logarr log directory";
-		} else {
-			appendLog( "Logarr log directory created");
-			appendLog($logentry);
-			return "Logarr log directory created";
-		}
-	};
-
-	if (!$handle = fopen($logpath, 'a+')) {
-		phpLog($phpLogMessage = "Logarr ERROR: Failed to open Logarr log file ");
-		echo "<script>console.log('%cERROR: Failed to open Logarr log file: ($logfile).', 'color: red;');</script>";
-	}
-	
-	if (fwrite($handle, $date . " | " . $logentry . "\r\n") === false) {
-		phpLog($phpLogMessage = "Logarr ERROR: Failed to write to Logarr log file");
-		echo "<script>console.log('%cERROR: Cannot write to Logarr log file: ($logfile).', 'color: red;');</script>";
-
-	} else {
-		if (is_writable($logpath)) {
-			fclose($handle);
-		} else {
-			phpLog($phpLogMessage = "Logarr ERROR: The Logarr log file $logfile is not writable");
-			echo "<script>console.log('%cERROR: The Logarr log file is not writable: ($logfile).', 'color: red;');</script>";
-		}
-	}
-}
-
-function isDocker() {
+function isDocker()
+{
 
 	if (is_file(__DIR__ . "/../../../Dockerfile")) {
 
@@ -145,7 +148,7 @@ function isDocker() {
 		echo "console.log('Logarr detected DOCKER environment');";
 		echo "</script>";
 
-		appendLog( "Logarr detected DOCKER environment");
+		appendLog("Logarr detected DOCKER environment");
 
 		return true;
 	} else {
@@ -154,7 +157,8 @@ function isDocker() {
 }
 
 // When user logs into SETTINGS, check config.json for all required AUTHENTICATION values and validity:
-function isMissingKeys() {
+function isMissingKeys()
+{
 
 	$setupEnabled = $GLOBALS['authentication']['setupEnabled'];
 	$settingsEnabled = $GLOBALS['authentication']['settingsEnabled'];
@@ -164,7 +168,7 @@ function isMissingKeys() {
 		echo "<script>console.log('%cError: Invalid Authentication Settings value!', 'color: #FF0104;');</script>";
 		echo "<script>$('#sidebarAuthTitle').addClass('sidebarTitleError');</script>";
 		phpLog($phpLogMessage = "Logarr ERROR: Invalid Authentication Settings value!");
-		appendLog( "ERROR: Invalid Authentication Settings value!");
+		appendLog("ERROR: Invalid Authentication Settings value!");
 	} else {
 	};
 
@@ -175,7 +179,7 @@ function isMissingKeys() {
 		} else {
 			echo "<script>console.log('%cError: Invalid Authentication Settings value: logsEnabled', 'color: #FF0104;');</script>";
 			echo "<script>$('#sidebarAuthTitle').addClass('sidebarTitleError');</script>";
-			appendLog( "ERROR: Invalid Authentication Settings value: 'logsEnabled'.");
+			appendLog("ERROR: Invalid Authentication Settings value: 'logsEnabled'.");
 		}
 	}
 
@@ -186,7 +190,7 @@ function isMissingKeys() {
 		} else {
 			echo "<script>console.log('%cError: Invalid Authentication Settings value: settingsEnabled', 'color: #FF0104;');</script>";
 			echo "<script>$('#sidebarAuthTitle').addClass('sidebarTitleError');</script>";
-			appendLog( "ERROR: Invalid Authentication Settings value: 'settingsEnabled'.");
+			appendLog("ERROR: Invalid Authentication Settings value: 'settingsEnabled'.");
 		}
 	}
 
@@ -197,25 +201,27 @@ function isMissingKeys() {
 		} else {
 			echo "<script>console.log('%cError: Invalid Authentication Settings value: setupEnabled', 'color: #FF0104;');</script>";
 			echo "<script>$('#sidebarAuthTitle').addClass('sidebarTitleError');</script>";
-			appendLog( "ERROR: Invalid Authentication Settings value: 'setupEnabled'.");
+			appendLog("ERROR: Invalid Authentication Settings value: 'setupEnabled'.");
 		}
 	}
 }
 
 // When sync-config executes, check if required values are missing from config.json and write to Logarr Log:
-function isMissingKeyslog() {
+function isMissingKeyslog()
+{
 
 	$setupEnabled = $GLOBALS['authentication']['setupEnabled'];
 	$settingsEnabled = $GLOBALS['authentication']['settingsEnabled'];
 	$logsEnabled = $GLOBALS['authentication']['logsEnabled'];
 
 	if (!$setupEnabled || !$settingsEnabled || !$logsEnabled) {
-		appendLog( "ERROR: Invalid Authentication Settings value!");
+		appendLog("ERROR: Invalid Authentication Settings value!");
 	} else {
 	};
 }
 
-function isMissingPrefs() {
+function isMissingPrefs()
+{
 
 	$sitetitle = $GLOBALS['preferences']['sitetitle'];
 	$updateBranch = $GLOBALS['preferences']['updateBranch'];
@@ -223,7 +229,7 @@ function isMissingPrefs() {
 	$timestandard = $GLOBALS['preferences']['timestandard'];
 
 	if (!$sitetitle || !$updateBranch || !$timezone || !$timestandard) {
-		appendLog( "ERROR: Invalid Preferences Settings value!");
+		appendLog("ERROR: Invalid Preferences Settings value!");
 		echo "<script>console.log('%cError: Invalid Preferences Settings value!', 'color: #FF0104;');</script>";
 		echo "<script>$('#sidebarUserPrefsTitle').addClass('sidebarTitleError');</script>";
 	} else {
@@ -238,7 +244,7 @@ function isMissingPrefs() {
 			} else {
 				echo "<script>console.log('%cError: Invalid Preferences Settings value: updateBranch', 'color: #FF0104;');</script>";
 				echo "<script>$('#sidebarUserPrefsTitle').addClass('sidebarTitleError');</script>";
-				appendLog( "ERROR: Invalid Preferences Settings value: 'updateBranch'.");
+				appendLog("ERROR: Invalid Preferences Settings value: 'updateBranch'.");
 			}
 		}
 	}
@@ -250,13 +256,14 @@ function isMissingPrefs() {
 		} else {
 			echo "<script>console.log('%cError: Invalid Preferences Settings value: timestandard', 'color: #FF0104;');</script>";
 			echo "<script>$('#sidebarUserPrefsTitle').addClass('sidebarTitleError');</script>";
-			appendLog( "ERROR: Invalid Preferences Settings value: 'timestandard'.");
+			appendLog("ERROR: Invalid Preferences Settings value: 'timestandard'.");
 		}
 	}
 }
 
 // When sync-config executes, check if required User preferences values are missing from config.json and write to Logarr Log:
-function isMissingPrefslog() {
+function isMissingPrefslog()
+{
 
 	$sitetitle = $GLOBALS['preferences']['sitetitle'];
 	$updateBranch = $GLOBALS['preferences']['updateBranch'];
@@ -264,18 +271,19 @@ function isMissingPrefslog() {
 	$timestandard = $GLOBALS['preferences']['timestandard'];
 
 	if (!$sitetitle || !$updateBranch || !$timezone || !$timestandard) {
-		appendLog( "ERROR: Invalid Preferences Settings value!");
+		appendLog("ERROR: Invalid Preferences Settings value!");
 	} else {
 	};
 }
 
 // Check for valid SETTINGS values in config.json when settings.php or index.php is loaded:
-function isMissingSettings() {
+function isMissingSettings()
+{
 
 	global $settings;
 
 	if (!$settings['rfconfig'] || $settings['rfconfig'] < 1001 || !$settings['rftime'] || $settings['rftime'] < 1001 || !$settings['rflog'] || $settings['rflog'] < 3001 || !$settings['maxLines'] || !$settings['logRefresh'] || !$settings['autoHighlight'] || !$settings['jumpOnSearch'] || !$settings['liveSearch']) {
-		appendLog( "ERROR: Invalid Settings value!");
+		appendLog("ERROR: Invalid Settings value!");
 		echo "<script>console.log('%cError: Invalid Settings value', 'color: red;');</script>";
 		echo "<script>$('#sidebarSettingsTitle').addClass('sidebarTitleError');</script>";
 	} else {
@@ -283,9 +291,10 @@ function isMissingSettings() {
 }
 
 // Check if Logarr authenticaiton is enabled / if TRUE, check login status every 10s:
-function checkLoginindex() {
+function checkLoginindex()
+{
 
-	$logsEnabled = $GLOBALS['authentication']['logsEnabled']; 
+	$logsEnabled = $GLOBALS['authentication']['logsEnabled'];
 
 	if (!$logsEnabled) {
 
@@ -300,7 +309,6 @@ function checkLoginindex() {
 		echo "<script type='text/javascript'>";
 		echo "window.location.href = 'settings.php';";
 		echo "</script>";
-
 	} else {
 		if ($logsEnabled == "false") {
 			echo "<script type='text/javascript'>";
@@ -309,7 +317,6 @@ function checkLoginindex() {
 			appendLog(
 				$logentry = "Logarr auth: DISABLED"
 			);
-
 		} else if ($logsEnabled == "true") {
 			echo "<script type='text/javascript'>";
 			echo "console.log('Logarr auth: ENABLED');";
@@ -318,7 +325,6 @@ function checkLoginindex() {
 				$logentry = "Logarr auth: ENABLED"
 			);
 			echo "<script src='assets/js/login-status.js'></script>";
-
 		} else {
 			echo "<script type='text/javascript'>";
 			echo "console.log('ERROR: Logarr could not check authentication settings');";
@@ -335,14 +341,15 @@ function checkLoginindex() {
 }
 
 // Check if Logarr Settings authenticaiton is enabled / if TRUE, check login status every 10s:
-function checkLoginsettings() {
+function checkLoginsettings()
+{
 
 	echo "<script type='text/javascript'>";
-	echo "console.log('Logarr is checking authentication settings');";
+	echo "console.log('Logarr authentication settings check');";
 	echo "</script>";
 
 	$settingsEnabled = $GLOBALS['authentication']['settingsEnabled'];
-	$setupEnabled = $GLOBALS['authentication']['setupEnabled']; 
+	$setupEnabled = $GLOBALS['authentication']['setupEnabled'];
 
 	if (!$settingsEnabled) {
 
@@ -355,10 +362,9 @@ function checkLoginsettings() {
 		echo "ERROR: Logarr could not check authentication settings";
 		// If authentication settings are invalid forward to unauthorized.php:
 		echo "<script type='text/javascript'>";
-		//echo "window.location.href = 'settings.php';";
+		// echo "window.location.href = 'settings.php';";
 		echo "window.location.href = './assets/php/authentication/unauthorized.php';";
 		echo "</script>";
-
 	} else {
 
 		if ($setupEnabled == "true") {
@@ -405,16 +411,16 @@ function checkLoginsettings() {
 
 function settingsValues()
 {
-	appendLog( "Timezone: " . $GLOBALS['preferences']['timezone']);
-	
-	appendLog( "Config refresh interval: " . $GLOBALS['settings']['rfconfig'] . " ms");
+	appendLog("Timezone: " . $GLOBALS['preferences']['timezone']);
 
-	appendLog( "Time refresh interval: " . $GLOBALS['settings']['rftime'] . " ms");
+	appendLog("Config refresh interval: " . $GLOBALS['settings']['rfconfig'] . " ms");
+
+	appendLog("Time refresh interval: " . $GLOBALS['settings']['rftime'] . " ms");
 
 	if ($GLOBALS['settings']['logRefresh'] == "true") {
-		appendLog( "Log auto update: Enabled | Interval: " . $GLOBALS['settings']['rflog'] . " ms");
+		appendLog("Log auto update: Enabled | Interval: " . $GLOBALS['settings']['rflog'] . " ms");
 	} else {
-		appendLog( "Log auto update: DISABLED");
+		appendLog("Log auto update: DISABLED");
 	}
 
 	if ($GLOBALS['authentication']['setupEnabled'] == "true") {
@@ -438,7 +444,8 @@ function parseLogPath($path)
 			$files = array_diff(scandir($dir), array('.', '..')); //remove useless stuff
 			$file_time = 0; //start with 0, every date is greater than 0
 			foreach ($files as $file) {
-				if (!is_dir($dir . DIRECTORY_SEPARATOR . $file)  //check if the file is a file and not a dir
+				if (
+					!is_dir($dir . DIRECTORY_SEPARATOR . $file)  //check if the file is a file and not a dir
 					&& startsWith($file, $filename_start)   //check if it starts with the correct string
 					&& endsWith($file, $filename_end)   //check if it ends with the correct string
 					&& (filemtime($dir . DIRECTORY_SEPARATOR . $file) > $file_time) //check if the file is edited later than the previously checked file
@@ -447,8 +454,9 @@ function parseLogPath($path)
 					$last_edited_file = $file;
 				}
 			}
-			if ($file_time == 0 || !isset($last_edited_file)) return 'ERROR: Log not found'; //Using this in other code to see if a file exists
-
+			if ($file_time == 0 || !isset($last_edited_file)) {
+				return 'ERROR: Log not found'; //Using this in other code to see if a file exists 
+			}
 			return $dir . DIRECTORY_SEPARATOR . $last_edited_file; //return the merged dir and filename
 		} else {
 			appendLog(
@@ -472,7 +480,9 @@ function readExternalLog($log)
 
 	foreach ($logContents as $line_num => $line) {
 		$result .= "<font color='white'><strong><i>Line {$line_num}</i></strong></font> : " . htmlspecialchars($line) . "<br />\n";
-		if ($maxLines != 0 && $line_num == $maxLines) break;
+		if ($maxLines != 0 && $line_num == $maxLines) {
+			break;
+		}
 	}
 	unset($logContents);
 	return $result;
@@ -480,9 +490,15 @@ function readExternalLog($log)
 
 function unlinkLog($file, $print)
 {
-	if ($print) echo('Unlink file: ' . $file  . '<br>');
-	if ($print) echo('Server received unlink file: ' . $file . '<br>');
-	if ($print) echo('Server attempting to unlink: ' . $file . '<br>');
+	// if ($print) echo ('Unlink file: ' . $file . '<br>');
+	// if ($print) echo ('Server received unlink file: ' . $file . '<br>');
+	// if ($print) echo ('Server attempting to unlink: ' . $file . '<br>');
+
+	if ($print) {
+		echo ('Unlink file: ' . $file . '<br>');
+		echo ('Server received unlink file: ' . $file . '<br>');
+		echo ('Server attempting to unlink: ' . $file . '<br>');
+	};
 
 	$today = date("D d M Y H:i T ");
 	if ($print) echo "<br><br>";
@@ -492,42 +508,50 @@ function unlinkLog($file, $print)
 			$newfile = "$file.bak";
 
 			if (!copy($file, $newfile)) {   // copy log file failed:
-				if ($print) echo "Copy log file: FAIL: $newfile";
+				if ($print) {
+					echo "Copy log file: FAIL: $newfile";
+				};
 				$fh = fopen($file, 'a');
 				fwrite($fh, "$today | ERROR: Logarr was unable to copy log file:  $file\n");
 				fclose($fh);
 
-				if ($print) echo "<script type='text/javascript'>";
-				if ($print) echo "console.log('ERROR: Logarr failed to copy log file:  $file');";
-				if ($print) echo "</script>";
+				if ($print) {
+					echo "<script type='text/javascript'>";
+					echo "console.log('ERROR: Logarr failed to copy log file:  $file');";
+					echo "</script>";
 
-				if ($print) echo('<br> <p class="rolllogfail"> Roll log file FAIL: ' . $file  . '</p>');
+					echo ('<br> <p class="rolllogfail"> Roll log file FAIL: ' . $file . '</p>');
+				};
+
 				appendLog(
 					$logentry = "Roll Log: ERROR: Roll log file FAIL: $file "
 				);
-
 			} else {  // copy log file success:
-				if ($print) echo "Copy log file: SUCCESS: $newfile<br>";
-				if ($print) echo "<script type='text/javascript'>";
-				if ($print) echo "console.log('Copy log file: SUCCESS: $newfile');";
-				if ($print) echo "</script>";
+				if ($print) {
+					echo "Copy log file: SUCCESS: $newfile<br>";
+					echo "<script type='text/javascript'>";
+					echo "console.log('Copy log file: SUCCESS: $newfile');";
+					echo "</script>";
+				};
 
 				appendLog(
 					$logentry = "Roll Log: Copy log file: SUCCESS: $newfile"
 				);
 
-				$delete = unlink($file);    // delete orginal log file:
+				$delete = unlink($file); // delete orginal log file:
 
 				if ($delete == true) {
-					if ($print) echo "Delete original log file: SUCCESS: $file <br>";
-					if ($print) echo "<script type='text/javascript'>";
-					if ($print) echo "console.log('Delete original log file: SUCCESS: $file');";
-					if ($print) echo"</script>";
+					if ($print) {
+						echo "Delete original log file: SUCCESS: $file <br>";
+						echo "<script type='text/javascript'>";
+						echo "console.log('Delete original log file: SUCCESS: $file');";
+						echo "</script>";
+					};
 
 					appendLog(
 						$logentry = "Roll Log: Delete original log file: SUCCESS: $file"
 					);
-					
+
 					$newlogfile = $file;
 
 					// Write log entry in new log file:
@@ -535,38 +559,43 @@ function unlinkLog($file, $print)
 					$createfile = file_put_contents($newlogfile, $current);
 
 					if ($createfile == true) {
-						if ($print) echo "Create new log file: SUCCESS: " . $newlogfile . "<br>";
-						if ($print) echo "<script type='text/javascript'>";
-						if ($print) echo "console.log('Create new log file: SUCCESS:  $newlogfile');";
-						if ($print) echo "</script>";
+						if ($print) {
+							echo "Create new log file: SUCCESS: " . $newlogfile . "<br>";
+							echo "<script type='text/javascript'>";
+							echo "console.log('Create new log file: SUCCESS:  $newlogfile');";
+							echo "</script>";
 
-                        echo "<script type='text/javascript'>";
-                        echo "console.log('Roll log file SUCCESS: $file');";
+							echo ('<br> <p class="rolllogsuccess">Roll log file SUCCESS: ' . $file . '</p>');
+						};
+
+						echo "<script type='text/javascript'>";
+						echo "console.log('Roll log file SUCCESS: $file');";
 						echo "</script>";
-						
+
 						appendLog(
 							$logentry = "Roll Log file SUCCESS: $file"
 						);
-
-						if ($print) echo('<br> <p class="rolllogsuccess">Roll log file SUCCESS: ' . $file  . '</p>');
-						
 					} else {
-						if ($print) echo "Create new log file: FAIL: " . $newlogfile . "<br>";
-						if ($print) echo "<script type='text/javascript'>";
-						if ($print) echo "console.log('ERROR: Create new log file: FAIL:  $newlogfile');";
-						if ($print) echo "</script>";
+						if ($print) {
+							echo "Create new log file: FAIL: " . $newlogfile . "<br>";
+							echo "<script type='text/javascript'>";
+							echo "console.log('ERROR: Create new log file: FAIL:  $newlogfile');";
+							echo "</script>";
+
+							echo ('<br> <p class="rolllogfail"> Roll log file FAIL: ' . $file . '</p>');
+						};
 
 						appendLog(
 							$logentry = "Roll Log: ERROR: Create new log file:  $newlogfile"
 						);
-
-						if ($print) echo('<br> <p class="rolllogfail"> Roll log file FAIL: ' . $file  . '</p>');
 					}
 				} else {
-					if ($print) echo "Delete original log file: FAIL: $file<br>";
-					if ($print) echo "<script type='text/javascript'>";
-					if ($print) echo "console.log('ERROR: Delete original log file: FAIL: $file');";
-					if ($print) echo "</script>";
+					if ($print) {
+						echo "Delete original log file: FAIL: $file<br>";
+						echo "<script type='text/javascript'>";
+						echo "console.log('ERROR: Delete original log file: FAIL: $file');";
+						echo "</script>";
+					};
 
 					appendLog(
 						$logentry = "Roll Log: ERROR: Delete original log file: $file"
@@ -581,44 +610,51 @@ function unlinkLog($file, $print)
 					$deletefail = unlink($newfile);
 
 					if ($deletefail == true) {
-						if ($print) echo "Delete log file backup: SUCCESS: $newfile";
-						if ($print) echo "<script type='text/javascript'>";
-						if ($print) echo "console.log('Delete log file backup: SUCCESS: $newfile');";
-						if ($print) echo "</script>";
+						if ($print) {
+							echo "Delete log file backup: SUCCESS: $newfile";
+							echo "<script type='text/javascript'>";
+							echo "console.log('Delete log file backup: SUCCESS: $newfile');";
+							echo "</script>";
+						};
 
 						appendLog(
 							$logentry = "Roll Log: Delete log file backup: SUCCESS: $newfile"
 						);
-
 					} else {
-						if ($print) echo "Delete log file backup: FAIL: $newfile";
-						if ($print) echo "<script type='text/javascript'>";
-						if ($print) echo "console.log('ERROR: Delete log file backup: FAIL: $newfile');";
-						if ($print) echo "</script>";
+						if ($print) {
+							echo "Delete log file backup: FAIL: $newfile";
+							echo "<script type='text/javascript'>";
+							echo "console.log('ERROR: Delete log file backup: FAIL: $newfile');";
+							echo "</script>";
+						};
 
 						appendLog(
 							$logentry = "Roll Log: ERROR: Delete log file backup: FAIL: $newfile"
 						);
 					};
 
-                    echo "<script type='text/javascript'>";
-                    echo "console.log('ERROR: Roll log FAILED: $file');";
+					echo "<script type='text/javascript'>";
+					echo "console.log('ERROR: Roll log FAILED: $file');";
 					echo "</script>";
 
 					appendLog(
 						$logentry = "Roll Log: ERROR: Roll log file:  $file "
 					);
-					
-					if ($print) echo('<br> <p class="rolllogfail"> Roll log file FAIL: ' . $file  . '</p>');
+
+					if ($print) {
+						echo ('<br> <p class="rolllogfail"> Roll log file FAIL: ' . $file . '</p>');
+					};
 				}
 			}
 		} else {
-			if ($print) echo 'file: ' . $file . ' does not exist.';
-			if ($print) echo "<script type='text/javascript'>";
-			if ($print) echo "console.log('ERROR: file: $file does not exist.');";
-			if ($print) echo "</script>";
+			if ($print) {
+				echo 'file: ' . $file . ' does not exist.';
+				echo "<script type='text/javascript'>";
+				echo "console.log('ERROR: file: $file does not exist.');";
+				echo "</script>";
 
-			if ($print) echo("<br> <p class='rolllogfail'> ERROR: file: ' " . $file . " ' does not exist. </p>");
+				echo ("<br> <p class='rolllogfail'> ERROR: file: ' " . $file . " ' does not exist. </p>");
+			};
 
 			appendLog(
 				$logentry = "Roll Log: ERROR: file: $file does not exist "
@@ -627,18 +663,20 @@ function unlinkLog($file, $print)
 			phpLog($phpLogMessage = "Logarr Roll Log ERROR: file: $file does not exist");
 		}
 	} else {  // Deny access if log file does NOT exist:
-		if ($print) echo 'ERROR:  Illegal File';
-		if ($print) echo "<script type='text/javascript'>";
-		if ($print) echo "console.log('ERROR:  Illegal File');";
-		if ($print) echo "</script>";
+		if ($print) {
+			echo 'ERROR:  Illegal File';
+			echo "<script type='text/javascript'>";
+			echo "console.log('ERROR:  Illegal File');";
+			echo "</script>";
+
+			echo ("<br> <p class='rolllogfail'> ERROR:  Illegal File </p>");
+		};
 
 		appendLog(
 			$logentry = "Roll Log: ERROR: Illegal File "
 		);
 
 		phpLog($phpLogMessage = "Logarr Roll Log ERROR: Illegal file.");
-
-		if ($print) echo("<br> <p class='rolllogfail'> ERROR:  Illegal File </p>");
 	}
 }
 
@@ -652,7 +690,21 @@ function human_filesize($bytes, $decimals = 2)
 function recurse_copy($src, $dst)
 {
 	$dir = opendir($src);
+
+	// TODO / Testing:
+
 	@mkdir($dst);
+
+	// TODO / Does not work:
+
+	// if (@mkdir($dst) === false) {
+	// 	//throw new \RuntimeException('The directory '.$dir.' could not be created.');
+	// 	appendLog(
+	// 		$logentry = "ERROR: Logarr update failed: The update directory could not be created:  $dst "
+	// 	);
+	// 	echo "<script>console.log('%cERROR: Logarr update failed: The update directory could not be created', 'color: red;');</script>";
+	// }
+
 	while (false !== ($file = readdir($dir))) {
 		if (($file != '.') && ($file != '..')) {
 			if (is_dir($src . '/' . $file)) {
@@ -677,7 +729,7 @@ function delTree($dir)
 function in_array_recursive($needle, $haystack)
 {   //Check if file is valid configured log file
 	$it = new RecursiveIteratorIterator(new RecursiveArrayIterator($haystack));
-	foreach ($it AS $element) {
+	foreach ($it as $element) {
 		$element = parseLogPath($element);
 		if ($element == $needle) {
 			return true;

@@ -29,10 +29,10 @@
     <title>Logarr | Unauthorized</title>
 
     <style>
-        <?php include(__DIR__ . '/../../css/bootstrap.min.css');?>
-        <?php include(__DIR__ . '/../../css/font-awesome.min.css');?>
-        <?php include(__DIR__ . '/../../css/logarr.css');?>
-        <?php include(__DIR__ . '/../../data/custom.css');?>
+        <?php include(__DIR__ . '/../../css/bootstrap.min.css'); ?>
+        <?php include(__DIR__ . '/../../css/font-awesome.min.css'); ?>
+        <?php include(__DIR__ . '/../../css/logarr.css'); ?>
+        <?php include(__DIR__ . '/../../data/custom.css'); ?>
     </style>
 
 </head>
