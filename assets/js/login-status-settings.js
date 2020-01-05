@@ -30,12 +30,12 @@ function checkLoginSettings() {
 
         error: function () {
             // error
-            console.log("%cERROR: An error occurred while checking login status", "color: red;");
+            console.log("%cERROR: An error occurred checking login status", "color: red;");
 
             // If logged-in user creates NEW data dir, must create new user within 2 minutes:
             setTimeout(function () {
 
-                console.log("%cERROR: An error occurred while checking login status. You will be auto-logged out in 2 minutes", "color: red;");
+                console.log("%cERROR: An error occurred checking login status. You will be auto-logged out in less than 2 minutes", "color: red;");
 
                 logoutwarning();
 

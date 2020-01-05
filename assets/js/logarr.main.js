@@ -52,7 +52,7 @@ function logoutwarning() {
     Toast.fire({
         toast: true,
         type: 'warning',
-        title: '<p class="logouttoast"> An error occurred while checking login status. <br> You will be auto-logged out in 2 minutes. </p>',
+        title: '<p class="logouttoast"> An error occurred while checking login status. <br> You will be auto-logged out in less than 2 minutes. </p>',
         background: 'rgba(255, 196, 0, 0.75)'
     });
 }
@@ -425,7 +425,6 @@ function refreshblockUI() {
     if (settings.autoHighlight === "true") {
         setTimeout(function () {
 
-            //TODO / Testing / show log update modal when highlighting:
             loghighlight();
 
             highlightjs();
@@ -446,10 +445,13 @@ function refreshblockUI() {
 
 // Load logs
 function loadLogs() {
-    console.log('Logarr log update START');
     var categories = [];
     var html = "";
     var filter = window.location.hash.substr(1);
+    var globalmaxLines = settings.maxLines;
+
+    console.log("Log update START | Global max lines: " + globalmaxLines);
+
     filter = filter.split(",");
     for (let i = 0; i < logs.length; i++) {
         if (logs[i].enabled == "Yes") {
@@ -518,6 +520,7 @@ function loadLogs() {
 function loadLog(log) {
 
     var logTitle = log.logTitle;
+    var logmaxLines = log.maxLines;
 
     $.ajax({
         url: "assets/php/load-log.php",
@@ -525,7 +528,11 @@ function loadLog(log) {
         type: "POST",
         success: function (response) {
             $("#" + logTitle.replace(/\s/g, "-") + "-log-container").html(response);
-            console.log("Updated log: " + logTitle);
+            if (typeof logmaxLines !== "undefined") {
+                console.log("Updated log: " + logTitle + " | Log max lines: " + logmaxLines);
+            } else {
+                console.log("Updated log: " + logTitle);
+            }
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log("%cERROR: AJAX error while loading logs", "color: red;");
@@ -627,7 +634,6 @@ function mark() {
     });
 }
 
-// TODO / Testing:
 // Disable log auto update:
 function disableautoupdate() {
     console.log("Log auto update: DISABLED");
@@ -638,7 +644,6 @@ function disableautoupdate() {
     clearInterval(refreshblockUI);
     logInterval = false;
 }
-
 
 // on page ready functions
 $(function () {
@@ -656,7 +661,7 @@ $(function () {
 
         if ($("input[name='markinput']").val() !== "") {
 
-            // TODO / Testing / Disable auto-update on search:
+            // Disable auto-update on search:
             disableautoupdate();
 
             console.log('Logarr is performing search');
@@ -948,7 +953,7 @@ function overwriteLogUpdate() {
 // Check if authentication settings have changed:
 function refreshAuth() {
 
-    console.log('Logarr is checking authentication settings | Interval ' + settings.rfconfig + ' (Auto)');
+    console.log('Logarr auth settings check | Interval ' + settings.rfconfig + ' ms (Auto)');
 
     $.ajax({
         url: "assets/php/sync-config-auth.php",
@@ -967,7 +972,8 @@ function refreshAuth() {
 
                 console.log("Logarr auth: ENABLED (Auto)");
 
-                function checkLoginSync() {
+                var checkLoginSync = function () {
+                    //function checkLoginSync() {
 
                     $.ajax({
                         type: "GET",
@@ -995,7 +1001,7 @@ function refreshAuth() {
 
                         error: function () {
                             // error
-                            console.log("%cERROR: An error occurred while checking login status", "color: red;");
+                            console.log("%cERROR: An error occurred checking login status", "color: red;");
 
                             logouttoast();
 
@@ -1006,7 +1012,7 @@ function refreshAuth() {
                             }, 3000);
                         }
                     });
-                }
+                };
 
                 checkLoginSync();
 
@@ -1218,7 +1224,7 @@ function parseGithubToHTML(result) {
 }
 
 function checkGithub() {
-    console.log("Retrieving Logarr release info from GitHub.");
+    console.log("Retrieving Logarr release info from GitHub");
     $.ajax({
         type: "GET",
         url: "https://api.github.com/repos/monitorr/logarr/releases",
