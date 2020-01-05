@@ -1,0 +1,17 @@
+{
+    "name": "monitorr/logarr",
+    "description": "Logarr",
+    "type": "project",
+	"license": "MIT",
+    "require": {
+        "phpmailer/phpmailer": "^6.1"
+    },
+	
+    "authors": [
+        {
+            "name": "Monitorr",
+            "email": "monitorrapp@gmail.com",
+			"homepage": "https://github.com/Monitorr"
+        }
+    ]
+}
