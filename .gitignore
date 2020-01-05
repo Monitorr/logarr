@@ -13,10 +13,13 @@ Thumbs.db
 
 # Config files #
 assets/config/
+assets/config/config.php
 assets/data/datadir.json
 
 # Data files #
+assets/data/tmp/
 assets/data/logs/
 assets/data/custom.css
 assets/data/custom.js
 assets/data/php-perms-check.txt
+assets/data/datadir.fail.txt
