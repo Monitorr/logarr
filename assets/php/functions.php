@@ -32,7 +32,7 @@ function LogarrErrorHandler($errno, $errstr, $errfile, $errline)
 			break;
 	}
 
-	error_log($date . " | " . "Webserver PHP log: " . $errstr . "\r\n", 3, $logFile);
+	error_log($date . " | " . "Webserver PHP ERROR log: " . $errstr . "\r\n", 3, $logFile);
 	return true;
 }
 
@@ -490,9 +490,9 @@ function readExternalLog($log)
 
 function unlinkLog($file, $print)
 {
-	// if ($print) echo ('Unlink file: ' . $file . '<br>');
-	// if ($print) echo ('Server received unlink file: ' . $file . '<br>');
-	// if ($print) echo ('Server attempting to unlink: ' . $file . '<br>');
+	appendLog(
+		$logentry = "Attempting log roll: " . $file
+	);
 
 	if ($print) {
 		echo ('Unlink file: ' . $file . '<br>');
@@ -524,7 +524,7 @@ function unlinkLog($file, $print)
 				};
 
 				appendLog(
-					$logentry = "Roll Log: ERROR: Roll log file FAIL: $file "
+					$logentry = "ERROR: Failed to copy and backup original log file: $file "
 				);
 			} else {  // copy log file success:
 				if ($print) {
